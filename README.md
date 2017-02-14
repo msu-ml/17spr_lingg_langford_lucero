@@ -1,2 +1,2 @@
-# 17spr_
-2017 Spring CSE 847 class project repository for Mike Langford and Jeordi Lucero
+# 17spr_lingg_langford_lucero 
+2017 Spring CSE 847 class project repository for Michael P. Lingg, Mike Langford and Jeordi Lucero
