@@ -12,9 +12,6 @@ testLambdas( 7 ) = 10;
 tblArray = table2array(tbl);
 tblArraySorted = sortrows(tblArray,size(tblArray,2));
 
-y_train = tblArraySorted(:,size(tblArraySorted,2));
-x_train = tblArraySorted(:,1:size(tblArraySorted,2)-1);
-
 bestLambdaError = 999999999999;
 bestLambda = 0;
 
@@ -33,12 +30,21 @@ end
 
 disp(strcat('Best Lambda: ',num2str(bestLambda)));
 
+
+
+y_train = tblArray(1:size(tblArray,1)/2,size(tblArray,2));
+x_train = tblArray(1:size(tblArray,1)/2,1:size(tblArray,2)-1);
+y_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),size(tblArray,2));
+x_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),1:size(tblArray,2)-1);
+
 W_ML = inv( bestLambda*eye(size(x_train,2)) + x_train'*x_train ) * x_train' * y_train; 
 
-disp(RunError(W_ML,y_train,x_train,true));
-y_train = tblArray(:,size(tblArray,2));
-x_train = tblArray(:,1:size(tblArray,2)-1);
-disp(RunError(W_ML,y_train,x_train,true));
+disp(RunError(W_ML,y_test,x_test,true));
+
+y_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),size(tblArray,2));
+x_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),1:size(tblArray,2)-1);
+
+disp(RunError(W_ML,y_test,x_test,true));
 
   % Calculate the MSE where Data is the input Data,
   % Truth is the actual results corrisponding with the input Data,
