@@ -1,25 +1,29 @@
 tbl = readtable ( 'train.csv' );
 
 % Setup the lambda regularization values to test.
-testLambdas( 1 ) = 1e-5;
-testLambdas( 2 ) = 1e-4;
-testLambdas( 3 ) = 1e-3;
-testLambdas( 4 ) = 1e-2;
-testLambdas( 5 ) = 1e-1;
-testLambdas( 6 ) = 1;
-testLambdas( 7 ) = 10;
+testLambdas( 1 ) = 0;
+testLambdas( 2 ) = 1e-6;
+testLambdas( 3 ) = 1e-5;
+testLambdas( 4 ) = 1e-4;
+testLambdas( 5 ) = 1e-3;
+testLambdas( 6 ) = 1e-2;
+testLambdas( 7 ) = 1e-1;
+testLambdas( 8 ) = 1;
+testLambdas( 9 ) = 10;
 
 tblArray = table2array(tbl);
+tblArray = cat(2,normc(tblArray(:,1:size(tblArray,2)-1)),tblArray(:,size(tblArray,2):size(tblArray,2)));
 tblArraySorted = sortrows(tblArray,size(tblArray,2));
+tblArraySorted = cat(2,normc(tblArraySorted(:,1:size(tblArraySorted,2)-1)),tblArraySorted(:,size(tblArraySorted,2):size(tblArray,2)));
 
 bestLambdaError = 999999999999;
 bestLambda = 0;
 
 crossResults = zeros([1460 1]);
 
-for lambdaIndex = 1:7
+for lambdaIndex = 1:9
     %Get the cross validation results for the current lambda.
-  crossResults( lambdaIndex ) = CrossValidation(testLambdas(lambdaIndex), tblArraySorted)
+  crossResults( lambdaIndex ) = CrossValidation(testLambdas(lambdaIndex), tblArraySorted);
   disp(strcat('Cross Result lambda = ',num2str(testLambdas( lambdaIndex )),':',num2str(crossResults( lambdaIndex ))));
   
   if ( bestLambdaError > crossResults( lambdaIndex ) )
@@ -44,6 +48,7 @@ disp(RunError(W_ML,y_test,x_test,true));
 y_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),size(tblArray,2));
 x_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),1:size(tblArray,2)-1);
 
+disp('Run Error:');
 disp(RunError(W_ML,y_test,x_test,true));
 
   % Calculate the MSE where Data is the input Data,

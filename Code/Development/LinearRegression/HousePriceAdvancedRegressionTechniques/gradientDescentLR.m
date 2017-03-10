@@ -1,5 +1,8 @@
 tbl = readtable ( 'train.csv' );
 
+tblArray = table2array(tbl);
+tblArray = cat(2,normc(tblArray(:,1:size(tblArray,2)-1)),tblArray(:,size(tblArray,2):size(tblArray,2)));
+
 y_train = tblArray(1:size(tblArray,1)/2,size(tblArray,2));
 x_train = tblArray(1:size(tblArray,1)/2,1:size(tblArray,2)-1);
 y_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),size(tblArray,2));
@@ -8,22 +11,24 @@ x_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),1:size(tblArray,2)-1);
 bestWeights = solveGradientDescent ( x_train , y_train );
 disp(RunError(bestWeights,y_test,cat(2,ones(size(x_test,1),1),x_test),true));
 
+tblArraySorted = sortrows(tblArray,size(tblArray,2));
+tblArraySorted = cat(2,normc(tblArraySorted(:,1:size(tblArraySorted,2)-1)),tblArraySorted(:,size(tblArraySorted,2):size(tblArray,2)));
+
 y_test_sorted = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),size(tblArray,2));
 x_test_sorted = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),1:size(tblArray,2)-1);
 
+disp('Run Error:');
 disp(RunError(bestWeights,y_test_sorted,cat(2,ones(size(x_test_sorted,1),1),x_test_sorted),true));
 
 function BestWeights = solveGradientDescent(TrainData, TrainSolution)
   BestWeights = zeros(1,size(TrainData,2) + 1);
-  alpha = 0.0000000003;
+  alpha = 0.06;
+  dataWithBias = cat(2,ones(size(TrainData,1),1),TrainData);
   
-  for a = 1:20
+  for a = 1:100
   for i = 1:size(TrainSolution,1)
-      dataWithBias = cat(2,1,TrainData( i, : ))
-      error = BestWeights * dataWithBias' - TrainSolution(i)
-      for j = 1:size(BestWeights,2)
-          BestWeights( j ) = BestWeights( j ) - alpha * error * dataWithBias( j );
-      end
+      error = BestWeights * dataWithBias( i, : )' - TrainSolution(i);
+      BestWeights = BestWeights - alpha * error * dataWithBias( i, : );
   end
   end
     figure;

@@ -9,6 +9,7 @@ lm.plot;
 
 tblArray = table2array(tbl);
 tblArray = sortrows(tblArray,size(tblArray,2));
+disp('Run Error:');
 disp(RunError(lm,tblArray(:,size(tblArray,2)),tblArray(:,1:size(tblArray,2)-1)));
 
   % Calculate the MSE where Data is the input Data,
