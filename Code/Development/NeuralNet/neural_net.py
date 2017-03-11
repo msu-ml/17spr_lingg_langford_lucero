@@ -11,6 +11,7 @@ import sys
 from keras.callbacks import Callback
 from keras.callbacks import LearningRateScheduler
 from keras.layers import Dense
+from keras.layers import Dropout
 from keras.models import Sequential
 from keras.optimizers import RMSprop
 from housing_data import KingCountyData
@@ -32,6 +33,7 @@ class LossTracker(Callback):
 
 class NeuralNetwork(object):
     def __init__(self, input_shape, num_outputs):
+        self.adaptive_learning_rate = False
         self.eta_init = 0.1
         self.batch_size = 20
         self.model = self.create_model(input_shape, num_outputs)
@@ -39,10 +41,9 @@ class NeuralNetwork(object):
         self.lr_scheduler = LearningRateScheduler(self.update_learning_rate)
         
     def create_model(self, input_shape, num_outputs):
-        num_inputs = input_shape[0]
         model = Sequential()
-        model.add(Dense(num_inputs, activation='sigmoid', input_shape=input_shape))
-        model.add(Dense(num_inputs*2, activation='sigmoid'))
+        model.add(Dense(num_outputs*4, activation='sigmoid', input_shape=input_shape))
+        model.add(Dense(num_outputs*2, activation='sigmoid'))
         model.add(Dense(num_outputs, activation='softmax'))
         model.compile(
                 optimizer=RMSprop(lr=self.eta_init),
@@ -65,7 +66,7 @@ class NeuralNetwork(object):
         return scores[1]
 
     def update_learning_rate(self, epoch):
-        if epoch > 0:
+        if epoch > 0 and self.adaptive_learning_rate:
             loss_init = self.loss_tracker.loss_init
             loss = self.loss_tracker.loss
             eta = (self.eta_init*(numpy.exp(loss)-1))/(numpy.exp(loss_init)-1)
@@ -76,10 +77,12 @@ class NeuralNetwork(object):
 
 class Application(object):
     def __init__(self):
+        target_dist = [0, 70000, 100000, 125000, 140000, 160000, 180000, 210000, 250000, 325000]
+        
         print('Loading data.')
-        #self.data = NashvilleData('Data/Nashville_housing_data_2013_2016.csv')
-        #self.data = KingCountyData('Data/kc_house_data.csv')
-        self.data = RedfinData('Data/redfin_encoded.csv')
+        self.data = NashvilleData('Data/Nashville_housing_data_2013_2016.csv', target_dist)
+        #self.data = KingCountyData('Data/kc_house_data.csv', target_dist)
+        #self.data = RedfinData('Data/redfin_encoded.csv', target_dist)
         
         print('Building neural network.')
         input_shape = self.data.X_train.shape[1:]

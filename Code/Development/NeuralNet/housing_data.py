@@ -11,15 +11,14 @@ import re
 from keras.utils import np_utils
 
 class RedfinData(object):
-    def __init__(self, filepath):
-        self.num_targets = 10
-        self.target_increments = 20000
+    def __init__(self, filepath, target_dist):
+        self.num_targets = len(target_dist)
         
         data = self.read_csv(filepath)
         numpy.random.shuffle(data)
-        
+
         (X, y) = self.preprocess_data(data)
-        y = self.preprocess_targets(y)
+        y = self.categorize_targets(y, target_dist)
         
         test_size = numpy.int(X.shape[0] * 0.1)
         self.X_train = X[0:-test_size]
@@ -37,8 +36,7 @@ class RedfinData(object):
                     if field != '':
                         entry.append(field)
                     else:
-                        #entry.append(numpy.nan)
-                        entry.append(0)
+                        entry.append(numpy.nan)
                 data.append(entry)
         return numpy.array(data[1:])
     
@@ -53,30 +51,40 @@ class RedfinData(object):
         X = X.astype('float32')
         y = y.astype('int')
 
+        # Replace each nan in each column with the column's mean value.
+        for i in range(X.shape[1]):
+            column = X[:,i]
+            is_nan = numpy.isnan(column)
+            values = column[~is_nan]
+            column[is_nan] = numpy.mean(values)
+
         return (X, y)
     
-    def preprocess_targets(self, targets):
+    def categorize_targets(self, targets, target_dist):
         for i in range(len(targets)):
-            target_class = numpy.int(targets[i] / self.target_increments)
-            target_class = min(target_class, self.num_targets - 1)
+            target_class = 0
+            for j in range(len(target_dist)):
+                if targets[i] > target_dist[j]:
+                    target_class = j 
             targets[i] = target_class
         targets = np_utils.to_categorical(targets, self.num_targets)
         return targets
 
 class KingCountyData(object):
-    def __init__(self, filepath):
-        self.num_targets = 15
-        self.target_increments = 50000
-        
+    def __init__(self, filepath, target_dist):
+        self.num_targets = len(target_dist)
+                
         data = self.read_csv(filepath)
+        numpy.random.shuffle(data)
+        
         (X, y) = self.preprocess_data(data)
-        y = self.preprocess_targets(y)
+        y = self.categorize_targets(y, target_dist)
         
-        self.X_train = X[0:-2000]
-        self.y_train = y[0:-2000]
-        
-        self.X_test = X[-2000:]
-        self.y_test = y[-2000:]
+        test_size = numpy.int(X.shape[0] * 0.1)
+        self.X_train = X[0:-test_size]
+        self.y_train = y[0:-test_size]
+        self.X_test = X[-test_size:]
+        self.y_test = y[-test_size:]
         
     def read_csv(self, filepath):
         data = []
@@ -105,28 +113,31 @@ class KingCountyData(object):
 
         return (X, y)
     
-    def preprocess_targets(self, targets):
+    def categorize_targets(self, targets, target_dist):
         for i in range(len(targets)):
-            target_class = numpy.int(targets[i] / self.target_increments)
-            target_class = min(target_class, self.num_targets - 1)
+            target_class = 0
+            for j in range(len(target_dist)):
+                if targets[i] > target_dist[j]:
+                    target_class = j 
             targets[i] = target_class
         targets = np_utils.to_categorical(targets, self.num_targets)
         return targets
 
 class NashvilleData(object):
-    def __init__(self, filepath):
-        self.num_targets = 15
-        self.target_increments = 50000
-        
+    def __init__(self, filepath, target_dist):
+        self.num_targets = len(target_dist)
+
         data = self.read_csv(filepath)
+        numpy.random.shuffle(data)
+                             
         (X, y) = self.preprocess_data(data)
-        y = self.preprocess_targets(y)
+        y = self.categorize_targets(y, target_dist)
         
-        self.X_train = X[0:-2000]
-        self.y_train = y[0:-2000]
-        
-        self.X_test = X[-2000:]
-        self.y_test = y[-2000:]
+        test_size = numpy.int(X.shape[0] * 0.1)
+        self.X_train = X[0:-test_size]
+        self.y_train = y[0:-test_size]
+        self.X_test = X[-test_size:]
+        self.y_test = y[-test_size:]
         
     def read_csv(self, filepath):
         data = []
@@ -153,7 +164,7 @@ class NashvilleData(object):
 
         addr_column = 4
         addr_encodings = {}
-        addr_regex = re.compile(r"""\s*\d*\s*(?P<value>.+)\s*""")        
+        addr_regex = re.compile(r"""\s*(\d|\-|\&|\s)*\s*(?P<value>(\w\s*)+)\s*(#\d+)?\s*""")        
         X = self.encode(X, addr_column, addr_encodings, addr_regex)
         
         city_column = 6
@@ -203,17 +214,21 @@ class NashvilleData(object):
         X = X.astype('float32')
         y = y.astype('int')
 
-        # Remove any entries with empty fields
-        missing_values = numpy.isnan(X).any(axis=1)
-        X = X[~missing_values]
-        y = y[~missing_values]
+        # Replace each nan in each column with the column's mean value.
+        for i in range(X.shape[1]):
+            column = X[:,i]
+            is_nan = numpy.isnan(column)
+            values = column[~is_nan]
+            column[is_nan] = numpy.mean(values)
 
         return (X, y)
     
-    def preprocess_targets(self, targets):
+    def categorize_targets(self, targets, target_dist):
         for i in range(len(targets)):
-            target_class = numpy.int(targets[i] / self.target_increments)
-            target_class = min(target_class, self.num_targets - 1)
+            target_class = 0
+            for j in range(len(target_dist)):
+                if targets[i] > target_dist[j]:
+                    target_class = j 
             targets[i] = target_class
         targets = np_utils.to_categorical(targets, self.num_targets)
         return targets
