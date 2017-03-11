@@ -7,24 +7,25 @@ Created on Fri Mar 10 12:24:58 2017
 
 import csv
 import numpy
+import os
 import re
+from enum import Enum
 from keras.utils import np_utils
 
-class RedfinData(object):
-    def __init__(self, filepath, target_dist):
-        self.num_targets = len(target_dist)
-        
-        data = self.read_csv(filepath)
-        numpy.random.shuffle(data)
+class ReplaceMethod(Enum):
+    MEAN = 1
+    SIMILARITY = 2
 
-        (X, y) = self.preprocess_data(data)
-        y = self.categorize_targets(y, target_dist)
-        
-        test_size = numpy.int(X.shape[0] * 0.1)
-        self.X_train = X[0:-test_size]
-        self.y_train = y[0:-test_size]
-        self.X_test = X[-test_size:]
-        self.y_test = y[-test_size:]
+class HousingData(object):
+    def __init__(self):
+        self.num_targets = None
+        self.X_train = None
+        self.y_train = None
+        self.X_test = None
+        self.y_test = None
+    
+    def get_description(self):
+        return ''
         
     def read_csv(self, filepath):
         data = []
@@ -39,6 +40,59 @@ class RedfinData(object):
                         entry.append(numpy.nan)
                 data.append(entry)
         return numpy.array(data[1:])
+    
+    def preprocess_data(self, data):
+        return (None, None)
+    
+    def replace_missing_values(self, data, method):
+        has_nan = numpy.isnan(data).any(axis=1)
+        complete_data = data[~has_nan]
+        if method == ReplaceMethod.MEAN:
+            mean = numpy.mean(complete_data, axis=0)
+            for entry in data:
+                nan_idx = numpy.isnan(entry)
+                if nan_idx.any():
+                    entry[nan_idx] = mean[nan_idx]
+        elif method == ReplaceMethod.SIMILARITY:
+            for entry in data:
+                nan_idx = numpy.isnan(entry)
+                if nan_idx.any():
+                    dist = numpy.sum((complete_data[:,~nan_idx] - entry[~nan_idx])**2, axis=1)
+                    closest = numpy.argmin(dist)
+                    entry[nan_idx] = complete_data[closest,nan_idx]  
+        return data
+    
+    def categorize_targets(self, targets, target_dist):
+        for i in range(len(targets)):
+            target_class = 0
+            for j in range(len(target_dist)):
+                if targets[i] > target_dist[j]:
+                    target_class = j 
+            targets[i] = target_class
+        return np_utils.to_categorical(targets, self.num_targets)
+
+class RedfinData(HousingData):
+    def __init__(self, filepath, target_dist):
+        super(RedfinData, self).__init__()
+        self.num_targets = len(target_dist)
+        
+        data = self.read_csv(filepath)
+        numpy.random.shuffle(data)
+
+        (X, y) = self.preprocess_data(data)
+        X = self.replace_missing_values(X, ReplaceMethod.SIMILARITY)
+        y = self.categorize_targets(y, target_dist)
+        
+        test_size = numpy.int(X.shape[0] * 0.1)
+        self.X_train = X[0:-test_size]
+        self.y_train = y[0:-test_size]
+        self.X_test = X[-test_size:]
+        self.y_test = y[-test_size:]
+        
+    def get_description(self):
+        return ('Housing data for the Grand Rapids, MI area.' + os.linesep +
+                'Training data entries: {}'.format(self.X_train.shape[0]) + os.linesep +
+                'Test data entries: {}'.format(self.X_test.shape[0]))
     
     def preprocess_data(self, data):
         X = numpy.copy(data)
@@ -51,33 +105,18 @@ class RedfinData(object):
         X = X.astype('float32')
         y = y.astype('int')
 
-        # Replace each nan in each column with the column's mean value.
-        for i in range(X.shape[1]):
-            column = X[:,i]
-            is_nan = numpy.isnan(column)
-            values = column[~is_nan]
-            column[is_nan] = numpy.mean(values)
-
         return (X, y)
-    
-    def categorize_targets(self, targets, target_dist):
-        for i in range(len(targets)):
-            target_class = 0
-            for j in range(len(target_dist)):
-                if targets[i] > target_dist[j]:
-                    target_class = j 
-            targets[i] = target_class
-        targets = np_utils.to_categorical(targets, self.num_targets)
-        return targets
 
-class KingCountyData(object):
+class KingCountyData(HousingData):
     def __init__(self, filepath, target_dist):
+        super(KingCountyData, self).__init__()
         self.num_targets = len(target_dist)
                 
         data = self.read_csv(filepath)
         numpy.random.shuffle(data)
         
         (X, y) = self.preprocess_data(data)
+        X = self.replace_missing_values(X, ReplaceMethod.SIMILARITY)
         y = self.categorize_targets(y, target_dist)
         
         test_size = numpy.int(X.shape[0] * 0.1)
@@ -85,21 +124,12 @@ class KingCountyData(object):
         self.y_train = y[0:-test_size]
         self.X_test = X[-test_size:]
         self.y_test = y[-test_size:]
-        
-    def read_csv(self, filepath):
-        data = []
-        with open(filepath, 'rb') as input_file:
-            reader = csv.reader(input_file)
-            for row in reader:
-                entry = []
-                for field in row:
-                    if field != '':
-                        entry.append(field)
-                    else:
-                        entry.append(numpy.nan)
-                data.append(entry)
-        return numpy.array(data[1:])
-    
+
+    def get_description(self):
+        return ('Housing data for the King County, WA area.' + os.linesep +
+                'Training data entries: {}'.format(self.X_train.shape[0]) + os.linesep +
+                'Test data entries: {}'.format(self.X_test.shape[0]))
+
     def preprocess_data(self, data):
         X = numpy.copy(data)
         y = numpy.copy(data[:,2])
@@ -109,28 +139,20 @@ class KingCountyData(object):
         
         # Convert all fields into appropriate data types
         X = X.astype('float32')
-        y = y.astype('float32')
+        y = y.astype('int')
 
         return (X, y)
-    
-    def categorize_targets(self, targets, target_dist):
-        for i in range(len(targets)):
-            target_class = 0
-            for j in range(len(target_dist)):
-                if targets[i] > target_dist[j]:
-                    target_class = j 
-            targets[i] = target_class
-        targets = np_utils.to_categorical(targets, self.num_targets)
-        return targets
 
-class NashvilleData(object):
+class NashvilleData(HousingData):
     def __init__(self, filepath, target_dist):
+        super(NashvilleData, self).__init__()
         self.num_targets = len(target_dist)
 
         data = self.read_csv(filepath)
         numpy.random.shuffle(data)
                              
         (X, y) = self.preprocess_data(data)
+        X = self.replace_missing_values(X, ReplaceMethod.SIMILARITY)
         y = self.categorize_targets(y, target_dist)
         
         test_size = numpy.int(X.shape[0] * 0.1)
@@ -138,21 +160,12 @@ class NashvilleData(object):
         self.y_train = y[0:-test_size]
         self.X_test = X[-test_size:]
         self.y_test = y[-test_size:]
-        
-    def read_csv(self, filepath):
-        data = []
-        with open(filepath, 'rb') as input_file:
-            reader = csv.reader(input_file)
-            for row in reader:
-                entry = []
-                for field in row:
-                    if field != '':
-                        entry.append(field)
-                    else:
-                        entry.append(numpy.nan)
-                data.append(entry)
-        return numpy.array(data[1:])
-    
+
+    def get_description(self):
+        return ('Housing data for the Nashville, TN area.' + os.linesep +
+                'Training data entries: {}'.format(self.X_train.shape[0]) + os.linesep +
+                'Test data entries: {}'.format(self.X_test.shape[0]))
+
     def preprocess_data(self, data):
         X = numpy.copy(data)
         y = numpy.copy(data[:,8])
@@ -214,24 +227,7 @@ class NashvilleData(object):
         X = X.astype('float32')
         y = y.astype('int')
 
-        # Replace each nan in each column with the column's mean value.
-        for i in range(X.shape[1]):
-            column = X[:,i]
-            is_nan = numpy.isnan(column)
-            values = column[~is_nan]
-            column[is_nan] = numpy.mean(values)
-
         return (X, y)
-    
-    def categorize_targets(self, targets, target_dist):
-        for i in range(len(targets)):
-            target_class = 0
-            for j in range(len(target_dist)):
-                if targets[i] > target_dist[j]:
-                    target_class = j 
-            targets[i] = target_class
-        targets = np_utils.to_categorical(targets, self.num_targets)
-        return targets
     
     def encode(self, data, column, encodings, regex):
         for entry in data:

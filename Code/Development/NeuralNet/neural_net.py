@@ -83,6 +83,7 @@ class Application(object):
         self.data = NashvilleData('Data/Nashville_housing_data_2013_2016.csv', target_dist)
         #self.data = KingCountyData('Data/kc_house_data.csv', target_dist)
         #self.data = RedfinData('Data/redfin_encoded.csv', target_dist)
+        print('{}'.format(self.data.get_description()))
         
         print('Building neural network.')
         input_shape = self.data.X_train.shape[1:]
