@@ -139,6 +139,7 @@ class KingCountyData(HousingData):
         
         # Convert all fields into appropriate data types
         X = X.astype('float32')
+        y = y.astype('float32')
         y = y.astype('int')
 
         return (X, y)
