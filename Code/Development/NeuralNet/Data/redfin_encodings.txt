@@ -1,0 +1,5116 @@
+PROPERTY TYPE
+1 : Condo/Co-Op
+5 : Multi-Family (2-4 Unit)
+3 : Multi-Family (5+ Unit)
+2 : Single Family Residential
+4 : Vacant Land
+
+ADDRESS
+4587 : &56 Merritt
+290 : &7216 Belding Rd Ne
+3625 : A Devonwood Hills Dr Ne #145
+3651 : A Devonwood Hills Dr Ne #61
+3593 : A Grindle Dr
+652 : A Monte Rio Ct Sw #52
+584 : A Nantucket Dr Sw
+2952 : Aaron Ave Sw
+3897 : Aaronsway Ct Ne
+882 : Abbey Mill Blvd Se #16
+864 : Abbey Mill Blvd Se #59
+878 : Abbey Mill Ct Se
+844 : Abbey Mill Dr Se #0
+1011 : Abbey Mill Dr Se #1
+1008 : Abbey Mill Dr Se #19
+1017 : Abbey Mill Dr Se #2
+1015 : Abbey Mill Dr Se #23
+883 : Abbey Mill Dr Se #24
+1010 : Abbey Mill Dr Se #25
+1009 : Abbey Mill Dr Se #26
+1014 : Abbey Mill Dr Se #29
+1016 : Abbey Mill Dr Se #3
+1007 : Abbey Mill Dr Se #30
+885 : Abbey Mill Dr Se #38
+841 : Abbey Mill Dr Se #4
+839 : Abbey Mill Dr Se #5
+870 : Abbey Mill Dr Se #91
+849 : Abbey Mill Dr Se Unit Sr
+1151 : Abbeydale Dr Se
+4608 : Abbie Se
+4513 : Abbie St Se
+1210 : Abbington Dr
+1793 : Abbington Dr Se #0
+1878 : Abbington Dr Se #1
+1787 : Abbington Dr Se #128
+1904 : Abbington Se #149
+1899 : Abbington Se #151
+5031 : Abby Ln Sw
+1704 : Aberdeen St Ne
+4433 : Abington Dr Nw
+3727 : Abrigador Trl Ne
+2202 : Acacia Dr Nw
+2173 : Acacia Nw
+2557 : Academy Dr Ne
+2285 : Academy Ne
+900 : Ada Dr Se
+904 : Ada Place Dr Se
+928 : Adacroft Dr Se
+1427 : Adams Se
+1534 : Adams St Se
+1723 : Adams St Se Unit T
+926 : Adapointe Dr Se
+837 : Adaridge Dr Se
+938 : Adaridge Se
+981 : Adaside Dr Se
+943 : Adaway Ave Se
+975 : Adaway Ct Se
+891 : Adaway Ct Se #6
+4187 : Adolph Ave
+4193 : Adolph St
+4242 : Adolph St Ne
+345 : Agawa Trl
+346 : Agawa Trl Ne
+339 : Agua Vista Ct Ne
+4651 : Airview St Se
+3693 : Airway St Ne
+221 : Alanada Dr
+222 : Alanada Dr Se
+4566 : Alba Ave Sw
+4576 : Albers St Sw
+773 : Albert Dr Se
+3871 : Alcott Ave Ne
+3569 : Alden Nash Ave Se
+4669 : Aldon St Sw
+2123 : Aleda Ave Se
+3189 : Aleda Se
+4119 : Aleigha Ct #13
+4110 : Aleigha Ct #14
+4146 : Aleigha Dr #28
+4165 : Aleigha Dr #30
+4115 : Aleigha Dr #33
+4166 : Aleigha Dr #34
+4181 : Aleigha Dr #35
+2379 : Alewa Dr Nw
+707 : Alexander St Se
+4974 : Alexandria Dr Sw
+1993 : Alger Se
+1587 : Alger St Se
+2891 : Algonac Dr Sw
+1752 : Alice Ave Sw
+4482 : Allison Ave Nw
+4837 : Allyson Ave Sw
+1333 : Almar St
+2133 : Almont Ave Se
+1494 : Alpine Ave Nw
+1649 : Alpine Ave Nw Nw
+4180 : Alpine Church Rd Nw
+469 : Alpine Church St Nw
+1932 : Alpine Nw
+1472 : Alten Ave Ne
+1527 : Alto Ave Se
+1522 : Alto Se
+3360 : Alyssum  S.E. Dr
+3464 : Alyssum Dr Se
+5038 : Amanda Dr Sw
+127 : Amber Creek Dr Sw #15
+187 : Amber Creek Dr Sw #17
+172 : Amber Creek Dr Sw #22
+144 : Amber Creek Dr Sw #23
+129 : Amber Creek Dr Sw #24
+169 : Amber Creek Dr Sw #25
+567 : Amber Ridge Dr Sw #121
+612 : Amber Ridge Dr Sw #123
+615 : Amber Ridge Dr Sw #124
+600 : Amber Ridge Dr Sw #131
+633 : Amber Ridge Dr Sw #22
+632 : Amber Ridge Dr Sw #33
+550 : Amber View Dr Sw #143
+2295 : Amberly Dr Se
+699 : Amberwood Dr Sw #10
+527 : Amberwood Dr Sw #15
+568 : Amberwood Dr Sw #55
+569 : Amberwood Dr Sw #56
+626 : Amberwood Dr Sw #73
+682 : Amberwood Sw #128
+585 : Amberwood West Dr Sw #0
+661 : Amberwood West Dr Sw #88
+570 : Amberwood West Sw #94
+3880 : Ambrose Ave Ne
+4108 : Amelia Ct
+3607 : Amity St
+126 : Amtrak Dr
+135 : Amtrak Dr Sw
+4824 : Ancient Dr Sw
+641 : Andale Ave Sw
+728 : Anderson Dr Se
+1835 : Anderson Pl Nw
+3164 : Andover Ct Se #105
+3073 : Andover Ct Se #14
+3187 : Andover Ct Se #2
+3071 : Andover Ct Se #26
+3025 : Andover Ct Se #29
+3033 : Andover Ct Se #3
+3040 : Andover Ct Se #32
+3055 : Andover Ct Se #36
+3065 : Andover Ct Se #72
+3072 : Andover Ct Se #915
+4917 : Andover Ct Sw
+780 : Andover Ln Se
+3176 : Andover St
+3262 : Andover St Se
+3032 : Andover St Se #110
+3102 : Andover St Se #146
+3170 : Andover St Se #153
+3060 : Andover St Se #156
+3140 : Andover St Se #16
+3138 : Andover St Se #40
+3075 : Andover St Se #48
+3103 : Andover St Se #78
+3066 : Andover St Se #8
+1697 : Andre St Sw
+2790 : Andres Xing Sw #23
+2774 : Andres Xing Sw #26
+2806 : Andres Xing Sw #27
+2757 : Andres Xing Sw #5
+3352 : Andrew St Se
+86 : Andrews
+98 : Andrews Ave
+4878 : Angels Trace Dr Sw #9
+4442 : Anita Nw
+497 : Ann
+509 : Ann St
+1496 : Ann St Ne
+2711 : Annchester Dr Se
+2434 : Antebellum Ct Nw
+2881 : Antigo Ct Sw
+2375 : Apple Ave Nw
+4452 : Applegate Dr Nw
+2452 : Applegate Nw
+3344 : Appleview Se
+3313 : Appleview St Se
+2192 : Applewood Dr Ne
+3325 : Applewood Dr Se
+2742 : Applewood Dr Se Se
+5062 : Applewood Dr Sw
+2950 : Arapaho Dr Sw
+3978 : Arbor Chase Dr Ne
+4464 : Arbor Ct
+4438 : Arbor Ct Nw
+2262 : Arbor Ne
+2124 : Arbor St Ne
+1176 : Arbor Tree Ct Se
+4489 : Arbor Trl Nw
+3723 : Arcadia Dr Ne
+4168 : Arch St
+3914 : Archer Ne
+2017 : Ardmore Se
+1504 : Ardmore St S
+1571 : Ardmore St Se
+812 : Argentina
+795 : Argentina Dr Se
+801 : Argentina Se
+934 : Argo Ave Se
+2120 : Arianna Nw
+1651 : Arianna St Nw
+4851 : Ariebill Ct Sw
+4740 : Ariebill St Sw
+3550 : Arlet Ct Se
+1951 : Arlington St Ne
+245 : Armadale Ct Ne
+1665 : Arnold Ave Sw
+2928 : Arrowhead Arms Ct #33
+2972 : Arrowhead Arms Ct Sw #29
+350 : Arroyo Vista Dr Ne
+1830 : Arthur Ave Ne
+4140 : Arthur St
+4156 : Arthur St E
+1092 : Artisan Woods Se
+779 : Arundel Rd Se
+729 : Asbury Rd Se
+1408 : Ash Dr
+4472 : Ashcreek Ct Nw
+2000 : Ashland Ave Ne
+1089 : Ashton Ridge Dr Se
+1105 : Ashwood Dr Se
+99 : Aspen St
+945 : Aspenwood Dr Se
+908 : Aspenwood Se
+2602 : Assumption Dr Ne
+1378 : Aster Ln
+1470 : Aster Pl Ne
+3408 : Astoria Ave Se
+1276 : Astronaut Ave
+1220 : Astronaut St
+123 : Athearn Dr Sw
+3962 : Atwater Hills Ct
+4042 : Atwater Hills Dr Ne
+2518 : Atwood Dr Ne
+2429 : Atwood St Ne
+2194 : Auburn
+3732 : Auburn Ave Ne
+2338 : Auburn Ave Se
+2359 : Auburn Ave Se #47
+2252 : Auburn Ne
+3688 : Audley Dr Ne
+4100 : Audobon Ct Ne
+792 : Audobon Dr Se
+4732 : Audobon St Sw
+1337 : Audrey
+3407 : Augusta Hills Ave Se #39
+3402 : Augusta Hills, Lot 40 Ave Se
+2651 : Aurora Se
+2516 : Aurora St Se
+3478 : Autumn Crest Dr Se
+1191 : Autumn Woods Dr Se
+1165 : Autumnridge Dr Ne
+2396 : Avanti Nw
+4689 : Averill Ave Sw
+93 : Avery Ave
+4412 : Avery Dr Nw
+4700 : Avon Ave Sw
+1118 : Avonlea Ct Se
+4439 : Awixa Ct Nw
+4466 : Awixa Dr Nw
+4510 : Awixa St Nw
+5053 : Ayrshire Dr Sw
+3722 : B Samrick Ave Ne
+4728 : Badger Ave Sw
+965 : Bailey Dr Ne
+1166 : Bailey Mdws Ne
+1145 : Bailey Meadows Dr Ne
+1343 : Baldwin Ave
+1369 : Baldwin St
+2057 : Baldwin St Se
+2056 : Ball Ave Ne
+2046 : Ball Ne
+1924 : Ball Park Blvd Nw
+1985 : Ballard Se
+1907 : Ballard St Se
+1740 : Ballard St Se Se
+3725 : Balsam Ave Ne
+3702 : Balsam Ct Ne
+1097 : Balsam Hill Ave Se #14
+2548 : Banbury Ave Ne
+1437 : Banner Ct Sw #7
+1414 : Banner Dr Sw #38
+4599 : Banner Dr Sw #47
+1410 : Banner Dr Sw #51
+4523 : Banner Dr Sw #52
+4812 : Banner St Sw
+1608 : Banner St Sw #97
+1560 : Banner Sw
+1666 : Baraga St Ne
+4627 : Barberry Dr Sw
+4865 : Barcroft Dr Sw
+5016 : Barcroft Sw
+2706 : Barfield Dr Se
+302 : Barkley Crk Ne
+4315 : Barkwood Ct Nw #14
+4309 : Barkwood Ct Nw #31
+4297 : Barkwood Ct Nw #37
+4314 : Barkwood Ct Nw #5
+4346 : Barkwood Dr Nw #27
+4293 : Barkwood Dr Nw #37
+4296 : Barkwood Dr Nw #38
+4323 : Barkwood Nw #24
+4345 : Barkwood Nw #36
+39 : Barn Owl
+48 : Barn Owl Ln
+32 : Barn Owl Ln #62
+72 : Barn Owl Ln #65
+4569 : Barnum St Sw
+2920 : Barrett Ave Sw
+4447 : Barrington Nw #20
+4448 : Barrington Nw #55
+675 : Barry Se
+651 : Barry St Se
+2872 : Basswood Dr Sw
+1230 : Basswood St
+3004 : Basswood Sw
+1512 : Batavia Pl Ne
+2037 : Batchawana St Se
+1690 : Bates Se
+1464 : Bates St Se
+1613 : Batt Sw
+1399 : Bauer Rd
+4125 : Baumhoff Ave Nw
+1594 : Baxter St Se
+4338 : Bayberry Dr Nw
+4913 : Bayberry Farms Dr Sw
+3445 : Bayham Dr Se
+3345 : Bayham Se
+1688 : Baylis St Sw
+2371 : Baynton Ave Ne
+2190 : Baynton Ne
+630 : Bayshore Dr Sw #43
+635 : Bayshore Dr Sw #55
+544 : Bayshore Dr Sw #67
+631 : Bayshore Dr Sw #68
+4844 : Bayview Ave Sw
+1031 : Beard Dr Se
+2369 : Beaumont Dr Nw
+5001 : Beckie Ct Sw
+5032 : Beckie Dr Sw
+5023 : Beckie St
+1957 : Beckwith
+4830 : Beech St Sw
+4701 : Beech Street Sw Sw
+1363 : Beechwood Dr
+763 : Beechwood Dr Se
+1955 : Beechwood St Ne
+1893 : Beechwood St Unit Ne
+4148 : Begole Sw
+471 : Bekinshire Dr Nw #12
+449 : Bekinshire Dr Nw #27
+474 : Bekinshire Dr Nw #3
+390 : Bekinshire Dr Nw #4527
+2372 : Bel Air Dr Ne
+4580 : Belden Ave Sw
+4664 : Belden St Ave Sw
+232 : Belding Rd Ne
+2065 : Belfast Ave Se
+2242 : Belfast Se
+1920 : Belknap Ave Ne
+3680 : Bell Ave Ne
+314 : Bella Vista Dr Ne #19
+318 : Bella Vista Dr Ne #202
+269 : Bella Vista Dr Ne Unit -
+2779 : Belleglade Ct Se Se
+4766 : Bellevue St Se
+4658 : Bellevue St Sw
+3385 : Bellewood Dr Se
+3658 : Belmont Ave Ne
+3767 : Belmont Farms Ct Ne
+3857 : Belmont Farms Dr Ne
+2278 : Bemis Se
+1818 : Bemis St
+1420 : Bemis St Se
+2015 : Benjamin Ave Ne
+1834 : Benjamin Ave Se
+510 : Bennett St
+993 : Bennett St Se
+1927 : Benning Ave Nw
+2058 : Benson Ave Ne
+2189 : Benson Ave Ne Ne
+88 : Bent Tree Dr
+3443 : Bentbrook Dr Se
+1167 : Bentwood Dr Se
+3503 : Bergin Farm Ct Se
+1838 : Berkey Ave Se
+4645 : Berkley Ave Sw
+4150 : Berlin Fair Dr
+791 : Berwyck Rd Se
+4661 : Berwyn Ave Sw
+4640 : Berwyn Ct Sw
+4952 : Bethanne Dr Sw
+424 : Betty St Ne
+4582 : Beverly Ave Sw
+4057 : Beyhill Dr Ne
+432 : Biddeford Dr Nw
+3012 : Billmar St Sw
+3000 : Billmar Sw
+2838 : Billmar Sw St Sw
+2274 : Birch Dr Nw
+3547 : Birch Knoll Dr Se
+2727 : Birchcrest Dr Se
+1784 : Birchcrest Dr Se #5
+1780 : Birchcrest Dr Se #6
+3394 : Birchview Dr Se
+1309 : Birchwood
+1314 : Birchwood Ave
+4657 : Birchwood Ave Sw
+3674 : Bird Ave Ne
+4326 : Birdie Ave Nw #49
+4389 : Birdie Dr Nw #55
+2671 : Birnam Woods Ct Ne
+3696 : Bittersweet Dr Ne
+26 : Black Cherry Dr
+2688 : Black Horse Dr Ne
+4099 : Black Oak Trl Ne
+3957 : Black Oak Trl Ne #11
+3944 : Blackberry Ln Ne
+3955 : Blackberry Ln Ne #12
+2900 : Blackfoot Ct Sw
+2901 : Blackfoot Dr Sw
+2858 : Blackhawk Dr Sw
+2922 : Blackhawk Sw
+3274 : Blaine
+1956 : Blaine Ave Se
+1942 : Blaine Se
+308 : Blakely Dr Ne
+282 : Blakely Ne
+4197 : Blakeslee Creek Ct Ne #16
+4206 : Blakeslee Creek Ct Ne #18
+4278 : Blakeslee Creek Ct Ne #19
+4260 : Blakeslee Creek Ct Ne #6
+4275 : Blakeslee Crk Ne #5
+4813 : Blanchard St
+4685 : Blanchard St Sw
+4796 : Blanchard Sw
+4533 : Blandford Ave Sw
+3340 : Blazing Star Ct Se
+3430 : Blazing Star St Se
+21 : Bliss St
+2721 : Blodgett St Se #25
+2627 : Blodgett St Se Unit -
+1022 : Bloomington Hills Ave Se
+1062 : Bloomington Hills Dr #11
+2234 : Blossom St Se
+3736 : Blowers Dr Nw
+3064 : Blue Ash Dr Se #104
+3058 : Blue Ash Dr Se #62
+3051 : Blue Ash Dr Se #64
+3101 : Blue Ash Se #99
+2332 : Blue Bell Way #17
+2320 : Blue Bellway Nw #54
+50 : Blue Jay
+64 : Blue Jay Dr #34
+4087 : Blue Ridge Dr Ne
+4070 : Blue Water Pines Dr Ne
+4030 : Blue Water Pnes
+4814 : Bluebird Ave Sw
+1346 : Bluebird Dr
+3449 : Bluegrass Dr Se
+3905 : Bluehill Dr Ne
+3005 : Bluewater Ln Sw
+4069 : Bluewater Pines Dr Ne
+3977 : Bluewater Pines Dr Ne #1
+4072 : Bluewater Pines Dr Ne #23
+3947 : Bluewater Pines Dr Ne #24
+3902 : Bluff Dr Ne
+3564 : Bluff Meadows Dr Se
+199 : Bluffview Dr Sw
+2533 : Blythe Dr Nw
+3876 : Blythefield Ave Ne
+4083 : Blythefield Dr Ne
+872 : Bob White Ct Se #87
+287 : Boca Vista Dr Ne #202
+349 : Boca Vista Dr Ne Unit 102
+285 : Boca Vista Dr Ne Unit 302
+548 : Bogey St Sw #10
+957 : Bolt Dr Se
+1855 : Boltwood Dr Ne
+1890 : Bona Vis Nw #9
+1782 : Bona Vista Dr Nw #101
+1761 : Bona Vista Dr Nw #109
+1758 : Bona Vista Dr Nw #140
+1759 : Bona Vista Dr Nw #207
+1779 : Bona Vista Dr Nw #21
+2003 : Bona Vista Dr Nw #22
+1789 : Bona Vista Dr Nw #26
+1892 : Bona Vista Dr Nw #28
+4311 : Bona Vista Dr Nw #29
+1923 : Bona Vista Dr Nw #33
+1646 : Bona Vista Dr Nw #44
+1807 : Bona Vista Dr Nw #74
+326 : Bonaire Dr Ne
+3900 : Bonanza Dr Ne
+372 : Bonita Vista Ct Ne
+742 : Bonnell Ave Se
+767 : Bonnell Se
+3662 : Bonneville Dr Ne
+3211 : Bonnie Ave Se
+3268 : Bonnie Se
+4723 : Boone Ave Sw
+4535 : Boone Ct Sw
+4820 : Boone Sw
+4840 : Boss St Sw
+738 : Boston Se
+733 : Boston St Se
+1280 : Boulder Blf
+1294 : Boulder Blf #10
+1275 : Boulder Blf #112
+1308 : Boulder Blf #95
+1241 : Boulder Bluff Dr
+1285 : Boulder Bluff Dr #105
+1300 : Boulder Bluff Dr #106
+1263 : Boulder Bluff Dr #107
+1361 : Boulder Bluff Dr #25
+1283 : Boulder Bluff Dr #48
+1238 : Boulder Bluff Dr #51
+1255 : Boulder Bluff Dr #58
+1324 : Boulder Bluff Dr #86
+1240 : Boulder Bluff Dr #88
+1281 : Boulder Bluff Dr #94
+1305 : Boulder Bluff Dr Apt 11
+1336 : Boulder Bluff Dr Apt 17
+1272 : Boulder Bluff Dr Apt 42
+4018 : Boulder Pine Court Dr Ne #31
+4009 : Boulder Pine Court Dr Ne #32
+4010 : Boulder Pine Court Dr Ne #33
+4035 : Boulder Pine Ct Ne #30
+4034 : Boulder Pine Ct Ne #34
+4097 : Boulder Rdg Ne
+4046 : Boulder Ridge Dr
+3941 : Boulder View Dr
+4029 : Boulder View Dr Ne
+4016 : Boulder Vw Ne
+1257 : Boulderbluff Dr #131
+4809 : Boulevard Dr Sw
+3173 : Bowdoin St Se
+3545 : Bowen Blvd
+3534 : Bowen Blvd Se
+4997 : Bowenton Pl Sw
+3525 : Boxwood Ct Se
+3689 : Boyd Ave Ne
+963 : Boynton Ave Se
+650 : Brad Ave Se
+964 : Bradfield Se
+4084 : Bradford Farms Ct Ne
+4075 : Bradford Hollow Dr Ne
+2782 : Bradford Holw Ne
+2163 : Bradford Pl Ne #55
+2251 : Bradford Pl Ne #7
+1475 : Bradford St Ne
+461 : Brady Nw
+1206 : Braeburn Dr #1
+1209 : Braeburn Dr #35
+5035 : Brahman Ct
+3316 : Bramalea Dr Se
+4909 : Bramble Ave Sw
+457 : Brambleberry Dr Nw
+3473 : Branagan Ct #23
+3401 : Branagan Ct #65
+3460 : Branagan Ct Se #17
+3426 : Branagan Ct Se #20
+3436 : Branagan Ct Se #30
+3425 : Branagan Ct Se #31
+3427 : Branagan Ct Se #33
+3428 : Branagan Ct Se #34
+3429 : Branagan Ct Se #35
+3419 : Branagan Ct Se #40
+3743 : Brandau Dr Ne
+2054 : Brandon Dr Nw
+4450 : Brandon Ridge Dr Nw #26
+413 : Brandywyne
+450 : Brandywyne Dr Nw
+3369 : Brattleboro Dr Se
+3821 : Breckenridge Ct Ne
+3778 : Breckenridge Dr Ne
+1559 : Breens Ct Sw
+3303 : Breezefield Dr Se
+3375 : Breezefield Se
+3380 : Breezewood Dr Se
+3920 : Breezy Point Dr Ne
+4073 : Brent Dr Ne
+3533 : Breton Creek Dr Se
+727 : Breton Rd Se
+784 : Breton Se
+3481 : Breton Valley Dr Se
+3764 : Brewer Ave Ne
+4487 : Brianna St Nw
+4050 : Briar Ct Ne
+1109 : Briarcliff Dr Se
+719 : Briarwood Ave Se
+3452 : Briarwood Ct
+778 : Briarwood Se
+1103 : Bridge Crest Dr #20
+1074 : Bridge Crest Dr #48
+999 : Bridge Crest Dr Se #52
+1005 : Bridge Crst #30
+2695 : Bridge Nw #1502
+2765 : Bridge Nw #2300
+2770 : Bridge Nw #2601
+2831 : Bridge Nw #3002
+2802 : Bridge Nw #3200
+2827 : Bridge Nw #506
+2759 : Bridge Nw #906
+1648 : Bridge St Nw
+2632 : Bridge St Nw #1003
+2740 : Bridge St Nw #1005
+2700 : Bridge St Nw #1101
+2675 : Bridge St Nw #1407
+2682 : Bridge St Nw #1607
+2814 : Bridge St Nw #1805
+2654 : Bridge St Nw #1807
+2694 : Bridge St Nw #1902
+2589 : Bridge St Nw #1905
+2832 : Bridge St Nw #2107
+2772 : Bridge St Nw #2301
+2712 : Bridge St Nw #2305
+2784 : Bridge St Nw #2400
+2771 : Bridge St Nw #2604
+2778 : Bridge St Nw #2800
+2791 : Bridge St Nw #2901
+2808 : Bridge St Nw #2903
+2823 : Bridge St Nw #3102
+2767 : Bridge St Nw #3203
+2701 : Bridge St Nw #502
+2752 : Bridge St Nw #701
+2794 : Bridge St Nw #802
+2625 : Bridge St Nw Apt 1304
+2708 : Bridge St Nw Apt 2202
+1046 : Bridge Walk Ct Se #89
+1052 : Bridge Walk Ct Se #94
+3245 : Bridgeport Ln Se #12
+3113 : Bridgeport Ln Se #59
+3215 : Bridgeport Ln Se #6
+962 : Bridgewater Dr Se
+3358 : Bridle Creek Ct Se
+3522 : Bridle Creek Dr Se
+3292 : Bridle Creek Dr Se #41
+3240 : Bridle Creek Dr Se Unit Na
+3276 : Bridle Creek St Se
+3280 : Bridle Creek St Se #66
+4021 : Bridle Way Ne
+4005 : Bridle Way Way Ne
+1918 : Briggs Blvd Ne
+725 : Brighton Dr Se
+3194 : Brinks St Se
+3864 : Brisam St Ne
+1728 : Bristol Ave Nw
+2055 : Bristol Nw
+4509 : Bristol Rdg Nw
+4484 : Bristol Ridge Dr
+4506 : Bristol Ridge Dr Nw
+4486 : Bristol Ridge Nw Nw
+4362 : Bristolwood Dr Nw
+4332 : Bristolwood Nw
+3252 : Brittany Ct Se
+3152 : Brittany Se
+2406 : Britton Ct Se
+1390 : Broadview Dr
+2473 : Broadway Ave #415
+2744 : Broadway Ave #425
+1511 : Broadway Ave Nw
+2468 : Broadway Ave Nw #101
+2180 : Broadway Ave Nw #106
+2463 : Broadway Ave Nw #111
+2822 : Broadway Ave Nw #121
+2709 : Broadway Ave Nw #128
+2178 : Broadway Ave Nw #206
+2479 : Broadway Ave Nw #208
+2177 : Broadway Ave Nw #213
+2486 : Broadway Ave Nw #216
+2476 : Broadway Ave Nw #220
+2460 : Broadway Ave Nw #223
+2481 : Broadway Ave Nw #230
+2717 : Broadway Ave Nw #244
+2316 : Broadway Ave Nw #305
+2322 : Broadway Ave Nw #311
+2153 : Broadway Ave Nw #313
+2335 : Broadway Ave Nw #314
+2327 : Broadway Ave Nw #315
+2232 : Broadway Ave Nw #316
+2749 : Broadway Ave Nw #320
+2466 : Broadway Ave Nw #334
+2509 : Broadway Ave Nw #336
+2788 : Broadway Ave Nw #338
+2159 : Broadway Ave Nw #403
+2175 : Broadway Ave Nw #406
+2467 : Broadway Ave Nw #408
+2459 : Broadway Ave Nw #411
+2471 : Broadway Ave Nw #414
+2713 : Broadway Ave Nw #419
+2623 : Broadway Ave Nw #420
+2608 : Broadway Ave Nw #424
+2605 : Broadway Ave Nw #431
+2544 : Broadway Ave Nw #440
+2656 : Broadway Ave Nw #447
+2824 : Broadway Ave Nw #614
+2642 : Broadway Ave Nw #617
+2033 : Broadway Ave Nw Apt 109A
+2336 : Broadway Ave Nw Apt 114A
+2647 : Broadway Ave Nw Apt 128
+2165 : Broadway Ave Nw Apt 316
+2474 : Broadway Ave Nw Apt 336
+2462 : Broadway Ave Nw Apt 409A
+2556 : Broadway Ave Nw Apt 439
+2624 : Broadway Ave Nw Apt 607
+2380 : Broadway Ave Nw Unit 114A
+2321 : Broadway Ave Nw Unit 114B
+2508 : Broadway Ave Nw Unit 409B
+2746 : Broadway Ave Nw Unit 620A
+2158 : Broadway Ave Nw Unit 621A
+2179 : Broadway Nw #240
+2613 : Broadway Nw #319
+3923 : Brockwood Dr Ne
+2280 : Bromley Dr Se
+2272 : Brook Ct Se
+3893 : Brook Hollow Dr Ne
+2279 : Brook Trl Se
+3451 : Brookcross Dr Se
+3333 : Brookfarm Dr Se
+425 : Brookgate Dr Nw
+4105 : Brookhollow Dr Ne
+45 : Brookland Dr
+2094 : Brooklane Ave Se
+1952 : Brooklyn Ave Se
+2135 : Brooklyn Se
+3213 : Brookmark St Se
+3384 : Brookmeadow Ct Se
+3329 : Brookmeadow Dr Se
+25 : Brookridge Dr
+2257 : Brookshire Dr Se
+1146 : Brookside Woods Ct Se #7
+3441 : Brookwood Ct Se
+3218 : Brookwood Dr
+3272 : Brookwood Dr Se
+95 : Brown Ave
+1490 : Brown St Se
+1442 : Brown St Sw
+1760 : Brown Sw
+2068 : Brownwood Ave Nw
+2953 : Bruce Dr Sw
+4632 : Bryant St Sw
+4479 : Bryanwood Dr Nw
+2323 : Bryceway Ct Ne #56
+2275 : Brynell Ct Ne
+907 : Buccaneer Dr Se
+4135 : Buchanan
+1456 : Buchanan Ave Sw
+57 : Buchanan St
+1605 : Buchanan Sw
+587 : Buck Creek Ave Sw
+376 : Buck Run Trl Ne
+4522 : Buckingham St
+4725 : Buckingham St Sw
+4610 : Buckingham Sw
+1828 : Buffalo Ne
+1667 : Buffalo St Ne
+1395 : Buist
+1356 : Buist St
+4686 : Buist Sw
+4548 : Bungalow St Sw
+3444 : Bunker Hill Ct
+3515 : Bunker Hill Dr Se
+4969 : Bunkerway Ct Sw
+4964 : Bunkerway Dr Sw
+746 : Burchard Se
+747 : Burchard St Se
+1959 : Burgis Ave Se
+3180 : Burgis Ct Se
+3278 : Burgis Se
+1856 : Burke Ave Ne
+1975 : Burke Ne
+183 : Burlingame Ave Sw
+4681 : Burlingame Sw
+2681 : Burning Tree Dr Se
+3540 : Burning Woods Ct Se #65
+3537 : Burning Woods Ct Se Unit C
+1781 : Burns St Sw
+1804 : Burr Oak St Ne
+2170 : Burritt St Nw
+942 : Burrwick Dr Se
+4518 : Burt Ave Se
+4539 : Burt St Se
+871 : Burton Ct Se #6
+3544 : Burton Pines Dr Se
+922 : Burton Se
+851 : Burton St Se
+1492 : Burton St Sw
+3509 : Burton Street Southeast Se
+3735 : Buth Dr Ne
+3825 : Buth Ne
+4885 : Buttercup Ct Sw
+429 : Buttercup Run #40
+411 : Buttercup Run #43
+396 : Buttercup Run #44
+440 : Buttercup Run Ne #41
+386 : Buttercup Run Ne #42
+416 : Buttercup Run Ne #45
+448 : Buttercup Run Ne #46
+407 : Buttercup Run Ne #47
+431 : Buttercup Run Ne #48
+3868 : Butternut Dr Ne
+1424 : Butterworth St Sw
+1545 : Butterworth Sw
+952 : Buttonwood Ct
+903 : Buttrick Ave Se
+125 : Byron Center Ave Sw
+4589 : Byron Center Ave Sw #108
+4603 : Byron Center Ave Sw #209
+4601 : Byron Center Ave Sw #308
+4549 : Byron Center Ave Sw Apt 105
+4552 : Byron Center Ave Sw Apt B
+4528 : Byron Center Ave Sw Apt C
+4541 : Byron Center Ave Sw Apt F
+164 : Byron Depot Ct Sw
+2416 : Byron St Se
+201 : Byron Station Ct Sw
+688 : Byron Woods Dr Sw
+637 : Byron Woods Sw
+3298 : Cabot Dr Se
+534 : Cactus Cove Dr Sw #97
+542 : Cactus Cv Sw #110
+546 : Cactus Cv Sw #118
+516 : Cactus Cv Sw #15
+645 : Cactus Sw #96
+12 : Cadence Ct
+2735 : Cadillac Dr Se
+4209 : Cahill Dr
+1877 : Caledonia St Ne
+1681 : Calgary St Ne
+1596 : Calkins Ave Se
+1717 : Calvin Ave Se
+2843 : Calvin Ct Sw #17
+2857 : Calvin Ct Sw #24
+2889 : Calvin Ct Sw #25
+2864 : Calvin Ct Sw #37
+2888 : Calvin Ct Sw #9
+760 : Cambridge Blvd Se
+2341 : Cambridge Dr
+815 : Cambridge Dr Se
+2235 : Cambridge Se
+3151 : Cambridge Se #16
+3160 : Cambridge St Se #16
+4729 : Camden Ave Sw
+2207 : Camelot Dr Se
+79 : Cameron Ave
+2517 : Camille Dr Se
+2413 : Camille Se
+338 : Camino Del Rey Dr Ne
+2573 : Campau Ave Nw #1605
+2314 : Campau Ave Nw #1806
+2032 : Campau Ave Nw #1901
+2433 : Campau Ave Nw #2203
+2760 : Campau Ave Nw #2304
+2484 : Campau Ave Nw #2506
+2736 : Campau Ave Nw #33
+2310 : Campau Cir Nw #108
+2031 : Campau Cir Nw #1603
+2499 : Campau Cir Nw #1605
+2392 : Campau Cir Nw #1706
+2531 : Campau Cir Nw #1710
+2496 : Campau Cir Nw #1908
+2672 : Campau Cir Nw #2104
+2834 : Campau Cir Nw #2204
+2530 : Campau Cir Nw #2205
+2607 : Campau Cir Nw #2210
+2792 : Campau Cir Nw #2304
+2828 : Campau Cir Nw #2502
+2803 : Campau Cir Nw #2701
+2786 : Campau Cir Nw #2703
+2716 : Campbell Pl Ne
+2546 : Campbell Pl Ne #151
+2382 : Campus Dr Se
+3131 : Campus Park Dr Se
+1203 : Camrose Dr
+2956 : Canal Ave Sw
+4112 : Candi Ln #23
+4164 : Candi Ln #25
+4123 : Candi Ln #26
+4139 : Candi Ln Nw
+1178 : Candlestick Ave Se
+1173 : Candlewick Court Se Se
+889 : Candlewood Dr Se
+332 : Cannon Farms Dr Ne
+312 : Cannon Highlands Dr Ne
+279 : Cannon Hills Dr #18
+283 : Cannon Meadows Dr
+258 : Cannon Run Dr Ne
+4764 : Cannon St Sw
+4799 : Cannon Sw
+311 : Cannonsburg Rd Ne
+151 : Canopy Dr
+173 : Canopy Dr Sw
+4677 : Canterbury St
+4676 : Canterbury St Sw
+1482 : Canton St Sw
+1874 : Canton Sw
+272 : Canyon River Ct Ne #23
+267 : Canyon River Dr Ne
+3797 : Canyonside Ct Ne
+640 : Cape Rachelle Dr
+912 : Capitan Dr Se
+1372 : Caprice Dr
+4959 : Caravel Dr Sw
+2669 : Cardiff Ct Ne
+1174 : Carl Dr Ne
+1775 : Carlton Ave Ne
+2110 : Carlton Ave Se
+2944 : Carmel Ave Sw
+2964 : Carmel Sw
+3595 : Carol Lynne Dr
+1446 : Caroline Pl Ne
+2356 : Carpenter Ave Nw
+1292 : Carriage Ln #62
+1310 : Carriage Ln #63
+1233 : Carriage Ln #65
+1202 : Carriage Ln #703
+557 : Carriage Ln Sw
+519 : Carriage Ln Sw #15
+597 : Carriage Ln Sw #27
+535 : Carriage Ln Sw #63
+540 : Carriage Ln Sw #64
+571 : Carriage Sw #14
+3114 : Carrick Ave Se
+2128 : Carrier Creek Blvd Ne
+1508 : Carrier St Ne
+4490 : Carrington Dr Nw
+4586 : Carson Ave Sw
+1121 : Cascade Farms Ct Se
+1043 : Cascade Lakes Cir
+1119 : Cascade Lakes Cir Se
+1040 : Cascade Lakes Ct Se
+1001 : Cascade Pines Pvt Se
+865 : Cascade Place Dr Se #22
+1149 : Cascade Pointe Ct Se #5
+901 : Cascade Rd D-03 (Unit 37) #37
+802 : Cascade Rd Se
+879 : Cascade Rd Se #20
+956 : Cascade Rd Se Apt B4
+899 : Cascade Rd Se Unit C-01
+895 : Cascade Rd Se Unit D-09
+987 : Cascade Road Se Se #9
+944 : Cascade Springs Dr Se
+950 : Cascade Woods Dr Se
+4901 : Case Dr Sw
+2237 : Cashew Ct Nw
+1599 : Cass Ave Se
+1467 : Cass Se
+3520 : Castle Brook Ave Se
+4256 : Castle Hill Ct Ne #12
+4188 : Castle Hill Ct Ne #24
+4246 : Castle Hill Ct Ne #7
+4282 : Castle Hill Ct Ne #72
+4267 : Castle Hill Ct Ne #77
+4194 : Castle Hill Dr Ne #0
+4283 : Castle Hill Dr Ne #4
+4245 : Castle Hill Dr Ne #8
+3928 : Castle Rock Dr Ne
+1112 : Catamount Trl Ne #59
+1495 : Caulfield Ave Sw
+3255 : Cavanagh St Se
+3892 : Cedar Crest Ct Ne
+3716 : Cedar Crest Dr Ne
+1259 : Cedar Grove Ct #18
+1274 : Cedar Grove North #60
+1289 : Cedar Grv N #57
+3423 : Cedar Landing Dr Se
+3823 : Cedar Ridge Dr Ne
+3874 : Cedar Ridge St Ne
+1829 : Cedar St Ne
+1302 : Cedargrove Ct #33
+1347 : Cedargrove E #146
+2618 : Celadon Dr Ne #101
+2622 : Celadon Dr Ne #102
+2653 : Celadon Dr Ne #103
+2655 : Celadon Dr Ne #106
+2620 : Celadon Dr Ne #107
+2540 : Celadon Dr Ne #108
+2451 : Celadon Dr Ne #109
+2449 : Celadon Dr Ne #110
+2755 : Celadon Dr Ne #111
+2504 : Celadon Dr Ne #112
+2450 : Celadon Dr Ne #113
+2586 : Celadon Dr Ne #115
+2447 : Celadon Dr Ne #116
+2334 : Celadon Dr Ne #62
+2787 : Celadon Dr Ne #98
+2018 : Celia St Se
+1770 : Celia St Sw
+1803 : Center Ave Ne
+4654 : Central Ave Sw
+5003 : Chableau Dr Sw
+5027 : Chableau Sw
+4995 : Chalet Ln Sw
+2097 : Chamberlain Ave Se
+1197 : Champagne Ct Se
+4080 : Chandler Dr Ne
+1198 : Channing Ct Se
+4805 : Chapel St Sw
+1469 : Charles Ave Se
+1517 : Charles Se
+4547 : Charlesgate Ave Sw
+4695 : Charlesgate Sw
+5 : Charleston Ln
+8 : Charleston Ln Nw
+1925 : Charlotte Ave Nw
+5024 : Charolais Dr Sw
+4469 : Chaska Ct
+459 : Chasseral Ct Nw #50
+400 : Chasseral Dr Nw #22
+4890 : Chateau Dr Sw
+4707 : Chateauridge Dr Sw #9
+1620 : Chatham St Nw
+3594 : Chatham St Se
+838 : Chatham Woods Dr Se #14
+915 : Chatham Woods Dr Se #19
+848 : Chatham Woods Dr Se #26
+875 : Chatham Woods Dr Se #37
+924 : Chatham Woods Dr Se #79
+869 : Chatham Woods Dr Se Unit 6
+3807 : Chauncey Dr
+4047 : Chauncey Dr Ne
+3910 : Chauncey Ne
+4031 : Checkerberry Ln Ne
+162 : Chelmsford Dr
+2385 : Chelsea Dr Ne
+2420 : Chelsea Rd Ne
+1988 : Cheney Ave Ne
+2940 : Cherokee Ave
+1320 : Cherry
+1212 : Cherry Ave
+2129 : Cherry Run Ct Nw
+2424 : Cherry Run Dr Nw
+2203 : Cherry St Se
+1820 : Cherry St Se #114
+1960 : Cherry St Se #206
+2117 : Cherry St Se #209
+2086 : Cherry St Se #507
+1831 : Cherry St Se #514
+2231 : Cherry St Se Apt 612
+4733 : Cherrywood Ct Sw
+2980 : Cherway Ct Sw
+2193 : Chesapeake Dr Ne
+2527 : Cheshire Dr Ne
+2539 : Chester St Se
+4349 : Chesterfield Blvd Nw
+2992 : Chestnut St Sw
+2835 : Chestnut Sw #34
+2974 : Cheyenne Dr
+2915 : Cheyenne Dr Sw
+4555 : Chicago Dr Sw
+1357 : Chickadee Dr
+2899 : Chickasaw Ct Sw
+3877 : Chicory St Ne
+442 : Childs Ave Nw
+415 : Childs Nw
+3832 : Childsdale Ave Ne
+603 : Chino Valley Dr Sw #145
+526 : Chino Valley Dr Sw #15
+654 : Chino Valley Dr Sw #151
+657 : Chino Valley Dr Sw #170
+579 : Chino Valley Dr Sw #172
+593 : Chino Valley Dr Sw #187
+642 : Chino Valley Dr Sw #198
+608 : Chino Valley Dr Sw #202
+607 : Chino Valley Dr Sw #206
+662 : Chino Valley Dr Sw Sw #171
+2731 : Chippewa Dr Se
+4856 : Chiswick Dr Sw
+3095 : Christie Ave Se
+3096 : Christie Se
+2960 : Church Ave Sw
+495 : Church St
+4468 : Cider Mill Ct Nw
+4508 : Cider Mill Trl Nw
+4460 : Cider Wood Dr Nw
+3933 : Cielo Dr
+3663 : Cielo Dr Ne
+4036 : Cielo Dr Ne #7
+4929 : Cimmaron River Ct Sw
+4903 : Cimmaron River Ct Sw #19
+4894 : Cimmaron River Ct Sw #22
+3819 : Cinema Ave Ne
+70 : Circleview Dr
+68 : Circlewood Ln
+4512 : Cisne Ave Sw
+1660 : Clancy Ave Ne
+1558 : Clancy Ne
+4935 : Clarey Sw
+4749 : Clarion Ave Sw
+418 : Clark Dr Nw
+3608 : Clark St #8
+421 : Clark St Nw
+3201 : Claudia Ave Se
+4581 : Clay Ave Sw
+4307 : Clayton Nw
+2763 : Clear Creek Ct Ne #45
+3649 : Clear Vista Ct Ne #25
+3500 : Clearstream Dr Se
+3363 : Clearwood Dr Se
+852 : Clements Mill Ct Se
+1113 : Clements Mill Ct Se #8
+1115 : Clements Mill Dr Se Se
+4538 : Clements St Se
+4537 : Cleveland Ave Sw
+4176 : Cleveland St
+487 : Cleveland St E
+4624 : Cleveland Sw
+4388 : Clinton Ave Nw
+2394 : Clover Nw
+2317 : Clover Ridge Ave Nw
+2430 : Clovercrest Ave Nw
+4378 : Cloverdale Ave Nw
+3448 : Cloverleaf Dr Se
+668 : Clyde Park Ave Sw
+1445 : Clyde Park Ave Sw #0
+1611 : Clyde Park Ave Sw #2173
+1609 : Clyde Park Ave Sw #64
+1612 : Clyde Park Ave Sw #87
+4653 : Clyde Park Sw
+1144 : Clydesdale Dr Se
+1236 : Coachman Ln #44
+1214 : Coachman Ln #48
+3466 : Coalcar Ct Se
+1825 : Coate Ct Sw
+3469 : Cobblestone Ct Se
+1385 : Coconut Dr
+4364 : Cogswell St Nw
+1480 : Coit Ave Ne
+3666 : Coit Ne
+3817 : Coit St Ne
+4618 : Colby Ave Sw
+1422 : Coldbrook St Ne
+671 : Coleman Se
+659 : Coleman St Se
+1416 : Colfax St Ne
+1742 : College Ave Ne
+622 : College Ave Se
+2308 : College Ave Se #12
+2403 : College Ave Se #42
+1876 : College Ne
+686 : College Se
+2639 : College St Ne
+1900 : Collier Ave Se #6
+2052 : Collindale Ave Nw
+4495 : Collindale Ave Sw
+2079 : Collindale Nw
+4918 : Collingwood Ave
+4584 : Collingwood Ave Sw
+4841 : Collingwood Ave Sw Sw
+4667 : Collingwood Sw
+1604 : Collins Ave Se
+1974 : Colorado Ave Se
+2306 : Colorado Ave Se Unit Se
+1737 : Colrain St Se
+1948 : Colrain St Sw
+4768 : Colrain Sw
+3927 : Columbine Ne
+2378 : Comstock Blvd Ne
+3924 : Concolor Dr Ne
+2381 : Concord Ave Se
+2226 : Concord Se
+3386 : Conductor Ct Se
+4457 : Conestoga Ct Nw
+2551 : Conger St Ne
+1936 : Congress Ave Se
+136 : Conifer Ridge Dr Sw
+743 : Conlon Ave Se
+1192 : Connemara Ct Se
+1128 : Conservancy Dr Ne
+1125 : Conservation St Ne
+3588 : Conservation Trl #12
+3589 : Conservation Trl #9
+3584 : Conservation Trl Unit C
+4602 : Coolidge St Sw
+4679 : Coolidge Sw
+1707 : Cooper Ave Se
+574 : Coopers Pass Dr Sw #16
+681 : Coopers Pass Sw #15
+684 : Coopers Pass Sw #3
+693 : Coopers Pass Sw #4
+590 : Coopers Pass Sw #5
+4037 : Copper Hill Dr Ne
+4975 : Copper River Ave Sw
+4088 : Coppergrove Dr Ne #2
+4039 : Copperhill Drive Private #12
+4038 : Copperhill Drive Private #18
+4230 : Coral Dr Ne
+3126 : Coral Valley Ct Se
+454 : Cordes Ave Nw
+1634 : Corinne St Sw
+4312 : Cornelia Ave Nw
+4400 : Cornelia Ct Nw
+1969 : Cornelius Ave Se
+2344 : Cornell Dr Se
+807 : Coronado Dr Se
+2307 : Corville Ct Nw #41
+3632 : Costa Ave Ne
+3706 : Costa Ne
+226 : Costner
+213 : Costner Dr Se
+212 : Costner Dr Se #190
+5071 : Cotherstone Ct Sw
+1564 : Cottage Grv
+5006 : Cottondale Dr Sw
+1349 : Cottonwood Dr
+1284 : Cottonwood Dr Apt A
+1193 : Country Brook Dr Se
+4410 : Country Gdn Nw #18
+4316 : Country Gdn Nw #19
+4357 : Country Gdns Nw #28
+3381 : Country Hill Dr Se
+463 : Country Mdw Ne
+146 : Country Rail Dr Sw
+104 : Country View Dr
+74 : Country View St
+2217 : Countrywood Dr Se
+2156 : Countrywood Dr Se #2213
+3310 : Countrywood Se
+4198 : Courtland Dr
+3882 : Courtland Dr Ne
+4218 : Courtland Dr Ne #10
+4191 : Courtland Dr Ne #17
+4263 : Courtland Dr Ne #19
+4265 : Courtland Dr Ne #21
+4202 : Courtland Dr Ne Unit -
+4239 : Courtland Ne #14
+1580 : Courtney St Nw
+2053 : Covell Ave Nw
+2354 : Covell Ave Sw
+2423 : Covell Nw
+4014 : Crahen Ave Ne
+1083 : Cramton Ave Ne
+2028 : Cranbrook Ter Ne #26
+1159 : Crancreek Dr Ne
+1616 : Cranden Dr Se #251
+4953 : Creed Ct Sw
+2383 : Creek Bluff Pl Nw
+175 : Creek Circle Dr #8
+984 : Creek Run Dr Se
+3410 : Creek Way Ct Se
+3417 : Creek Way Ct Se #20
+3372 : Creek Way Dr Se
+3308 : Creek Way Dr Se #58
+111 : Creekside Dr
+205 : Creekside Dr Sw #193
+155 : Creekside Dr Sw #202
+157 : Creekside Dr Sw #206
+145 : Creekside Dr Sw #213
+189 : Creekside Dr Sw #51
+188 : Creekside Dr Sw #60
+174 : Creekside Dr Sw #70
+3391 : Creekview Dr Se
+321 : Crescenda Dr Ne
+2519 : Crescent Ave Ne
+2042 : Crescent Dr Ne
+1857 : Crescent Ne
+1801 : Crescent St Ne
+109 : Crestfield
+16 : Crestfield Ln
+3934 : Crestview Dr Ne
+4708 : Cricklewood St Sw
+4682 : Crippen St Sw
+3904 : Crisfield Dr Ne
+1702 : Crofton Sw
+1402 : Cromwell Dr
+561 : Crooked Creek Dr Sw #70
+4983 : Crooked Pine Ct Sw
+2081 : Crosby Nw
+1488 : Crosby St Nw
+2351 : Cross Bend St Ne #39
+2525 : Cross Bend St Ne #45
+2337 : Cross Bend St Ne #71
+2524 : Crossbend St Ne #66
+3198 : Crosswinds Ct Se
+3421 : Crosswinds Se
+709 : Croswell Ave Se
+806 : Croswell Ave Se #2
+758 : Croswell Ave Se #5
+723 : Croswell Ave Se #715
+706 : Croswell Ave Se #717
+2878 : Crowfoot Dr Sw
+171 : Crowley Dr Sw
+4852 : Crown St Sw
+4605 : Crown Sw
+694 : Crownpointe Dr Sw
+56 : Crystal Dr #3
+2906 : Crystal St Sw
+3015 : Crystal Sw
+4002 : Crystal Waters Ln Ne #26
+4094 : Crystal Waters Ln Ne #55
+4004 : Crystal Waters Ln Ne #59
+4000 : Crystal Waters Ln Ne #71
+3996 : Crystal Waters Ne #16
+3995 : Crystal Waters Ne #69
+315 : Cuesta Way Ne
+4499 : Cummings Ave Nw
+4342 : Cummings Ave Sw
+4377 : Cummings Sw
+3388 : Curwood Ave
+2035 : Curwood Ave Se
+1747 : Cusick Nw
+565 : Cutler Park
+1557 : Cutler St Sw
+4673 : Cypress St Sw
+4753 : Cypress Sw
+2045 : Dale St Ne
+4155 : Daling Ct Nw
+1417 : Dallas Ave Se
+4699 : Dalton Ave Sw
+438 : Dana St Nw
+783 : Danby Ln Se
+3284 : Daniel Se
+3165 : Daniel St Se
+43 : Danton Dr
+4963 : Danube Dr Sw
+1589 : Darwin Ave Sw
+3361 : Daventry Court Se Se
+273 : Davies Dr Ne
+1419 : Davis Ave Nw
+2184 : Dawes Ave Se
+1778 : Dawes Ave Se #13
+1790 : Dawes Ave Se Unit .
+1708 : Dawson Ave Ne
+1738 : Dawson Ne
+4434 : Day Ave Nw
+4095 : Daybrook Ct Ne
+3687 : Daylor Dr Ne
+1623 : Dayton St Sw
+4832 : De Laat Sw
+2750 : Dean Lake Ave Ne
+1637 : Dean St Ne
+5036 : Deanna Ct Sw
+4938 : Debbie Ct Sw
+324 : Decosta Dr
+375 : Decosta Dr Ne
+4973 : Deepwood Ct Sw
+275 : Deer Grove Ct Ne #5
+2514 : Deer Holw #11
+328 : Deer Ridge Dr
+933 : Deer Run
+966 : Deer Run Dr Ne
+2797 : Deer Trail Dr Ne
+2800 : Deer Trl Ne
+4467 : Deerfield St
+4991 : Del Mar Dr Sw
+5058 : Del Mar View Ct S.W. Sw #68
+5057 : Del Mar Village Dr #26
+5026 : Del Mar Village Dr Sw #58
+5065 : Del-Mar View Dr Sw #53
+5059 : Del-Mar Village Dr Sw #41
+1575 : Delaware Se
+1510 : Delaware St Se
+3805 : Deli Ct Ne
+3881 : Deli Dr Ne
+2588 : Dellbrook Ct Se
+5045 : Delmar Village Dr Sw #30
+1706 : Deloney Ave Sw
+1880 : Deloney Ave Sw #151
+4625 : Delwood Ave Sw
+2087 : Deming St Se
+4638 : Den Hertog St Sw
+4765 : Den Hertog Sw
+4748 : Denhertog St Sw
+3786 : Denilee Ct Ne
+1603 : Dennis Ave Se
+4688 : Denwood Ave Sw
+2841 : Derby Crossing Ct Sw #33
+2224 : Derby Dr Nw
+2002 : Devonshire Dr Ne
+3659 : Devonwood Hills Dr Ne
+3652 : Devonwood Hills Dr Ne Apt B
+3617 : Devonwood Hills Dr Ne Unit A
+3655 : Devonwood Hills Dr Ne Unit B
+3660 : Devonwood Hills Dr Ne Unit C
+3616 : Devonwood Hills Dr Ne Unit D
+3626 : Devonwood Hills Dr Ne Unit E
+3622 : Devonwood Hills Dr Ne Unit F
+3619 : Devonwood Hills Dr Unit A
+3620 : Devonwood Hills Dr Unit F
+990 : Devonwood Hls Ne Unit A
+884 : Devonwood Hls Ne Unit B
+989 : Devonwood Hls Ne Unit D
+834 : Devonwood Hls Ne Unit E
+858 : Devonwood Hls Ne Unit F
+3648 : Devonwood Ln Se #131
+896 : Devonwood Ln Se #149
+3647 : Devonwood Ln Se #17
+897 : Devonwood Ln Se #77
+881 : Devonwood Ln Se Apt A
+854 : Devonwood Ln Se Apt B
+888 : Devonwood Ln Se Apt C
+843 : Devonwood Ln Se Apt D
+866 : Devonwood Ln Se Apt F
+3624 : Devonwood Ne Unit F
+2598 : Dewberry Ct Ne
+2196 : Dewberry Dr Ne
+2456 : Dewberry Dr Ne #2
+92 : Dewpointe Dr
+578 : Dexter Dr Sw #28
+543 : Dexter Dr Sw #34
+532 : Dexter St Sw #31
+1636 : Diamond Ave Ne
+1635 : Diamond Ave Se
+2146 : Diamond Ct Ne
+1730 : Diamond Ne
+3270 : Diane St Se
+1950 : Dickinson Se
+1436 : Dickinson St
+1454 : Dickinson St Se
+1426 : Dickinson St Sw
+1434 : Dickinson St Sw #119
+3516 : Discovery Dr Se
+417 : Division Ave N
+670 : Division Ave S
+2837 : Division Ave Sw #3347
+2868 : Division Ave Sw Apt B-12
+2846 : Division Ave Sw Unit A-6
+2640 : Divot Dr Nw
+266 : Dix Dr Ne
+2998 : Dixie Ave Sw
+1199 : Dogwood Ave Ne
+1391 : Dogwood Ct
+4238 : Dogwood Dr Ne
+4129 : Dogwood Ln Nw
+936 : Dogwood Meadows Dr Se
+1055 : Dogwood Meadows Dr Se #146
+867 : Dogwood Meadows Dr Se #2
+4850 : Doncaster Ave Sw
+3580 : Donna Dr
+1187 : Donnegal Se
+360 : Dorado Ct
+1875 : Dorchester Ave Sw
+1971 : Dorothy St Nw
+1976 : Dorroll St Ne
+986 : Dorset Dr Se
+85 : Douglas
+69 : Douglas Dr
+1863 : Douglas St Nw
+2348 : Drexel Ct Ne
+1124 : Driftwood Dr Se
+1805 : Duiker Ave Ne
+478 : Duke Of York Ct Nw
+263 : Dun Robin Dr Ne
+953 : Dunbarton St Se
+1531 : Dunham Se
+2151 : Dunham St Se
+4361 : Dunlap St Nw
+2661 : Dunlin Ct Ne #22
+2465 : Dunlin Ct Ne #5
+4049 : Dunlop Lake Ln Ne
+2066 : Dunnigan Ave Ne
+2547 : Dunnigan Ne
+4951 : Durango Ct Sw
+905 : Duxbury Dr Se
+2099 : Dwight Ave Se
+3713 : E Beltline Ne
+4192 : E Bridge St Ne
+303 : E Cannon Place Dr #38
+342 : E Cannon Place Dr Ne #43
+1949 : E Collier Ave Se #6
+3277 : E De Blaay Ct Se
+3653 : E Devonwood Hills Dr Unit E
+4240 : E Division St
+3490 : E Falling Leaf Dr Se
+3535 : E Forest Dr Se
+2796 : E Fulton
+836 : E Fulton St
+3965 : E Gables Ct Ne #14
+3971 : E Gables Ct Ne #24
+4090 : E Gables Ct Ne #25
+3493 : E Grove Dr Se
+3524 : E Heathwood Se
+3475 : E Kirk Ct Se
+3309 : E Lyn Haven Dr Se #0
+3254 : E Lyn Haven Dr Se #46
+3294 : E Lyn Haven Dr Se #51
+3300 : E Lyn Haven Dr Se #52
+3422 : E Lyn Haven Dr Se #61
+3566 : E Main St
+219 : E Main St Se
+1127 : E Meadows Ct Se
+3267 : E Paris Ave Se
+3915 : E Riverwoods Ct Ne
+1794 : E Saxony Dr Se #56
+1731 : E Saxony Dr Se #68
+1627 : E Saxony Dr Se #69
+1629 : E Saxony St Se #67
+3491 : E Sugarberry Ct Se
+3488 : E Timberlake Ln Se
+253 : E Trail Dr Ne #13
+1076 : E Watermark Ct Se
+976 : E Woodmeade Ct Se
+3801 : Eagle Bluff Dr Ne #116
+3753 : Eagle Circle Ct Ne #21
+3771 : Eagle Circle Ct Ne #39
+3668 : Eagle Circle Ct Ne #44
+3772 : Eagle Creek Ct Ne #148
+3803 : Eagle Creek Ct Ne #167
+102 : Eagle Nest Ct
+3671 : Eagle Ridge Ct Ne #14
+3762 : Eagle Ridge Ct Ne #19
+2994 : Eagle Rock Ct
+2971 : Earle Ave
+2917 : Earle Ave Sw
+3008 : Earle Sw
+280 : East Cannon Place Dr Ne #54
+4059 : East Gables Ct Ne #8
+1126 : East Meadows Ct Se
+3312 : East Paris Ave
+501 : East St
+3037 : Eastcastle Ct Se #16
+1421 : Eastcastle Ct Se #17
+1765 : Eastcastle Ct Se #27
+2678 : Eastcastle Dr Se
+1711 : Eastern Ave
+1743 : Eastern Ave Ne
+672 : Eastern Ave Se
+3221 : Eastern Ave Se #1
+3209 : Eastern Ave Se #15
+3048 : Eastern Ave Se #18
+3085 : Eastern Ave Se #27
+3047 : Eastern Ave Se #28
+3074 : Eastern Ave Se #35
+1964 : Eastern Pl Ne
+702 : Eastern Se
+3231 : Eastern Se #38
+1265 : Eastlane
+1407 : Eastlane Ave
+489 : Eastmanville St
+2715 : Eastridge Dr Ne
+2668 : Eastview Ct Ne
+4947 : Easy St Sw
+5008 : Easy Sw
+352 : Echo Ne
+564 : Echoing Valley Dr Sw #0
+554 : Echoing Valley Dr Sw #26
+594 : Echoing Valley Dr Sw #32
+3193 : Edgelawn Dr Se
+3357 : Edgelawn Se
+628 : Edgeview Ave Sw
+3720 : Edgewater Dr Ne
+3719 : Edgewater St Ne
+1264 : Edgewood Ave
+2049 : Edgewood Ave Ne
+829 : Edgewood Ave Se
+735 : Edgewood Se
+3010 : Edgewood St Sw
+929 : Edgeworthe Dr Se
+2438 : Edington Dr Se #103
+2168 : Edington Dr Se #110
+3208 : Edington Dr Se #117
+3320 : Edington Dr Se #123
+3265 : Edington Dr Se #135
+3378 : Edington Ln Se #182
+2571 : Edington Se #3
+2284 : Edison Ave Nw
+2409 : Edison Park Ave Nw
+2115 : Edith Ave Ne
+1478 : Edith Ne
+1882 : Edna St Se
+3214 : Edsel St Se
+1553 : Effie Ne
+1588 : Effie Pl Ne
+3223 : Effingham Dr Se
+268 : Egypt Creek Blvd
+378 : Egypt Ridge Rd Ne
+249 : Egypt Valley Ave Ne
+309 : Egypt Valley Ct Ne
+1549 : Eighth St Nw
+2422 : El Camino Dr Nw
+782 : El Centro Blvd Se
+765 : El Dorado Dr
+766 : El Dorado Dr Se
+4892 : Elbe Ct
+5009 : Elbe Ct Sw
+3530 : Elderberry Dr Se
+4368 : Elderwood Ct Nw
+4397 : Elderwood Nw
+3721 : Eldon St
+197 : Eldora Dr Sw
+373 : Eldred Ave Ne
+296 : Eldred Dr Ne
+1973 : Eleanor St Ne
+1624 : Eleventh St Nw
+4224 : Elizabeth Ave
+1689 : Elizabeth Ave Nw
+1375 : Elizabeth Ln #127
+1208 : Elizabeth Ln W #127
+3572 : Elizabeth St
+178 : Elkwood Dr Sw #37
+204 : Elkwood Dr Sw #96
+168 : Elkwood St Sw #19
+3966 : Ella Terrace Dr Ne
+2148 : Elliott Se
+1592 : Elliott St Se
+3347 : Ellora Ct Se
+2085 : Ellsmere St Ne
+1429 : Elm St Sw
+1551 : Elmdale St Ne
+2722 : Elmhurst Dr Se
+2521 : Elmhurst Se
+2399 : Elmridge Dr Nw
+776 : Elmwood
+1398 : Elmwood Dr
+768 : Elmwood Dr Se
+770 : Elmwood Drive Se Se
+1628 : Elmwood St Ne
+1676 : Elmwood St Nw
+4561 : Elwell St
+4692 : Elwell St Sw
+3011 : Elwood Ave Sw
+1405 : Emberly
+1234 : Emberly Dr
+3222 : Embro Dr Se
+1846 : Emerald Ave Ne
+1552 : Emerald Ne
+2350 : Emerald St Ne
+1962 : Emerson Ave Nw
+4716 : Emma Ct Sw
+225 : Emmons St Se
+1351 : Engelhurst Dr
+4579 : Englehurst Ave Sw
+3350 : Engleside Dr Se
+762 : Englewood Dr Se
+3826 : English Ave Ne
+4418 : English Hills Dr Nw #10
+4308 : English Hills Dr Nw #28
+4423 : English Hills Dr Nw #29
+4334 : English Hills Dr Nw #86
+1352 : Eric Ave
+2296 : Essex St Ne
+96 : Estate Rd
+794 : Estelle Se
+819 : Estelle St Se
+2230 : Ethel Ave Se
+3752 : Ethelwin Ave Ne
+1598 : Euclid Ave Se
+2537 : Eureka Ave Se
+4933 : Evan Brooke Dr Sw #35
+4889 : Evan Brooke Dr Sw #3507
+4866 : Evan Brooke Dr Sw #40
+4886 : Evan Brooke Dr Sw #44
+4944 : Evan Brooke Dr Sw #63
+4863 : Evan Brooke Dr Sw #73
+4897 : Evan Brooke Sw #63
+4063 : Evan Dr Ne
+2538 : Evans St Se
+1944 : Evelyn Ne
+2219 : Everest Ave Se
+2342 : Everest Se
+1981 : Everglade Dr Se
+291 : Evergreen Mdw
+1542 : Evergreen St Se
+4921 : Exchange Se
+4514 : Exchange St Se
+3646 : F Devonwood Hills Dr Ne Unit F
+235 : Fair Ridge Dr Ne
+1344 : Fairbrook Dr
+4300 : Faircrest Ave Nw
+1961 : Fairfield Ave Nw
+244 : Fairhaven Ct Ne
+1392 : Fairlawn Ave
+2211 : Fairmount St Se
+2208 : Fairview Ave Ne
+2758 : Fairview Ave Ne Apt 1
+2364 : Fairview Ne
+1291 : Fairview St
+2988 : Fairview St Sw
+4295 : Fairway Dr Nw
+382 : Fairway Winds Ct Ne
+3582 : Faith Dr
+3985 : Falcon Bluff Ct Ne
+3975 : Falcon Crest Dr Ne
+4365 : Falcon Pointe Dr Nw #4
+4304 : Falcon Woods Dr Nw #32
+3155 : Falling Brook Dr Se
+3495 : Falling Leaf Dr Se
+3489 : Farm Ct Se
+1061 : Farms End Dr Se
+6 : Farmview
+14 : Farmview Dr #21
+13 : Farmview Dr #22
+15 : Farmview Dr #32
+3108 : Farnham St Se
+906 : Fase St Se
+4869 : Fawn Creek Dr Sw #52
+3346 : Fawnwood Dr Se
+3387 : Fawnwood Se
+2315 : Fay Ave Nw
+2962 : Fayette Ave Sw
+1576 : Feakin Ave Sw
+1163 : Feathery Ct Se
+4779 : Federal Ave Sw
+4402 : Fennessey St Sw
+4153 : Fennessy Dr
+4414 : Fenwick Nw
+4288 : Ferndale Ave Nw
+1123 : Fernridge Dr Se
+1368 : Fernwood Dr
+4393 : Ferris St Nw
+481 : Fieldstone Ct
+503 : Fieldstone Dr
+1250 : Finch Ave
+468 : Fink Ave Nw
+2412 : Finsbury Ln Nw
+4006 : Firefly Dr Ne
+1748 : First St Nw
+751 : Fisk Rd Se
+2766 : Fisk St Se
+2358 : Fitzhugh Ave Ne
+3741 : Fitzhugh Ne
+4551 : Flamingo Ave Sw
+1912 : Flat Ne
+2006 : Flat St Ne
+1217 : Floral Ave
+717 : Floral Ave Se
+4908 : Florence Dr Sw
+4656 : Florida Ave Sw
+4775 : Florida St Sw
+4019 : Flowers Crossing Dr Ne
+3968 : Flowers Crossing Dr Ne #63
+3969 : Flowers Mill Dr Ne
+4045 : Flowers Mill Dr Ne #42
+5012 : Floyd Ct Sw
+507 : Floyd St
+4562 : Floyd St Sw
+4546 : Floyd Sw
+679 : Fontenelle St Se
+1712 : Ford Ave Ne
+3590 : Foreman St Se
+930 : Forest Bend Dr Se
+3553 : Forest Bluff Dr Se
+3554 : Forest Bluff Dr Se #24
+3538 : Forest Bluff Dr Se #27
+4062 : Forest Ct Ne
+1157 : Forest Glen Dr Se
+4819 : Forest Grove Ave Sw
+3438 : Forest Hill Ave Se
+3484 : Forest Lake Dr Se
+3541 : Forest Meadows Ct
+4833 : Forest Park Dr Sw
+970 : Forest Shores Dr Se
+4993 : Forest-Park Ct Sw
+2680 : Forland Ct Ne
+1991 : Forrest Ave Ne
+2012 : Forrest St Ne
+2299 : Forrester St Se
+1922 : Foster Ave Ne
+2289 : Fountain St Ne
+2324 : Fountain St Ne #1
+1618 : Fountain St Ne Apt 1
+1946 : Fourth Nw
+1550 : Fourth St Nw
+4185 : Fox Ct
+4091 : Fox Forest Dr Ne
+1425 : Fox St Sw
+1569 : Francis Ave Se
+2954 : Franklin Ave Sw
+1699 : Franklin Se
+1626 : Franklin St Se
+1698 : Fransman Pl Sw
+4053 : Fraser St Ne
+1841 : Frederick Ave Nw
+1901 : Frederick Nw
+4585 : Freedom St Se
+156 : Freeland Sw
+1817 : Fremont Ave Nw
+1735 : Fremont Nw
+4117 : Fritz
+4564 : Frontenac St Se
+4916 : Frontier Ct Sw
+3796 : Frost Ave Ne
+1216 : Fruitwood
+2069 : Fruitwood Dr Nw
+1555 : Fuller Ave Ne
+1610 : Fuller Ave Se
+1791 : Fuller Ne
+1839 : Fuller Se
+3918 : Fullerton Ct Ne
+873 : Fulton E
+940 : Fulton St E
+1965 : Fulton St E #1
+1939 : Fulton St E #3
+2063 : Fulton St W
+4013 : Furlong Ct
+4056 : Furlong Ct Ne
+2981 : Gable St Sw
+3698 : Galahad St Ne
+4578 : Galewood Ave Sw
+202 : Gardendale Ave Sw
+627 : Gardenview Ct
+649 : Gardenview Ct Sw #8
+4179 : Garfield
+1842 : Garfield Ave
+1556 : Garfield Ave Nw
+1486 : Garfield Nw
+4116 : Garfield St
+3150 : Garland St Se
+3521 : Gatetree Lane Se Se
+3432 : Gatetree Ln Se
+4285 : Gay Ct
+2798 : Gay Se
+4268 : Gaylord Dr
+4366 : Gaynor Ave Nw
+4373 : Gaynor Ct Nw
+4485 : Geddes Ave Nw
+3610 : Gee Dr
+3577 : Gee Dr Se
+3092 : Gentian Dr Se
+3290 : Gentian Dr Se #1287
+3132 : Gentian Se
+1883 : Georgetown Dr Se #179
+1884 : Georgetown Dr Se #194
+1726 : Georgetown Dr Se #195
+1768 : Georgetown Dr Se #218
+3919 : Georgia Ct Ne
+3704 : Georgia St Ne
+2130 : Gerald Ne
+3163 : Gerda St Se
+3175 : Gettysburg Dr Se
+4210 : Gibraltar Dr Ne
+1607 : Gibson Pl Se
+2563 : Giddings Ave
+1657 : Giddings Ave Se
+2246 : Giddings Se
+1565 : Gilbert St Se
+364 : Giles Ave Ne
+826 : Gilmour Se
+793 : Gilmour St Se
+2253 : Gilpin St Ne
+4772 : Gladiola Ave Sw
+724 : Gladstone Ave Se
+2114 : Gladstone D Dr Se
+799 : Gladstone Dr Se
+804 : Gladstone Se
+833 : Gladstone St Se
+920 : Glaston Ct Se #13
+921 : Glaston Ct Se #5
+4271 : Glen Arbor Dr Ne
+4243 : Glen Carin Dr Ne Ne
+4207 : Glen Eagle Dr Ne
+4279 : Glen Eagle Ne
+2666 : Glen Echo Dr Se
+1088 : Glen Ellyn Dr Se
+1079 : Glen Ellyn Dr Se #15
+1072 : Glen Ellyn Dr Se #6
+4444 : Glen Valley Ave Nw
+4284 : Glenarbor Dr Ne
+4811 : Glenbrook Ave Sw
+4847 : Glenbrook Dr Sw
+2580 : Glencairin Nw
+4274 : Glencarin Dr Ne
+1387 : Glendora
+1350 : Glendora Ave
+985 : Gleneagles Dr Se
+210 : Glengarry Ct Se
+2290 : Glenhaven Ave Nw
+4441 : Glenoak Dr Nw
+4404 : Glenoak Nw
+5028 : Glenvale Ct Sw
+496 : Glenvale Dr #20
+512 : Glenvale Dr #3
+4985 : Glenvale Dr Sw
+1318 : Glenview Ave
+4229 : Glenview Ct
+2570 : Glenview Dr Se
+2325 : Glenwood Ave Se
+4524 : Godfrey Ave Sw
+4615 : Godfrey Ave Sw #2
+1826 : Godwin Ave Se
+2139 : Godwin Ave Se Unit 1 And 2
+1797 : Gold Ave Nw
+1812 : Gold Ave Nw #217
+1520 : Gold Ave Sw
+4071 : Gold Dust Ne
+3879 : Gold Dust St Ne
+4777 : Golden St Sw
+239 : Goldenrod Ave Ne
+343 : Goldenrod Dr Ne
+5034 : Golfbury Ct Sw
+4984 : Golfbury Dr Sw
+5017 : Golfbury Sw
+4922 : Golfcrest Dr Sw
+2576 : Golfridge Dr Se
+5019 : Golfton Sw
+4369 : Golfview Dr Nw #33
+4428 : Golfview Dr Nw #34
+4306 : Golfview Dr Nw #36
+4302 : Golfview Dr Nw #40
+4333 : Golfview Dr Nw #43
+4950 : Golfwood Ct Sw
+4972 : Goodman
+4760 : Goodman Ave Sw
+2761 : Goodrich St Sw
+2092 : Gordon St Nw
+4480 : Gordonshire Dr
+4496 : Gordonshire Nw #12
+1215 : Graceland Dr
+1915 : Graceland Ne
+1733 : Graceland St Ne
+803 : Gracewood Dr Se
+380 : Gran Via Dr
+374 : Gran Via Dr Ne
+4383 : Granada Nw
+1879 : Grand Ave Ne
+2155 : Grand Ave Ne #244
+3849 : Grand Isle Dr #6
+3890 : Grand Isle Dr Ne #13
+3750 : Grand Isle Dr Ne #16
+3770 : Grand Isle Dr Ne #7
+3862 : Grand Oaks Dr Ne
+3848 : Grand Oaks Ne
+3783 : Grand Ridge Ct Ne #44
+3844 : Grand Ridge Ct Ne #47
+4965 : Grand Ridge Dr Sw
+932 : Grand River Dr Ne
+3018 : Grand St Sw
+358 : Grand Valley Dr Ne
+3731 : Grand Woods Ct Ne #14
+2880 : Grandview Ter Sw #1
+2883 : Grandview Ter Sw #26
+2913 : Grandview Ter Sw #34
+2874 : Grandview Ter Sw #9
+2914 : Grandview Terrace Dr Sw #47
+2470 : Granite St Se
+1439 : Grant St Sw
+3141 : Grantwood Ave Se
+3205 : Grantwood Se
+3675 : Grape Ave Ne
+1792 : Gratiot
+3134 : Green Pine Ct Se
+3106 : Greenacres Dr Se
+3286 : Greenboro Dr Se
+316 : Greenbrier Dr Ne #75
+383 : Greenbrier Ne #80
+1396 : Greendale Ct
+1365 : Greendale Dr
+4845 : Greenfield
+4675 : Greenfield Ave Sw
+491 : Greenfield St
+1269 : Greenridge Dr
+4455 : Greenridge Nw
+1342 : Greentree Ct
+2665 : Greentree Dr Se
+1155 : Greentree Ln Ne
+4721 : Greenview Ct Sw
+4762 : Greenview Dr Sw
+761 : Greenwood Ave Se
+4939 : Grenadier Dr Sw
+4954 : Grenadier Sw
+4942 : Grendadier Sw
+4227 : Greystone Dr Ne
+2090 : Gridley Avenue Nw Nw
+1700 : Griggs Se
+1563 : Griggs St Se
+1548 : Griggs St Sw
+3611 : Grindle
+3587 : Grindle Dr
+3597 : Grindle Dr Se
+2169 : Griswold Se
+1938 : Griswold St Se
+856 : Grouse Ct Se #32
+2634 : Grove Bluff Ct Se
+2428 : Grove Bluff Dr Se
+482 : Grove St
+1816 : Grove St Ne
+1881 : Grove St Ne #47
+4780 : Groveland Ave Sw
+2072 : Guild St Ne
+5037 : Gullmont Dr Sw
+3343 : Gunnink
+3455 : Gunnink Dr Se
+1493 : Gunnison Ave Sw
+2125 : Gunnison Sw
+3967 : Gunntree Ct Ne #4
+404 : Hachmuth Nw
+4621 : Hague Ave Sw
+2101 : Halena St Ne
+814 : Hall Se
+740 : Hall St Se
+1093 : Hall St Se Se
+1591 : Hall St Sw
+1457 : Hall St. Se Se
+1530 : Hamilton Ave Nw
+1593 : Hamilton Nw
+2368 : Hamily Ct Ne
+711 : Hampshire Blvd Se
+772 : Hampshire Se
+2250 : Hampton Ave Se
+3046 : Hampton Ct Se #43
+3266 : Hampton Downs Dr Se
+3020 : Hampton Se Unit N/A
+2107 : Hamstead Rd Nw
+1809 : Hanchett Ave Nw
+1729 : Hancock St Se
+1694 : Hanover Ne
+1695 : Hanover St Ne
+3542 : Haralson Ct Se
+655 : Haras Ct Sw
+4337 : Harding St Nw
+3376 : Hardwick Dr Se
+1364 : Hardwood Dr
+1982 : Harlan Ave Ne
+5049 : Harmon Green Ave #8
+1326 : Harmon Ln
+4674 : Harmony Ct #10
+4791 : Harmony Ct #19
+4704 : Harmony Ct #22
+4710 : Harmony Ct Sw #18
+4698 : Harmony Ct Sw #24
+1393 : Harold Ave
+3100 : Harp Se
+3203 : Harp St Se
+504 : Harrison
+483 : Harrison St
+857 : Hartfield Dr Se #49
+2936 : Harvest Ave Sw
+250 : Harvest Moon Ct
+292 : Harvest Moon Ct Ne #8
+1025 : Haskins Ct Se
+3734 : Hass Dr Ne
+2804 : Hathaway Dr Se
+4593 : Haughey Ave Sw
+4616 : Haughey Ave Sw Sw
+4849 : Havana
+4525 : Havana Ave Sw
+4960 : Havana Sw
+4 : Hawkin St
+4196 : Hawthorne Ct Ne
+2167 : Hawthorne Ne
+2245 : Hawthorne St Ne
+4171 : Hayes Nw
+4144 : Hayes St
+4149 : Hayes St Nw
+1232 : Hazel Dr
+2255 : Hazelnut Dr Nw
+4558 : Hazelwood Ave Sw
+4857 : Hazelwood Dr Sw
+4839 : Hazelwood Sw
+1734 : Hazen Se
+1799 : Hazen St Se
+1142 : Hearthside Dr Se
+3450 : Hearthstone Dr Se #52
+1386 : Hearthway
+1270 : Hearthway Ave
+2038 : Heathcliff St Se
+800 : Heather St Se
+1384 : Heatherwood Dr
+2801 : Heathfield Ne
+4560 : Hendricks Ave Sw
+1221 : Henry Ave
+1523 : Henry Ave Se
+75 : Henry St
+613 : Herbert St Sw
+4746 : Herman Ave Sw
+1776 : Hermitage Se
+1471 : Hermitage St Se
+371 : Hermoso Ct Ne
+4568 : Heron Ave Sw
+4769 : Heron Sw
+1937 : Herrick Ave Ne
+2047 : Herrick Ne
+3715 : Herrington Ave Ne
+3104 : Heyboer Ave Se
+1600 : Hiaschutter Pl Nw
+2227 : Hiawatha Dr Se
+2405 : Hiawatha Se
+3529 : Hickory Hill Ct Se
+5010 : Hickory Rdg Sw
+4861 : Hickory Ridge Dr
+5015 : Hickory Ridge Dr Sw
+1051 : Hidden Cove Rd Ne
+4074 : Hidden Highland Dr Ne
+3983 : Hidden Highland Dr Ne #11
+3774 : Hidden Highland Dr Ne #21
+3878 : Hidden Highland Dr Ne #23
+4008 : Hidden Highland Dr Ne #6
+3841 : Hidden Highland Ne
+961 : Hidden Hills Ct Se
+3532 : Hidden Oak Ct Se #19
+3563 : Hidden Oak Ct Se #23
+2908 : Higgins Ave Sw
+2865 : Higgins Sw
+4370 : High Point Dr Nw #19
+4371 : High Point Dr Nw #26
+3585 : High St Se
+1751 : High St Sw
+1064 : Highbury Ct Se
+1066 : Highbury Dr Se
+1087 : Highbury Dr Se #179
+1111 : Highbury Dr Se #180
+4559 : Highgate Ave Sw
+1082 : Highgrove Dr #21
+59 : Highland Dr
+4222 : Highland Dr Ne
+3568 : Highland Hill Dr Se
+3586 : Highland Hl
+3614 : Highland Hl #10
+1582 : Highland St Se
+1895 : Highland View Cir W #37
+4236 : Highlander Ct Ne
+4223 : Highlander Dr Ne
+3157 : Highlander Dr Se
+581 : Highmeadow Dr Sw
+1003 : Highridge Hills Lane Pvt #50
+1000 : Highridge Hills Lane Pvt #51
+1013 : Highridge Hills Lane Pvt #61
+1004 : Highridge Hills Lane Pvt #62
+1018 : Highridge Hills Lane Pvt #7
+1006 : Highridge Hills Ln Se #51
+835 : Highridge Hills Ln Se #53
+1108 : Highridge Hills Ln Se #62
+840 : Highridge Hills Ln Se #85
+947 : Highridge Ln Se #15
+876 : Highridge Ln Se #38
+1020 : Highridge Ln Se #42
+4266 : Hightower Ne
+143 : Hightree Dr Sw
+4310 : Hillandale Dr Nw #10
+4318 : Hillandale Dr Nw #16
+4327 : Hillandale Dr Nw #26
+4330 : Hillandale Nw #0
+1891 : Hillburn Ave Nw #12
+1786 : Hillburn Ave Nw #17
+2005 : Hillcrest Ave Nw
+4613 : Hillcroft Ave Sw
+2228 : Hillmount St Nw
+1039 : Hillsboro Ave Se
+3679 : Hillsdale Ave Ne
+3598 : Hillside Ct
+4385 : Hillside Dr
+1045 : Hillside Farms Estates Rd Ne
+2593 : Hillview Ave Ne
+4557 : Himes St Se
+3761 : Hoag Ave Ne
+2386 : Hobart St Se
+1870 : Hoehn Nw
+1691 : Hoehn St Nw
+1515 : Hogadone Ave Sw
+1432 : Hogan St Sw
+1869 : Hogan Sw
+2497 : Holborn Nw
+1967 : Holland Ave Ne
+4827 : Holliday Dr Sw
+4992 : Holliday Sw
+2062 : Hollister Ave Se
+4200 : Hollow Ridge Dr Ne
+3204 : Holly St Sw
+1316 : Hollyhock Ave
+3942 : Hollyhock Ne
+3926 : Hollyhock St Ne
+1968 : Hollywood Ne
+1641 : Hollywood St Ne
+2391 : Holmdene
+2071 : Holmdene Blvd Ne
+2347 : Holmdene Ne
+3676 : Holtman Dr Ne
+2247 : Holyoke Dr Se
+2283 : Holyoke Se
+1567 : Home St Se
+4529 : Homecrest Ave Sw
+494 : Homer Ln
+2911 : Homewood St Sw
+4665 : Honeoye St Sw
+4633 : Honeoye Sw
+276 : Honey Creek Ave Ne
+1135 : Honey Crk
+1148 : Honey Crk Se
+2877 : Honeybrook Ave Sw
+1328 : Honeybrook Dr
+379 : Honeysuckle Ln Ne
+1859 : Hoover St Ne
+2089 : Hope St Se
+78 : Horizon Ln
+4981 : Horseshoe Ct Sw
+3212 : Horton Ave
+1672 : Horton Ave Se
+3708 : House St Ne
+1673 : Houseman Ave Ne
+1479 : Houseman Ne
+1645 : Hovey St Sw
+3615 : Howard St
+1686 : Howard St Se
+918 : Howlett Dr Se
+917 : Howlett Se
+1864 : Hoyt Se
+1861 : Hoyt St Se
+4719 : Hubal Ave Sw
+4527 : Hudson St Sw
+4556 : Huizen
+4597 : Huizen Ave Sw
+4639 : Huizen Sw
+1682 : Humbolt St Se
+3718 : Hunsberger Ave Ne
+3850 : Hunsberger St Ne
+3576 : Hunt St
+4237 : Hunters Ln Ne #0
+4220 : Hunters Ln Ne #36
+4253 : Hunters Ln Ne #47
+4247 : Hunters Ln Ne #67
+4241 : Hunters Ln Ne Unit 26
+4276 : Hunters Ln Ne Unit 27
+94 : Hunters Meadow Dr
+4225 : Hunters Ne #72
+1183 : Hunters Run Dr Ne
+863 : Hunters Run Ne #23
+1077 : Hunters Way Ct Se
+3701 : Huntington Ave Ne
+939 : Huntington Dr Se
+2431 : Hutchinson Ave Se
+2591 : Hutchinson Se
+4563 : Hyde Park Ave Sw
+2077 : Ida Ave Nw
+3866 : Idaho Ave Ne
+741 : Idema Dr Se
+596 : Idlewild Ct Sw #108
+623 : Idlewild Ct Sw #69
+4877 : Idlewood Dr Sw
+4862 : Idlewood Dr Sw #1
+4936 : Idlewood Dr Sw #11
+4864 : Idlewood Dr Sw #13
+4818 : Idlewood Dr Sw #28
+4787 : Idlewood Dr Sw #9
+4893 : Idlewood Dr Unit Sw
+4816 : Idlewood Sw #14
+4718 : Illinois Ave Sw
+4802 : Illinois St Sw
+4553 : Illinois Sw
+437 : Imogene Ave Ne
+2866 : Indian Spring Dr Sw #2
+2999 : Indian Spring Dr Sw #25
+2852 : Indian Spring Dr Sw #3
+2923 : Indian Spring Dr Sw #40
+2961 : Indian Spring Dr Sw #75
+2856 : Indian Spring Dr Sw #85
+2902 : Indian Spring Dr Sw Unit .
+2903 : Indian Springs Dr Sw #13
+832 : Indian Trl Se
+1513 : Indiana Ave Sw
+1684 : Inlet Pl Ne
+2041 : Innes St Ne
+3365 : Innwood Dr Se
+3348 : Innwood Se
+2552 : Inverness Rd Se
+1481 : Ionia Ave Sw
+2813 : Ionia Nw Ph B
+2810 : Ionia Nw Unit A
+2819 : Ionia Nw Unit C
+2816 : Ionia Nw Unit D
+1662 : Ionia St Sw
+4782 : Iowa St
+4542 : Iowa St Sw
+4756 : Iowa Sw
+4435 : Ipswich Dr Nw
+1653 : Ira Ave Nw
+1929 : Ira Nw
+2848 : Iris Dr Sw
+4328 : Ironwood Cir Nw #13
+4356 : Ironwood Cir Nw #16
+505 : Ironwood Dr
+2689 : Iroquois Dr Se
+2699 : Iroquois Se
+4730 : Ithaca St Sw
+4759 : Ithaca Sw
+2847 : Ivanrest Ave Sw
+3014 : Ivanrest Sw
+1854 : Ives Ave Sw
+3711 : Ivy Dr Ne
+4133 : Ivy Grove West
+4152 : Ivy Grv N
+4134 : Ivy Grv Nw #36
+142 : J Ave Sw
+1813 : Jackson Nw
+4167 : Jackson St
+1621 : Jackson St Nw
+4829 : Jacob St Sw
+4911 : Jacob Sw
+2536 : James Ave Se
+2583 : James Se
+3599 : James St
+3439 : Jamestown Ct Se
+3389 : Jamestown Dr Se
+3342 : Jamestown Se
+4028 : Jane Elizabeth Dr #7
+3604 : Jane Ellen
+3609 : Jane Ellen Dr
+2113 : Janes Ave Ne
+4815 : Janet Ave Se
+4521 : Janet Se
+4534 : Janet St Se
+3792 : Jasmine Ave Ne
+4454 : Jason Ave Sw
+1329 : Jason Ct
+4319 : Jason Ridge Ln Sw #11
+4614 : Jean St Sw
+946 : Jeanlin Dr Se
+4174 : Jeanola Dr Nw
+1453 : Jefferson Ave Se
+2004 : Jefferson Dr Se
+1719 : Jefferson Se
+1489 : Jennette Ave Nw
+1940 : Jennette Nw
+1668 : Jennette St Nw
+1996 : Jennings St Se
+1200 : Jennydale Ct Se
+3907 : Jericho Ave Ne
+1506 : Jerome Ave Sw
+1532 : Jerome Sw
+116 : Joal St
+4136 : Jodie Ct
+4637 : Johanna Ave Sw
+2261 : John Ball Park Dr Nw
+2769 : John St Ne
+4157 : Johnson
+2967 : Johnson Ct Sw #10
+2887 : Johnson Ct Sw #17
+2886 : Johnson Ct Sw #20
+2885 : Johnson Ln Sw #34
+2948 : Johnson Ln Sw #44
+4158 : Johnson St
+218 : Johnson St Se
+1852 : Johnston St Se
+4387 : Jones St Nw
+674 : Jonquil St Sw
+4642 : Joosten St Sw
+84 : Jordan Ct
+80 : Jordan St
+35 : Joshua Ct
+71 : Joshua Ct #16
+62 : Joshua Ct #3
+1978 : Joslin Ave Se
+2088 : Joslin St Se
+4340 : Ju Le On Dr Sw
+4754 : Judd Ave Sw
+3935 : Jules Lillian Dr #26
+3939 : Jules Lillian Dr Ne #18
+3940 : Jules Lillian Dr Ne #19
+3937 : Jules Lillian Dr Ne #22
+198 : Junction Dr Sw
+4151 : Juniper Dr
+3810 : Jupiter Ave Ne
+4430 : Justin Ave Nw
+1458 : Kalamazoo Ave Se
+2181 : Kalamazoo Se
+4715 : Karen Ave Sw
+134 : Kari Ln Sw #94
+2119 : Katherine Dr Ne
+3090 : Katrina Dr Se
+1348 : Kay Boer
+1353 : Kay Boer Dr
+2162 : Kay Dr Se #90
+3811 : Kearney Dr Ne
+3760 : Kearny Dr Ne
+4937 : Keegan Ct
+4934 : Keegan Ct Sw
+3726 : Keeweenaw Dr Ne
+3813 : Keeweenaw Ne
+2061 : Kellogg St Se
+1917 : Kelsey St Ne
+336 : Ken Kan Kei Rd
+2292 : Ken O Par Dr Se
+2008 : Ken O Sha Se
+2276 : Kenan Ave Nw
+2126 : Kendall Se
+2288 : Kendall St Se
+1921 : Kendalwood St Ne
+720 : Keneberry Way Se
+745 : Kenesaw Dr Se
+744 : Kenesaw Se
+4724 : Kenneth St Sw
+4726 : Kenneth Sw
+4182 : Kenowa Ave Nw
+2938 : Kenowa Ave Sw
+2924 : Kenowa Sw
+1169 : Kenrob Dr Se
+1656 : Kensington Ave Sw
+4497 : Kensington Nw #121
+4470 : Kensington Nw #125
+4481 : Kensington St Nw #100
+4376 : Kensington St Nw #12
+4317 : Kensington St Nw #81
+2411 : Kent Blvd Ne
+2112 : Kent Hills Rd Ne
+4854 : Kentfield St
+4571 : Kentfield St Sw
+619 : Kenton St Se
+2067 : Kentridge Dr Se
+1914 : Kentwood St Ne
+3773 : Keswick Ne
+3681 : Kewadin Dr Ne
+2215 : Keyhill Ave Se
+1325 : Keystone Ct
+3117 : Kimball Ave Se
+3323 : Kimball Se
+2268 : Kimberly Dr Se
+518 : Kingman Ct Unit Tbd
+4876 : Kings River St Sw Unit -
+76 : Kingsbury Ct
+4395 : Kingsbury Nw
+4432 : Kingsbury St Nw
+695 : Kingtree Ct Sw
+634 : Kingtree Dr Sw
+4352 : Kinney Ave Nw
+4341 : Kinney Ave Sw
+4353 : Kinney Nw
+4440 : Kinnrow Ave
+4494 : Kinnrow Ave Nw
+4475 : Kinnrow Ct
+4476 : Kinnrow Nw
+4270 : Kinross Ne
+4456 : Kinview St Nw
+3420 : Kirk Dr Se
+2244 : Kirkshire Se
+1117 : Kirkwall Dr Se
+980 : Kirkwall Se
+271 : Kitson Dr Ne
+399 : Kittery Nw
+3304 : Kiverton Rdg Se #67
+3404 : Kiverton Ridge Dr Se
+4919 : Klaver St Sw
+3621 : Knapp Forest Ct
+3997 : Knapp Forest Ct Ne
+1990 : Knapp Ne
+2143 : Knapp Nw
+361 : Knapp St Ne
+2149 : Knapp St Nw
+4044 : Knapp Valley Dr Ne
+4977 : Knickerbocker St Sw
+850 : Knightsbridge Rd Se #43
+914 : Knightsbridge Rd Se #57
+886 : Knightsbridge Rd Se #62
+978 : Knightsbridge Rd Se #69
+846 : Knightsbridge Rd Se #72
+859 : Knightsbridge Rd Se #77
+4064 : Knob Hill Dr Ne
+1170 : Knollpoint Dr Ne
+4836 : Knollview St Sw
+3831 : Knollwood Ne
+4024 : Koinonia Ct #13
+3979 : Koinonia Ct #2
+4025 : Koinonia Ct #39
+3930 : Koinonia Dr Ne #1
+4033 : Koinonia Dr Ne #2
+3998 : Koinonia Dr Ne #35
+2417 : Kommer Ct Nw
+3623 : Korben Woods Ct Ne
+3631 : Kornoelje Dr Ne
+3744 : Kornoelje Ne
+1219 : Koster St
+4147 : Kozy Kove Private
+4250 : Krause St
+3636 : Kreft St Ne
+260 : Kreuter Rd Ne
+2498 : Krislin St Ne #25
+3847 : Kroes St Ne
+4161 : Krystal Ct
+4172 : Krystal Kove Nw
+4422 : Kusterer Ave Nw
+4392 : Kusterer Dr Nw
+3838 : Kuttshill Dr Ne
+1757 : La Belle St Sw
+1669 : La Belle Sw
+4750 : La Crosse Sw
+1655 : La Grave Ave Se
+2446 : La Grave Ave Se #12
+2444 : La Grave Ave Se #14
+2442 : La Grave Ave Se #15
+4531 : Lacrosse St Sw
+5050 : Lady Slipper Dr
+4957 : Lady Slipper Dr Sw
+1466 : Lafayette Ave
+1713 : Lafayette Ave Ne
+1435 : Lafayette Ave Se
+1741 : Lafayette Ne
+1452 : Lafayette Se
+3578 : Lafayette St
+4040 : Lake Birch #38
+3777 : Lake Blf Ne
+3846 : Lake Bluff Dr Ne
+721 : Lake Dr Se
+2614 : Lake Dr Se #5
+2630 : Lake Dr Se #8
+732 : Lake Grove Ave Se
+805 : Lake Grove` Ave Se
+2520 : Lake Grv Se
+49 : Lake Michigan Dr
+1736 : Lake Michigan Dr Nw
+2606 : Lake Michigan Nw
+3812 : Lakehurst Dr Ne
+2241 : Lakeside Dr Ne
+771 : Lakeside Dr Se
+816 : Lakeside Drive Se Se
+808 : Lakeside Se
+4612 : Lamar St Sw
+2662 : Lamberton Creek Ln Ne #17
+2764 : Lamberton Creek Ln Ne #43
+2397 : Lamberton Ne
+2373 : Lamberton St Ne
+4463 : Lamont Ave Nw
+446 : Lamoreaux
+412 : Lamoreaux Dr Ne
+385 : Lamoreaux Dr Nw
+422 : Lamoreaux Nw
+1228 : Lamplight Dr
+1894 : Lancashire Dr Se
+1763 : Lancashire Se
+1953 : Lancaster Ave Nw
+28 : Lance Ave
+2541 : Lanco Dr Nw
+152 : Landstar Dr
+1849 : Lane Ave Nw
+1777 : Lane Ave Sw
+1815 : Lane Ave Sw #312
+1068 : Lanes End Ne
+2059 : Langdon Ave Ne
+4363 : Lankamp St Nw
+3496 : Lantana Dr Se
+401 : Lantern Ave Nw
+434 : Lantern Ct Nw
+444 : Lantern Nw
+979 : Laraway Lake Dr Se
+1371 : Lark St
+112 : Larkspur Ln
+3341 : Larkwood Dr Se
+3353 : Larkwood Dr Sw
+2983 : Larue St Sw
+325 : Las Palmas Dr Ne
+3697 : Las Vegas Dr Ne
+3875 : Las Vegas Ne
+4391 : Lasalle Ave Nw
+4394 : Lasalle Nw
+1941 : Laughlin Dr Nw
+435 : Laura Ave Nw
+387 : Laura St Nw
+2222 : Laurel Ave Se
+748 : Laurel Dr Se
+576 : Laurelwood Ct Sw #103
+547 : Laurelwood Ct Sw #74
+528 : Laurelwood Sw #104
+4141 : Lauren Ln
+4348 : Lawn St Nw
+2664 : Lawncrest Ct Ne
+2575 : Lawncrest Dr Ne
+2043 : Lawndale Ave Ne
+1642 : Lawrence St Ne
+687 : Lazy Daze Ct Se
+2477 : Ledgestone #27
+2601 : Ledgestone Pl Ne #12
+2686 : Ledgestone Pl Ne #16
+2726 : Ledgestone Pl Ne #17
+2730 : Ledgestone Pl Ne #18
+2445 : Ledgestone Pl Ne #3073
+2458 : Ledgestone Pl Ne #4
+2512 : Ledgestone Pl Ne #6
+3001 : Lee St Sw
+3814 : Leelanau Dr Ne
+1450 : Leffingwell Ave Ne
+2578 : Leffingwell Ne
+3873 : Legacy Dr Ne
+1184 : Lehigh Ct Se
+3166 : Leisure South Dr #144
+3044 : Leisure South Dr Se #105
+3049 : Leisure South Dr Se #11
+3147 : Leisure South Dr Se #128
+3038 : Leisure South Dr Se #130
+3061 : Leisure South Dr Se #148
+3145 : Leisure South Dr Se #15
+3068 : Leisure South Dr Se #177
+3084 : Leisure South Dr Se #180
+3169 : Leisure South Dr Se #183
+3077 : Leisure South Dr Se #32
+3078 : Leisure South Dr Se #46
+3063 : Leisure South Dr Se #56
+3021 : Leisure South Dr Se #5637
+3041 : Leisure South Dr Se Unit -
+3022 : Leisure South Dr. Se Se Unit X
+3190 : Leisure South Se #190
+4713 : Lemyra Se
+1683 : Lemyra St Se
+2599 : Lenawee Rd Se
+2577 : Lenox Rd Se
+823 : Lenox Se
+220 : Lenter Dr Se
+1639 : Leonard Ne
+2140 : Leonard Nw
+4111 : Leonard St
+1002 : Leonard St Ne
+1659 : Leonard St Nw
+1539 : Leonard St Nw Apt A6
+1652 : Leonard St Nw Unit A-2
+4678 : Leroy St Sw
+3714 : Lester Ave Ne
+3742 : Lester Dr Ne
+3682 : Lester Ne
+4272 : Lewis
+4201 : Lewis St
+1701 : Lewison Ave Ne
+1705 : Lexington Ave Nw
+1727 : Leyden Ave Sw
+909 : Leyton Dr Se
+2821 : Library St Ne #305
+2745 : Library St Ne #404
+2581 : Library St Ne #504
+2604 : Library St Ne #704
+2811 : Library St Ne #902
+2781 : Library St Ne Apt 204
+2870 : Lila Ave Sw
+1229 : Lilac
+1366 : Lilac Dr
+5052 : Lilly Ct
+5043 : Lilly Ct Sw
+583 : Lilly St Se
+4904 : Lillyview Sw
+913 : Lime Hollow Dr Se
+598 : Limericks Ln Se
+3634 : Limestone Ln #29
+3630 : Limestone Ln #92
+3627 : Limestone Ln Ne #18
+3640 : Limestone Ln Ne #25
+4233 : Lincoln
+1685 : Lincoln Ave Nw
+4228 : Lincoln Ct
+4401 : Lincoln Lawns Dr Nw
+3603 : Lincoln Lk
+1739 : Lincoln Nw
+498 : Lincoln St
+880 : Linda Ave Se
+3686 : Lindberg Ave Ne
+618 : Linden Ave Se
+4138 : Linden Dr
+4124 : Linden Dr Nw
+4122 : Linden Nw
+1631 : Linden Se
+3486 : Lindenwood Dr Se
+141 : Lindsey Ln Sw #17
+195 : Lindsey Ln Sw #22
+179 : Lindsey Ln Sw #32
+200 : Lindsey Ln Sw #36
+177 : Lindsey Ln Sw #42
+3999 : Linkside Ln Ne #38
+4471 : Linwood Dr Nw #18
+4483 : Linwood Dr Nw #41
+4465 : Linwood Dr Nw #5
+4320 : Linwood Dr S #20
+4492 : Linwood Dr S #29
+130 : Lionel Dr Sw
+2882 : Little Star Ct
+2970 : Little Star Ct Sw
+2789 : Littlefield Dr Ne
+1850 : Livingston Ave Ne
+2626 : Livingston Ne #5
+2929 : Locke Ave Sw
+2927 : Locke Sw
+3468 : Lockmere
+3317 : Lockmere Dr Se
+4807 : Locksley Dr Sw
+2206 : Lockwood St Ne
+810 : Locust Ave Se
+1524 : Logan Se
+1463 : Logan St Se
+2448 : Logan St Se #1
+2443 : Logan St Se #10
+2493 : Logan St Se #2
+2495 : Logan St Se #3
+2494 : Logan St Se #6
+2488 : Logan St Se #7
+2492 : Logan St Se #8
+4722 : Lola St Sw
+344 : Loma Linda Dr
+2946 : Lombard St Sw
+3442 : Londonderry Dr Se
+3517 : Long Grove Dr Se
+3433 : Long Grv
+1186 : Long Point Ct Se
+1058 : Longleaf Ct Se #3
+1181 : Longleaf Dr Se
+1075 : Longleaf Dr Se #12
+4517 : Longstreet Ave Sw
+4261 : Longview
+4257 : Longview Dr Ne
+1063 : Longwood Ct Se
+4516 : Loraine Ave Sw
+1153 : Loral Pines Ct Se
+2160 : Loralee St Se
+322 : Los Altos Dr
+348 : Los Altos Dr Ne
+363 : Lot 6-5875 Ryan Valley Dr
+2264 : Lotus Ave Se
+2553 : Lotus St Se
+1341 : Louise Ave
+1906 : Louise Se
+756 : Lovett Ave Se
+2273 : Lowell Ave Ne
+2987 : Lucas Dr Sw
+2895 : Lucaya Ct
+2957 : Lucaya Ct Sw
+1267 : Lupine Ave
+2529 : Luray Ave Nw
+616 : Lurie Se
+636 : Lurie St Se
+1195 : Luxemburg St Se
+3105 : Lyles St Se
+1581 : Lynch St Sw
+3641 : Lynhurst St Ne
+2270 : Lynne Ln Nw
+2256 : Lyon St Ne
+2554 : Lyon St Ne #330
+2172 : Lyon St Ne #9
+447 : Mabel St Nw #0
+433 : Mabel St Nw #53
+2281 : Mack Ave Ne
+4399 : Macomb Ave Nw
+2905 : Macrace St Sw
+643 : Madison Ave Se
+1570 : Madison Se
+4741 : Mae-Thy
+4757 : Mae-Thy Se
+4778 : Magnolia Ave Sw
+1244 : Magnolia Dr
+4068 : Mahogany Ct Ne
+3959 : Mahogany Ct Ne #40
+511 : Main St
+3094 : Majestic St Se
+4739 : Mallory Ave Sw
+1977 : Malta St Ne
+294 : Maltese Ct. Ne Ne
+1059 : Manchester Hills Ct Se
+1034 : Manchester Hills Ct Se #33
+1021 : Manchester Hills Dr Se
+1047 : Manchester Hills Dr Se #27
+1094 : Manchester Hills Dr Se #3
+4577 : Manchester St Sw
+830 : Manhattan Ln Se
+753 : Manhattan Rd Se
+3816 : Manitou Dr Ne
+2945 : Mankato Dr Sw
+4359 : Manning Ave Nw
+3192 : Manorwood Dr Se
+2426 : Manton Ne
+2349 : Manton St Ne
+23 : Maple Bend Trl
+65 : Maple Brook Dr
+862 : Maple Hill Ave Se
+3318 : Maple Hollow St Se
+3457 : Maple Hurst Dr Se
+4269 : Maple St
+4215 : Maple St Ne
+4961 : Maple Tree Ct Sw
+1774 : Maple Villa Dr Se #50
+2150 : Maple Villa Dr Se #54
+2186 : Maple Villa Dr Se #7
+2185 : Maple Villa Dr Se Unit -
+3302 : Maple Vly Se
+2395 : Maplegrove Dr Nw
+3470 : Maplehollow Se
+3220 : Maplehollow St Se
+3070 : Maplelawn St Se
+4554 : Maplelawn St Sw
+2610 : Mapleleaf Ter Ne
+4289 : Maplerow Ave Nw
+4386 : Maplerow Nw
+4955 : Mapleside Ln Sw #105
+5061 : Mapleside Ln Sw #80
+2976 : Maplevale Ct
+3447 : Mapleview Ct Se
+3168 : Mapleview St Se
+3527 : Mapleview St Se Se
+1282 : Maplewood Dr
+764 : Maplewood Dr Se
+817 : Maplewood Se
+4647 : Marcia
+4747 : Marcia St
+4691 : Marcia St Sw
+660 : Marcus St Sw
+1484 : Mardell Pl Sw
+63 : Margaret Ln
+5002 : Marian Ct Sw
+2204 : Marietta St Ne
+4949 : Marilyn St Sw
+1561 : Marion Ave Nw
+3683 : Mark St Ne
+575 : Marksbury Dr
+606 : Marksbury Dr Sw
+4347 : Marlboro St Nw
+4413 : Marlin Ave Nw
+4355 : Marlin Nw
+3029 : Marlowe Dr Se
+4574 : Marquette St Sw
+3565 : Marsac
+2210 : Marshall Ave Se
+1413 : Marshall Ave Se #2
+3224 : Marshall Se
+545 : Martin Ave Se
+700 : Martin Ave Se Se
+4544 : Martindale Ave Sw
+4672 : Martindale Sw
+3872 : Marway St Nw
+3379 : Marwood Ct Se
+3271 : Marwood Dr Se
+115 : Maryeliz Dr
+2611 : Maryland Ave Ne
+1769 : Maryland Ave Ne #16
+2718 : Maryland Ave Se
+2267 : Marywood Ne
+4054 : Mason Lake Rd Ne
+4066 : Mason Rdg Ne
+3964 : Mason Ridge Dr Ne
+3993 : Mason Ridge Dr Ne #84
+1625 : Mason St Ne
+3980 : Mason Vw
+3976 : Mason Vw #21
+1443 : Mathews Ct Ne
+1911 : Matilda St Ne
+1873 : Maude Ave Ne
+718 : Maxwell Ave Se
+1519 : May Ave Sw
+4107 : Maybeck Dr Ne #11
+3699 : Maybeck Dr Ne #14
+3656 : Maybeck Dr Ne #32
+4022 : Maybeck Dr Ne #36
+3938 : Maybeck Dr Ne #58
+3657 : Maybeck Dr Ne #7
+4015 : Maybeck Dr Se #12
+1640 : Mayfield Ave Ne
+2111 : Mayfield Ne
+4931 : Mayflower Dr Sw
+1886 : Mayhew Wood Dr Se
+2415 : Maynard Ave Nw
+2555 : Maynard Nw
+1487 : Mc Reynolds Ave Nw
+252 : Mccabe Ave Ne
+4298 : Mccarty St Nw #11
+4390 : Mccarty St Nw #7
+4989 : Mccormick Dr Sw
+1833 : Mcdonald Nw
+1989 : Mcdonald St Nw
+3913 : Mcintosh Ave Ne
+1724 : Mckee Ave Sw
+1615 : Mcreynolds Ave Nw
+1744 : Mcreynolds Nw
+3471 : Meadow Lake Dr Se
+4994 : Meadow Run Dr
+4990 : Meadow Run Dr Sw
+1054 : Meadow Springs Trl Se
+1388 : Meadowbrook Dr
+2799 : Meadowbrook Dr Se
+2595 : Meadowdale Dr Nw
+2566 : Meadowfield Dr Ne
+2367 : Meadowglen Dr Ne #16
+2523 : Meadowglen Dr Ne #26
+3406 : Meadowgrove Dr Se
+3182 : Meadowlane Dr Se
+3339 : Meadowlane Se
+3925 : Meadowlark Dr Ne
+3917 : Meadowlark St Ne
+3337 : Meadowlawn Dr Se
+955 : Meadowmeade Dr Se
+2966 : Meadowood Ln Sw
+153 : Meadowridge Dr Sw
+3845 : Meadows Ct Ne
+5011 : Meadows Ln Sw
+54 : Meadows Pointe Dr #9
+4891 : Meadowview St Sw
+486 : Mechanic St
+2010 : Meerse Se
+1601 : Meerse St Se
+462 : Megan Ct Ne
+335 : Mela Via Ct Ne
+87 : Melanie Dr
+1696 : Melbourne St Ne
+1253 : Mellow Wood Dr
+1381 : Mellowwood Dr
+3785 : Melody Ct Ne #58
+1286 : Melody Ln
+4810 : Melvin St Sw
+4545 : Melvin St Sw #24
+4607 : Melvin St Sw #40
+4622 : Melvin St Sw #5
+4611 : Melvin St Sw #9
+2698 : Menominee Rd Se
+3769 : Merlin St Ne
+1722 : Merrifield Se
+1433 : Merrifield St Se
+2542 : Merrimack Way Se #70
+2454 : Merrimack Way Se #74
+3505 : Merrimont Ct Se
+1533 : Merritt St Se
+347 : Merry Dr Ne
+2912 : Mesa Ct Sw
+3840 : Mesa Dr Ne
+551 : Mesa Jct #159
+3453 : Mesa Verde Ct
+3513 : Mesa Verde Ct Se
+4767 : Meurs Ct Ct Sw
+4519 : Meurs Ct Sw
+4620 : Meyer Ave Sw
+4159 : Meyer Ln
+4731 : Miami Ave Sw
+4520 : Michael Ave Sw
+4743 : Michael Sw
+1910 : Michigan Pl Ne
+969 : Michigan St Ne
+2646 : Michigan St Nw #1002
+2830 : Michigan St Nw #1100
+3099 : Mick Ave Se
+3069 : Mick Se
+2777 : Middleboro Ln Ne
+1140 : Middlebrook Ave Se
+3548 : Middleground Dr Se
+2768 : Midland Dr Se
+1266 : Miede St
+4646 : Milan Ave Sw
+2098 : Mildred Ave Se
+2076 : Mildred Se
+935 : Mile Ne
+4173 : Mile Nw
+4118 : Mile Rd
+234 : Mile Rd Ne
+3946 : Mile Rd Ne #20
+397 : Mile Rd Nw
+4858 : Miles St Sw
+3437 : Mill Point Dr Se #1
+3416 : Mill Point Dr Se #12
+3411 : Mill Point Dr Se #14
+2984 : Mill St Sw
+384 : Milla Ave Nw
+2263 : Millbank St Se
+2009 : Millbrook St Se
+3974 : Millennium View Ct Ne
+3256 : Millhaven Ave Se
+3247 : Millhaven Dr Se
+5020 : Mills Rdg
+5033 : Mills Ridge Dr
+4900 : Mills Ridge Dr Sw
+3781 : Millwood Dr Ne
+4313 : Milo St Nw
+1664 : Milwaukee Ave Nw
+1868 : Milwaukee Nw
+4619 : Minnie Ave Sw
+4930 : Minnie Sw
+3677 : Miramar Ave Ne
+3705 : Miramar Ne
+3740 : Miramar St Ne
+377 : Miramonte Dr Ne
+2995 : Missaukee Ave Sw
+2812 : Mission Hills Court Se Se
+124 : Misty Ridge Blvd
+167 : Misty View Dr Sw #111
+170 : Mistyview Dr Sw #117
+194 : Mistyview Dr Sw #99
+1796 : Modoc Trl Se #34
+4409 : Moelker Ave Sw
+2437 : Moerland Dr Nw
+473 : Moffett Rd Nw
+441 : Moffett Rd Nw #101
+2973 : Mohave Ct Sw
+2879 : Mohawk Ave Sw
+4417 : Mohler St Nw
+1889 : Monroe Ave #330
+2319 : Monroe Ave #454
+2723 : Monroe Ave Nw #105
+2174 : Monroe Ave Nw #122
+2221 : Monroe Ave Nw #126
+2590 : Monroe Ave Nw #207
+2137 : Monroe Ave Nw #216
+2311 : Monroe Ave Nw #221
+2751 : Monroe Ave Nw #235
+2564 : Monroe Ave Nw #240
+2453 : Monroe Ave Nw #244
+2743 : Monroe Ave Nw #246
+2457 : Monroe Ave Nw #306
+2414 : Monroe Ave Nw #323
+2214 : Monroe Ave Nw #325
+2491 : Monroe Ave Nw #350
+2833 : Monroe Ave Nw #404
+2419 : Monroe Ave Nw #409
+2301 : Monroe Ave Nw #443
+1898 : Monroe Ave Nw #445
+1896 : Monroe Ave Nw #515
+2748 : Monroe Ave Nw #549
+2641 : Monroe Ave Nw Ste 558
+2559 : Monroe Ave Nw Unit 305
+2729 : Monroe Ave Nw Unit 401
+2440 : Monroe Ave Nw Unit 405B
+2329 : Monroe Ave Nw Unit 406
+2582 : Monroe Ave Nw Unit 450
+2147 : Monroe Ave Nw Unit 455B
+2691 : Monroe Ave Nw Unit 463
+2109 : Monroe Ave Nw Unit 518
+2549 : Monroe Ave Nw Unit 541
+2333 : Monroe Ave Ste 333
+2793 : Monroe Ave Ste 461
+2817 : Monroe Center St Nw #206
+2326 : Monroe Center St Nw #310
+2277 : Monroe Center St Nw #7
+2780 : Monroe Center St Nw Apt 5
+2596 : Monroe Center St Nw Ste 200
+2560 : Monroe Center St Nw Unit 11A
+2783 : Monroe Center St Nw Unit 15E
+2737 : Monroe Center St Nw Unit 6C
+2650 : Monroe Center St Nw Unit D
+2809 : Monroe Center Street Nw Nw #8
+2815 : Monroe Ctr Nw #203
+2587 : Monroe Ctr Nw #6
+2826 : Monroe Ctr Nw Unit 10A
+2818 : Monroe Ctr Nw Unit 6B
+2703 : Monroe Ctr Nw Unit 7B
+2612 : Monroe Ctr Nw Unit 7D
+2683 : Monroe Ctr St Nw #4
+1188 : Mont Rue Dr Se
+477 : Montauk Nw
+4380 : Montclair Ave Nw
+522 : Monte Rio Ct #52
+524 : Monte Rio Ct #54
+665 : Monte Rio Ct Sw #51
+664 : Monte Rio Ct Sw #54
+3133 : Montebello St Se
+3989 : Monterey Hills Dr Ne
+2365 : Monticello Dr Nw
+236 : Montreux Hills Dr Ne
+1970 : Montrose Ne
+2011 : Montrose St Ne
+1171 : Mooring Heights Ct Se
+1030 : Moorings Dr
+2070 : Morewood Dr Se
+1919 : Morley Ave Ne
+133 : Morning Dew Dr Sw
+206 : Morning Dew Dr Sw #15
+192 : Morning Dew Dr Sw #150
+190 : Morning Dew Dr Sw #155
+701 : Morning Glory St Sw
+3148 : Morningside Dr Se
+3258 : Morningside Dr Se Se
+1081 : Morraine Hill Dr Se
+1703 : Morris Ave Se
+2243 : Mound Ave Nw
+2200 : Mount Mercy Dr Nw
+4114 : Mountain Ash Ave Nw
+988 : Mountain Ash Dr Se
+4190 : Muirfield Ct Ne
+1261 : Mulberry Ln
+2064 : Mulford Dr Se
+2001 : Mulford Se
+4987 : Mulligan Dr
+4945 : Mulligan Dr Sw
+4425 : Mullins Ave Nw
+4575 : Muriel St Sw
+4628 : Muriel Sw
+4670 : Murray St
+3181 : Murray St Se
+4598 : Murray St Sw
+4822 : Murray Sw
+1497 : Muskegon Ave Nw
+181 : Mycah Dr Sw
+240 : Myers Lake Ave Ne
+2106 : Myrtle St
+1670 : Myrtle St Nw
+369 : N Arroyo Vista Dr Ne
+2958 : N Big Spring Dr Sw
+2645 : N Black Horse Drive E #63
+4280 : N Crest Ct Ne
+2339 : N Cross Creek Ct Se #65
+2183 : N Cross Creek Dr Se #6
+4232 : N Dayton St
+3501 : N Elderberry Ct Se
+1338 : N Garden Ct
+3555 : N Greenstone Dr Se #4
+2425 : N Hampton Dr Ne
+4216 : N Highlander Drive E
+4967 : N Horseshoe Dr Sw
+3579 : N Hudson St
+3602 : N Jackson St
+3382 : N La Casa Ct Se
+216 : N Lake St Se
+4235 : N Main
+4248 : N Main St
+3479 : N Meadow Grove Dr Se
+3551 : N Meadowgrove Dr Se
+3458 : N Meadowgrove Ln
+3571 : N Monroe
+3591 : N Monroe St
+3612 : N Monroe St Se
+3583 : N N Center St
+3558 : N North Greenstone #2
+2282 : N North Hampton Ne
+3691 : N North Valley Dr Ne #18
+3242 : N Norway St Se #120
+3206 : N Norway St Se #65
+2216 : N Ottillia Se
+1943 : N Ottillia St Se
+2083 : N Park St Ne
+2238 : N Parklane Dr Ne
+982 : N Quail Crest Ct Se #128
+847 : N Quail Crest Dr Se #117
+1102 : N Quail Crest Dr Se #130
+893 : N Quail Crest Dr Se #18
+1122 : N Quailcrest Dr Se #150
+3929 : N Silverstone Dr Ne
+2483 : N Terrace Ln Ne #24
+2670 : N Terrace Ln Ne #7
+3650 : N Valley Dr Ne #23
+3692 : N Valley Dr Ne #44
+3573 : N Washington St
+4609 : Nagel Ave Sw
+1718 : Nagold St Nw
+5041 : Nancy Dr
+3059 : Nancy St Se
+577 : Nantucket Dr Sw
+638 : Nantucket Sw
+5067 : Naples Cedar Dr Sw
+1795 : Nathan Dr Se #0
+1535 : National Ave Nw
+1507 : National Ave Sw
+2916 : Navaho Ct Sw
+2996 : Navaho Dr Sw
+2932 : Navaho St Sw
+2969 : Navaho Sw
+573 : Navajo Valley Dr Sw #19
+611 : Navajo Valley Dr Sw #37
+560 : Navajo Valley Dr Sw #57
+530 : Navajo Vly #20
+3 : Nd Ave
+4162 : Nd Ave Nw
+3216 : Nd Se
+2985 : Nd St
+2894 : Nd St Ct Sw
+644 : Nd St Se
+148 : Nd St Sw
+1858 : Ne College Ave Ne
+853 : Ne Devonwood Hls Ne Unit F
+1473 : Ne Diamond Ave
+2050 : Ne Dorais Ct
+2240 : Ne Dorais Dr
+1887 : Ne Eastern Ave Ne
+2820 : Ne Fairview Ave #6
+3751 : Ne Grand Isle Dr Ne #15
+2091 : Ne Houseman Ave
+2141 : Ne Portland Ave
+2741 : Ne Union Ave #301
+2756 : Ne Union Ave #309
+2747 : Ne Union Ave #310
+4403 : Needham Ct Nw
+2733 : Negaunee Dr Se
+1462 : Neland Ave Se
+410 : Netherfield St Nw
+653 : Nevada Rdg
+2187 : Nevada St Se
+1661 : New Ave Sw
+2785 : New Town Dr #5
+2637 : New Town Dr #56
+2635 : New Town Dr Ne #43
+2644 : New Town Dr Ne #54
+2503 : New Town Dr Ne #66
+2609 : New Town Dr Ne #68
+1538 : Newark Ave Se
+2297 : Newberg Ave Nw
+2507 : Newberry St Ne #13
+3087 : Newcastle
+1947 : Newcastle Dr Se
+3143 : Newcastle Se
+4808 : Newport St Sw
+4853 : Newstead Ave
+4693 : Newstead Ave Sw
+4843 : Newstead Sw
+2205 : Newton Ave Se
+1785 : Niagara Ave Se
+4169 : Nickels Dr Nw
+3936 : Night Fall Ct Ne #55
+4999 : Nile Dr Sw
+1745 : Ninth St Nw
+2330 : Nixon Ave Nw
+2259 : Nixon Nw
+1632 : Noble St Se
+4550 : Noel Ave Sw
+4451 : Nolan Ave Nw
+4372 : Nolan Ave Nw #2639
+4445 : Nolan Nw
+4502 : Nolview Ave Nw
+3158 : Nora St Se
+2225 : Nordberg Ave Nw
+2387 : Norfolk Rd Se
+2303 : Norman Dr Se
+1630 : Norman Dr Se #0
+3031 : Norman Se #203
+1477 : North Ave Ne
+4504 : North Brandon Ridge Ct Nw #17
+4491 : North Brandon Ridge Ct Nw #18
+4500 : North Brandon Ridge Ct Nw #3
+4462 : North Brandon Ridge Ct Nw #4
+3575 : North St
+2455 : Northbend Dr Ne
+3806 : Northboro Ct Ne
+3229 : Northbury Ct Se
+1304 : Northgarden Ct
+119 : Northgate Ave
+3730 : Northgate Dr Ne
+3678 : Northgate Ne
+3717 : Northgate St Ne
+4286 : Northland Ct Ne
+3724 : Northland Dr Ne
+3661 : Northland Dr Ne #2
+2048 : Northlawn St Ne
+666 : Northpointe Dr Sw
+3958 : Northridge Ne
+2287 : Northrup Ave Nw
+2144 : Northrup Nw
+4103 : Northview Ave Ne
+3728 : Northville Dr Ne
+3858 : Northway Dr Ne
+4420 : Northway Dr Nw
+2294 : Northwood Ne
+2293 : Northwood St Ne
+1543 : Norwich Ave
+1536 : Norwich Ave Sw
+1644 : Norwich Sw
+2040 : Norwood Ave Se
+4264 : Norwood St
+1180 : Nottinghill Ct Se
+3833 : Nugget Ave Ne
+4761 : Nursery Ave Sw
+2355 : Nw Ball Park Blvd
+2025 : Nw Broadway Ave Nw #118
+2027 : Nw Broadway Ave Nw #243
+2161 : Nw Broadway Ave Nw Unit 113A
+451 : Nw Division
+2402 : Nw Fairfield Ave
+1574 : Nw Garfield Ave
+2649 : Nw Monroe Ave #203
+2309 : Nw Monroe Center St #304
+455 : Nw Strawberry Vly #18
+4183 : O - 12894 8Th Ave Nw
+4449 : O'Brien Rd Sw
+4132 : O-13676 2Nd Ave
+4170 : O-1444 Fox Ct
+4012 : Oak Arbor Ct Ne #1
+1162 : Oak Brook St Se
+3673 : Oak Cliff Dr Ne
+1301 : Oak Hollow Dr
+2692 : Oak Hollow Rd Nw #28
+1354 : Oak Holw
+2773 : Oak Park Dr Se #4134
+4212 : Oak St
+224 : Oak St Se
+4659 : Oak Valley Ave Sw
+4924 : Oak Valley Ct Sw
+3795 : Oakcliff Dr Ne
+3710 : Oakcliff Ne
+4663 : Oakcrest St Sw
+4789 : Oakcrest Sw
+1671 : Oakdale Se
+1541 : Oakdale St Se
+2919 : Oakes St Sw
+259 : Oakhaven Ct Ne
+1514 : Oakhill St Se
+1323 : Oakhollow Dr
+2298 : Oakhurst Ave Nw
+1444 : Oakland Ave Sw
+1916 : Oaklawn St Ne
+2073 : Oakleigh Rd Nw
+2628 : Oakleigh Woods Dr Nw
+1930 : Oakley Pl Ne
+289 : Oakmont Ct Ne #32
+340 : Oakmont Ct Ne #52
+1204 : Oakmont Dr
+4381 : Oakridge Dr Nw #115
+4331 : Oakridge Nw #115
+4976 : Oakvale Dr Sw
+2084 : Oakwood Ave Ne
+1332 : Oakwood Dr
+739 : Oakwood Dr Se
+2353 : Oakwood Ne
+769 : Oakwood Se
+2248 : Observatory Ave Se
+790 : Ogden Ave Se
+4251 : Ogden St
+2212 : Okemos Dr Se
+2363 : Okemos Dr Se #3003
+278 : Old Belding Rd Ne
+131 : Old Brower Rd Sw
+193 : Old Brower Sw
+1060 : Old Darby Trl Ne
+1168 : Old Darby Trl Ne #5
+1143 : Old Darby Trl Ne #9
+3487 : Old Dominion Ct Se
+3332 : Old Elm Dr Se #101
+3293 : Old Elm Dr Se #108
+3314 : Old Elm Dr Se #111
+3315 : Old Elm Dr Se #113
+3291 : Old Elm Dr Se #115
+3079 : Old Elm Dr Se #118
+3301 : Old Elm Dr Se #126
+3413 : Old Elm Dr Se #20
+3287 : Old Elm Dr Se #26
+3331 : Old Elm Dr Se #48
+3289 : Old Elm Dr Se #83
+3217 : Old Elm Dr Se #84
+3288 : Old Elm Dr Se #95
+3306 : Old Elm Dr Se Unit -
+3305 : Old Elm Se #34
+3253 : Old Elm Se #88
+1926 : Old Gate Rd Nw
+4082 : Old Grand River Trl Ne
+3987 : Old Grand River Trl Ne #31
+3672 : Old Grand River Trl Ne #44
+3086 : Old Kent Rd Se #17
+3123 : Old Kent Rd Se #30
+242 : Old Mission Dr Ne
+1024 : Old Oak Hill Dr
+1041 : Old Oak Hill Dr #16
+3269 : Old Valley Ct
+1297 : Olde Farm
+1252 : Olde Farm Dr
+3887 : Oldepointe Dr Ne
+4086 : Olderidge Ct Ne
+3901 : Olderidge Dr Ne
+5007 : Olen Ct
+1120 : Oliver Woods Dr Se
+2213 : Olivia Ct Nw
+4943 : Olsen Springs Ct #35
+5047 : Olsen Springs Ct Sw #33
+2991 : Omaha St Sw
+2693 : Omena Ave Se
+2667 : Onaway Rd Se
+4583 : Oneida St Sw
+2762 : Onekama Dr Se
+2427 : Ontonagon Ave Se
+4660 : Opal Ave Sw
+4567 : Opal Sw
+972 : Oran Dr Se
+996 : Oran Se
+813 : Orchard Ave Se
+3546 : Orchard Creek Ct Se
+3539 : Orchard Creek Dr Se
+4221 : Orchard Dr Ne
+811 : Orchard Dr Se
+2679 : Orchard Hill Ave Se
+2732 : Orchard Hill St Se
+4382 : Orchard Ln Nw
+4254 : Orchard Ne
+4461 : Orchard Ridge Dr Nw
+2191 : Orchard View Dr Ne
+2432 : Orchard Vw Ne
+4600 : Oregon Ave Sw
+4595 : Oriole Ave Sw
+506 : Oriole St
+4763 : Oriole Sw
+1821 : Orville St Se
+10 : Osborn St
+3239 : Osborne Ave Se
+2705 : Osceola Dr Se
+4687 : Osmer Ave Sw
+2312 : Oswego St Nw
+2955 : Ottawa Ave Sw
+41 : Ottawa Creek Dr #31
+493 : Ottawa St
+1848 : Ottillia Se
+1862 : Ottillia St Se
+2304 : Ottilllia St Se
+1231 : Oven St
+2418 : Overbrook Ln Se
+139 : Owners Way
+207 : Owners Way Dr
+176 : Owners Way Sw
+831 : Oxford Dr Se
+3177 : Oxford Dr Se #7
+730 : Oxford Rd Se
+1715 : Oxford St Sw
+2677 : Packard Ave Se
+3791 : Packer Dr Ne
+3354 : Paddington Dr Se
+1590 : Page St Ne
+1430 : Palace Ave Sw
+5025 : Palm Dale Dr Sw
+1935 : Palmer Ct Ne
+1710 : Palmer St Ne
+1585 : Palmer St Nw
+2687 : Palmerton Ct Ne #70
+2505 : Palmerton Ct Ne #80
+690 : Palms Sw
+4291 : Pannell St Nw
+299 : Panners Lane Dr Ne
+991 : Paradise Lake Dr Se
+3888 : Paramount Dr Ne
+1474 : Paris Ave Ne
+620 : Paris Ave Se
+3263 : Paris Park Dr Se
+1619 : Paris Se
+2807 : Park Hills Dr Se
+1260 : Park Lane Ave
+4244 : Park Place Dr Ne
+3637 : Park Ridge Ln Ne #24
+3766 : Park Ridge Ln Ne #43
+1814 : Park St Sw
+3782 : Park Trl Ne #53
+3768 : Park Trl Ne #69
+4736 : Parkdale Ave Sw
+2439 : Parkhurst Ave Nw
+4709 : Parkland Ave Sw
+4128 : Parkland Trl Nw
+4143 : Parkland Trl Nw #4
+1389 : Parklane Ave
+2714 : Parkridge Se
+4415 : Parkside Ave Nw
+1254 : Parkside Dr
+2346 : Parkview Dr Ne
+4821 : Parkview St Sw
+1806 : Parkway Dr Ne
+2615 : Parkwood Ne
+2535 : Parkwood St Ne
+2366 : Parmelee Ave Nw
+2565 : Parmelee Ct Nw
+967 : Partridge Ct Se
+2145 : Pat Ave Nw
+951 : Patagonia Dr Se
+941 : Patagonia Se
+3560 : Patterson Se
+1650 : Patton Ave Nw
+2331 : Payton Ln Ne #13
+2489 : Payton Ln Ne #4
+2738 : Peace Valley Ct Ne #18
+2660 : Peace Valley Ct Ne #20
+2685 : Peace Valley Ct Ne #21
+4137 : Peach Ridge Ave Nw
+2389 : Peachcrest Ct Ne
+4252 : Peachtree Ave Ne
+3635 : Peak Ln Ne #15
+3618 : Peak Ln Ne #22
+3644 : Peak Ln Ne #7
+22 : Pebble Dr
+38 : Pebble Dr #23
+118 : Pebble Dr #33
+47 : Pebble Dr #43
+2965 : Peck St Sw
+4650 : Peckheath Dr Sw
+4834 : Peckheath Rd Sw
+2487 : Pemberton Dr Se #11
+2753 : Pemberton Dr Se #22
+2648 : Pemberton Dr Se #25
+2579 : Pemberton Dr Se #40
+2501 : Pemberton Dr Se #42
+2511 : Pemberton Dr Se #50
+3440 : Pembroke Dr Se
+1579 : Penn Ave Ne
+703 : Peony St Sw
+2195 : Perkins Ave Ne
+4745 : Perry Ave Sw
+5013 : Perry Sw
+3017 : Peshtigo Ct Sw
+1246 : Pete Ave
+3836 : Petersen Valley Dr Ne
+1732 : Pettibone Ave Nw
+241 : Pettis Ave Ne
+274 : Pettis Ct Ne
+3418 : Pfeiffer Woods Ct Se
+2357 : Pheasant Ave Nw
+860 : Pheasant Ct Se #11
+256 : Pheasant View Dr Ne #40
+1934 : Philadelphia Ave Se
+2220 : Philadelphia Se
+4946 : Picadilly Ct Sw
+3030 : Piccadilly Cir Se #0
+3167 : Piccadilly Cir Se #44
+3122 : Piccadilly Cir Se #48
+310 : Pickerel Dr Ne
+3107 : Pickett St Se
+4684 : Pickett St Sw
+1201 : Pickford Dr Se
+1050 : Pickford Dr Se #1
+1101 : Pickford Dr Se #18
+1029 : Pickford Dr Se #19
+101 : Pierce St
+3324 : Pillar Creek Ave Se
+1544 : Pine Ave Nw
+5040 : Pine Dunes Dr Sw
+1383 : Pine Grove Dr
+1207 : Pine Grove Dr #15
+67 : Pine Grove St
+3912 : Pine Is Ne
+4079 : Pine Island Ct Ne
+3855 : Pine Island Dr Ne
+3869 : Pine Meadow Dr Ne
+3154 : Pine Meadow Dr Se #102
+3159 : Pine Meadow Dr Se #201
+3171 : Pine Meadow Dr Se #301
+3185 : Pine Meadow Dr Se Apt 202
+3135 : Pine Meadow Dr Se Apt 301
+2875 : Pine Meadow Dr Sw
+3859 : Pine Meadows Dr Ne
+4058 : Pine Nook Ct Ne
+3990 : Pine Nook Ct Ne #2
+2007 : Pine Nw
+3549 : Pine Run Ct Se
+508 : Pine St
+107 : Pine Valley Ct
+51 : Pine Valley Dr
+3248 : Pine Vista Dr Se
+3161 : Pine Vista St Se
+3498 : Pinebluff Dr Se
+3238 : Pinebrook Ave Se
+103 : Pinecreek Ct
+713 : Pinecrest Ave Se
+726 : Pinecrest St Se
+5014 : Pinecroft Ct Sw
+4873 : Pinecroft Ln Sw
+2939 : Pinedale Dr Sw
+1279 : Pinegrove
+1312 : Pinegrove Ct #93
+1379 : Pinegrove Dr
+1223 : Pinegrove Dr #128
+1273 : Pinegrove Dr #130
+1303 : Pinegrove Dr #22
+1299 : Pinegrove Dr #23
+1222 : Pinegrove Dr #24
+1256 : Pinegrove Dr #27
+1311 : Pinegrove Dr #31
+1247 : Pinegrove Dr #42
+1262 : Pinegrove Dr #45
+1317 : Pinegrove Dr #52
+1360 : Pinegrove Dr #71
+1211 : Pinegrove Dr #7462
+1307 : Pinegrove Dr #82
+1225 : Pinegrove Dr #83
+4572 : Pinehurst Ave Sw
+317 : Pinehurst Ln Ne #1
+277 : Pinehurst Ln Ne #2
+270 : Pinehurst Ln Ne #9
+233 : Pinehurst Ln Ne Unit (Unit 2)
+4089 : Pinesboro Dr Ne
+3330 : Pinetree Ave Se
+3885 : Pineview Dr Ne
+2893 : Pineview St Sw
+4324 : Pinewood Dr Nw #97
+1355 : Pinewood St
+4907 : Pinnacle Dr Sw
+983 : Pinta Ct Se
+827 : Pioneer Club Rd Se
+2990 : Piute Ct Sw
+2968 : Piute Dr Sw
+2921 : Piute Dr Sw #29
+2979 : Piute Sw
+1476 : Plainfield Ave Ne
+2574 : Plainfield Ne
+166 : Planters Row Dr Sw
+4846 : Plas St Sw
+4956 : Plateau Dr Sw
+5005 : Plateau Sw
+3948 : Plateau View Dr Ne
+3954 : Plateau Vw
+1037 : Platinum Falls Ct Se
+1023 : Platinum Falls Dr Se
+439 : Pleasant Creek Ave Ne
+223 : Pleasant Se
+1909 : Pleasant St Se
+3834 : Pleasantview St Ne
+3756 : Pleasantview St Ne #6758
+2435 : Plymouth Ave Ne
+749 : Plymouth Ave Se
+788 : Plymouth Rd Se
+828 : Plymouth Se
+2188 : Plymouth Ter Se
+1902 : Poinsettia Ave Se
+3246 : Poinsettia Se
+2515 : Pokogon Dr Se
+2982 : Ponca Dr Sw
+2931 : Ponca Sw
+2989 : Ponderosa Dr Sw
+2825 : Pontiac Se
+3028 : Poplar Creek Crk Se #301
+3057 : Poplar Creek Dr Se #103
+3136 : Poplar Creek Dr Se #104
+3156 : Poplar Creek Dr Se #203
+3162 : Poplar Creek Dr Se #302
+3128 : Poplar Creek Dr Se #303
+3127 : Poplar Creek Dr Se #304
+3045 : Poplar Creek Dr Se Unit 201
+3153 : Poplar Creek Dr Se Unit 204
+3039 : Poplar Creek Dr Se Unit 301
+2861 : Porter Ct Sw #38
+2910 : Porter Ct Sw #50
+2862 : Porter Ct Sw #54
+2859 : Porter Ct Sw #67
+4623 : Porter St Sw
+4565 : Porter St Sw #104
+3006 : Porter St Sw #18
+2849 : Porter St Sw #23
+2909 : Porter St Sw #62
+2860 : Porter St Sw #8
+4594 : Porter St Sw Unit B301
+4910 : Porter Sw
+2863 : Porter Sw #18
+3013 : Porter Sw Unit 58 City F Grndville
+1913 : Portland Ave Ne
+1762 : Portman Dr Se #186
+3199 : Portman Dr Se #187
+1853 : Portman Dr Se #189
+2016 : Portman Dr Se #202
+3210 : Portman Ln Se #157
+3236 : Portman Ln Se #159
+2340 : Portman Ln Se #198
+3695 : Post Dr Ne
+3196 : Potter Ave Se
+5004 : Powderhorn Ct Sw
+1749 : Powell St Se
+1428 : Powers Ave Nw
+4360 : Powers Ct Nw
+1928 : Powers Nw
+29 : Prairie Ave
+1032 : Prairie Home Dr Se #6
+2839 : Prairie St Sw
+4060 : Preserve Dr Ne #11
+3931 : Preserve Dr Ne #38
+3932 : Preserve Dr Ne #39
+4081 : Preserve Dr Ne #41
+1678 : Preston Ave Nw
+3200 : Primrose Ave Se
+1465 : Prince St Se
+3091 : Promise Dr Se
+4273 : Prospect
+1692 : Prospect Ave Ne
+2621 : Prospect Ave Ne Unit Se
+1518 : Prospect Ave Se
+2795 : Prospect Se
+4231 : Prospect St
+605 : Providence Cove Ct
+604 : Providence Cove Ct Sw
+3643 : Providence St Ne
+2918 : Pueblo Ct Sw
+3685 : Pure St Ne
+1578 : Putnam St Sw
+248 : Pyramid Ln Ne
+1577 : Quarry Ave Nw
+1602 : Quarry Nw
+3518 : Queensbury Dr Se
+4971 : Quest Dr Sw
+1693 : Quigley Blvd Sw
+2136 : Quimby Ave Ne
+1680 : Quimby St
+1584 : Quimby St Ne
+704 : Quincy Dr Sw
+3895 : Quintara Dr Ne
+2223 : Radcliff Ave Se
+2039 : Radcliff Circle Dr Se Unit -
+110 : Radcliff Dr
+3082 : Radcliff Village Dr Se #14
+3026 : Radcliff Village Dr Se #27
+3062 : Radcliff Village Dr Se #37
+1903 : Radcliff Village Dr Se #47
+191 : Rail Yard Dr Sw
+122 : Railside Dr Sw
+140 : Railway Dr Sw
+182 : Railyard Dr Sw
+3374 : Raintree Dr Se
+1709 : Ralph Ave Se
+337 : Ramsdell Dr Ne
+2674 : Ranch Dr Nw
+4419 : Randall Ave Nw
+480 : Randall St W
+4817 : Rapid River Ave #10
+4800 : Rapid River Ave #18
+2842 : Rapid River Ave #80
+4790 : Rapid River Ave Sw #19
+4785 : Rapid River Ave Sw #22
+4786 : Rapid River Ave Sw #83
+3894 : Rapidfall Ct Ne
+1827 : Rathbone St Sw
+4697 : Rathbone Sw
+4590 : Raven Ave Sw
+4629 : Raven Sw
+2513 : Ravinewood Cir Se
+2597 : Ravinewood Se
+2074 : Raymond Ave Se
+1277 : Rd Ave
+4178 : Rd Ave Nw
+1931 : Rd Se
+1562 : Rd St Nw
+2060 : Rd St Se
+4596 : Rd St Sw
+2959 : Red Field Ct Sw
+2926 : Red Key Dr Sw
+2663 : Red Oak Ct Nw #103
+73 : Red Oak Ln
+4927 : Red River Ave Sw
+4867 : Red River Ave Sw #14
+499 : Red Tail Dr
+2949 : Redbush Dr Sw
+2869 : Redbush Dr Sw #62
+3016 : Redfield Ct Sw
+1175 : Redington Dr Se
+2845 : Redwing Ct Sw
+775 : Reeds Lake Blvd Se
+3843 : Reflection Dr Ne
+3191 : Regent St Se
+4773 : Reiser Ave Sw
+4358 : Remembrance Rd Nw
+2198 : Remington Way Ne #157
+1546 : Rena St Sw
+2218 : Rennslaer St Nw
+2898 : Restmor St Sw
+147 : Restoration Dr Sw
+1091 : Revado Hills Ct Ne
+1954 : Revere St Ne
+3800 : Rex
+3908 : Rex Valley Dr Ne
+755 : Rexford Dr Se
+754 : Rexford Rd Se
+1905 : Reynard Se
+2095 : Reynard St Se
+3494 : Reynoldsburg Dr Se
+3837 : Rezen Ct Ne
+4988 : Rhine Ct Sw
+4588 : Rhodes Ave Sw
+2676 : Richard Ter Se
+2619 : Richard Ter Se #2
+1771 : Richards Ave Sw
+820 : Richards Dr Se
+552 : Richfield Ct Sw
+691 : Richfield Ct Sw Sw
+1837 : Richmond Nw
+1754 : Richmond St Nw
+4459 : Richview Ave Nw
+1992 : Richwood Dr Se
+1027 : Ridge Creek Trl Ne #30
+1057 : Ridge Creek Trl Ne #52
+4962 : Ridge Ln Sw #29
+4902 : Ridge Ln Sw #30
+4872 : Ridge Ln Sw #33
+4804 : Ridge Ln Sw #39
+4184 : Ridge Port Dr Nw
+186 : Ridge Top Ct Sw
+208 : Ridge Top Dr Sw
+154 : Ridgebluff Dr Sw
+3230 : Ridgebrook Ave Se
+3279 : Ridgebrook Dr Se #5715
+161 : Ridgecrest St Sw
+1675 : Ridgecroft Ave Se
+1451 : Ridgecroft Dr Se #2
+3174 : Ridgecroft Dr Se #20
+3195 : Ridgecroft Dr Se #21
+1614 : Ridgecroft Dr Se #2680
+1788 : Ridgecroft Dr Se #27
+1720 : Ridgecroft Dr Se #28
+1677 : Ridgecroft Dr Se #301
+1449 : Ridgecroft Dr Se Apt 101
+1502 : Ridgecroft Dr Se Apt 201
+502 : Ridgefield Dr
+2019 : Ridgefield Dr Ne
+165 : Ridgehaven Ct Sw
+2345 : Ridgemoor Dr Se
+4145 : Ridgeport Nw
+128 : Ridgestone Dr Sw #115
+209 : Ridgestone Dr Sw #117
+798 : Ridgewood Ave Se
+1287 : Ridgewood Dr
+3183 : Ridgewood St Se
+3336 : Riemen Dr Se
+5055 : Rifle River St Sw #75
+4860 : Rifle River St Sw #78
+4926 : Rifle River St Sw #80
+5046 : Rifle River St Sw #85
+4655 : Riley Ave Sw
+4078 : Rimrock Ct Ne
+4052 : Rio Rogue Trl
+3737 : Ripley St Ne
+4928 : Rischow Dr Sw
+331 : River Basin Ct Ne
+381 : River Basin Ne
+4322 : River Bend Dr
+4958 : River Flow Ave Sw #28
+4879 : River Flow Ave Sw #34
+4154 : River Hill Dr
+4177 : River Hill Dr Nw
+3945 : River Isle Ct Ne
+113 : River Ridge Dr #14
+30 : River Ridge Dr #17
+3909 : River Rock Dr Ne
+4823 : River Run St #124
+4801 : River Run St #27
+2871 : River Run St Sw
+4882 : River Run St Sw #122
+4825 : River Run St Sw #76
+484 : River St
+4932 : Rivera Dr Sw
+3083 : Riverbed Ln Se #11
+3146 : Riverbed Ln Se #7
+4407 : Riverbend Dr Sw
+4262 : Riverchase Dr Ne
+4299 : Rivercrest St Nw
+1189 : Riveredge Dr Se
+4923 : Riverfield Dr Sw
+4883 : Riverflow Ave Sw
+4880 : Riverflow Ave Sw #33
+3883 : Riverlook Dr Ne
+2534 : Riverside Dr Ne
+1979 : Riverside Ne
+1147 : Riverton Ave Se
+4887 : Rivertown Cir Sw #0
+4703 : Rivertown Cir Sw #3
+4794 : Rivertown Cir Sw #46
+4870 : Rivertown Cir Sw #58
+4868 : Rivertown Cir Sw #62
+4797 : Rivertown Cir Sw #67
+4871 : Rivertown Cir Sw #68
+4855 : Rivertown Cir Sw #72
+4875 : Rivertown Ln Sw #0
+4792 : Rivertown Ln Sw #10
+4793 : Rivertown Ln Sw #11
+4798 : Rivertown Ln Sw #73
+4784 : Rivertown Ln Sw #74
+2876 : Rivervale Dr Sw
+3889 : Riverwoods Dr Ne
+3120 : Riviera Ct Se #35
+3067 : Riviera Ct Se #65
+3119 : Riviera Dr Se #94
+925 : Rix St Se
+3949 : Roaming Dr Ne
+4017 : Roaming Ne
+485 : Roberts Ct
+1438 : Robey Pl Se
+4774 : Robin Ave Sw
+334 : Robin Hill Dr Ne
+1394 : Robin St
+2545 : Robinson Rd Se
+781 : Robinson Se
+677 : Rock Canyon Dr Sw #1
+705 : Rock Canyon Dr Sw #18
+523 : Rock Canyon Dr Sw #32
+520 : Rock Canyon Dr Sw #33
+539 : Rock Canyon Dr Sw #4
+610 : Rock Canyon Dr Sw #5
+4208 : Rock Hollow Dr
+4195 : Rock Hollow Dr Ne
+3867 : Rockbluff Ct Ne
+17 : Rockfield Rd
+1340 : Rockhill Ct
+1313 : Rockhill Dr
+3822 : Rockhill Dr Ne
+3899 : Rockhill Ne
+137 : Rockledge Way Sw #16
+3639 : Rockvalley Dr Ne #64
+4259 : Rockview Dr Ne
+4771 : Rockwood Ct Sw
+2975 : Rocky Point Ct Sw
+5044 : Rodney Dr
+5029 : Rodney Dr Sw
+4287 : Roger St Nw
+4634 : Rogers Lane Ave Sw
+3852 : Rogue River Dr Ne
+3911 : Rogue River Mdws
+3633 : Rogue River Rd Ne
+4203 : Rogue River View Dr Ne
+4055 : Rollaway Dr Ne
+1100 : Rolling Brk Ne
+1096 : Rolling Brook Dr Ne #6
+4336 : Rolling Greene #17
+4406 : Rolling Greene Dr Nw #17
+4325 : Rolling Greene Dr Nw #39
+2550 : Rolling Hills Dr Se
+4303 : Rolling Ridge Ln Nw #38
+4335 : Rolling Ridge Ln Nw #42
+4301 : Rolling Ridge Ln Nw #45
+1071 : Rollingbrook Ct Se #14
+1086 : Rollingbrook Dr Ne
+1133 : Rollingbrook Ne
+4770 : Rollingview Ave Sw
+4189 : Rollingwood Dr
+4249 : Rollingwood Dr Ne
+286 : Rollins Dr Ne
+2775 : Romence Dr Ne
+3249 : Rondo St Se
+3311 : Rondo St Se Se
+1268 : Ronson Ave
+4591 : Roos Ave Sw
+4680 : Roos Sw
+4126 : Roosevelt St
+2239 : Rosalie Ave Nw
+710 : Rosalind Rd Se
+1867 : Rose St 48 Sw
+1633 : Rose St Sw
+1714 : Rose Sw
+4446 : Rosebud Ln Sw
+1377 : Roselane
+1406 : Roselane Ave
+1872 : Rosemary St Se
+2102 : Rosemont Ave Se
+855 : Roseview Ct
+1362 : Rosewood
+105 : Rosewood Ave
+716 : Rosewood Ave Se
+789 : Rosewood Se
+1224 : Rosewood St
+3251 : Roseworth Ct Se
+536 : Rosie Shores Dr Sw
+1997 : Rossman Ave Se
+2082 : Rossman Se
+692 : Roth St Se
+1160 : Roundtree Dr Ne
+1986 : Rowe Ne
+3233 : Rowland Ave Se
+1783 : Rowland Ave Se #16
+3019 : Rowland Ave Se #2
+4711 : Royal Oak St Sw
+4826 : Royal Oak Sw
+4536 : Roys Ave Sw
+4431 : Rudgate Dr Nw
+3690 : Rudy St Ne
+3349 : Rum Creek Ct Se
+3257 : Rum Creek Dr Se
+5039 : Rumley Ct Sw
+3465 : Running Brook Dr Se
+5064 : Rushfield Dr Sw
+3922 : Russview Dr Ne
+2567 : Russwood Ne
+2313 : Russwood St Ne
+2836 : Rustic Ave Sw
+1026 : Rustic Meadow Dr Ne
+1994 : Rutledge St Ne
+4408 : Ryan Ave Nw
+329 : Ryan Valley Ct
+341 : Ryan Valley Dr
+288 : Ryan Valley Dr #8
+327 : Ryan Vly Ne
+1972 : Rypens Ave Nw
+4379 : Rypens Dr Nw
+2904 : S Big Spg
+2997 : S Big Spring Dr Sw
+353 : S Cannon Place Dr #19
+238 : S Cannon Place Dr Ne
+304 : S Cannon Place Dr Ne #10
+243 : S Cannon Place Dr Ne #14
+298 : S Cannon Place Dr Ne #16
+284 : S Cannon Place Ln Ne #28
+44 : S Cedar Dr
+3596 : S Center St
+2502 : S Cross Creek Dr Se #77
+1674 : S Division Ave
+3528 : S Falling Leaf Dr Se
+4219 : S Fremont St Ne
+1400 : S Garden Ct
+2026 : S Highland View Cir Se #21
+4941 : S Horseshoe Dr Sw
+3613 : S Jefferson
+3605 : S Jefferson St Se
+3098 : S Leisure Dr Se #154
+3097 : S Leisure Dr Se #211
+3093 : S Leisure Dr Se #216
+3139 : S Leisure Dr Se #32
+3089 : S Leisure Dr Se #75
+3042 : S Leisure Dr Se #80
+230 : S Lenter Ct Se
+4205 : S Lincoln St
+3232 : S Lyn Haven Dr Se
+3241 : S Lyn Haven Dr Se #3485
+3235 : S Lyn Haven Dr Se #69
+3403 : S Lyn Haven Dr Se #80
+3264 : S Lyn Haven Dr Se #92
+4213 : S Main St
+214 : S Maple St Se
+4226 : S Monroe St
+2265 : S Norwalk Dr Se
+3054 : S Norway Se #38
+3124 : S Norway St Se #40
+3034 : S Norway St Se #76
+4925 : S Oakvale Ct Sw
+2937 : S Osage Dr Sw
+2300 : S Ottillia Se
+2410 : S Parklane Dr Ne
+3237 : S Parkway Ave Se
+158 : S Platte Dr Sw
+923 : S Quail Crest Dr Se #2
+892 : S Quail Crest Dr Se #22
+948 : S Quail Crest Dr Se #39
+898 : S Quail Crest Dr Se Unit A
+1622 : S Saxony Dr Se #1446
+4003 : S Silverstone Dr Ne
+4007 : S Silverstone Ne
+4234 : S South Fremont Ne
+2616 : S Terrace Ln Ne #7
+2617 : S Terrace Ln Ne #8
+3592 : S West St
+1056 : S Whitman Ct Se
+3561 : Sabal Pointe Ct Se #4
+3297 : Sable Ridge Dr Se
+3415 : Sable Ridge Dr Se #40
+842 : Sable Valley Ct Se
+3884 : Saddle Dr Ne
+4023 : Saddle Ne
+4093 : Saddlehorn Dr Ne
+4067 : Saddlehorn Ne
+5054 : Sage River Ct
+5066 : Sage River Ct Sw
+2500 : Saginaw Rd Se
+2490 : Saginaw Rd Se #1
+1654 : Saginaw Rd Se #24
+4874 : Sahalee Dr Sw Unit -
+3462 : Saint Annes Ave Se #9
+1448 : Saint Charles Ave Sw
+4429 : Saint Clair Ave Nw
+1295 : Sally Dr
+3754 : Samrick Ave Ne
+785 : San Jose Dr Se
+825 : San Jose St Se
+822 : San Juan Dr Se
+750 : San Lucia Dr Se
+995 : San Marie Dr Se
+1130 : Sanctuary Ct Ne #5
+1196 : Sanctuary Dr Ne #24
+4142 : Sand Creek Dr Nw
+3757 : Sand Valley Ct #26
+3749 : Sand Valley Ct Ne #8
+3787 : Sand Valley Dr Ne #13
+3788 : Sand Valley Dr Ne #19
+3820 : Sandalwood Ct Ne
+1373 : Sandcrest
+2636 : Sanderling Ct Ne #70
+2629 : Sanderling Ct Ne #72
+4906 : Sandhill Dr
+5068 : Sandhill Dr Sw
+4294 : Sandra St Nw
+1376 : Sandstone Dr
+3748 : Sandstone Ter Ne #70
+3694 : Sandstone Ter Ne #80
+4979 : Sandy Ct
+5051 : Sandy Dr
+5070 : Sandy Dr Sw
+1161 : Sandy Point Ave Se
+2855 : Sante Fe Ct Sw
+845 : Santigo Ave Se
+949 : Santigo Ct Se
+973 : Sarasota Se
+3780 : Saratoga Dr Ne
+1182 : Sargent Ave Se
+927 : Sargent Se
+117 : Sassafras Ct
+2844 : Savannah Ct Sw
+3746 : Sawkaw Dr Ne #15
+3628 : Sawkaw Dr Ne #20
+3629 : Sawkaw Dr Ne #21
+3638 : Sawkaw Dr Ne #32
+997 : Scarborough Dr Se
+5042 : Scarsdale Dr Sw
+3667 : Schimperle Dr Ne
+427 : School St Ne
+3739 : Scott Creek Ct Ne
+3898 : Scott Creek Dr Ne
+3853 : Scott Lake Ave Ne
+3856 : Scott Lake Trl Ne
+24 : Scott St
+3775 : Scott View Dr Ne
+3835 : Scott Woods Dr Ne
+3842 : Scottview Ne
+1503 : Se Kalamazoo Ave
+3184 : Se Pine Meadow Dr Se #102
+3259 : Se Rum Creek Dr
+958 : Se Seasons Way Se #13
+562 : Se Shoreside Dr. South #64
+937 : Se Spaulding Ave Se
+2754 : Se Treeridge Dr Se #116
+890 : Se Winter Run Dr #16
+4098 : Secluded Lake Ct Ne
+4026 : Secluded Lake Dr Ne
+1440 : Second St Nw
+3536 : Secretariat Dr Se
+809 : Seminole Rd Se
+4515 : Seneca St Sw
+4734 : Seneca Sw
+2134 : Senora Ave Se
+4895 : Sentinal St Sw
+4160 : Sessions Dr Nw #41
+330 : Settlers Ridge Rd
+237 : Settlers Ridge Rd Ne
+2673 : Seventh Nw
+1431 : Seventh St Nw
+1995 : Seward Ave Nw
+1327 : Shadbleau Dr
+3467 : Shade Leaf Ln #13
+3523 : Shade Leaf Ln Se #10
+3356 : Shadetree Ln Se
+572 : Shadow Hills Dr
+458 : Shadowood St Nw
+971 : Shady Dr
+2934 : Shady Oaks Dr Sw
+3758 : Shady Pl Ne
+1080 : Shadybrook Dr Se
+1138 : Shadyview Dr Se
+4258 : Shale Ct Ne
+1525 : Shamrock St Sw
+1753 : Shamrock Sw
+2075 : Shangrai La Dr Se
+4662 : Sharon Ave Sw
+4630 : Sharon Ct Sw
+4751 : Sharon Sw
+4199 : Shaw Estates Dr Ne
+4255 : Shaw Ests Ne
+2166 : Shawmut Blvd Nw
+2384 : Shawmut Ct Nw
+2532 : Shawmut Nw
+2569 : Shawnee Dr Se
+3798 : Shear Ave Ne
+4085 : Shears Crossing Ct Ne
+3951 : Shears Crossing Ct Ne #42
+911 : Sheffield Dr Se
+910 : Sheffield Se
+1505 : Sheldon Ave Se
+2023 : Sheldon Ave Se #1
+2022 : Sheldon Ave Se #2
+2021 : Sheldon Ave Se #3
+5056 : Shelldrake Dr Sw
+3601 : Shepard Dr
+4914 : Sheri Lynn Dr
+1750 : Sheridan Ave Sw
+1595 : Sherman Se
+3606 : Sherman St
+777 : Sherman St Se
+4980 : Sherry St Sw
+797 : Sherwood Ave Se
+1409 : Sherwood Dr
+2080 : Sherwood Dr Se
+2725 : Sherwood Se
+160 : Sherwood St Sw
+2485 : Shetland Dr Ne #1
+2482 : Shetland Dr Ne #2
+4101 : Shiloh Dr Ne
+3454 : Shiloh Hills Dr Se
+3531 : Shiloh Hls Se
+3502 : Shiloh Point Dr Se
+3557 : Shiloh Pt Se
+3984 : Shining Tree Dr Ne #1
+1871 : Shirley St Ne
+529 : Shoreside Dr N #26
+614 : Shoreside Dr S #22
+656 : Shoreside Dr Se #11
+537 : Shoreside Dr Se Unit H-26
+563 : Shoreside North Dr Se #10
+556 : Shoreside South Dr Se #44
+667 : Shoreside South Dr Se #61
+2947 : Shorewood Ct
+2890 : Shoshone Dr Sw
+3009 : Shoshone Sw
+3570 : Sibley
+2199 : Sibley Nw
+3574 : Sibley St
+1485 : Sibley St Nw
+4104 : Siebers Ln Ne
+3988 : Siebers Ln Ne #8
+4351 : Sierra Ave Nw
+580 : Sierrafield Ct Sw #212
+541 : Sierrafield Dr Sw #2
+531 : Sierrafield Sw #6
+4277 : Sigsbee
+1572 : Sigsbee Se
+4214 : Sigsbee St
+1509 : Sigsbee St Se
+1716 : Silver Ave Se
+3299 : Silver Brook Dr Se
+3144 : Silver Glade Dr Se
+3359 : Silver Glen Dr Se
+262 : Silver Meadow Ct Ne
+251 : Silver Meadow Dr Ne
+357 : Silver Ridge Dr Ne
+3149 : Silver Shores Dr Se
+3295 : Silverbell Se
+3506 : Silverbrook Dr Se
+3243 : Silverglade Dr Se
+3219 : Silverleaf St Se
+3943 : Silverstone Dr Ne
+1154 : Silverthorne Dr Se
+514 : Silverton Dr
+525 : Silverton Dr #27
+513 : Silverton Dr Se
+589 : Silverton Dr Sw
+2266 : Simmons Ave Ne
+5048 : Simon Ct Sw Sw
+4905 : Simon Dr Sw
+5030 : Simon Sw
+2014 : Sinclair Ave Ne
+2896 : Singel Dr Sw
+1823 : Sixth St Nw
+4186 : Skipping Stone Ln
+1036 : Skyevale Ne
+4092 : Skyhawk Dr Ne
+3921 : Skyhills Ct Ne
+97 : Skylane Ct
+4329 : Skyline Cir Nw #1
+4343 : Skyline Cir Nw #149
+4344 : Skyline Cir Nw #151
+2024 : Skyline Cir Nw #157
+4292 : Skyline Cir Nw #51
+2404 : Skyline Dr Nw
+247 : Skyridge Dr #8
+362 : Skyridge Dr Ne
+3827 : Skyway Dr Ne
+81 : Skyway Ln
+2707 : Sligh Blvd
+2374 : Sligh Blvd Ne
+3334 : Sluyter St Se
+5018 : Snowberry Dr Sw
+2892 : Socorro Dr Sw
+2407 : Somerset Dr Ne
+66 : South Cedar Dr
+229 : South St Se
+2176 : Southampton Se
+3482 : Southbury Ct
+3398 : Southbury Se
+3275 : Southgate Dr Se #105
+3225 : Southgate Dr Se #73
+3260 : Southgate Dr Se #90
+3036 : Southglow Ct Se #111
+3112 : Southglow Ct Se #132
+3111 : Southglow Ct Se #133
+3110 : Southglow Ct Se #146
+3109 : Southglow Ct Se #157
+3088 : Southglow Ct Se #160
+3197 : Southglow Ct Se #173
+4831 : Southlawn Dr Sw
+737 : Southshire Ave Se
+1322 : Southwood Dr
+3799 : Sovereign Dr Ne
+974 : Spaulding Ave Se
+1847 : Spencer Ne
+1526 : Spencer St Ne
+1110 : Spice Bush Dr Se
+1746 : Spring Ave Ne
+4920 : Spring Grove Dr Sw
+2108 : Spring Ne
+1367 : Springbrook Dr
+4396 : Springbrook Dr Nw
+1158 : Springline Ct Se
+3510 : Springmont Dr Se
+3497 : Springmont Se
+558 : Springtree Ln Sw
+697 : Springtree Ln Sw #70
+3364 : Springwood Dr Se
+2105 : Spruce St Se
+53 : Spruceview Dr
+3519 : St Annes Ave Se #7
+1404 : St Ave
+4321 : St Clair Nw
+1756 : St Se
+625 : St St
+1597 : St St Nw
+3226 : St St Se
+624 : St St Sw
+3007 : St Sw
+1554 : Stafford Ave Sw
+4175 : Stage Ave Nw
+184 : Stanchion Dr
+132 : Stanchion Dr Sw
+3745 : Standish Ne
+90 : Stanford Ave
+3371 : Stanford Dr Se
+4350 : Stark Ave Nw
+227 : Statler Ct Se
+211 : Statler Dr Se
+217 : Statler Se
+3383 : Stauffer Ave Se
+3446 : Stauffer Se
+3392 : Steam Engine St
+1227 : Steele Ave
+1164 : Sterling Manor Ct Se
+1084 : Sterling Manor Ct Se #47
+1069 : Sterling Oaks Blvd Se
+1049 : Sterling Oaks Se
+1721 : Stewart St Sw
+1190 : Stickley Dr Se #0
+1114 : Stickley Dr Se #3
+4027 : Stiles Creek Ct Ne #60
+2236 : Stilesgate Ct Se
+2142 : Stilesgate St Se
+2776 : Stillwater Ct Ne #28
+1516 : Stocking Nw
+2388 : Stockwood Dr Ne
+2370 : Stockwood Ne
+1865 : Stolpe St Sw
+3399 : Stone Briar Ct Se
+3412 : Stone Briar Se
+4705 : Stonebluff Dr Sw #65
+4702 : Stonebluff Dr Sw #87
+4788 : Stonebluff Dr Sw #99
+4720 : Stonebluff Dr Sw Unit 86
+4706 : Stonebluff Ln Sw #94
+3434 : Stonebriar Ct
+4795 : Stonegate Dr Sw #21
+4738 : Stonegate Dr Sw #25
+3261 : Stonehenge St Se
+2398 : Stonewood Ct Nw
+2271 : Stonewood St Nw
+150 : Stoney Ln Sw
+203 : Stoney Ln Sw #92
+423 : Stony Creek Ave Nw
+475 : Stony Crk
+874 : Stonybrook Ct Se
+1242 : Stonybrook Dr
+1053 : Storey Book Ln Se
+3424 : Stormy Creek Crk Se #1
+3504 : Stormy Creek Dr Se #1
+3508 : Stormy Creek Dr Se #10
+3499 : Stormy Creek Dr Se #13
+3431 : Stormy Creek Dr Se #34
+1573 : Storrs St Se
+257 : Stout Creek Ct Ne
+3463 : Stowevalley Dr Se
+1411 : Straight Ave Nw
+1415 : Straight Ave Sw
+4755 : Stratford
+4636 : Stratford Dr Sw
+1073 : Stratford Glen Ct Se
+3562 : Stratton Blvd #3
+3556 : Stratton Blvd Se
+3327 : Stratton Blvd Se #36
+3950 : Strawberry Farms St Ne
+3991 : Strawberry Ln Ne #10
+3973 : Strawberry Ln Ne #24
+453 : Strawberry Pines Ave Nw #81
+426 : Strawberry Valley Ave Nw #6
+408 : Strawberry Valley Ave Nw #77
+467 : Strawberry Vly Ne #84
+2093 : Strobel Ave Nw
+2116 : Strobel Nw
+1958 : Stuart Ave Se
+1070 : Sturbridge Dr Se #10
+3891 : Stuyvesant Ne
+3763 : Suburban Shores Dr Ne
+3492 : Sugar Maple Ct Se
+1331 : Sugar Pine Ct
+3335 : Sugarberry Dr Se
+5060 : Sugarbush Ct Sw
+3328 : Summer Brook Dr Se
+599 : Summer Cir Se
+3377 : Summer Creek Ct
+3355 : Summer Creek Ct Se
+3202 : Summer Creek Ln Se
+254 : Summer Meadows Dr Ne
+297 : Summer Meadows Dr Ne #64
+647 : Summer Se
+646 : Summer Shores Dr Se
+3860 : Summerlane Ave Ne
+2182 : Summertime Ave Se
+3319 : Summertime Ct Se
+3886 : Summerwind Ave Ne
+4217 : Summit Ave Ne
+2829 : Summit Ridge Dr Ne #1
+2659 : Summit Ridge Dr Ne #22
+2739 : Summit Ridge Dr Ne #23
+2684 : Summit Ridge Dr Ne #28
+2805 : Summit Ridge Dr Ne #34
+2633 : Summit Ridge Dr Ne #39
+2652 : Summit Ridge Dr Ne #50
+2657 : Summit Ridge Dr Ne #51
+2658 : Summit Ridge Dr Ne #52
+3815 : Summit View Dr Ne
+592 : Sun Meadow Dr Se
+648 : Sun Valley Ct Se
+1293 : Sun Valley St
+1251 : Sun Vly
+676 : Sunbrook Dr Se
+559 : Sunbrook Se
+553 : Sunbrook St Se
+3861 : Suncrest Dr Ne #127
+3669 : Suncrest Dr Ne #134
+3804 : Suncrest Dr Ne #77
+3642 : Suncrest Dr Ne #83
+3670 : Suncrest Ne #94
+680 : Sundale Dr Se
+4043 : Sundial Dr Ne
+58 : Sundrop Cir #16
+689 : Sunfield Dr Sw
+255 : Sunfish Lake Ave Ne
+313 : Sunfish Lake Ct Ne
+354 : Sunfish Ridge Dr Ne
+370 : Sunflower Ridge Dr Ne
+549 : Sunmeadow Dr Se
+3459 : Sunny Creek Crk Se
+3390 : Sunny Creek St Se
+669 : Sunny Spot Ct Se
+5063 : Sunnynook Sw Ct N
+3707 : Sunnyside St Ne
+1137 : Sunquest Rdg Ne
+4453 : Sunrise Ln
+4421 : Sunrise Ln Nw
+3130 : Sunrise St Se
+1401 : Sunset
+1243 : Sunset Ave
+114 : Sunset Dr
+4339 : Sunset Hills Ave
+4405 : Sunset Hills Ave Nw
+4501 : Sunset Hills Ave Sw
+4473 : Sunset Hls
+4982 : Sunvale Dr Sw
+2951 : Superior St Sw
+3367 : Sutherland Dr Se
+2963 : Sutton Pl Sw
+1499 : Sutton St Sw
+4727 : Sw Birchwood Ave
+3003 : Sw Blackfoot Dr Sw
+4848 : Sw Bluebird Ave
+2897 : Sw Canal Ave Sw
+196 : Sw Country Rail Dr
+1529 : Sw Dickinson St
+4970 : Sw Flamingo Ave Sw
+4604 : Sw Melvin St #2165
+588 : Sw Navajo Vly Sw #38
+4305 : Sw O'Brien
+1643 : Sw Oakland Ave
+4712 : Sw Oneida St
+4617 : Sw Pickett St
+678 : Sw Providence Cove Ct
+1491 : Sweet St Ne
+1983 : Swensberg Ne
+2441 : Sycamore St Se
+1908 : Sylvan Ave Se
+2100 : Sylvan Se
+1766 : Sylvia Nw
+460 : Tabor Rd Nw #34
+445 : Tabor Rd Nw #40
+443 : Tabor Rd Nw #80
+464 : Tabor Rd Nw Unit B
+4735 : Taft Ave Sw
+4758 : Taft St Sw
+4898 : Tahoma Dr Sw
+902 : Talamore Ct Se #0
+998 : Talamore Ct Se #57
+2352 : Tall Mdw Ne #00
+2522 : Tall Meadow St Ne #2
+2526 : Tall Meadow St Ne Ne #7
+1136 : Tall Pines Ct Se
+1085 : Tall Pines Ct Se #25
+1152 : Tall Pines Dr Se
+1048 : Tall Pines Dr Se #44
+1150 : Tall Timber Se
+1131 : Tall Timber St Se
+977 : Tallgrass Ave Se
+4498 : Tallman Creek Dr Nw
+4503 : Tallman Crk
+1998 : Tamarack Ave
+1663 : Tamarack Ave Nw
+1811 : Tamarack Nw
+1179 : Tammarron Ave Se
+3282 : Tampa St Se
+4996 : Tansy Trl
+4968 : Tansy Trl Sw
+1177 : Taos Ave Ne
+2942 : Taplin St Sw
+1374 : Teakwood
+1370 : Teakwood Dr
+1205 : Tearose Dr
+3829 : Teasel
+3916 : Teasel Ne
+3779 : Teasel St Ne
+1090 : Tee Seventeen Ct Se #0
+1528 : Temple St Se
+4648 : Tennyson Sw
+821 : Tenway Se
+2152 : Ter Van Dr Ne #51
+2029 : Ter Van Dr Ne #80
+2034 : Ter Van Dr Ne #90
+2138 : Ter Van Ne #54
+4032 : Terrie Lynn Dr Ne
+3207 : Terry Dr Se
+333 : Tesoro Dr Ne
+4384 : Texas Nw
+18 : Th
+2 : Th Ave
+106 : Th Ave #24
+1 : Th Ave #6
+4109 : Th Ave Nw
+4803 : Th Ave Sw
+1725 : Th Nw
+696 : Th Se
+1498 : Th St Nw
+2030 : Th St Nw #43
+639 : Th St Se
+3285 : Th St Se #2
+138 : Th St Sw
+4781 : Th St Sw #1025
+601 : Th St Sw Unit T
+1851 : Th Street St Nw
+149 : Th Sw
+4884 : Thackery Ct Sw
+1866 : Thelma Ave Se
+3759 : Thimbleweed Ln Ne
+1999 : Third St Nw
+2421 : Thistledown Dr Ne
+2401 : Thistledowne Dr Ne
+1334 : Thomas
+1380 : Thomas Ave
+1586 : Thomas Se
+4130 : Thomas St Nw
+1441 : Thomas St Se
+1617 : Thompson Ct Se
+3472 : Thorn Creek St Se
+3559 : Thorn Run Ct Se #32
+1042 : Thornapple Club Ct Se #23
+868 : Thornapple Club Dr Se
+1065 : Thornapple Club Dr Se #17
+861 : Thornapple River Dr Se
+3981 : Thornberry Hill Ct Ne #20
+1397 : Thornbrook Dr
+960 : Thorncrest Dr Se
+4744 : Thornwood St Sw
+4899 : Thornwood Sw
+4478 : Thornwyk Dr Nw
+5022 : Thoroughbred Dr Sw
+4048 : Thousand Oaks Ne
+2528 : Three Mile Rd Ne
+1382 : Thrush Dr
+2993 : Thunderbird Ave Sw
+4683 : Thurston Ave Sw
+4606 : Thurston St Sw
+3172 : Tierra St Se
+301 : Tiffany Ave Ne
+295 : Tiffany Pines Dr Ne
+265 : Tillicum Grv Ne
+293 : Tillicum Trl Ne
+246 : Tillicum Trl Ne #52
+1104 : Timber Canyon Ct
+1038 : Timber Canyon Dr Se
+398 : Timber Creek Cir Nw #56
+456 : Timber Creek Ct Nw
+356 : Timber Cyn Ne
+33 : Timber Dr
+34 : Timber Dr #12
+27 : Timber Dr #24
+3456 : Timber Lake Ln Se
+1035 : Timber Ridge Dr Se
+4436 : Timber Winds Ct Sw
+4493 : Timber Winds Dr Sw
+4458 : Timber Winds Dr Sw #22
+108 : Timbercreek Dr
+3409 : Timberlake Ct Se
+3477 : Timberlake Dr Se
+2461 : Timberland Dr Se
+2480 : Timberland Dr Se #34
+2464 : Timberland Dr Se #35
+1359 : Timberlane Dr
+2233 : Timberlane Ln Ne
+2873 : Timberlane Sw
+83 : Timberline
+55 : Timberline Dr
+3992 : Timberview Dr Ne
+4061 : Timberview St Ne
+3373 : Timberwood Dr Se
+3368 : Timberwood Dr Se Se
+3362 : Timberwood Se
+4828 : Tioga Dr Sw
+1237 : Todd Ave
+3461 : Torrington Dr Se
+2853 : Town Crossing Dr #0
+1755 : Towner Ave Sw
+1455 : Towner Sw
+4211 : Townsend Trl Ne
+2631 : Tradition Dr Ne
+264 : Trail East Ne
+3963 : Trail West Dr Ne
+4077 : Trail West Ne
+2572 : Trailridge Ct Se
+2249 : Trailside Ct Nw
+365 : Tramore Ct Ne
+1568 : Travis St Ne
+954 : Treeline Dr Se
+2478 : Treeridge Dr Se #119
+1945 : Tremont Blvd Nw
+4915 : Trentwood St Sw
+4290 : Trinidad Ave Nw
+4505 : Trinidad Dr Nw
+582 : Trinity St Sw
+4998 : Trojan Dr Sw
+1172 : Troon Ct Se
+2724 : Trowbridge St Ne
+602 : Tufton Dr
+538 : Tufton Dr Sw
+591 : Tularosa Dr Sw #34
+521 : Tularosa Dr Sw #36
+517 : Tularosa Dr Sw #37
+515 : Tularosa Dr Sw #38
+1226 : Tulip Ln
+4888 : Tumbleweed Sw
+1194 : Turnberry Dr Se
+1521 : Turner Ave Nw
+2104 : Turner Nw
+2475 : Turnstone Ln Ne #90
+2697 : Twin Lakes Dr Ne
+1249 : Tyler St
+1423 : Underhill Ave Sw
+1583 : Underhill Sw
+2127 : Underwood Ave Se
+1638 : Union Ave Ne
+2603 : Union Ave Ne #103
+2305 : Union Ave Ne #212
+2728 : Union Ave Ne #302
+2734 : Union Ave Ne #303
+2702 : Union Ave Ne #312
+2561 : Union Ave Ne Apt 106
+2543 : Union Ave Ne Apt 201
+2585 : Union Ave Ne Apt 208
+2704 : Union Ave Ne Apt 311
+595 : Union Ave Se
+4859 : Union Ct
+1819 : Union Ne
+1984 : Union Se
+1933 : Union St Ne
+1468 : Union St Se
+4668 : Urban Ave Sw
+1987 : Valley
+1500 : Valley Ave Nw
+1840 : Valley Ave Sw
+2472 : Valley Forge St Nw
+3765 : Valley Hollow Dr Ne #17
+3863 : Valley Hollow Dr Ne #22
+3322 : Valley Lane Dr Se
+1860 : Valley Nw
+3809 : Valley Rim Dr Ne #8
+3808 : Valley Side Ct Ne #54
+82 : Valley View Ave
+120 : Valley View Dr
+3567 : Valley Vista Dr
+3581 : Valley Vista Dr Se
+4714 : Valleyridge Ave Sw
+5000 : Valleyridge Sw
+4838 : Valleyview St Sw
+4526 : Van Allen St Se
+2122 : Van Auken Se
+2013 : Van Auken St Se
+2078 : Van Buren Ave Nw
+2201 : Van Ess Ave Nw
+1459 : Van Haften Pl Se
+4426 : Van Portfliet Ave Nw
+2036 : Vanauken St Se
+1537 : Vandine Pl Ne
+3396 : Vanover St Se #2
+3511 : Vanover St Se #29
+3395 : Vanover St Se #3
+3397 : Vanover St Se #4
+4427 : Vanportfliet Dr Nw
+2258 : Vassar St Se
+500 : Venna Pl
+3960 : Veranda Dr #55
+319 : Verde Vista Dr Ne
+959 : Vergennes St Se
+2907 : Vermont Ave
+2925 : Vermont Ave Sw
+3738 : Vernor Ave Ne
+731 : Vesta Ln Se
+1501 : Veto St Nw
+368 : Via Nuevo Dr Ne
+1134 : Vickery Hill Ct Se
+488 : Vida Cir
+3793 : Viewpoint Dr Ne
+3776 : Viewpoint Dr Ne #139
+3125 : Villa Montee Dr Se #59
+3076 : Villa Montee Dr Se #65
+3186 : Villa Ridge Dr Se #105
+3118 : Villa Ridge Dr Se #112
+3035 : Villa Ridge Dr Se #126
+3081 : Villa Ridge Dr Se #65
+1764 : Village Dr Se #00
+1798 : Village Dr Se #62
+1822 : Village Dr Se #99
+1258 : Village Ln #106
+1235 : Village Ln #152
+1218 : Village Ln #169
+1239 : Village Ln #172
+1321 : Village Ln #180
+1213 : Village Ln #200
+1245 : Village Ln #204
+1306 : Village Ln #221
+1315 : Village Ln #224
+1248 : Village Ln #232
+1298 : Village Ln #237
+228 : Vine St Se
+2943 : Vine St Sw
+2986 : Vine Sw
+4398 : Vinecroft St Nw
+1845 : Vineland Ave Se
+2209 : Vineland Ct Se
+968 : Vinewood Ave Se
+3703 : Vineyard Ave Ne
+3665 : Vinton Ave Nw
+3654 : Vinton Nw
+698 : Violet St Sw
+683 : Violet Sw
+2568 : Virginia St Se
+1330 : Vos St
+1547 : Vries St Sw
+1012 : W Abbey Mill Dr #18
+231 : W Alanada Ct
+629 : W Amberwood Dr Sw #115
+586 : W Amberwood Dr Sw #116
+566 : W Amberwood Dr Sw #15
+533 : W Amberwood Dr Sw #30
+658 : W Amberwood Dr Sw #92
+4477 : W Avery Ct
+4443 : W Avery Nw
+4488 : W Brandon Ridge Dr Nw #19
+4511 : W Brandon Ridge Dr Nw #20
+4474 : W Brandon Ridge Dr Nw #3
+4507 : W Brandon Ridge Dr Nw #4
+306 : W Cannon Pl Ne #4
+305 : W Cannon Place Dr #1
+351 : W Cannon Place Dr #14
+300 : W Cannon Place Dr Ne #9
+3982 : W Canterbury Dr Ne #20
+3870 : W Canterbury Dr Ne #8
+3794 : W Canterbury Ne
+490 : W Cleveland St
+673 : W Crownpointe Ct Sw
+3485 : W De Blaay Ct Se
+3338 : W Deblaay Ct Se
+4204 : W Division St Ne
+320 : W Encantado Ct Ne
+3514 : W Falling Leaf Dr Se
+2103 : W Fulton St
+4375 : W Grand Blvd Nw
+3552 : W Greenstone Dr Se #19
+3480 : W Grove Dr Se
+2719 : W Kentview Dr Ne
+2710 : W Kentview Ne
+3526 : W Kirk Ct
+3414 : W Lyn Haven Dr Se #18
+3250 : W Lyn Haven Dr Se #31
+3600 : W Main
+215 : W Main St Se
+4281 : W Prospect St
+3700 : W River Rd Ne
+1447 : W Saxony Dr Se #27
+1141 : W Village Ct Se
+1033 : W Village Ct Se #148
+1139 : W Village Trl Se
+3851 : Wabash Ct Ne
+3818 : Wabash Dr Ne
+4106 : Waddell Creek Dr Ne
+1358 : Wagonwheel St
+3854 : Wahlfield Ave Nw
+11 : Wake Dr #1
+419 : Wakefield Ave Ne
+436 : Wakefield Ne
+2376 : Wakely St Ne
+4649 : Walcott St Sw
+1418 : Walker Ave Nw
+1412 : Walker Ave Nw #2
+4411 : Walker Woods Ct Nw
+2941 : Wallace Ave Sw
+394 : Wallingford Dr Nw
+2131 : Wallinwood Ave Ne
+1296 : Walnut Ave
+3543 : Walnut Hills Ct Se
+3027 : Walnut Hills Dr Se #13
+3179 : Walnut Hills Dr Se #22
+3116 : Walnut Hills Dr Se #8
+1802 : Walnut St Ne
+2118 : Walsh St Se
+4696 : Walter Se
+4530 : Walter St Se
+4690 : Walton Ave
+4573 : Walton Ave Sw
+4694 : Walton Sw
+2260 : Walwood Dr Ne
+2328 : Walwood Ter Ne
+9 : Warner St
+4076 : Warwick Glen Dr Ne
+796 : Warwick Rd Se
+4113 : Washington St
+2720 : Washington St Se
+2286 : Washtenaw Ne
+1836 : Washtenaw St Ne
+470 : Water Lily Way Ne #35
+100 : Water View Ln
+4896 : Water Walk Dr Sw #1
+4881 : Water Walk Dr Sw #7
+3244 : Waterbury Dr Se
+359 : Watercrest Ave Ne
+2132 : Waterford Ave Ne
+3747 : Waterford Ct Ne
+19 : Waterline Dr
+20 : Watermark Dr
+1129 : Watermark Dr Se
+1067 : Watermark Dr Se #29
+1095 : Watermark Dr Se #5
+1028 : Watermark Dr Se #62
+37 : Waterpoint Dr
+52 : Waterview Ln
+91 : Waterway Dr
+1810 : Watkins Se
+1460 : Watkins St Se
+1647 : Watson
+1566 : Watson St Sw
+685 : Wavell St Se
+919 : Waybridge Dr Se #22
+877 : Waybridge Dr Se #24
+2867 : Wayburn Ave Sw
+2361 : Wealthy Se
+752 : Wealthy Se #4
+757 : Wealthy St Se
+708 : Wealthy St Se #206
+818 : Wealthy St Se #27
+787 : Wealthy St Se #35
+712 : Wealthy St Se #4
+715 : Wealthy St Se Apt 11
+722 : Wealthy St Se Apt 206
+714 : Wealthy St Se Apt 7
+3188 : Weatherstone Ln Se
+1679 : Webster St Nw
+2933 : Wedgewood Ct Sw
+4842 : Wedgewood Dr Sw
+261 : Weller Ave Ne
+366 : Weller Dr Ne
+2400 : Wellington Ave
+2269 : Wellington Ave Se
+2584 : Wellington Se
+4666 : Wendler Sw
+4948 : Wentworth Dr Sw
+4966 : Wentworth St Sw
+4635 : Wesley St Se
+894 : West Abbey Mill Dr #04
+1107 : West Abbey Mill Dr #2
+1106 : West Abbey Mill Dr #3
+1098 : West Abbey Mill Dr #6
+1099 : West Abbey Mill Dr #7
+4742 : West Ave Sw
+3405 : West Grove Dr Se
+3712 : West River Dr Ne
+492 : West St
+2377 : Westboro Dr Ne
+2562 : Westbrook Dr Nw
+2408 : Westend Ave Nw
+391 : Westfield Dr Nw
+1345 : Westgate
+1288 : Westgate Ave
+392 : Westgate Ave Nw
+1278 : Westgate Dr
+409 : Westgate Dr Nw
+4354 : Westgrand Blvd Nw
+3896 : Westlake Ct Ne
+1319 : Westlane Ave
+3121 : Westminster Dr Se #63
+3050 : Westminster Dr Se #70
+2229 : Westmont Dr Nw
+2254 : Westmoor Nw
+420 : Westnedge Ave Nw
+430 : Westshire Ct Nw
+402 : Westshire Dr Nw
+1824 : Westview Ave Nw
+2690 : Westwinde St Nw
+1290 : Westwood
+1271 : Westwood Dr
+3729 : Westwood Dr Ne
+4626 : Wexford St Se
+1843 : Weymouth Dr Se
+2469 : Whimbrel Ct Ne #44
+281 : Whip-Poor-Wil Way Ne
+3321 : Whisper Cove Dr Se #101
+3296 : Whispercove Se #89
+3024 : Whispering Brk #65
+3137 : Whispering Brk Unit 3
+3023 : Whispering Brook Ct Se #3581
+3129 : Whispering Brook Ct Se #40
+3080 : Whispering Brook Ct Se #400
+3053 : Whispering Brook Ct Se #43
+3056 : Whispering Brook Dr Se #15
+3043 : Whispering Brook Dr Se #27
+3052 : Whispering Brook Dr Se #56
+2302 : Whispering Brook Dr Se #79
+60 : Whispering Creek Dr
+2594 : Whispering Meadows Cres Se
+2696 : Whispering Meadows Ct Se
+1185 : Whispering Ridge Dr Se
+1116 : Whispering Ridge St Se
+3281 : Whisperwood Ct Se
+3234 : Whisperwood Ct Se #38
+3283 : Whisperwood Ct Se #50
+163 : Whistle Creek Dr
+3326 : Whistle Stop Dr Se
+3351 : Whistlestop Dr Se
+992 : Whitburn Dr Se
+1606 : White Ave Nw
+31 : White Birch Dr
+4437 : White Pine Dr Sw
+2840 : White St Sw
+5069 : Whitewood Dr Sw
+3961 : Whitewood Farms Ct Ne
+3953 : Whitewood Farms Dr Ne
+4643 : Whiting St Sw
+4543 : Whiting Sw
+1980 : Whitmore Ave Nw
+1808 : Whitmore Nw
+355 : Whitten St Ne
+1078 : Whitworth Ct Se
+1963 : Widdicomb Ave Nw
+1844 : Widdicomb Nw
+4671 : Wilbur St Se
+2600 : Wilcox Park Dr Se
+4041 : Wild Ginger Ct Ne
+4096 : Wild Rose Ln Ne
+3435 : Wild Senna Ave Se
+3400 : Wild Senna Dr Se
+3370 : Wild Senna Se
+323 : Wildermere Dr Ne
+2164 : Wildfield Ne #24
+2020 : Wildfield Ne #51
+3476 : Wildflower Ln Se
+3865 : Wildridge Ne
+4783 : Wilex Ave Sw
+4737 : Wilex Ct Sw
+4776 : Wilex Sw
+2851 : Wilfred Ave Sw
+3002 : Wilfred St Sw
+3142 : Wilkshire Ave Sw
+4644 : Wilkshire Sw
+617 : Willard Ave Se
+2390 : Willard Se
+3684 : Williamson Ave Ne
+1832 : Willis Ave Nw
+621 : Willman Se
+2935 : Willow Creek Dr Sw
+3733 : Willow Dr Ne
+4020 : Willow Lane Ct Ne #52
+428 : Wilmington Ave Nw
+61 : Wilmington Dr
+46 : Wilmington Dr #12
+89 : Wilmington Dr #16
+3474 : Wilmont Dr Se
+2393 : Wilnella Dr Se
+774 : Wilshire Dr Se
+4374 : Wilson Ave Nw
+2854 : Wilson Ave Sw
+4424 : Wilson Nw
+2930 : Wilson Sw
+2558 : Wilton Dr Se
+36 : Winans
+7 : Winans St
+4120 : Winans St Nw
+2592 : Winchell St Se
+3393 : Wind Brook Ave Se
+4940 : Windcrest Ave Sw
+1885 : Windcrest Ct Ne #41
+1897 : Windcrest Dr Ne #11
+1966 : Windcrest Dr Ne #19
+1888 : Windcrest Dr Ne Unit -
+2506 : Windcrest Ln Ne #29
+994 : Windcrest St Se
+2197 : Windcrest Way Ne
+2154 : Windcrest Way Ne #2982
+4121 : Windemere Dr Nw
+77 : Windfield Dr
+3828 : Windflower St Ne
+1339 : Windgate Dr
+185 : Winding Dr Sw #29
+3956 : Winding Oak Trl Ne #89
+2638 : Windshire Dr Se
+2643 : Windshire Dr Se #24
+2157 : Windsor Ter Se
+4912 : Windview Dr Sw
+4051 : Windwood Dr Ne
+2978 : Windybrook Dr Sw
+3709 : Winesap Dr Ne
+3802 : Winesap Ne
+3483 : Wing Ave Se
+3227 : Wingate Dr Se
+3366 : Wingate Se
+2121 : Winick St Se
+1044 : Winsfield Ln Se
+4367 : Winslow St Nw
+3789 : Winston Hill Dr
+3790 : Winston Hill Dr Ne
+1132 : Winter Rdg Ne #47
+1019 : Winter Ridge Dr Ne
+931 : Winter Run Dr Se #28
+887 : Winter Run Dr Se Unit 1L
+3784 : Wintercress Dr Ne #5
+3512 : Wintergreen Dr Se
+4102 : Winterwood Dr Ne
+3986 : Winterwood Dr Ne #1
+3972 : Winterwood Dr Ne #23
+4652 : Wisconsin Sw
+1540 : Withey St Sw
+3228 : Wolf Run
+3178 : Wolf Run Ave Se
+3507 : Wolfboro Dr Se
+1403 : Wood Dr
+1156 : Wood Duck Ln Se
+2977 : Woodbine Ave Sw
+3970 : Woodbriar Dr
+3664 : Woodbury Ne
+2291 : Woodcliff Ave Se
+759 : Woodcliff Cir Se
+736 : Woodcliff Dr Se
+2360 : Woodcliff Ln Se
+786 : Woodcliff Se
+2051 : Woodcrest Dr Nw
+42 : Woodedge Ave
+40 : Woodedge Dr
+4131 : Woodgate Dr Nw
+2171 : Woodglen St Nw
+159 : Woodhaven Dr
+180 : Woodhaven Dr Sw
+4986 : Woodhill Ct Sw
+3839 : Woodhills Dr Ne
+1335 : Woodland St
+734 : Woodlawn Ave Se
+1658 : Woodlawn St Se
+4163 : Woodley Creek Ct Nw
+4978 : Woodlily St Sw
+2362 : Woodmeadow Dr Se
+2318 : Woodmere Ave Se
+4416 : Woodmont St Nw
+2510 : Woodnymph Ct Ne
+3952 : Woodridge Cir Ne #0
+3994 : Woodridge Cir Ne #1
+4065 : Woodridge Cir Ne #48
+4011 : Woodridge Cir Ne #58
+3115 : Woodrose Ct Se #14
+1687 : Woodrow Ave Nw
+121 : Woodruff Dr Sw
+479 : Woodrush Ct Nw #18
+466 : Woodrush Ct Nw #9
+395 : Woodrush Ln #21
+388 : Woodrush Ln #56
+403 : Woodrush Ln #60
+389 : Woodrush Ln #68
+472 : Woodrush Ln Nw #22
+406 : Woodrush Ln Nw #26
+465 : Woodrush Ln Nw #46
+414 : Woodrush Nw #43
+4717 : Woods Trl Sw #31
+3906 : Woodsboro Dr Ne
+3273 : Woodshire Pl Se #27
+2436 : Woodside Ave Se
+1800 : Woodside Dr Ne
+663 : Woodspointe Dr Sw
+916 : Woodvale St Se
+4592 : Woodview Ave Sw
+4835 : Woodview Sw
+2096 : Woodward Ave Se
+4532 : Woodward Ave Sw
+4752 : Woodward Sw
+3830 : Woodwater Dr Ne
+3755 : Woodwind Dr Ne #26
+3645 : Woodwind Dr Ne #34
+3824 : Woodwind Dr Ne #40
+3903 : Woodworth St Ne
+1483 : Woolsey Dr Sw
+2343 : Wooster Dr Se
+2044 : Worcester Dr Ne
+1461 : Worden St Se
+824 : Wren Ave Se
+4631 : Wrenwood St Sw
+4806 : Wrenwood Sw
+3307 : Wyndtree Ln Se
+4570 : Wyoming
+4540 : Wyoming Ave Sw
+4641 : Wyoming Sw
+2884 : Yellowstone Dr Sw
+5072 : Yellowstone River Dr Sw #2
+2850 : Yellowstone Sw
+405 : York View Ct Nw #5
+393 : York View Ln Nw #35
+476 : Yorkwoods Ln Nw
+452 : Yorkwoods Ln Nw #15
+367 : Young Ave Ne
+307 : Young Ne
+5021 : Yukon Sw
+555 : Yuma Ridge Dr Sw
+609 : Yuma Ridge Dr Sw Sw #192
+4127 : Zackery Ct
+4001 : Zoe Ln Ne #45
+1767 : Zuni Trl Se #12
+1772 : Zuni Trl Se #16
+1773 : Zuni Trl Se #21
+
+CITY
+6 : Ada
+2 : Allendale
+1 : Allendale Charter Township
+9 : Alpine Twp
+30 : Battle Creek
+7 : Belmont
+3 : Byron Center
+13 : Byron Twp
+4 : Caledonia
+8 : Comstock Park
+29 : Conklin
+10 : Coopersville
+14 : East Grand Rapids
+18 : Georgetown
+16 : Georgetown Township
+19 : Georgetown Twsp
+11 : Grand Rapids
+24 : Grand Rapids Twp
+23 : Grandville
+17 : Hudsonville
+15 : Jenison
+12 : Kentwood
+25 : Lowell
+28 : Marne
+26 : Plainfield Charter Township
+5 : Rockford
+21 : Saginaw
+27 : Sparta
+22 : Walker
+20 : Wyoming
+
+STATE
+1 : Mi
+
