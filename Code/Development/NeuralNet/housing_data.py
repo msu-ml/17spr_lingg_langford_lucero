@@ -9,20 +9,29 @@ import csv
 import numpy
 import os
 import re
-from enum import Enum
 from keras.utils import np_utils
 
-class ReplaceMethod(Enum):
+class ReplaceMethod(object):
     MEAN = 1
     SIMILARITY = 2
 
 class HousingData(object):
-    def __init__(self):
-        self.num_targets = None
-        self.X_train = None
-        self.y_train = None
-        self.X_test = None
-        self.y_test = None
+    def __init__(self, filepath, num_classes):
+        data = self.read_csv(filepath)
+        numpy.random.shuffle(data)
+
+        (X, y) = self.preprocess_data(data)
+        X = self.replace_missing_values(X, ReplaceMethod.SIMILARITY)
+
+        self.num_classes = num_classes
+        self.target_dist = self.get_target_distribution(y)
+        y = self.categorize_targets(y)
+        
+        test_size = numpy.int(X.shape[0] * 0.1)
+        self.X_train = X[0:-test_size]
+        self.y_train = y[0:-test_size]
+        self.X_test = X[-test_size:]
+        self.y_test = y[-test_size:]
     
     def get_description(self):
         return ''
@@ -62,37 +71,36 @@ class HousingData(object):
                     entry[nan_idx] = complete_data[closest,nan_idx]  
         return data
     
-    def categorize_targets(self, targets, target_dist):
+    def get_target_distribution(self, targets):
+        target_dist = []
+        partition_size = numpy.int(targets.shape[0]/(self.num_classes-1))
+        partitions = self.partition(numpy.sort(targets), partition_size)
+        for partition in partitions:
+            target_dist.append(partition[0])
+        return target_dist
+
+    def categorize_targets(self, targets):
         for i in range(len(targets)):
             target_class = 0
-            for j in range(len(target_dist)):
-                if targets[i] > target_dist[j]:
+            for j in range(len(self.target_dist)):
+                if targets[i] > self.target_dist[j]:
                     target_class = j 
             targets[i] = target_class
-        return np_utils.to_categorical(targets, self.num_targets)
+        return np_utils.to_categorical(targets, self.num_classes)
+
+    def partition(self, data, n):
+        for i in range(0, len(data), n):
+            yield data[i:i + n]
 
 class RedfinData(HousingData):
-    def __init__(self, filepath, target_dist):
-        super(RedfinData, self).__init__()
-        self.num_targets = len(target_dist)
-        
-        data = self.read_csv(filepath)
-        numpy.random.shuffle(data)
-
-        (X, y) = self.preprocess_data(data)
-        X = self.replace_missing_values(X, ReplaceMethod.SIMILARITY)
-        y = self.categorize_targets(y, target_dist)
-        
-        test_size = numpy.int(X.shape[0] * 0.1)
-        self.X_train = X[0:-test_size]
-        self.y_train = y[0:-test_size]
-        self.X_test = X[-test_size:]
-        self.y_test = y[-test_size:]
+    def __init__(self, filepath, num_classes):
+        super(RedfinData, self).__init__(filepath, num_classes)
         
     def get_description(self):
         return ('Housing data for the Grand Rapids, MI area.' + os.linesep +
                 'Training data entries: {}'.format(self.X_train.shape[0]) + os.linesep +
-                'Test data entries: {}'.format(self.X_test.shape[0]))
+                'Test data entries: {}'.format(self.X_test.shape[0]) + os.linesep +
+                'Target classes: {}'.format(self.target_dist))
     
     def preprocess_data(self, data):
         X = numpy.copy(data)
@@ -108,27 +116,14 @@ class RedfinData(HousingData):
         return (X, y)
 
 class KingCountyData(HousingData):
-    def __init__(self, filepath, target_dist):
-        super(KingCountyData, self).__init__()
-        self.num_targets = len(target_dist)
-                
-        data = self.read_csv(filepath)
-        numpy.random.shuffle(data)
+    def __init__(self, filepath, num_classes):
+        super(KingCountyData, self).__init__(filepath, num_classes)
         
-        (X, y) = self.preprocess_data(data)
-        X = self.replace_missing_values(X, ReplaceMethod.SIMILARITY)
-        y = self.categorize_targets(y, target_dist)
-        
-        test_size = numpy.int(X.shape[0] * 0.1)
-        self.X_train = X[0:-test_size]
-        self.y_train = y[0:-test_size]
-        self.X_test = X[-test_size:]
-        self.y_test = y[-test_size:]
-
     def get_description(self):
         return ('Housing data for the King County, WA area.' + os.linesep +
                 'Training data entries: {}'.format(self.X_train.shape[0]) + os.linesep +
-                'Test data entries: {}'.format(self.X_test.shape[0]))
+                'Test data entries: {}'.format(self.X_test.shape[0]) + os.linesep +
+                'Target classes: {}'.format(self.target_dist))
 
     def preprocess_data(self, data):
         X = numpy.copy(data)
@@ -145,27 +140,14 @@ class KingCountyData(HousingData):
         return (X, y)
 
 class NashvilleData(HousingData):
-    def __init__(self, filepath, target_dist):
-        super(NashvilleData, self).__init__()
-        self.num_targets = len(target_dist)
-
-        data = self.read_csv(filepath)
-        numpy.random.shuffle(data)
-                             
-        (X, y) = self.preprocess_data(data)
-        X = self.replace_missing_values(X, ReplaceMethod.SIMILARITY)
-        y = self.categorize_targets(y, target_dist)
-        
-        test_size = numpy.int(X.shape[0] * 0.1)
-        self.X_train = X[0:-test_size]
-        self.y_train = y[0:-test_size]
-        self.X_test = X[-test_size:]
-        self.y_test = y[-test_size:]
+    def __init__(self, filepath, num_classes):
+        super(NashvilleData, self).__init__(filepath, num_classes)
 
     def get_description(self):
         return ('Housing data for the Nashville, TN area.' + os.linesep +
                 'Training data entries: {}'.format(self.X_train.shape[0]) + os.linesep +
-                'Test data entries: {}'.format(self.X_test.shape[0]))
+                'Test data entries: {}'.format(self.X_test.shape[0]) + os.linesep +
+                'Target classes: {}'.format(self.target_dist))
 
     def preprocess_data(self, data):
         X = numpy.copy(data)
@@ -222,7 +204,7 @@ class NashvilleData(HousingData):
         X = self.encode(X, grade_column, grade_encodings, grade_regex)
 
         # Remove unnecessary columns.
-        X = numpy.delete(X, [0,1,2,5,8,9,12,13,14,15,19], axis=1)
+        X = numpy.delete(X, [0,1,2,5,8,9,12,13,14,15,19,31,32,33], axis=1)
         
         # Convert all fields into float values
         X = X.astype('float32')
@@ -241,3 +223,4 @@ class NashvilleData(HousingData):
             else:
                 entry[column] = numpy.nan
         return data
+    

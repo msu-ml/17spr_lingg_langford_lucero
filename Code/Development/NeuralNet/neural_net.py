@@ -77,22 +77,25 @@ class NeuralNetwork(object):
 
 class Application(object):
     def __init__(self):
-        target_dist = [0, 70000, 100000, 125000, 140000, 160000, 180000, 210000, 250000, 325000]
+        num_classes = 10
         
         print('Loading data.')
-        self.data = NashvilleData('Data/Nashville_housing_data_2013_2016.csv', target_dist)
-        #self.data = KingCountyData('Data/kc_house_data.csv', target_dist)
-        #self.data = RedfinData('Data/redfin_encoded.csv', target_dist)
+        #self.data = NashvilleData('Data/Nashville_housing_data_2013_2016.csv', num_classes)
+        self.data = NashvilleData('Data/Nashville_geocoded.csv', num_classes)
+        #self.data = KingCountyData('Data/kc_house_data.csv', num_classes)
+        #self.data = RedfinData('Data/redfin_encoded.csv', num_classes)
         print('{}'.format(self.data.get_description()))
         
         print('Building neural network.')
         input_shape = self.data.X_train.shape[1:]
-        num_outputs = self.data.num_targets
+        num_outputs = self.data.num_classes
         self.network = NeuralNetwork(input_shape, num_outputs)
         
     def run(self):
+        num_epochs = 1
+        
         print('Training neural network.')
-        self.network.train(self.data, 5)
+        self.network.train(self.data, num_epochs)
         
         print('Evaluating neural network.')
         result = self.network.test(self.data)
