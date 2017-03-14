@@ -80,10 +80,9 @@ class Application(object):
         num_classes = 10
         
         print('Loading data.')
-        #self.data = NashvilleData('Data/Nashville_housing_data_2013_2016.csv', num_classes)
         self.data = NashvilleData('Data/Nashville_geocoded.csv', num_classes)
         #self.data = KingCountyData('Data/kc_house_data.csv', num_classes)
-        #self.data = RedfinData('Data/redfin_encoded.csv', num_classes)
+        #self.data = RedfinData('Data/redfin.csv', num_classes)
         print('{}'.format(self.data.get_description()))
         
         print('Building neural network.')
@@ -92,7 +91,7 @@ class Application(object):
         self.network = NeuralNetwork(input_shape, num_outputs)
         
     def run(self):
-        num_epochs = 1
+        num_epochs = 10
         
         print('Training neural network.')
         self.network.train(self.data, num_epochs)
