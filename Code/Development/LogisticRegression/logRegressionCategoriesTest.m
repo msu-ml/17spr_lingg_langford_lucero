@@ -65,22 +65,27 @@ function BestWeights = trainRanges(TrainData, TrainSolution, NumCategories)
   dataWithBias = cat(2,ones(size(TrainData,1),1),TrainData);
   
     %Perform 1000 training sweeps
-  for a = 1:1000
-      %Perform gradient descent on the model for each category.
-    for j = 1:NumCategories
+  sweepCount = 1000;
+  for a = 1:sweepCount
+      
         %Loop through the entire data set and perform a single step of
         %gradient descent.
       for i = 1:size(TrainSolution,1)
-        trainSolution = 0;
-		
-		  %Result is only 1 if this is a matching category.
-        if TrainSolution(i) == j
-          trainSolution = 1; 
-        end
-        error = 1 / (1 + exp( -BestWeights( j , : ) * dataWithBias( i, : )' ) ) - trainSolution;
+        trainSolution = zeros(1,max(TrainSolution));
 
-        BestWeights( j , : ) = BestWeights( j , : ) - alpha * error * dataWithBias( i, : );
+          %Result is 1 if the house value is greater than or equal to this category.
+        %if TrainSolution(i) >= j
+        %  trainSolution = 1; 
+        %end
+        trainSolution(1,TrainSolution(i)) = 1;
+        
+        error = 1 ./ (1 + exp( -dataWithBias( i, : ) * BestWeights' ) ) - trainSolution;
+
+        BestWeights = BestWeights - alpha * error' * dataWithBias( i, : );
+
       end
+    if (mod(a,sweepCount/100)==0)
+    disp(strcat(num2str(a/(sweepCount/100)),'%'));
     end
   end
   

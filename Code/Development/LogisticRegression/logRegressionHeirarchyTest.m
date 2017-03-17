@@ -59,32 +59,36 @@ function BestWeights = trainRanges(TrainData, TrainSolution, NumCategories)
   BestWeights = zeros(max(TrainSolution),size(TrainData,2) + 1);
   
   %Best step size found so far.
-  alpha = 5.7;
+  alpha = 15.0;
   
   % Add the bias to the data as a column of 1s
   dataWithBias = cat(2,ones(size(TrainData,1),1),TrainData);
   
-    %Perform 1000 training sweeps
-  for a = 1:1000
-      %Perform gradient descent on the model for each category.
-    for j = 1:NumCategories
-        %Loop through the entire data set and perform a single step of
-        %gradient descent.
-      for i = 1:size(TrainSolution,1)
-        trainSolution = 0;
+    %Perform training sweeps
+  sweepCount = 500;
+  for a = 1:sweepCount
+      
+        trainSolution = zeros(size(TrainSolution,1),max(TrainSolution));
 
-          %Result is 1 if the house value is greater than or equal to this category.
-        if TrainSolution(i) >= j
-          trainSolution = 1; 
+            %Setup all of the training solutions.
+            %A 1 indicates the house value is greater than or equal to this
+            %category.
+        for i = 1:size(TrainSolution,1)
+        trainSolution(i,1:TrainSolution(i)) = 1;
         end
-        error = 1 / (1 + exp( -BestWeights( j , : ) * dataWithBias( i, : )' ) ) - trainSolution;
+        
+        error = 1 ./ (1 + exp( -dataWithBias * BestWeights' ) ) - trainSolution;
 
-        BestWeights( j , : ) = BestWeights( j , : ) - alpha * error * dataWithBias( i, : );
-      end
+        BestWeights = BestWeights - alpha * error' * dataWithBias;
+
+    if (mod(a,sweepCount/100)==0)
+    disp(strcat(num2str(a/(sweepCount/100)),'%'));
     end
+%    alpha = alpha * 0.999;
   end
   
   %Plot the resulting weights for debugging
+  disp(size(BestWeights));
     figure;
     plot ( BestWeights, 'r' );
     legend('BestWeights');
@@ -100,8 +104,8 @@ function MSE = RunError(ModelW, Categories, Truth, Data, Graph)
   result = zeros( 1, length(Truth) );
   for i = 1:length(Truth)
       
-      %Calculate the logistic regression for each category and take the
-      %highest percentage result.
+      %Each category indicates the house value is worth at least this
+      %category's value.  Sum up all the positive results.
     subResult = zeros(1, max(Truth));
     for j = 1:Categories
         if ( 1 / (1 + exp( -ModelW(j,:) * Data( i, : )' ) ) > 0.5 )
