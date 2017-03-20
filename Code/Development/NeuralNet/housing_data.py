@@ -8,7 +8,6 @@ Created on Fri Mar 10 12:24:58 2017
 import csv
 import numpy
 import os
-import re
 from keras.utils import np_utils
 
 class SubstitutionMethod(object):
@@ -16,12 +15,12 @@ class SubstitutionMethod(object):
     SIMILARITY = 2
 
 class HousingData(object):
-    def __init__(self, filepath, fields, encoded_fields, target_field, num_classes):
+    def __init__(self, filepath, fields, cat_fields, target_field, num_classes):
         """Constructs a new data object.
         Arguments:
             filepath - file path for a CSV file
             fields - the fields to read
-            encoded_fields - the fields to automatically encode
+            cat_fields - the fields that contain categorical values
             target_field - the field containing the target values
             num_classes - the number of desired target classes
         """
@@ -36,11 +35,16 @@ class HousingData(object):
         # Randomly shuffle the data rows.
         numpy.random.shuffle(data)
 
-        # Encode any fields that need encoding.
-        data = self.encode(data, encoded_fields)
-        data = data.astype('float32')
-
+        # Split categorical fields up.
+        if len(cat_fields) > 0:
+            data = self.split_categorical_fields(data, cat_fields)
+            
+            # Write a copy of the processed data to a csv file.
+            output_path = os.path.splitext(filepath)[0] + '_processed.csv'
+            self.write_csv(output_path, self.fields, data)
+        
         # Separate the target field from the rest.
+        data = data.astype('float32')
         (X, y) = self.separate_targets(data, target_field)
         X = X.astype('float32')
         y = y.astype('int')
@@ -61,7 +65,7 @@ class HousingData(object):
         self.y_train = y[0:-test_size]
         self.X_test = X[-test_size:]
         self.y_test = y[-test_size:]
-    
+        
     def get_description(self):
         """Gets a description of the data.
         """
@@ -89,35 +93,37 @@ class HousingData(object):
                 data.append(entry)
         return numpy.array(data)
     
-    def encode(self, data, encoded_fields):
-        """Automatically encodes the given fields.
+    def write_csv(self, filepath, fields, data):
+        output_fields = numpy.array(fields)
+        output_data = numpy.vstack([output_fields, data])
+        with open(filepath, 'wb') as output_file:
+            writer = csv.writer(output_file)
+            writer.writerows(output_data)
+    
+    def split_categorical_fields(self, data, cat_fields):
+        """Finds unique values for a categorical field and splits it into a set
+        of binary fields for each category.
         Arguments:
             data - a data array
-            encoded_fields - the fields to encode
+            cat_fields - the fields that contain categorical values
         """
-        # Create a dictionary for each encoded field.
-        encodings = {}
-        for field in encoded_fields:
-            encodings[field] = {}
-
-        # Read each encoded field for each entry.
-        regex = re.compile(r"""\s*(?P<value>.+)\s*""")
-        for entry in data:
-            for field in encoded_fields:
-                # Extract the value to encode from the field.
-                column = self.fields.index(field)
-                match = regex.match(entry[column])
-                if match != None:
-                    value = match.group('value')
-                    # If the value hasn't been seen before, add it to the dictionary.
-                    if not value in encodings[field].keys():
-                        encodings[field][value] = len(encodings[field]) + 1
-                    # Get the associated encoded value for the field from the dictionary.
-                    entry[column] = encodings[field][value]
-                else:
-                    # If no value could be found in the field, put a nan in it.
-                    entry[column] = numpy.nan
-        self.encodings = encodings
+        for field in cat_fields:
+            column = self.fields.index(field)
+            cats = numpy.unique(data[:,column])
+            cats = numpy.delete(cats, numpy.argwhere(cats=='nan'))
+            cat_data = numpy.zeros((data.shape[0], cats.shape[0]))
+            for i in range(cats.shape[0]):
+                cat_data[:,i] = (data[:,column] == cats[i])
+                new_field = field + ' (is ' + cats[i].strip().title() + ')'
+                self.fields.append(new_field)
+            data = numpy.concatenate((data, cat_data), axis=1)
+        
+        delete_columns = []
+        for field in cat_fields:
+            delete_columns.append(self.fields.index(field))
+        data = numpy.delete(data, delete_columns, axis=1)
+        self.fields = [x for x in self.fields if x not in cat_fields]
+        
         return data
     
     def replace_missing_values(self, data, method):
@@ -243,7 +249,7 @@ class RedfinData(HousingData):
                 'LONGITUDE',
                 'PRICE'
                 ]
-        encoded_fields = [
+        cat_fields = [
                 'PROPERTY TYPE',
                 'CITY',
                 'STATE'
@@ -252,7 +258,7 @@ class RedfinData(HousingData):
         super(RedfinData, self).__init__(
                 filepath, 
                 fields, 
-                encoded_fields,
+                cat_fields,
                 target_field,
                 num_classes)
         
@@ -294,12 +300,12 @@ class KingCountyData(HousingData):
                 'sqft_living15',
                 'sqft_lot15'
                 ]
-        encoded_fields = []
+        cat_fields = []
         target_field = 'price'
         super(KingCountyData, self).__init__(
                 filepath, 
                 fields, 
-                encoded_fields,
+                cat_fields,
                 target_field,
                 num_classes)
         
@@ -344,7 +350,7 @@ class NashvilleData(HousingData):
                 'geocoded_latitude',
                 'geocoded_longitude'
                 ]
-        encoded_fields = [
+        cat_fields = [
                 'Land Use',
                 'Property City',
                 'Sold As Vacant',
@@ -358,7 +364,7 @@ class NashvilleData(HousingData):
         super(NashvilleData, self).__init__(
                 filepath,
                 fields,
-                encoded_fields,
+                cat_fields,
                 target_field,
                 num_classes)
 

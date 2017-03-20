@@ -6,6 +6,7 @@ Created on Fri Mar 10 09:55:15 2017
 """
 
 import getopt
+import matplotlib.pyplot
 import numpy
 import sys
 from keras.callbacks import Callback
@@ -13,7 +14,7 @@ from keras.callbacks import LearningRateScheduler
 from keras.layers import Dense
 from keras.layers import Dropout
 from keras.models import Sequential
-from keras.optimizers import RMSprop
+from keras.optimizers import Adagrad
 from housing_data import KingCountyData
 from housing_data import NashvilleData
 from housing_data import RedfinData
@@ -22,31 +23,42 @@ from housing_data import RedfinData
 seed = 69
 numpy.random.seed(seed)
 
-class LossTracker(Callback):
+class MetricTracker(Callback):
     def on_train_begin(self, logs={}):
-        self.loss_init = -1
-        self.loss = -1
+        self.epoch = []
+        self.loss = []
+        self.acc = []
+        self.val_loss = []
+        self.val_acc = []
+        self.eval_loss = None
+        self.eval_acc = None
+
     def on_epoch_end(self, batch, logs={}):
-        self.loss = logs.get('loss')
-        if self.loss_init < 0:
-            self.loss_init = self.loss
+        self.epoch.append(len(self.epoch))
+        self.loss.append(logs.get('loss'))
+        self.acc.append(logs.get('acc'))
+        self.val_loss.append(logs.get('val_loss'))
+        self.val_acc.append(logs.get('val_acc'))
 
 class NeuralNetwork(object):
     def __init__(self, input_shape, num_outputs):
-        self.adaptive_learning_rate = False
-        self.eta_init = 0.1
         self.batch_size = 20
+        self.adaptive_learning_rate = True
+        self.eta_init = 0.1
         self.model = self.create_model(input_shape, num_outputs)
-        self.loss_tracker = LossTracker()
+        self.metrics = MetricTracker()
         self.lr_scheduler = LearningRateScheduler(self.update_learning_rate)
         
     def create_model(self, input_shape, num_outputs):
+        num_inputs = input_shape[0]
         model = Sequential()
-        model.add(Dense(num_outputs*4, activation='sigmoid', input_shape=input_shape))
-        model.add(Dense(num_outputs*2, activation='sigmoid'))
+        #model.add(Dense(num_outputs*4, activation='sigmoid', input_shape=input_shape))
+        #model.add(Dense(num_outputs*16, activation='sigmoid'))
+        model.add(Dense(num_inputs*4, activation='sigmoid', input_shape=input_shape))
+        model.add(Dense(num_inputs*2, activation='sigmoid'))
         model.add(Dense(num_outputs, activation='softmax'))
         model.compile(
-                optimizer=RMSprop(lr=self.eta_init),
+                optimizer=Adagrad(lr=self.eta_init),
                 loss='categorical_crossentropy',
                 metrics=['accuracy'])
         return model
@@ -58,17 +70,18 @@ class NeuralNetwork(object):
                 nb_epoch=num_epochs,
                 batch_size=self.batch_size,
                 verbose=1,
-                callbacks=[self.loss_tracker, self.lr_scheduler],
+                callbacks=[self.metrics, self.lr_scheduler],
                 validation_data=(data.X_test, data.y_test))
         
     def test(self, data):
         scores = self.model.evaluate(data.X_test, data.y_test, verbose=1)
-        return scores[1]
+        self.metrics.eval_loss = scores[0]
+        self.metrics.eval_acc = scores[1]
 
     def update_learning_rate(self, epoch):
         if epoch > 0 and self.adaptive_learning_rate:
-            loss_init = self.loss_tracker.loss_init
-            loss = self.loss_tracker.loss
+            loss_init = self.metrics.loss[0]
+            loss = self.metrics.loss[-1]
             eta = (self.eta_init*(numpy.exp(loss)-1))/(numpy.exp(loss_init)-1)
             print('Epoch {} - Adaptive Learning Rate [eta={:.6f}]'.format(epoch, eta))
         else:
@@ -77,31 +90,55 @@ class NeuralNetwork(object):
 
 class Application(object):
     def __init__(self):
-        num_classes = 10
+        self.num_classes = 5
+        self.num_epochs = 50
         
-        print('Loading data.')
-        self.data = NashvilleData('Data/Nashville_geocoded.csv', num_classes)
-        #self.data = KingCountyData('Data/kc_house_data.csv', num_classes)
-        #self.data = RedfinData('Data/redfin.csv', num_classes)
-        print('{}'.format(self.data.get_description()))
-        
-        print('Building neural network.')
-        input_shape = self.data.X_train.shape[1:]
-        num_outputs = self.data.num_classes
-        self.network = NeuralNetwork(input_shape, num_outputs)
+        print('Processing data.')
+        self.sources = [NashvilleData('Data/Nashville_geocoded.csv', self.num_classes),
+                        KingCountyData('Data/kc_house_data.csv', self.num_classes),
+                        RedfinData('Data/redfin.csv', self.num_classes)
+                       ]
         
     def run(self):
-        num_epochs = 10
-        
-        print('Training neural network.')
-        self.network.train(self.data, num_epochs)
-        
-        print('Evaluating neural network.')
-        result = self.network.test(self.data)
-    
-        print('')
-        print('Accuracy: {:.2f}%'.format(result*100))
+        metrics = []
+        for data in self.sources:
+            print('{}'.format(data.get_description()))
+            
+            print('Building neural network.')
+            input_shape = data.X_train.shape[1:]
+            num_outputs = data.num_classes
+            network = NeuralNetwork(input_shape, num_outputs)
+            
+            print('Training neural network.')
+            network.train(data, self.num_epochs)
+            
+            print('Evaluating neural network.')
+            network.test(data)
+            print('')
+            print('Accuracy: {:.2f}%'.format(network.metrics.eval_acc*100))
+            metrics.append(network.metrics)
+
+        self.plot(metrics)
         print('Done.')
+        
+    def plot(self, metrics):
+        matplotlib.pyplot.figure(1)
+        matplotlib.pyplot.subplot(2, 1, 1)
+        matplotlib.pyplot.plot(metrics[0].epoch, metrics[0].acc, 'r', label='Nashville, TN')
+        matplotlib.pyplot.plot(metrics[1].epoch, metrics[1].acc, 'g', label='King County, WA')
+        matplotlib.pyplot.plot(metrics[2].epoch, metrics[2].acc, 'b', label='Grand Rapids, MI')
+        matplotlib.pyplot.xlabel('Epoch')
+        matplotlib.pyplot.ylabel('Training Accuracy')
+        matplotlib.pyplot.legend(loc=4)
+        matplotlib.pyplot.subplot(2, 1, 2)
+        matplotlib.pyplot.plot(metrics[0].epoch, metrics[0].val_acc, 'r', label='Nashville, TN')
+        matplotlib.pyplot.plot(metrics[1].epoch, metrics[1].val_acc, 'g', label='King County, WA')
+        matplotlib.pyplot.plot(metrics[2].epoch, metrics[2].val_acc, 'b', label='Grand Rapids, MI')
+        matplotlib.pyplot.xlabel('Epoch')
+        matplotlib.pyplot.ylabel('Testing Accuracy')
+        matplotlib.pyplot.legend(loc=4)
+        matplotlib.pyplot.savefig('figure_01.jpg')
+        matplotlib.pyplot.show()
 
 def main(argv):
     app = Application()
