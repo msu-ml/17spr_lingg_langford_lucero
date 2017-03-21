@@ -1,0 +1,479 @@
+Processing data.
+Housing data for the Nashville, TN area.
+Training data entries: 50973
+Test data entries: 5663
+Target classes: [50, 135000, 205450, 329000]
+Building neural network.
+Training neural network.
+Train on 50973 samples, validate on 5663 samples
+Epoch 1/50
+50973/50973 [==============================] - 7s - loss: 1.1110 - acc: 0.4985 - val_loss: 1.0764 - val_acc: 0.5140
+Epoch 1 - Adaptive Learning Rate [eta=0.100000]
+Epoch 2/50
+50973/50973 [==============================] - 7s - loss: 1.0631 - acc: 0.5261 - val_loss: 1.0590 - val_acc: 0.5177
+Epoch 2 - Adaptive Learning Rate [eta=0.093024]
+Epoch 3/50
+50973/50973 [==============================] - 7s - loss: 1.0443 - acc: 0.5338 - val_loss: 1.0418 - val_acc: 0.5411
+Epoch 3 - Adaptive Learning Rate [eta=0.090377]
+Epoch 4/50
+50973/50973 [==============================] - 7s - loss: 1.0292 - acc: 0.5401 - val_loss: 1.0300 - val_acc: 0.5400
+Epoch 4 - Adaptive Learning Rate [eta=0.088290]
+Epoch 5/50
+50973/50973 [==============================] - 7s - loss: 1.0166 - acc: 0.5458 - val_loss: 1.0191 - val_acc: 0.5359
+Epoch 5 - Adaptive Learning Rate [eta=0.086563]
+Epoch 6/50
+50973/50973 [==============================] - 7s - loss: 1.0061 - acc: 0.5536 - val_loss: 1.0043 - val_acc: 0.5513
+Epoch 6 - Adaptive Learning Rate [eta=0.085145]
+Epoch 7/50
+50973/50973 [==============================] - 7s - loss: 0.9969 - acc: 0.5582 - val_loss: 0.9997 - val_acc: 0.5591
+Epoch 7 - Adaptive Learning Rate [eta=0.083924]
+Epoch 8/50
+50973/50973 [==============================] - 7s - loss: 0.9898 - acc: 0.5624 - val_loss: 0.9946 - val_acc: 0.5557
+Epoch 8 - Adaptive Learning Rate [eta=0.082980]
+Epoch 9/50
+50973/50973 [==============================] - 7s - loss: 0.9841 - acc: 0.5660 - val_loss: 0.9855 - val_acc: 0.5596
+Epoch 9 - Adaptive Learning Rate [eta=0.082227]
+Epoch 10/50
+50973/50973 [==============================] - 7s - loss: 0.9790 - acc: 0.5672 - val_loss: 0.9826 - val_acc: 0.5651
+Epoch 10 - Adaptive Learning Rate [eta=0.081555]
+Epoch 11/50
+50973/50973 [==============================] - 7s - loss: 0.9750 - acc: 0.5696 - val_loss: 0.9782 - val_acc: 0.5705
+Epoch 11 - Adaptive Learning Rate [eta=0.081033]
+Epoch 12/50
+50973/50973 [==============================] - 7s - loss: 0.9713 - acc: 0.5714 - val_loss: 0.9764 - val_acc: 0.5637
+Epoch 12 - Adaptive Learning Rate [eta=0.080562]
+Epoch 13/50
+50973/50973 [==============================] - 7s - loss: 0.9683 - acc: 0.5711 - val_loss: 0.9734 - val_acc: 0.5681
+Epoch 13 - Adaptive Learning Rate [eta=0.080174]
+Epoch 14/50
+50973/50973 [==============================] - 7s - loss: 0.9654 - acc: 0.5725 - val_loss: 0.9695 - val_acc: 0.5705
+Epoch 14 - Adaptive Learning Rate [eta=0.079801]
+Epoch 15/50
+50973/50973 [==============================] - 7s - loss: 0.9629 - acc: 0.5731 - val_loss: 0.9682 - val_acc: 0.5617
+Epoch 15 - Adaptive Learning Rate [eta=0.079468]
+Epoch 16/50
+50973/50973 [==============================] - 7s - loss: 0.9605 - acc: 0.5739 - val_loss: 0.9645 - val_acc: 0.5714
+Epoch 16 - Adaptive Learning Rate [eta=0.079163]
+Epoch 17/50
+50973/50973 [==============================] - 7s - loss: 0.9585 - acc: 0.5739 - val_loss: 0.9628 - val_acc: 0.5697
+Epoch 17 - Adaptive Learning Rate [eta=0.078908]
+Epoch 18/50
+50973/50973 [==============================] - 7s - loss: 0.9566 - acc: 0.5762 - val_loss: 0.9622 - val_acc: 0.5760
+Epoch 18 - Adaptive Learning Rate [eta=0.078666]
+Epoch 19/50
+50973/50973 [==============================] - 7s - loss: 0.9551 - acc: 0.5759 - val_loss: 0.9592 - val_acc: 0.5739
+Epoch 19 - Adaptive Learning Rate [eta=0.078470]
+Epoch 20/50
+50973/50973 [==============================] - 7s - loss: 0.9533 - acc: 0.5764 - val_loss: 0.9592 - val_acc: 0.5691
+Epoch 20 - Adaptive Learning Rate [eta=0.078248]
+Epoch 21/50
+50973/50973 [==============================] - 7s - loss: 0.9519 - acc: 0.5787 - val_loss: 0.9566 - val_acc: 0.5728
+Epoch 21 - Adaptive Learning Rate [eta=0.078071]
+Epoch 22/50
+50973/50973 [==============================] - 7s - loss: 0.9503 - acc: 0.5777 - val_loss: 0.9572 - val_acc: 0.5758
+Epoch 22 - Adaptive Learning Rate [eta=0.077861]
+Epoch 23/50
+50973/50973 [==============================] - 7s - loss: 0.9488 - acc: 0.5812 - val_loss: 0.9550 - val_acc: 0.5744
+Epoch 23 - Adaptive Learning Rate [eta=0.077671]
+Epoch 24/50
+50973/50973 [==============================] - 7s - loss: 0.9477 - acc: 0.5797 - val_loss: 0.9539 - val_acc: 0.5755
+Epoch 24 - Adaptive Learning Rate [eta=0.077529]
+Epoch 25/50
+50973/50973 [==============================] - 7s - loss: 0.9465 - acc: 0.5805 - val_loss: 0.9527 - val_acc: 0.5778
+Epoch 25 - Adaptive Learning Rate [eta=0.077387]
+Epoch 26/50
+50973/50973 [==============================] - 7s - loss: 0.9452 - acc: 0.5803 - val_loss: 0.9522 - val_acc: 0.5773
+Epoch 26 - Adaptive Learning Rate [eta=0.077221]
+Epoch 27/50
+50973/50973 [==============================] - 7s - loss: 0.9440 - acc: 0.5808 - val_loss: 0.9513 - val_acc: 0.5818
+Epoch 27 - Adaptive Learning Rate [eta=0.077071]
+Epoch 28/50
+50973/50973 [==============================] - 7s - loss: 0.9428 - acc: 0.5826 - val_loss: 0.9489 - val_acc: 0.5817
+Epoch 28 - Adaptive Learning Rate [eta=0.076912]
+Epoch 29/50
+50973/50973 [==============================] - 7s - loss: 0.9420 - acc: 0.5825 - val_loss: 0.9484 - val_acc: 0.5826
+Epoch 29 - Adaptive Learning Rate [eta=0.076810]
+Epoch 30/50
+50973/50973 [==============================] - 7s - loss: 0.9412 - acc: 0.5839 - val_loss: 0.9481 - val_acc: 0.5852
+Epoch 30 - Adaptive Learning Rate [eta=0.076715]
+Epoch 31/50
+50973/50973 [==============================] - 7s - loss: 0.9400 - acc: 0.5841 - val_loss: 0.9486 - val_acc: 0.5773
+Epoch 31 - Adaptive Learning Rate [eta=0.076566]
+Epoch 32/50
+50973/50973 [==============================] - 7s - loss: 0.9390 - acc: 0.5844 - val_loss: 0.9471 - val_acc: 0.5843
+Epoch 32 - Adaptive Learning Rate [eta=0.076432]
+Epoch 33/50
+50973/50973 [==============================] - 7s - loss: 0.9382 - acc: 0.5852 - val_loss: 0.9461 - val_acc: 0.5773
+Epoch 33 - Adaptive Learning Rate [eta=0.076334]
+Epoch 34/50
+50973/50973 [==============================] - 7s - loss: 0.9374 - acc: 0.5853 - val_loss: 0.9462 - val_acc: 0.5790
+Epoch 34 - Adaptive Learning Rate [eta=0.076231]
+Epoch 35/50
+50973/50973 [==============================] - 7s - loss: 0.9366 - acc: 0.5850 - val_loss: 0.9446 - val_acc: 0.5859
+Epoch 35 - Adaptive Learning Rate [eta=0.076143]
+Epoch 36/50
+50973/50973 [==============================] - 7s - loss: 0.9357 - acc: 0.5859 - val_loss: 0.9456 - val_acc: 0.5794
+Epoch 36 - Adaptive Learning Rate [eta=0.076022]
+Epoch 37/50
+50973/50973 [==============================] - 7s - loss: 0.9351 - acc: 0.5849 - val_loss: 0.9436 - val_acc: 0.5841
+Epoch 37 - Adaptive Learning Rate [eta=0.075952]
+Epoch 38/50
+50973/50973 [==============================] - 7s - loss: 0.9342 - acc: 0.5860 - val_loss: 0.9412 - val_acc: 0.5880
+Epoch 38 - Adaptive Learning Rate [eta=0.075841]
+Epoch 39/50
+50973/50973 [==============================] - 7s - loss: 0.9334 - acc: 0.5868 - val_loss: 0.9438 - val_acc: 0.5896
+Epoch 39 - Adaptive Learning Rate [eta=0.075739]
+Epoch 40/50
+50973/50973 [==============================] - 7s - loss: 0.9328 - acc: 0.5885 - val_loss: 0.9436 - val_acc: 0.5833
+Epoch 40 - Adaptive Learning Rate [eta=0.075661]
+Epoch 41/50
+50973/50973 [==============================] - 7s - loss: 0.9320 - acc: 0.5883 - val_loss: 0.9424 - val_acc: 0.5810
+Epoch 41 - Adaptive Learning Rate [eta=0.075565]
+Epoch 42/50
+50973/50973 [==============================] - 7s - loss: 0.9314 - acc: 0.5884 - val_loss: 0.9422 - val_acc: 0.5817
+Epoch 42 - Adaptive Learning Rate [eta=0.075488]
+Epoch 43/50
+50973/50973 [==============================] - 7s - loss: 0.9306 - acc: 0.5882 - val_loss: 0.9405 - val_acc: 0.5843
+Epoch 43 - Adaptive Learning Rate [eta=0.075388]
+Epoch 44/50
+50973/50973 [==============================] - 7s - loss: 0.9300 - acc: 0.5883 - val_loss: 0.9403 - val_acc: 0.5818
+Epoch 44 - Adaptive Learning Rate [eta=0.075314]
+Epoch 45/50
+50973/50973 [==============================] - 7s - loss: 0.9295 - acc: 0.5898 - val_loss: 0.9381 - val_acc: 0.5917
+Epoch 45 - Adaptive Learning Rate [eta=0.075256]
+Epoch 46/50
+50973/50973 [==============================] - 7s - loss: 0.9288 - acc: 0.5899 - val_loss: 0.9383 - val_acc: 0.5866
+Epoch 46 - Adaptive Learning Rate [eta=0.075164]
+Epoch 47/50
+50973/50973 [==============================] - 7s - loss: 0.9283 - acc: 0.5913 - val_loss: 0.9372 - val_acc: 0.5907
+Epoch 47 - Adaptive Learning Rate [eta=0.075099]
+Epoch 48/50
+50973/50973 [==============================] - 7s - loss: 0.9277 - acc: 0.5899 - val_loss: 0.9376 - val_acc: 0.5896
+Epoch 48 - Adaptive Learning Rate [eta=0.075026]
+Epoch 49/50
+50973/50973 [==============================] - 7s - loss: 0.9272 - acc: 0.5909 - val_loss: 0.9381 - val_acc: 0.5898
+Epoch 49 - Adaptive Learning Rate [eta=0.074960]
+Epoch 50/50
+50973/50973 [==============================] - 7s - loss: 0.9265 - acc: 0.5902 - val_loss: 0.9369 - val_acc: 0.5901
+Evaluating neural network.
+5632/5663 [============================>.] - ETA: 0s
+Accuracy: 59.01%
+Housing data for the King County, WA area.
+Training data entries: 19452
+Test data entries: 2161
+Target classes: [75000, 321950, 450000, 645000, 7700000]
+Building neural network.
+Training neural network.
+Train on 19452 samples, validate on 2161 samples
+Epoch 1/50
+19452/19452 [==============================] - 2s - loss: 1.1307 - acc: 0.4592 - val_loss: 1.0819 - val_acc: 0.4850
+Epoch 1 - Adaptive Learning Rate [eta=0.100000]
+Epoch 2/50
+19452/19452 [==============================] - 2s - loss: 1.0748 - acc: 0.4884 - val_loss: 1.0744 - val_acc: 0.4961
+Epoch 2 - Adaptive Learning Rate [eta=0.091974]
+Epoch 3/50
+19452/19452 [==============================] - 2s - loss: 1.0638 - acc: 0.4994 - val_loss: 1.0655 - val_acc: 0.4859
+Epoch 3 - Adaptive Learning Rate [eta=0.090449]
+Epoch 4/50
+19452/19452 [==============================] - 2s - loss: 1.0567 - acc: 0.4980 - val_loss: 1.0556 - val_acc: 0.5012
+Epoch 4 - Adaptive Learning Rate [eta=0.089470]
+Epoch 5/50
+19452/19452 [==============================] - 2s - loss: 1.0523 - acc: 0.5013 - val_loss: 1.0551 - val_acc: 0.4984
+Epoch 5 - Adaptive Learning Rate [eta=0.088859]
+Epoch 6/50
+19452/19452 [==============================] - 2s - loss: 1.0482 - acc: 0.5046 - val_loss: 1.0432 - val_acc: 0.5099
+Epoch 6 - Adaptive Learning Rate [eta=0.088300]
+Epoch 7/50
+19452/19452 [==============================] - 2s - loss: 1.0453 - acc: 0.5059 - val_loss: 1.0573 - val_acc: 0.5007
+Epoch 7 - Adaptive Learning Rate [eta=0.087907]
+Epoch 8/50
+19452/19452 [==============================] - 2s - loss: 1.0430 - acc: 0.5049 - val_loss: 1.0433 - val_acc: 0.5076
+Epoch 8 - Adaptive Learning Rate [eta=0.087598]
+Epoch 9/50
+19452/19452 [==============================] - 2s - loss: 1.0410 - acc: 0.5091 - val_loss: 1.0352 - val_acc: 0.5099
+Epoch 9 - Adaptive Learning Rate [eta=0.087326]
+Epoch 10/50
+19452/19452 [==============================] - 2s - loss: 1.0391 - acc: 0.5101 - val_loss: 1.0355 - val_acc: 0.5160
+Epoch 10 - Adaptive Learning Rate [eta=0.087076]
+Epoch 11/50
+19452/19452 [==============================] - 2s - loss: 1.0380 - acc: 0.5127 - val_loss: 1.0320 - val_acc: 0.5104
+Epoch 11 - Adaptive Learning Rate [eta=0.086927]
+Epoch 12/50
+19452/19452 [==============================] - 2s - loss: 1.0370 - acc: 0.5123 - val_loss: 1.0310 - val_acc: 0.5123
+Epoch 12 - Adaptive Learning Rate [eta=0.086785]
+Epoch 13/50
+19452/19452 [==============================] - 2s - loss: 1.0352 - acc: 0.5119 - val_loss: 1.0299 - val_acc: 0.5127
+Epoch 13 - Adaptive Learning Rate [eta=0.086551]
+Epoch 14/50
+19452/19452 [==============================] - 2s - loss: 1.0346 - acc: 0.5148 - val_loss: 1.0299 - val_acc: 0.5095
+Epoch 14 - Adaptive Learning Rate [eta=0.086470]
+Epoch 15/50
+19452/19452 [==============================] - 2s - loss: 1.0336 - acc: 0.5140 - val_loss: 1.0278 - val_acc: 0.5104
+Epoch 15 - Adaptive Learning Rate [eta=0.086330]
+Epoch 16/50
+19452/19452 [==============================] - 2s - loss: 1.0329 - acc: 0.5161 - val_loss: 1.0269 - val_acc: 0.5137
+Epoch 16 - Adaptive Learning Rate [eta=0.086238]
+Epoch 17/50
+19452/19452 [==============================] - 2s - loss: 1.0323 - acc: 0.5144 - val_loss: 1.0304 - val_acc: 0.5174
+Epoch 17 - Adaptive Learning Rate [eta=0.086164]
+Epoch 18/50
+19452/19452 [==============================] - 2s - loss: 1.0316 - acc: 0.5162 - val_loss: 1.0292 - val_acc: 0.5169
+Epoch 18 - Adaptive Learning Rate [eta=0.086064]
+Epoch 19/50
+19452/19452 [==============================] - 2s - loss: 1.0308 - acc: 0.5144 - val_loss: 1.0247 - val_acc: 0.5178
+Epoch 19 - Adaptive Learning Rate [eta=0.085965]
+Epoch 20/50
+19452/19452 [==============================] - 2s - loss: 1.0304 - acc: 0.5166 - val_loss: 1.0256 - val_acc: 0.5137
+Epoch 20 - Adaptive Learning Rate [eta=0.085907]
+Epoch 21/50
+19452/19452 [==============================] - 2s - loss: 1.0298 - acc: 0.5159 - val_loss: 1.0241 - val_acc: 0.5141
+Epoch 21 - Adaptive Learning Rate [eta=0.085825]
+Epoch 22/50
+19452/19452 [==============================] - 2s - loss: 1.0294 - acc: 0.5173 - val_loss: 1.0234 - val_acc: 0.5146
+Epoch 22 - Adaptive Learning Rate [eta=0.085778]
+Epoch 23/50
+19452/19452 [==============================] - 2s - loss: 1.0292 - acc: 0.5165 - val_loss: 1.0223 - val_acc: 0.5160
+Epoch 23 - Adaptive Learning Rate [eta=0.085751]
+Epoch 24/50
+19452/19452 [==============================] - 2s - loss: 1.0289 - acc: 0.5187 - val_loss: 1.0235 - val_acc: 0.5192
+Epoch 24 - Adaptive Learning Rate [eta=0.085709]
+Epoch 25/50
+19452/19452 [==============================] - 2s - loss: 1.0286 - acc: 0.5162 - val_loss: 1.0230 - val_acc: 0.5187
+Epoch 25 - Adaptive Learning Rate [eta=0.085662]
+Epoch 26/50
+19452/19452 [==============================] - 2s - loss: 1.0281 - acc: 0.5195 - val_loss: 1.0239 - val_acc: 0.5113
+Epoch 26 - Adaptive Learning Rate [eta=0.085593]
+Epoch 27/50
+19452/19452 [==============================] - 2s - loss: 1.0277 - acc: 0.5190 - val_loss: 1.0245 - val_acc: 0.5164
+Epoch 27 - Adaptive Learning Rate [eta=0.085541]
+Epoch 28/50
+19452/19452 [==============================] - 2s - loss: 1.0272 - acc: 0.5217 - val_loss: 1.0226 - val_acc: 0.5187
+Epoch 28 - Adaptive Learning Rate [eta=0.085475]
+Epoch 29/50
+19452/19452 [==============================] - 2s - loss: 1.0270 - acc: 0.5184 - val_loss: 1.0202 - val_acc: 0.5174
+Epoch 29 - Adaptive Learning Rate [eta=0.085457]
+Epoch 30/50
+19452/19452 [==============================] - 2s - loss: 1.0269 - acc: 0.5187 - val_loss: 1.0199 - val_acc: 0.5164
+Epoch 30 - Adaptive Learning Rate [eta=0.085437]
+Epoch 31/50
+19452/19452 [==============================] - 2s - loss: 1.0265 - acc: 0.5209 - val_loss: 1.0235 - val_acc: 0.5174
+Epoch 31 - Adaptive Learning Rate [eta=0.085391]
+Epoch 32/50
+19452/19452 [==============================] - 2s - loss: 1.0264 - acc: 0.5186 - val_loss: 1.0200 - val_acc: 0.5146
+Epoch 32 - Adaptive Learning Rate [eta=0.085368]
+Epoch 33/50
+19452/19452 [==============================] - 2s - loss: 1.0262 - acc: 0.5196 - val_loss: 1.0197 - val_acc: 0.5169
+Epoch 33 - Adaptive Learning Rate [eta=0.085353]
+Epoch 34/50
+19452/19452 [==============================] - 2s - loss: 1.0259 - acc: 0.5205 - val_loss: 1.0196 - val_acc: 0.5160
+Epoch 34 - Adaptive Learning Rate [eta=0.085306]
+Epoch 35/50
+19452/19452 [==============================] - 2s - loss: 1.0256 - acc: 0.5205 - val_loss: 1.0197 - val_acc: 0.5169
+Epoch 35 - Adaptive Learning Rate [eta=0.085269]
+Epoch 36/50
+19452/19452 [==============================] - 2s - loss: 1.0254 - acc: 0.5208 - val_loss: 1.0215 - val_acc: 0.5201
+Epoch 36 - Adaptive Learning Rate [eta=0.085244]
+Epoch 37/50
+19452/19452 [==============================] - 2s - loss: 1.0251 - acc: 0.5205 - val_loss: 1.0192 - val_acc: 0.5187
+Epoch 37 - Adaptive Learning Rate [eta=0.085196]
+Epoch 38/50
+19452/19452 [==============================] - 2s - loss: 1.0249 - acc: 0.5188 - val_loss: 1.0201 - val_acc: 0.5174
+Epoch 38 - Adaptive Learning Rate [eta=0.085175]
+Epoch 39/50
+19452/19452 [==============================] - 2s - loss: 1.0247 - acc: 0.5212 - val_loss: 1.0189 - val_acc: 0.5201
+Epoch 39 - Adaptive Learning Rate [eta=0.085150]
+Epoch 40/50
+19452/19452 [==============================] - 2s - loss: 1.0242 - acc: 0.5208 - val_loss: 1.0172 - val_acc: 0.5174
+Epoch 40 - Adaptive Learning Rate [eta=0.085075]
+Epoch 41/50
+19452/19452 [==============================] - 2s - loss: 1.0244 - acc: 0.5206 - val_loss: 1.0176 - val_acc: 0.5201
+Epoch 41 - Adaptive Learning Rate [eta=0.085113]
+Epoch 42/50
+19452/19452 [==============================] - 2s - loss: 1.0241 - acc: 0.5221 - val_loss: 1.0188 - val_acc: 0.5192
+Epoch 42 - Adaptive Learning Rate [eta=0.085066]
+Epoch 43/50
+19452/19452 [==============================] - 2s - loss: 1.0240 - acc: 0.5206 - val_loss: 1.0178 - val_acc: 0.5197
+Epoch 43 - Adaptive Learning Rate [eta=0.085050]
+Epoch 44/50
+19452/19452 [==============================] - 2s - loss: 1.0237 - acc: 0.5223 - val_loss: 1.0205 - val_acc: 0.5201
+Epoch 44 - Adaptive Learning Rate [eta=0.085021]
+Epoch 45/50
+19452/19452 [==============================] - 2s - loss: 1.0232 - acc: 0.5235 - val_loss: 1.0168 - val_acc: 0.5211
+Epoch 45 - Adaptive Learning Rate [eta=0.084952]
+Epoch 46/50
+19452/19452 [==============================] - 2s - loss: 1.0232 - acc: 0.5216 - val_loss: 1.0167 - val_acc: 0.5192
+Epoch 46 - Adaptive Learning Rate [eta=0.084952]
+Epoch 47/50
+19452/19452 [==============================] - 2s - loss: 1.0231 - acc: 0.5209 - val_loss: 1.0232 - val_acc: 0.5234
+Epoch 47 - Adaptive Learning Rate [eta=0.084929]
+Epoch 48/50
+19452/19452 [==============================] - 2s - loss: 1.0233 - acc: 0.5220 - val_loss: 1.0175 - val_acc: 0.5192
+Epoch 48 - Adaptive Learning Rate [eta=0.084957]
+Epoch 49/50
+19452/19452 [==============================] - 2s - loss: 1.0232 - acc: 0.5233 - val_loss: 1.0153 - val_acc: 0.5192
+Epoch 49 - Adaptive Learning Rate [eta=0.084947]
+Epoch 50/50
+19452/19452 [==============================] - 2s - loss: 1.0228 - acc: 0.5220 - val_loss: 1.0162 - val_acc: 0.5215
+Evaluating neural network.
+2080/2161 [===========================>..] - ETA: 0s
+Accuracy: 52.15%
+Housing data for the Grand Rapids, MI area.
+Training data entries: 9234
+Test data entries: 1026
+Target classes: [5000, 115000, 160500, 229280]
+Building neural network.
+Training neural network.
+Train on 9234 samples, validate on 1026 samples
+Epoch 1/50
+9234/9234 [==============================] - 1s - loss: 1.2461 - acc: 0.4089 - val_loss: 1.1560 - val_acc: 0.4951
+Epoch 1 - Adaptive Learning Rate [eta=0.100000]
+Epoch 2/50
+9234/9234 [==============================] - 1s - loss: 1.1306 - acc: 0.4839 - val_loss: 1.1169 - val_acc: 0.5136
+Epoch 2 - Adaptive Learning Rate [eta=0.084686]
+Epoch 3/50
+9234/9234 [==============================] - 1s - loss: 1.1001 - acc: 0.5095 - val_loss: 1.1045 - val_acc: 0.5000
+Epoch 3 - Adaptive Learning Rate [eta=0.080934]
+Epoch 4/50
+9234/9234 [==============================] - 1s - loss: 1.0844 - acc: 0.5191 - val_loss: 1.0905 - val_acc: 0.5234
+Epoch 4 - Adaptive Learning Rate [eta=0.079041]
+Epoch 5/50
+9234/9234 [==============================] - 1s - loss: 1.0756 - acc: 0.5286 - val_loss: 1.0804 - val_acc: 0.5175
+Epoch 5 - Adaptive Learning Rate [eta=0.077993]
+Epoch 6/50
+9234/9234 [==============================] - 1s - loss: 1.0680 - acc: 0.5360 - val_loss: 1.0783 - val_acc: 0.5283
+Epoch 6 - Adaptive Learning Rate [eta=0.077100]
+Epoch 7/50
+9234/9234 [==============================] - 1s - loss: 1.0620 - acc: 0.5356 - val_loss: 1.0731 - val_acc: 0.5136
+Epoch 7 - Adaptive Learning Rate [eta=0.076399]
+Epoch 8/50
+9234/9234 [==============================] - 1s - loss: 1.0583 - acc: 0.5380 - val_loss: 1.0703 - val_acc: 0.5292
+Epoch 8 - Adaptive Learning Rate [eta=0.075958]
+Epoch 9/50
+9234/9234 [==============================] - 1s - loss: 1.0541 - acc: 0.5407 - val_loss: 1.0625 - val_acc: 0.5263
+Epoch 9 - Adaptive Learning Rate [eta=0.075474]
+Epoch 10/50
+9234/9234 [==============================] - 1s - loss: 1.0515 - acc: 0.5425 - val_loss: 1.0617 - val_acc: 0.5195
+Epoch 10 - Adaptive Learning Rate [eta=0.075175]
+Epoch 11/50
+9234/9234 [==============================] - 1s - loss: 1.0483 - acc: 0.5451 - val_loss: 1.0574 - val_acc: 0.5195
+Epoch 11 - Adaptive Learning Rate [eta=0.074809]
+Epoch 12/50
+9234/9234 [==============================] - 1s - loss: 1.0460 - acc: 0.5469 - val_loss: 1.0551 - val_acc: 0.5205
+Epoch 12 - Adaptive Learning Rate [eta=0.074538]
+Epoch 13/50
+9234/9234 [==============================] - 1s - loss: 1.0437 - acc: 0.5504 - val_loss: 1.0574 - val_acc: 0.5312
+Epoch 13 - Adaptive Learning Rate [eta=0.074277]
+Epoch 14/50
+9234/9234 [==============================] - 1s - loss: 1.0414 - acc: 0.5508 - val_loss: 1.0505 - val_acc: 0.5253
+Epoch 14 - Adaptive Learning Rate [eta=0.074019]
+Epoch 15/50
+9234/9234 [==============================] - 1s - loss: 1.0402 - acc: 0.5518 - val_loss: 1.0526 - val_acc: 0.5322
+Epoch 15 - Adaptive Learning Rate [eta=0.073879]
+Epoch 16/50
+9234/9234 [==============================] - 1s - loss: 1.0381 - acc: 0.5504 - val_loss: 1.0486 - val_acc: 0.5283
+Epoch 16 - Adaptive Learning Rate [eta=0.073641]
+Epoch 17/50
+9234/9234 [==============================] - 1s - loss: 1.0371 - acc: 0.5510 - val_loss: 1.0498 - val_acc: 0.5439
+Epoch 17 - Adaptive Learning Rate [eta=0.073519]
+Epoch 18/50
+9234/9234 [==============================] - 1s - loss: 1.0358 - acc: 0.5534 - val_loss: 1.0524 - val_acc: 0.5361
+Epoch 18 - Adaptive Learning Rate [eta=0.073370]
+Epoch 19/50
+9234/9234 [==============================] - 1s - loss: 1.0346 - acc: 0.5525 - val_loss: 1.0458 - val_acc: 0.5273
+Epoch 19 - Adaptive Learning Rate [eta=0.073241]
+Epoch 20/50
+9234/9234 [==============================] - 1s - loss: 1.0328 - acc: 0.5551 - val_loss: 1.0455 - val_acc: 0.5380
+Epoch 20 - Adaptive Learning Rate [eta=0.073032]
+Epoch 21/50
+9234/9234 [==============================] - 1s - loss: 1.0324 - acc: 0.5550 - val_loss: 1.0419 - val_acc: 0.5361
+Epoch 21 - Adaptive Learning Rate [eta=0.072989]
+Epoch 22/50
+9234/9234 [==============================] - 1s - loss: 1.0314 - acc: 0.5541 - val_loss: 1.0444 - val_acc: 0.5419
+Epoch 22 - Adaptive Learning Rate [eta=0.072877]
+Epoch 23/50
+9234/9234 [==============================] - 1s - loss: 1.0304 - acc: 0.5570 - val_loss: 1.0415 - val_acc: 0.5400
+Epoch 23 - Adaptive Learning Rate [eta=0.072761]
+Epoch 24/50
+9234/9234 [==============================] - 1s - loss: 1.0292 - acc: 0.5570 - val_loss: 1.0438 - val_acc: 0.5429
+Epoch 24 - Adaptive Learning Rate [eta=0.072623]
+Epoch 25/50
+9234/9234 [==============================] - 1s - loss: 1.0285 - acc: 0.5562 - val_loss: 1.0439 - val_acc: 0.5468
+Epoch 25 - Adaptive Learning Rate [eta=0.072550]
+Epoch 26/50
+9234/9234 [==============================] - 1s - loss: 1.0282 - acc: 0.5560 - val_loss: 1.0383 - val_acc: 0.5439
+Epoch 26 - Adaptive Learning Rate [eta=0.072516]
+Epoch 27/50
+9234/9234 [==============================] - 1s - loss: 1.0267 - acc: 0.5583 - val_loss: 1.0392 - val_acc: 0.5497
+Epoch 27 - Adaptive Learning Rate [eta=0.072341]
+Epoch 28/50
+9234/9234 [==============================] - 1s - loss: 1.0258 - acc: 0.5580 - val_loss: 1.0396 - val_acc: 0.5390
+Epoch 28 - Adaptive Learning Rate [eta=0.072243]
+Epoch 29/50
+9234/9234 [==============================] - 1s - loss: 1.0254 - acc: 0.5602 - val_loss: 1.0388 - val_acc: 0.5487
+Epoch 29 - Adaptive Learning Rate [eta=0.072197]
+Epoch 30/50
+9234/9234 [==============================] - 1s - loss: 1.0245 - acc: 0.5598 - val_loss: 1.0423 - val_acc: 0.5409
+Epoch 30 - Adaptive Learning Rate [eta=0.072099]
+Epoch 31/50
+9234/9234 [==============================] - 1s - loss: 1.0239 - acc: 0.5605 - val_loss: 1.0371 - val_acc: 0.5536
+Epoch 31 - Adaptive Learning Rate [eta=0.072033]
+Epoch 32/50
+9234/9234 [==============================] - 1s - loss: 1.0233 - acc: 0.5600 - val_loss: 1.0379 - val_acc: 0.5487
+Epoch 32 - Adaptive Learning Rate [eta=0.071961]
+Epoch 33/50
+9234/9234 [==============================] - 1s - loss: 1.0229 - acc: 0.5608 - val_loss: 1.0369 - val_acc: 0.5478
+Epoch 33 - Adaptive Learning Rate [eta=0.071916]
+Epoch 34/50
+9234/9234 [==============================] - 1s - loss: 1.0221 - acc: 0.5622 - val_loss: 1.0389 - val_acc: 0.5448
+Epoch 34 - Adaptive Learning Rate [eta=0.071833]
+Epoch 35/50
+9234/9234 [==============================] - 1s - loss: 1.0214 - acc: 0.5617 - val_loss: 1.0355 - val_acc: 0.5439
+Epoch 35 - Adaptive Learning Rate [eta=0.071751]
+Epoch 36/50
+9234/9234 [==============================] - 1s - loss: 1.0212 - acc: 0.5603 - val_loss: 1.0333 - val_acc: 0.5458
+Epoch 36 - Adaptive Learning Rate [eta=0.071725]
+Epoch 37/50
+9234/9234 [==============================] - 1s - loss: 1.0208 - acc: 0.5615 - val_loss: 1.0354 - val_acc: 0.5478
+Epoch 37 - Adaptive Learning Rate [eta=0.071678]
+Epoch 38/50
+9234/9234 [==============================] - 1s - loss: 1.0201 - acc: 0.5617 - val_loss: 1.0336 - val_acc: 0.5487
+Epoch 38 - Adaptive Learning Rate [eta=0.071599]
+Epoch 39/50
+9234/9234 [==============================] - 1s - loss: 1.0197 - acc: 0.5627 - val_loss: 1.0312 - val_acc: 0.5487
+Epoch 39 - Adaptive Learning Rate [eta=0.071562]
+Epoch 40/50
+9234/9234 [==============================] - 1s - loss: 1.0190 - acc: 0.5618 - val_loss: 1.0351 - val_acc: 0.5487
+Epoch 40 - Adaptive Learning Rate [eta=0.071486]
+Epoch 41/50
+9234/9234 [==============================] - 1s - loss: 1.0182 - acc: 0.5629 - val_loss: 1.0310 - val_acc: 0.5478
+Epoch 41 - Adaptive Learning Rate [eta=0.071393]
+Epoch 42/50
+9234/9234 [==============================] - 1s - loss: 1.0179 - acc: 0.5601 - val_loss: 1.0324 - val_acc: 0.5419
+Epoch 42 - Adaptive Learning Rate [eta=0.071359]
+Epoch 43/50
+9234/9234 [==============================] - 1s - loss: 1.0176 - acc: 0.5626 - val_loss: 1.0314 - val_acc: 0.5507
+Epoch 43 - Adaptive Learning Rate [eta=0.071324]
+Epoch 44/50
+9234/9234 [==============================] - 1s - loss: 1.0174 - acc: 0.5622 - val_loss: 1.0310 - val_acc: 0.5507
+Epoch 44 - Adaptive Learning Rate [eta=0.071301]
+Epoch 45/50
+9234/9234 [==============================] - 1s - loss: 1.0171 - acc: 0.5627 - val_loss: 1.0293 - val_acc: 0.5565
+Epoch 45 - Adaptive Learning Rate [eta=0.071273]
+Epoch 46/50
+9234/9234 [==============================] - 1s - loss: 1.0165 - acc: 0.5617 - val_loss: 1.0292 - val_acc: 0.5507
+Epoch 46 - Adaptive Learning Rate [eta=0.071204]
+Epoch 47/50
+9234/9234 [==============================] - 1s - loss: 1.0164 - acc: 0.5615 - val_loss: 1.0288 - val_acc: 0.5546
+Epoch 47 - Adaptive Learning Rate [eta=0.071186]
+Epoch 48/50
+9234/9234 [==============================] - 1s - loss: 1.0159 - acc: 0.5636 - val_loss: 1.0297 - val_acc: 0.5546
+Epoch 48 - Adaptive Learning Rate [eta=0.071132]
+Epoch 49/50
+9234/9234 [==============================] - 1s - loss: 1.0152 - acc: 0.5651 - val_loss: 1.0318 - val_acc: 0.5546
+Epoch 49 - Adaptive Learning Rate [eta=0.071057]
+Epoch 50/50
+9234/9234 [==============================] - 1s - loss: 1.0150 - acc: 0.5645 - val_loss: 1.0295 - val_acc: 0.5526
+Evaluating neural network.
+ 800/1026 [======================>.......] - ETA: 0s
+Accuracy: 55.26%
+Done.

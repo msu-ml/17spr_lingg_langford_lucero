@@ -54,8 +54,8 @@ class NeuralNetwork(object):
         model = Sequential()
         #model.add(Dense(num_outputs*4, activation='sigmoid', input_shape=input_shape))
         #model.add(Dense(num_outputs*16, activation='sigmoid'))
-        model.add(Dense(num_inputs*4, activation='sigmoid', input_shape=input_shape))
-        model.add(Dense(num_inputs*2, activation='sigmoid'))
+        model.add(Dense(num_outputs*4, activation='sigmoid', input_shape=input_shape))
+        model.add(Dense(num_outputs*2, activation='sigmoid'))
         model.add(Dense(num_outputs, activation='softmax'))
         model.compile(
                 optimizer=Adagrad(lr=self.eta_init),
