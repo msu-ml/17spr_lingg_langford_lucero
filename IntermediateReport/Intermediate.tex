@@ -13,7 +13,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{
-	CSE 847: Machine Learning---Project Proposal \\
+	CSE 847: Machine Learning---Intermediate Report \\
 	Langford, Lingg, and Lucero
 }
 \rhead{February 17, 2017}
@@ -33,7 +33,7 @@
 	\maketitle
 	\begin{multicols}{2}
 		\section{Problem Description}
-		Automated Valuation Models (AVM) have become increasingly popular as the real estate market has embraced the World Wide Web as a source of accurate, up to the minute data.\textsuperscript{\cite{kaggleblog}} Banks have also shown great interest in using AVMs to help mitigate fraud by human appraisal.\textsuperscript{\cite{scotsman}} Our goal is to explore various machine learning techniques to implement an AVM and predict the true value of a house based on features commonly found on real estate listings.  Our data will be drawn from the Nashville, TN housing market, using a dataset posted on Kaggle\textsuperscript{\cite{nashville_data}}.
+		Automated Valuation Models (AVM) have become increasingly popular as the real estate market has embraced the World Wide Web as a source of accurate, up to the minute data.\textsuperscript{\cite{kaggleblog}} Banks have also shown great interest in using AVMs to help mitigate fraud by human appraisal.\textsuperscript{\cite{scotsman}} Our goal is to explore various machine learning techniques to implement an AVM and predict the true value of a house based on features commonly found on real estate listings. Our data will be drawn from the Nashville, TN housing market, using a dataset posted on Kaggle\textsuperscript{\cite{nashville_data}}.
 		\par
 		We will begin by exploring linear regression models that take into account physical attributes of each house and location. Further work will be performed exploring nonlinear models, such as deep learning with neural networks and decision trees, which can be compared and contrasted. Additional work may be performed to explore missing feature estimation.
 		\section{Related Work}
@@ -43,7 +43,7 @@
 		\section{Project Data}
 		For this project we are working with multiple data sources pulled from real housing sales data.
 		\par
-		\textbf{Nashville Housing Data} The Nashville housing data set is a list of home sales in the Nashville, Tennessee area, provided by Kaggle\textsuperscript{\cite{nashville_data}}.  This data set includes 29 fields of data for 56635 entries. However, nearly half of the entries have gaps in information, which will have to be accounted for. We further augmented this data set by using an geocoding service provided by the United State Census Bureau to add the zip code, latitude, and longitude for entries where a match could be found.
+		\textbf{Nashville Housing Data} The Nashville housing data set is a list of home sales in the Nashville, Tennessee area, provided by Kaggle\textsuperscript{\cite{nashville_data}}. This data set includes 29 fields of data for 56635 entries. However, nearly half of the entries have gaps in information, which will have to be accounted for. We further augmented this data set by using an geocoding service provided by the United State Census Bureau to add the zip code, latitude, and longitude for entries where a match could be found.
 		\par
 		\textbf{King County Housing Data} The King County housing data set is a list of home sales in the King County, Washington area, provided by Kaggle\textsuperscript{\cite{kc_data}}. This data set includes 20 fields of data for 21614 entries, with none of the entries missing any data.
 		\par
@@ -54,6 +54,8 @@
 		The different data sets provide a variety of input to test machine learning techniques against. Data with more features should provide more accurate results. One challenge will be to determine the best way to manage entries with missing information. Two methods are being considered. The first method is to simply substitute missing values with their associated mean values. Another method is to consider the values that are present for each entry, find the nearest neighboring entry, by way of Euclidean distance, and substitute the missing values with that neighbor's values.
 		\par
 		For pre-processing the data, we will be normalizing the data set, by dividing each feature value by the difference between that feature's maximum and minimum values. Another problem being considered is how to properly manage fields containing categorical values. Our approach will be to treat a field with \(n\) categories as \(n\) binary features, indicating whether that entry is of the associated category or not.
+		\par
+                Further work will be done to determine if any training inputs are negatively impacting the models. Some early runs produce a couple of large errors in prediction or classification and there is suspicion that these errors may be due to data features that should be removed.
 		\section{Project Progress}
 		Figure \ref{fig:ganttchart} shows our initial project milestones and timeline to completing them.
 	\end{multicols}
@@ -65,14 +67,60 @@
 	\end{figure*}
 	\begin{multicols}{2}
 		\subsection{Linear Regression}
-		Initial work has been done on developing working linear regression models.  These models include a closed, form ridge regression model, a standard linear descent model and a stoicastic linear descent model.  All three models perform roughly the same, with a mean squared error is better than the results of MATLAB's built in fitlm function.  One interesting behavior noted is that the highest accuracy is achieved at lower house values, where the highest density of data points is sitting.  Additional work is planned to try to eliminate the few large error points, perhaps by seeing if this is caused by a bad feature.
+			One model we are using to characterize the housing prices is a basic ridge regression using the closed form solution. The optimal regularization lambda is determined using cross training. The model is currently being trained using the first 50\% of the training set and tested against the second 50\%. To produce a simple ideal target error for the model, we use the same training. Both the ridge regression model, and MATLAB's linear regression function, have been run with this method and produce nearly identical mean square error. Even if the model overfits the training data, the MSE provides a target the model should not be able to exceed.
+		\par
+			As seen in Table \ref{table:linr_performance}, the simple linear regression model performs within an order of magnitude of the ideal result. This model also performs significantly better than MATLAB's linear regression function when trained against the first 50\% of the training set and tested against the second 50\% of the training set. This seems likely due to no regularization in MATLAB's linear regression function, as the majority of error is due to a few outliers.
+		\par
+			\begin{tabular}{r|c}
+				& \small{Mean Squared Error} \\
+				\hline
+				\small{Ideal} & \small{9.6e+08} \\
+				\hline
+				\small{Regression Model} & \small{1.3e+09} \\
+				\hline
+				\small{MATLAB Model} & \small{1.5e+10} \\
+				\hline
+			\end{tabular}
+			\captionof{table}{Observed performance from linear regression model.}
+			\label{table:linr_performance}
+		\par
+			In figure \ref{fig:linr_predictions} we show how our simple linear regression model performs when the data is sorted by price. The model performs best at lower prices, where the training data is the most dense. For higher value homes, the model estimates lower values. We suspect this is due to higher value homes increasing value faster than lower value homes and acting like outliers.
+		\par
+		\begin{center}
+			\includegraphics[scale=0.35]{Images/linearRegression} \\
+			\captionof{figure}{Linear regression predictions.}
+			\label{fig:linr_predictions}
+		\end{center}
+		\par
+		\subsection{Classification}
+			We are also approaching this problem as a classification problem, this is used for linear regression and neural network. The range of sale prices for the entire data set will be partitioned into \(k\) classes, each class can include the same range of values, or be variable in size to accommodate ranges with similar input data. The classification solutions will then be fitted to a training data set, and finally predict each entry in the test data set by fitting it into one of the \(k\) classes.
 		\subsection{Logistic Regression}
-		Two working logistic regression models have been created.  Both models separate the houses into categories by value.  The categories start at the lowest value house and put all homes in the same \$ 5k range into a category.  The first model creates a set of model weights for each category and places a house in the category producing the highest logistic regression result.  The second model creates a a set of model weights that categorize each house price as being higher or lower than the current category, then for each category the house price is higher for, the estimated value is increased by 5k.
+			During initial logistic regression development, we have used two different approaches to perform classification.
+		\par
+			The first approach attempt to classify which of the k class ranges the house most likely falls in based on input data. This model is composed of a matrix of independent regression models. It is trained for each input data point by setting the Y value corresponding with the class the house value falls under to 1 and all others to 0. The current training method uses stochastic gradient descent with a reducing step size. Once trained, the logistic regression class with the most confident result for the given input data is the one under which we classify a house.
+		\par
+	 		The second approach also uses a matrix of independent regression models but instead the results classify if the house is worth more than the lower value of the class k of each model. The training method only differes from the first approach by setting the Y value corresponding with the class equal to 1 if the value of the current house is higher than the lower value of the class. Then classification is performed by summing up the range represented by each class with a confidence higher than 0.5.
+		\par
+ 			Table \ref{table:linr_performance} shows that the second approach for logistic regression, determining if the house is worth more than each class, works better than the first approach, determining which class the house would fall under. The second approach also produces a result much faster than the first approach. However, both approaches have a bit higher MSE when compared with the ideal linear regression model. At the same time, the logistic regression models appear to do a better job of classifying prices at the higher price range, where linear regression performed more poorly.
+		\par
+			\begin{tabular}{r|c}
+				& \small{Mean Squared Error} \\
+				\hline
+				\small{Ideal Linear Regression} & \small{9.6e+08} \\
+				\hline
+				\small{Linear Regression Model} & \small{1.3e+09} \\
+				\hline
+				\small{Logistic Regression Model} & \small{1.4e+09} \\
+				\hline
+			\end{tabular}
+			\captionof{table}{Observed performance from logistic regression model.}
+			\label{table:logr_performance}
+		\par
+ 			Moving forward in the project we are looking at attempting to combine the strengths of the two approaches. To do this we intend to use logistic regression to identify ranges where the test data can be represented by similar models. Then logistic regression can be used to model each section without being influenced by data in the other sections. However, a simpler solution might simply be to transform the training data to use the logarithm of the house prices.
 		\subsection{Decision Tree}
 		\subsection{Neural Network}
-		Our approach to this problem with a neural network is to treat it as a classification problem. The range of sale prices for the entire data set will be partitioned into \(k\) classes, where each class represents an equal number of entries. The network will then be fitted to a training data set, and finally predict each entry in the test data set by fitting it into one of the \(k\) classes.
 		\par
-		Our initial approach is to use a simple feed-forward network with fully-connected layers. Each data point will have \(d\) features extracted from the data. Each feature in the input will have its value sent as input to each neuron in the first layer of the network, where each neuron has its own associated weight and activation function. Each neuron's output from the first layer will be sent as input to each neuron in the second layer, which will also have its own weight values and activation function. Finally, the output from each neuron in the second layer will be sent as input to each neuron in the final layer, again having its own weights and activation function. The final layer will have \(k\) outputs, representing which class the data point falls into.
+		Our initial approach to the neural network is to use a simple feed-forward network with fully-connected layers. Each data point will have \(d\) features extracted from the data. Each feature in the input will have its value sent as input to each neuron in the first layer of the network, where each neuron has its own associated weight and activation function. Each neuron's output from the first layer will be sent as input to each neuron in the second layer, which will also have its own weight values and activation function. Finally, the output from each neuron in the second layer will be sent as input to each neuron in the final layer, again having its own weights and activation function. The final layer will have \(k\) outputs, representing which class the data point falls into.
 		\par
 		Our current method is to use a rectified linear function as the activation function for each layer, with \(k\) neurons in the third layer, \(k*2\) neurons in the second layer, and \(k*4\) neurons in the third layer.
 		\begin{center}
@@ -83,7 +131,7 @@
 		The input data is randomly shuffled and split into a training  set and testing set, where the testing data set is \(10\%\) of the size of the training set.
 		The model is trained for 50 epochs, using an Adaptive Gradient Descent (Adagrad) algorithm to fit and optimize weights throughout the model, with an initial learning rate \(\eta = 0.1\). Techniques are being experimented with to decay the learning rate with relation to the result of the loss function for each epoch.
 		\par
-		Displayed in Table \ref{table:nn_performance} and Figures \ref{fig:fig_nn_results_5} and \ref{fig:fig_nn_results_10} are the results of running the data sets through the current prototype network. Two different trials were run on each data set, with the first trial learning and predicting against 5 classes of target values, and the second trail against 10 classes of target values. Again each class represents an equally sized partition of the data's target values. A prediction of target class indicates that the given data point's sale price will fall within the boundaries that define that class's partition.
+		Displayed in Table \ref{table:nn_performance} and Figures \ref{fig:fig_nn_results_5} and \ref{fig:fig_nn_results_10} are the results of running the data sets through the current prototype network. Two different trials were run on each data set, with the first trial learning and predicting against 5 classes of target values, and the second trail against 10 classes of target values. Again, each class represents an equally sized partition of the data's target values. A prediction of target class indicates that the given data point's sale price will fall within the boundaries that define that class's partition.
 		\begin{center}
 			\begin{tabular}{r||c|c||c|c}
 				& \multicolumn{2}{c||}{\small{5 classes}} & \multicolumn{2}{c}{\small{10 classes}} \\
@@ -111,9 +159,6 @@
 			\label{fig:fig_nn_results_10}
 		\end{center}
 		As it can be seen from these results, the network performs better when classifying data points into a smaller number of targets, which makes perfect sense. Our goal from this point forward is to attempt to improve accuracy by investigating further improvements on preprocessing the input data, experimenting with different hyper-parameters for the network, and experimenting with varying network architectures. When accuracy improves, the goal with then be to increase the number of target classes in order to provide a more valuable estimation of the sales price of a house.
-		\subsection{Additional Work}
-		In addition to the existing models having been developed, we are considering creating a Support Vector Machine model to categorize house prices by features.
-		?? Model compare and contrast?
 
 		\begin{thebibliography}{13}
 			\bibitem{nashville_data}
