@@ -47,4 +47,5 @@ Response = NashvilleTrain.Sale_Class;
 %paranethesis, colons, and extra commas
 CNTree = fitctree(NashvilleTrain, Response);
 
+CNTree = prune(CNTree);
 [score,cost] = predict(CNTree, NashvilleTest);

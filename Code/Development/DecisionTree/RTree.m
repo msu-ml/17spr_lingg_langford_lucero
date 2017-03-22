@@ -10,9 +10,9 @@ NashvilleTest = NashvilleT(TestSplit+1:x,:);
 
 %Sale_Price is the response variable
 responsevar = NashvilleTrain.Sale_Price;
-%Nashville Regression Tree Model, created using 5 KFold validation
-NashvilleRTree = fitrtree(NashvilleTrain,responsevar,'KFold',5,'Prune','on',...
-    'PruneCriterion','error','SplitCriterion','MSE');
-%fitdata = NashvilleRTree.kfoldPredict(
+%Nashville Regression Tree Model
+RNTree = fitrtree(NashvilleTrain,responsevar);
 
-[score,cost] = predict(NashvilleRTree, NashvilleTest);
+RNTree = prune(RNTree); 
+
+[score,cost] = predict(RNTree, NashvilleTest);
