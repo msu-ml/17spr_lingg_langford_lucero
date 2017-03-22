@@ -3,6 +3,7 @@ NashvilleT = readtable('Nashville_geocoded_processed.csv', opts);
 
 %make new classification, not normalizing because I think it already is
 x = height(NashvilleT);
+TestSplit = 5000;
 NashvilleT.Sale_Class = zeros(x,1);
 
 %Sort rows first
@@ -36,10 +37,14 @@ for y = 1:W
     NashvilleT(toDelete,:) = [];
 end
 
-Response = NashvilleT.Sale_Class;
+x = height(NashvilleT);
+NashvilleTrain = NashvilleT(1:TestSplit,:);
+NashvilleTest = NashvilleT(TestSplit+1:x,:);
+
+Response = NashvilleTrain.Sale_Class;
 
 %Note, this is picky about column names. Strip out spaces, returns, 
 %paranethesis, colons, and extra commas
-CNTree = fitctree(NashvilleT, Response);
+CNTree = fitctree(NashvilleTrain, Response);
 
-%yfit = CNTree.predictFcn(TestData);
+[score,cost] = predict(CNTree, NashvilleTest);
