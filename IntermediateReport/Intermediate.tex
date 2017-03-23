@@ -68,26 +68,29 @@
 	\end{figure*}
 	\begin{multicols}{2}
 		\subsection{Linear Regression}
-			One model we are using to characterize the housing prices is a basic ridge regression using the closed form solution. The optimal regularization lambda is determined using cross training. The model is currently being trained using the first 50\% of the training set and tested against the second 50\%. To produce a simple ideal target error for the model, we use the same training. Both the ridge regression model, and MATLAB's linear regression function, have been run with this method and produce nearly identical mean square error. Even if the model overfits the training data, the MSE provides a target the model should not be able to exceed.
+			One model we are using to characterize the housing prices is a basic ridge regression using the closed form solution. The optimal regularization lambda is determined using cross training. Table \ref{table:linr_cross_train} shows the results of the cross training, 1e-06 is producing the best cross training results. The model is currently being trained using the first 50\% of the training set and tested against the second 50\%.
 		\par
-			As seen in Table \ref{table:linr_performance}, the simple linear regression model performs within an order of magnitude of the ideal result. This model also performs significantly better than MATLAB's linear regression function when trained against the first 50\% of the training set and tested against the second 50\% of the training set. This seems likely due to no regularization in MATLAB's linear regression function, as the majority of error is due to a few outliers.
-		\par
+		{\centering
         	\captionsetup{type=table}
 			\begin{tabular}{r|c}
-				& \small{Mean Squared Error} \\
+				& \small{Cross Test MSE} \\
 				\hline
-				\small{Ideal} & \small{9.6e+08} \\
+				\small{1e-07} & \small{2.109e+10} \\
 				\hline
-				\small{Regression Model} & \small{1.3e+09} \\
+				\small{1.5e-07} & \small{2.046e+10} \\
 				\hline
-				\small{MATLAB Model} & \small{1.5e+10} \\
+				\small{1e-06} & \small{1.996e+10} \\
+				\hline
+				\small{1.5e-06} & \small{2.003e+10} \\
+				\hline
+				\small{1e-05} & \small{2.049e+10} \\
 				\hline
 			\end{tabular}
-			\captionof{table}{Observed performance from linear regression model.}
-			\label{table:linr_performance}        
-		\setlength{\parindent}{15pt}
+			\captionof{table}{Linear regression lambda cross training.}
+			\label{table:linr_cross_train}        
+		\setlength{\parindent}{15pt} }
 		\par
-			In Figure \ref{fig:linr_predictions} we show how our simple linear regression model performs when the data is sorted by price. The model performs best at lower prices, where the training data is the most dense. For higher value homes, the model estimates lower values. We suspect this is due to higher value homes increasing value faster than lower value homes and acting like outliers.
+			In Figure \ref{fig:linr_predictions} we show how our simple linear regression model performs when the data is sorted by price. The model performs best at lower prices, where the training data is the most dense. For higher value homes, the model estimates lower values. Additional work will be performed to improve this fit. Current plans are to train against the log of the home prices or see if splitting homes into a small number of categories and training a model for each category will be effective. Additional plans are see how an ensemble approach works, this will at least be an ensemble of linear regression models and may include combining other modelling techniques.
 		\par
 		\begin{center}
             \captionsetup{type=figure}
@@ -105,17 +108,17 @@
 		\par
 	 		The second approach also uses a matrix of independent regression models but instead the results classify if the house is worth more than the lower value of the class k of each model. The training method only differes from the first approach by setting the Y value corresponding with the class equal to 1 if the value of the current house is higher than the lower value of the class. Then classification is performed by summing up the range represented by each class with a confidence higher than 0.5.
 		\par
- 			Table \ref{table:linr_performance} shows that the second approach for logistic regression, determining if the house is worth more than each class, works better than the first approach, determining which class the house would fall under. The second approach also produces a result much faster than the first approach. However, both approaches have a bit higher MSE when compared with the ideal linear regression model. At the same time, the logistic regression models appear to do a better job of classifying prices at the higher price range, where linear regression performed more poorly.
+ 			Table \ref{table:logr_performance} shows that the second approach for logistic regression, determining if the house is worth more than each class, works better than the first approach, determining which class the house would fall under. The second approach also produces a result much faster than the first approach. However, both approaches have a bit higher MSE when compared with the ideal linear regression model. At the same time, the logistic regression models appear to do a better job of classifying prices at the higher price range, where linear regression performed more poorly.
 		\par
         	\captionsetup{type=table}
 			\begin{tabular}{r|c}
 				& \small{Mean Squared Error} \\
 				\hline
-				\small{Ideal Linear Regression} & \small{9.6e+08} \\
+				\small{Linear Regression Mode} & \small{1.3e+09} \\
 				\hline
-				\small{Linear Regression Model} & \small{1.3e+09} \\
+				\small{Logistic Regression Model 2} & \small{1.4e+09} \\
 				\hline
-				\small{Logistic Regression Model} & \small{1.4e+09} \\
+				\small{Logistic Regression Model 1} & \small{2.9e+09} \\
 				\hline
 			\end{tabular}
 			\captionof{table}{Observed performance from logistic regression model.}
