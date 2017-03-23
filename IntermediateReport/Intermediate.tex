@@ -10,6 +10,7 @@
 \usepackage{textcomp}
 \setlength{\columnsep}{0.5cm}
 \setlength{\headheight}{24pt}
+\setlength{\parindent}{15pt}
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{
@@ -83,9 +84,10 @@
 				\hline
 			\end{tabular}
 			\captionof{table}{Observed performance from linear regression model.}
-			\label{table:linr_performance}
+			\label{table:linr_performance}        
+		\setlength{\parindent}{15pt}
 		\par
-			In figure \ref{fig:linr_predictions} we show how our simple linear regression model performs when the data is sorted by price. The model performs best at lower prices, where the training data is the most dense. For higher value homes, the model estimates lower values. We suspect this is due to higher value homes increasing value faster than lower value homes and acting like outliers.
+			In Figure \ref{fig:linr_predictions} we show how our simple linear regression model performs when the data is sorted by price. The model performs best at lower prices, where the training data is the most dense. For higher value homes, the model estimates lower values. We suspect this is due to higher value homes increasing value faster than lower value homes and acting like outliers.
 		\par
 		\begin{center}
             \captionsetup{type=figure}
@@ -117,15 +119,16 @@
 				\hline
 			\end{tabular}
 			\captionof{table}{Observed performance from logistic regression model.}
-			\label{table:logr_performance}
+			\label{table:logr_performance}        
+			\setlength{\parindent}{15pt}
 		\par
  			Moving forward in the project we are looking at attempting to combine the strengths of the two approaches. To do this we intend to use logistic regression to identify ranges where the test data can be represented by similar models. Then logistic regression can be used to model each section without being influenced by data in the other sections. However, a simpler solution might simply be to transform the training data to use the logarithm of the house prices.
 		\subsection{Decision Tree}
 		\subsection{Neural Network}
 		\par
-		Our initial approach to the neural network is to use a simple feed-forward network with fully-connected layers. Each data point will have \(d\) features extracted from the data. Each feature in the input will have its value sent as input to each neuron in the first layer of the network, where each neuron has its own associated weight and activation function. Each neuron's output from the first layer will be sent as input to each neuron in the second layer, which will also have its own weight values and activation function. Finally, the output from each neuron in the second layer will be sent as input to each neuron in the final layer, again having its own weights and activation function. The final layer will have \(k\) outputs, representing which class the data point falls into.
+		Our initial approach for implementing a neural network learning model is to use a simple feed-forward network with three hidden fully-connected layers. Each data point will have \(d\) features extracted from the data. Each feature in the input will have its value sent as input to each neuron in the first layer of the network, where each neuron has its own associated weight and activation function. Each neuron's output from the first layer will be sent as input to each neuron in the second layer, which will also have its own weight values and activation function. Finally, the output from each neuron in the second layer will be sent as input to each neuron in the third layer, again having its own weights and activation function. The final hidden layer will have \(k\) outputs, representing which class the data point falls into.
 		\par
-		Our current method is to use a rectified linear function as the activation function for each layer, with \(k\) neurons in the third layer, \(k*2\) neurons in the second layer, and \(k*4\) neurons in the third layer.
+		Our current method is to use a sigmoid function as the activation function for each layer, with \(k\) neurons in the third layer, \(k*2\) neurons in the second layer, and \(k*4\) neurons in the third layer. Further experimentation is being conducted with varying sizes and architectures.
 		\begin{center}
             \captionsetup{type=figure}
 			\includegraphics[scale=0.5]{NeuralNet/Network} \\
