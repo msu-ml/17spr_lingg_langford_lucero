@@ -128,17 +128,16 @@
 		\par
 		Our initial approach for implementing a neural network learning model is to use a simple feed-forward network with three hidden fully-connected layers. Each data point will have \(d\) features extracted from the data. Each feature in the input will have its value sent as input to each neuron in the first layer of the network, where each neuron has its own associated weight and activation function. Each neuron's output from the first layer will be sent as input to each neuron in the second layer, which will also have its own weight values and activation function. Finally, the output from each neuron in the second layer will be sent as input to each neuron in the third layer, again having its own weights and activation function. The final hidden layer will have \(k\) outputs, representing which class the data point falls into.
 		\par
-		Our current method is to use a sigmoid function as the activation function for each layer, with \(k\) neurons in the third layer, \(k*2\) neurons in the second layer, and \(k*4\) neurons in the third layer. Further experimentation is being conducted with varying sizes and architectures.
+		Our current method is to use a sigmoid function as the activation function for each layer, with \(k\) neurons in the third layer, \(2k\) neurons in the second layer, and \(4k\) neurons in the third layer. Further experimentation is being conducted with varying sizes and architectures.
 		\begin{center}
             \captionsetup{type=figure}
 			\includegraphics[scale=0.5]{NeuralNet/Network} \\
 			\captionof{figure}{Architecture of our network.}
 			\label{fig:nn_10_class_results}
 		\end{center}
-		The input data is randomly shuffled and split into a training  set and testing set, where the testing data set is \(10\%\) of the size of the training set.
-		The model is trained for 50 epochs, using an Adaptive Gradient Descent (Adagrad) algorithm to fit and optimize weights throughout the model, with an initial learning rate \(\eta = 0.1\). Techniques are being experimented with to decay the learning rate with relation to the result of the loss function for each epoch.
+		The input data is randomly shuffled and split into training and testing data sets, with a ratio of \(9:1\). The model is trained for 50 epochs, using an Adaptive Gradient Descent (Adagrad) algorithm to fit and optimize weights throughout the model, with an initial learning rate \(\eta = 0.1\). Techniques are being considered that will decay the learning rate with relation to the loss calculated for each epoch.
 		\par
-		Displayed in Table \ref{table:nn_performance} and Figures \ref{fig:fig_nn_results_5} and \ref{fig:fig_nn_results_10} are the results of running the data sets through the current prototype network. Two different trials were run on each data set, with the first trial learning and predicting against 5 classes of target values, and the second trail against 10 classes of target values. Again, each class represents an equally sized partition of the data's target values. A prediction of target class indicates that the given data point's sale price will fall within the boundaries that define that class's partition.
+		Displayed in Table \ref{table:nn_performance} and Figures \ref{fig:fig_nn_results_5} and \ref{fig:fig_nn_results_10} are the results of running the data sets through the current prototype network. Two different trials were run on each data set, with the first trial learning and predicting against 5 classes of target values, and the second trial against 10 classes of target values. Each target class represents an equally sized partition of the data's target values. Predictions of a target class indicate that the given data point's sale price will fall within the boundaries that define that class's partition.
 		\begin{center}
             \captionsetup{type=table}
 			\begin{tabular}{r||c|c||c|c}
@@ -168,8 +167,7 @@
 			\captionof{figure}{Results for classifying into 10 classes.}
 			\label{fig:fig_nn_results_10}
 		\end{center}
-		As it can be seen from these results, the network performs better when classifying data points into a smaller number of targets, which makes perfect sense. Our goal from this point forward is to attempt to improve accuracy by investigating further improvements on preprocessing the input data, experimenting with different hyper-parameters for the network, and experimenting with varying network architectures. When accuracy improves, the goal with then be to increase the number of target classes in order to provide a more valuable estimation of the sales price of a house.
-
+		As it can be seen from these results, the network performs better when classifying data points into a smaller number of target classes. Our goal from this point forward is to attempt to improve accuracy by investigating further improvements on preprocessing the input data, experimenting with different hyper-parameters for the network, and experimenting with varying network architectures. When accuracy improves, the goal with then be to increase the number of target classes in order to provide a more valuable estimation of the sales price of any given data point.
 		\begin{thebibliography}{13}
 			\bibitem{nashville_data}
 			\textit{Nashville Housing Data: Home value data for the booming Nashville Market}
