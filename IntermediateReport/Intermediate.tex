@@ -1,4 +1,4 @@
-\documentclass[letter,10pt]{article}
+\documentclass[10pt]{article}
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage[font=small,labelfont=bf]{caption}
@@ -8,15 +8,15 @@
 \usepackage{hyperref}
 \usepackage{multicol}
 \usepackage{textcomp}
- %
 \setlength{\columnsep}{0.5cm}
+\setlength{\headheight}{24pt}
 \pagestyle{fancy}
 \fancyhf{}
 \lhead{
 	CSE 847: Machine Learning---Intermediate Report \\
 	Langford, Lingg, and Lucero
 }
-\rhead{February 17, 2017}
+\rhead{March 24, 2017}
 \cfoot{\thepage}
 \begin{document}
 	\title{
@@ -29,7 +29,7 @@
 			langfo37@msu.edu & linggmic@egr.msu.edu & luceroj2@msu.edu
 		\end{tabular}
 	}
-	\date{February 17, 2017}
+	\date{March 24, 2017}
 	\maketitle
 	\begin{multicols}{2}
 		\section{Problem Description}
@@ -71,6 +71,7 @@
 		\par
 			As seen in Table \ref{table:linr_performance}, the simple linear regression model performs within an order of magnitude of the ideal result. This model also performs significantly better than MATLAB's linear regression function when trained against the first 50\% of the training set and tested against the second 50\% of the training set. This seems likely due to no regularization in MATLAB's linear regression function, as the majority of error is due to a few outliers.
 		\par
+        	\captionsetup{type=table}
 			\begin{tabular}{r|c}
 				& \small{Mean Squared Error} \\
 				\hline
@@ -87,6 +88,7 @@
 			In figure \ref{fig:linr_predictions} we show how our simple linear regression model performs when the data is sorted by price. The model performs best at lower prices, where the training data is the most dense. For higher value homes, the model estimates lower values. We suspect this is due to higher value homes increasing value faster than lower value homes and acting like outliers.
 		\par
 		\begin{center}
+            \captionsetup{type=figure}
 			\includegraphics[scale=0.35]{Images/linearRegression} \\
 			\captionof{figure}{Linear regression predictions.}
 			\label{fig:linr_predictions}
@@ -103,6 +105,7 @@
 		\par
  			Table \ref{table:linr_performance} shows that the second approach for logistic regression, determining if the house is worth more than each class, works better than the first approach, determining which class the house would fall under. The second approach also produces a result much faster than the first approach. However, both approaches have a bit higher MSE when compared with the ideal linear regression model. At the same time, the logistic regression models appear to do a better job of classifying prices at the higher price range, where linear regression performed more poorly.
 		\par
+        	\captionsetup{type=table}
 			\begin{tabular}{r|c}
 				& \small{Mean Squared Error} \\
 				\hline
@@ -124,6 +127,7 @@
 		\par
 		Our current method is to use a rectified linear function as the activation function for each layer, with \(k\) neurons in the third layer, \(k*2\) neurons in the second layer, and \(k*4\) neurons in the third layer.
 		\begin{center}
+            \captionsetup{type=figure}
 			\includegraphics[scale=0.5]{NeuralNet/Network} \\
 			\captionof{figure}{Architecture of our network.}
 			\label{fig:nn_10_class_results}
@@ -133,6 +137,7 @@
 		\par
 		Displayed in Table \ref{table:nn_performance} and Figures \ref{fig:fig_nn_results_5} and \ref{fig:fig_nn_results_10} are the results of running the data sets through the current prototype network. Two different trials were run on each data set, with the first trial learning and predicting against 5 classes of target values, and the second trail against 10 classes of target values. Again, each class represents an equally sized partition of the data's target values. A prediction of target class indicates that the given data point's sale price will fall within the boundaries that define that class's partition.
 		\begin{center}
+            \captionsetup{type=table}
 			\begin{tabular}{r||c|c||c|c}
 				& \multicolumn{2}{c||}{\small{5 classes}} & \multicolumn{2}{c}{\small{10 classes}} \\
 				\hline 
@@ -149,11 +154,13 @@
 			\label{table:nn_performance}
 		\end{center}
 		\begin{center}
+            \captionsetup{type=figure}
 			\includegraphics[scale=0.38]{NeuralNet/nn_5_class_results} \\
 			\captionof{figure}{Results for classifying into 5 classes.}
 			\label{fig:fig_nn_results_5}
 		\end{center}
 		\begin{center}
+            \captionsetup{type=figure}
 			\includegraphics[scale=0.38]{NeuralNet/nn_10_class_results} \\
 			\captionof{figure}{Results for classifying into 10 classes.}
 			\label{fig:fig_nn_results_10}
