@@ -4,7 +4,12 @@
 sets = ['Nashville_geocoded_processed.csv'; 'kc_house_data.csv               '; 'redfin_processed.csv            '];
 datasets =  cellstr(sets);
 datacount = length(datasets);
-MSEs = zeros(1,datacount);
+CNMSEs = cell(datacount);
+CNPredictions = cell(datacount);
+CNMSEsOpts = cell(datacount);
+CNPredictionsOpts = cell(datacount);
+CNTree = cell(datacount);
+CNTreeOpt = cell(datacount);
 
 for h=1:datacount
     opts = detectImportOptions(datasets{h});
@@ -76,11 +81,14 @@ for h=1:datacount
 
     %Note, this is picky about column names. Strip out spaces, returns, 
     %paranethesis, colons, and extra commas
-    CNTree = fitctree(DataTrain, Response, 'Crossval', 'on');
+    CNTree{h} = fitctree(DataTrain, Response, 'Crossval', 'on');
+    CNTreeOpt{h} = fitrtree(DataTrain,Response,'OptimizeHyperparameters','all');
 
-    predictions = predict(CNTree.Trained{1}, DataTest);
-
-    MSEs(h) = loss(CNTree.Trained{1}, DataTest, TestResponse);
+    CNPredictions{h} = predict(CNTree{h}.Trained{1}, DataTest);
+    CNPredictionsOpts{h} = predict(CNTreeOpt{h}, DataTest);
+    
+    CNMSEs{h} = loss(CNTree{h}.Trained{1}, DataTest, TestResponse);
+    CNMSEsOpts{h} = loss(CNTreeOpt{h}, DataTest, TestResponse);
 
     %view(CNTree.Trained{1},'Mode','graph')
     
@@ -92,3 +100,13 @@ for h=1:datacount
     DataTrain = [];
     DataTest = [];
 end
+
+CNMSE = cell2mat(CNMSEs);
+CNMSEOpt = cell2mat(CNMSEsOpts);
+
+plot(1:3, CNMSE, 'r--');
+hold on
+plot(1:3, CNMSEOpt, 'b--');
+xlabel('Datasets');
+ylabel('MSE');
+legend('Classificication Crossfold MSE','Classification Optimized Crossfold MSE');
