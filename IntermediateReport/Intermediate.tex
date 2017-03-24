@@ -127,6 +127,48 @@
 		\par
  			Moving forward in the project we are looking at attempting to combine the strengths of the two approaches. To do this we intend to use logistic regression to identify ranges where the test data can be represented by similar models. Then logistic regression can be used to model each section without being influenced by data in the other sections. However, a simpler solution might simply be to transform the training data to use the logarithm of the house prices.
 		\subsection{Decision Tree}
+		\par
+		For our Decision Tree approach, we used a Classification Decision Tree and a Regression Decision Tree. For the Classification Tree, since the data was not already classified, it is split into \(k\) equally sized classes where each class represents a range of prices. The average value for every feature column is also calculated and used to subsitute for any missing data points in the observations. A classification model was built for the KC Data Set, Refined Data Set, and Nashville Dataset. For each data set, initially a classification tree model was built using crossfold validation with 10 folds using 90\% of the data for training. This model used the default parameters for n-1 max number of splits, 1 for the minimum leaf size, and 10 for the minimum parent size. 
+		\par		
+Another classification model was built by varying these parameters and choosing the parameters that provide the best training MSE, again using 90\% of the data for training. The results comparing these two models and their training and testing MSEs for the Nashville data set is shown in Table \ref{table:ctree_performance} below. The MSE indicates the averae squared distance between the predicted class and the actual class, where the classes are represented by a range of integers from 1 to \(k\). 
+		\par
+		\captionsetup{type=table}
+			\begin{tabular}{r|c}
+				& \small{Mean Squared Error} \\
+				\hline
+				\small{CTree Crossfold Train Error} & \small{0.2910} \\
+				\hline
+				\small{CTree Crossfold Test Error} & \small{0.5223} \\
+				\hline
+				\small{Optimized CTree Train Error} & \small{1.1109} \\
+				\hline
+				\small{Optimized CTree Test Error} & \small{1.4977} \\
+				\hline
+			\end{tabular}
+			\captionof{table}{Observed performance from Classification Tree models.}
+			\label{table:ctree_performance}        
+			\setlength{\parindent}{15pt}
+		\par
+Regression Tree odels were generated following a similar pattern, creating one 10 fold cross validation Regression Tree model for each data set and creating a Regression Tree model by varying the tree parameters to find the best MSE training error. Table \ref{table:rtree_performance} below shows a table of the MSE results for the Regression Tree approach on the Nashville data set. 
+		\par
+		\captionsetup{type=table}
+			\begin{tabular}{r|c}
+				& \small{Mean Squared Error} \\
+				\hline
+				\small{RTree Crossfold Train Error} & \small{5.4526e+10} \\
+				\hline
+				\small{RTree Crossfold Test Error} & \small{6.8929e+10} \\
+				\hline
+				\small{Optimized RTree Train Error} & \small{5.2162e+10} \\
+				\hline
+				\small{Optimized RTree Test Error} & \small{6.5855e+10} \\
+				\hline
+			\end{tabular}
+			\captionof{table}{Observed performance from Regression Tree models.}
+			\label{table:rtree_performance}        
+			\setlength{\parindent}{15pt}
+		\par
+Compare results for regression vs classification and crossfold vs parameter optimization
 		\subsection{Neural Network}
 		\par
 		Our initial approach for implementing a neural network learning model is to use a simple feed-forward network with three hidden fully-connected layers. Each data point will have \(d\) features extracted from the data. Each feature in the input will have its value sent as input to each neuron in the first layer of the network, where each neuron has its own associated weight and activation function. Each neuron's output from the first layer will be sent as input to each neuron in the second layer, which will also have its own weight values and activation function. Finally, the output from each neuron in the second layer will be sent as input to each neuron in the third layer, again having its own weights and activation function. The final hidden layer will have \(k\) outputs, representing which class the data point falls into.

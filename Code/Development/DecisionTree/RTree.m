@@ -9,6 +9,10 @@ RMSEs = cell(datacount);
 RPredictions = cell(datacount);
 RPredictionsOpts = cell(datacount);
 RMSEOpts = cell(datacount);
+TrainingRMSE = cell(datacount);
+TrainingRMSEOpt = cell(datacount);
+RNTree = cell(datacount);
+RNTreeOpt = cell(datacount);
 
 for h=1:datacount
     opts = detectImportOptions(datasets{h});
@@ -53,18 +57,21 @@ for h=1:datacount
     DataTest.Sale_Price = [];
 
     %Nashville Regression Tree Model with Cross Validation
-    RNTree = fitrtree(DataTrain,responsevar,'Crossval', 'on');
+    RNTree{h} = fitrtree(DataTrain,responsevar,'Crossval', 'on');
 
     %Use this line to find optimal parameters. I think this is contributing to
     %overfitting though. Performance is worse when optimized.
-    RNTreeOpt = fitrtree(DataTrain,responsevar,'OptimizeHyperparameters','all');
+    RNTreeOpt{h} = fitrtree(DataTrain,responsevar,'OptimizeHyperparameters','all');
 
-    RPredictions{h} = predict(RNTree.Trained{1}, DataTest);
-    RPredictionsOpts{h} = predict(RNTreeOpt, DataTest);
+    RPredictions{h} = predict(RNTree{h}.Trained{1}, DataTest);
+    RPredictionsOpts{h} = predict(RNTreeOpt{h}, DataTest);
 
     %Calculate Mean Square Error for test set
-    RMSEs{h} = loss(RNTree.Trained{1}, DataTest, testresponse);
-    RMSEOpts{h} = loss(RNTreeOpt, DataTest, testresponse);
+    RMSEs{h} = loss(RNTree{h}.Trained{1}, DataTest, testresponse);
+    RMSEOpts{h} = loss(RNTreeOpt{h}, DataTest, testresponse);
+    %Calculate MSE for Training set
+    TrainingRMSE{h} = loss(RNTree{h}.Trained{1}, DataTrain, responsevar);
+    TrainingRMSEOpt{h} = loss(RNTreeOpt{h}, DataTrain, responsevar);
 
     %view(RNTree.Trained{1},'Mode','graph');
     
@@ -77,13 +84,15 @@ for h=1:datacount
     DataTest = [];
 
 end
-
 RMSEOpt = cell2mat(RMSEOpts);
 RMSE = cell2mat(RMSEs);
+
+%TrainRMSEOpt = cell2mat(TrainingRMSEOpts);
+%TrainRMSE = cell2mat(TrainingRMSEs);
 
 plot(1:3, RMSE, 'r--');
 hold on
 plot(1:3, RMSEOpt, 'b--');
 xlabel('Datasets');
 ylabel('MSE');
-legend('Regression Crossfold MSE', 'Regression Crossfold Optimized MSE');
+legend('Test Regression Crossfold MSE', 'Test Regression Optimized MSE');

@@ -5,8 +5,10 @@ sets = ['Nashville_geocoded_processed.csv'; 'kc_house_data.csv               '; 
 datasets =  cellstr(sets);
 datacount = length(datasets);
 CNMSEs = cell(datacount);
+TrainingCNMSEs = cell(datacount);
 CNPredictions = cell(datacount);
 CNMSEsOpts = cell(datacount);
+TrainingCNMSEsOpts = cell(datacount);
 CNPredictionsOpts = cell(datacount);
 CNTree = cell(datacount);
 CNTreeOpt = cell(datacount);
@@ -89,6 +91,9 @@ for h=1:datacount
     
     CNMSEs{h} = loss(CNTree{h}.Trained{1}, DataTest, TestResponse);
     CNMSEsOpts{h} = loss(CNTreeOpt{h}, DataTest, TestResponse);
+    
+    TrainingCNMSEs{h} = loss(CNTree{h}.Trained{1}, DataTrain, Response);
+    TrainingCNMSEsOpts{h} = loss(CNTreeOpt{h}, DataTrain, Response);
 
     %view(CNTree.Trained{1},'Mode','graph')
     
@@ -109,4 +114,4 @@ hold on
 plot(1:3, CNMSEOpt, 'b--');
 xlabel('Datasets');
 ylabel('MSE');
-legend('Classificication Crossfold MSE','Classification Optimized Crossfold MSE');
+legend('Classification Crossfold MSE','Classification Optimized MSE');
