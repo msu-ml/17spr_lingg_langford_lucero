@@ -6,7 +6,7 @@ hold on
 plot(1:3, CNMSEOpt, 'b--');
 xlabel('Datasets');
 ylabel('MSE');
-legend('Classification Crossfold MSE','Classification Optimized MSE');
+legend('Testing Classification Crossfold MSE','Testing Classification Optimized MSE');
 
 
 %{
