@@ -84,7 +84,7 @@ for h=1:datacount
     %Note, this is picky about column names. Strip out spaces, returns, 
     %paranethesis, colons, and extra commas
     CNTree{h} = fitctree(DataTrain, Response, 'Crossval', 'on');
-    CNTreeOpt{h} = fitrtree(DataTrain,Response,'OptimizeHyperparameters','all');
+    CNTreeOpt{h} = fitctree(DataTrain,Response,'OptimizeHyperparameters','all');
 
     CNPredictions{h} = predict(CNTree{h}.Trained{1}, DataTest);
     CNPredictionsOpts{h} = predict(CNTreeOpt{h}, DataTest);
