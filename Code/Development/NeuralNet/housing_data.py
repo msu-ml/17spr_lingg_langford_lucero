@@ -12,7 +12,8 @@ from keras.utils import np_utils
 
 class SubstitutionMethod(object):
     MEAN = 1
-    SIMILARITY = 2
+    CLOSEST_NEIGHBOR_VALUE = 2
+    CLOSEST_NEIGHBOR_MEAN = 3
 
 class HousingData(object):
     def __init__(self, filepath, fields, cat_fields, target_field, num_classes):
@@ -50,7 +51,7 @@ class HousingData(object):
         y = y.astype('int')
         
         # Replace any missing values with a substitute.
-        X = self.replace_missing_values(X, SubstitutionMethod.SIMILARITY)
+        X = self.replace_missing_values(X, SubstitutionMethod.CLOSEST_NEIGHBOR_MEAN)
         
         # Normalize values by column.
         X = self.normalize_values(X)        
@@ -150,7 +151,7 @@ class HousingData(object):
                 nan_idx = numpy.isnan(entry)
                 if nan_idx.any():
                     entry[nan_idx] = mean[nan_idx]
-        elif method == SubstitutionMethod.SIMILARITY:
+        elif method == SubstitutionMethod.CLOSEST_NEIGHBOR_VALUE:
             for entry in data:
                 # Find the nan values in the current entry.
                 nan_idx = numpy.isnan(entry)
@@ -159,11 +160,27 @@ class HousingData(object):
                     dist = numpy.sum((complete_data[:,~nan_idx] - entry[~nan_idx])**2, axis=1)
                     
                     # Get the index of the entry that is most similar.
-                    closest = numpy.argmin(dist)
+                    closest_idx = numpy.argmin(dist)
                     
                     # Replace the nan values in this entry with the corresponding
                     # values in the closest entry.
-                    entry[nan_idx] = complete_data[closest,nan_idx]  
+                    entry[nan_idx] = complete_data[closest_idx,nan_idx]
+        elif method == SubstitutionMethod.CLOSEST_NEIGHBOR_MEAN:
+            for entry in data:
+                # Find the nan values in the current entry.
+                nan_idx = numpy.isnan(entry)
+                if nan_idx.any():
+                    # Compare the non-nan values of this entry with every other entry.
+                    dist = numpy.sum((complete_data[:,~nan_idx] - entry[~nan_idx])**2, axis=1)
+                    
+                    # Get the index of the ten closets entries in value to the
+                    # current entry
+                    closest_idx = numpy.argsort(dist)[0:10]
+                    
+                    # Replace the nan values in this entry with the corresponding
+                    # mean from the ten closest entries.
+                    mean = numpy.mean(complete_data[closest_idx], axis=0)
+                    entry[nan_idx] = mean[nan_idx]
         return data
     
     def normalize_values(self, data):
