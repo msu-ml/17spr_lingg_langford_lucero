@@ -1,4 +1,4 @@
-fileName = 'Nashville_geocoded_processed_modified';
+fileName = 'train_processed';
 tbl = readtable ( strcat('../../../../Data/Processed/',fileName,'.csv') );
 
 % Setup the lambda regularization values to test.
@@ -13,7 +13,7 @@ testLambdas( 8 ) = 1e-2;
 testLambdas( 9 ) = 1e-1;
 
 tblArray = table2array(tbl);
-tblArray = cat(2,tblArray(:,1),normc(tblArray(:,2:size(tblArray,2))));
+%tblArray = cat(2,tblArray(:,1),normc(tblArray(:,2:size(tblArray,2))));
 
 %tblArray = cat(2,tblArray(:,1:size(tblArray,2)-1),tblArray(:,1:size(tblArray,2)-1).^2,tblArray(:,size(tblArray,2)));
 
@@ -45,6 +45,10 @@ x_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),2:size(tblArray,2));
 
 W_ML = inv( bestLambda*eye(size(x_train,2)) + x_train'*x_train ) * x_train' * y_train; 
 
+    figure;
+    plot ( W_ML, 'r' );
+    legend('BestWeights');
+
 disp(RunError(W_ML,y_test,x_test,true,true,fileName));
 
 y_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),1);
@@ -70,8 +74,8 @@ function MSE = RunError(ModelW, Truth, Data, Graph, DumpData, FileName)
   if ( Graph == true )
     figure;
     plot ( result, 'r' );
-    hold on;
-    plot ( Truth , 'g' );
+    hold;
+    plot ( Truth, 'g' );
     legend('Prediction','Truth');
   end
 

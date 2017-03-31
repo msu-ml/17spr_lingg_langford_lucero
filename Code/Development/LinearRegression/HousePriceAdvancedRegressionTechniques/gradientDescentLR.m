@@ -1,4 +1,4 @@
-fileName = 'Nashville_geocoded_processed_modified';
+fileName = 'train_processed';
 tbl = readtable ( strcat('../../../../Data/Processed/',fileName,'.csv') );
 
 tblArray = table2array(tbl);

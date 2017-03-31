@@ -1,11 +1,11 @@
 %Load the training data.
-fileName = 'Nashville_geocoded_processed_modified';
+fileName = 'train_processed';
 tbl = readtable ( strcat('../../../Data/Processed/',fileName,'.csv') );
 
 %Convert the table to an array, easier to work with.
 tblArray = table2array(tbl);
 %Normalize the data.
-tblArray = cat(2,tblArray(:,1),normc(tblArray(:,2:size(tblArray,2))));
+%tblArray = cat(2,tblArray(:,1),normc(tblArray(:,2:size(tblArray,2))));
 
 %Grab the truth value for later use.
 truth = tblArray(:,size(tblArray,2));
@@ -13,14 +13,12 @@ truth = tblArray(:,size(tblArray,2));
 %Convert house sale data to categories.
 resultCategories = zeros(size(tblArray,1),1);
 for i = 1:size(tblArray,1)
-   %represents 35k-735k in 10k increments
-   for j = 1:100
-    if tblArray(i,1) > ( j * 50000 + 50000 )
+   for j = 1:99
+    if tblArray(i,1) > ( j * 0.01 )
         resultCategories( i ) = resultCategories( i ) + 1;
     end
    end
 end
-%tblArray(:,size(tblArray,2)) = resultCategories;
 categories = max(resultCategories);
 
 %Display the new categories for debug.
@@ -57,7 +55,7 @@ disp(RunError(bestWeights,categories,y_test_sorted,cat(2,ones(size(x_test_sorted
 function BestWeights = trainRanges(TrainData, TrainSolution, NumCategories)
     %Initial weights just zeros, something closer to an initial
     %approximation may be better, close fit linear line?
-  BestWeights = zeros(max(TrainSolution),size(TrainData,2) + 1);
+  BestWeights = zeros(NumCategories,size(TrainData,2) + 1);
   
   %Best step size found so far.
   alpha = 150.0;
@@ -65,7 +63,7 @@ function BestWeights = trainRanges(TrainData, TrainSolution, NumCategories)
   % Add the bias to the data as a column of 1s
   dataWithBias = cat(2,ones(size(TrainData,1),1),TrainData);
   
-  trainSolution = zeros(size(TrainSolution,1),max(TrainSolution));
+  trainSolution = zeros(size(TrainSolution,1),NumCategories);
 
             %Setup all of the training solutions.
             %A 1 indicates the house value is greater than or equal to this
@@ -85,7 +83,7 @@ function BestWeights = trainRanges(TrainData, TrainSolution, NumCategories)
     if (mod(a,sweepCount/100)==0)
       disp(strcat(num2str(a/(sweepCount/100)),'%'));
     end
-    alpha = max(alpha * 0.99,0.0001);
+    alpha = max(alpha * 0.99,0.01);
   end
   
   %Plot the resulting weights for debugging
@@ -117,7 +115,7 @@ function MSE = RunError(ModelW, Categories, Truth, Data, Graph, DumpData, FileNa
 
     %Best category is multiplied by 5k and added with 35k to the value it
     %represents.
-    result( i ) = result( i ) * 50000 + 50000;
+    result( i ) = result( i ) * 0.01;
 	
     MSE = MSE + ( Truth( i ) - result ( i ) )^2;
   end
