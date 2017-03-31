@@ -15,6 +15,7 @@ from keras.layers import Dense
 from keras.layers import Dropout
 from keras.models import Sequential
 from keras.optimizers import Adagrad
+from housing_data import ARTData
 from housing_data import KingCountyData
 from housing_data import NashvilleData
 from housing_data import RedfinData
@@ -97,6 +98,7 @@ class Application(object):
         self.sources = [NashvilleData('Data/Nashville_geocoded.csv', self.num_classes),
                         KingCountyData('Data/kc_house_data.csv', self.num_classes),
                         RedfinData('Data/redfin.csv', self.num_classes)
+                        ARTData('Data/train.csv', self.num_classes)
                        ]
         
     def run(self):
@@ -127,6 +129,7 @@ class Application(object):
         matplotlib.pyplot.plot(metrics[0].epoch, metrics[0].acc, 'r', label='Nashville, TN')
         matplotlib.pyplot.plot(metrics[1].epoch, metrics[1].acc, 'g', label='King County, WA')
         matplotlib.pyplot.plot(metrics[2].epoch, metrics[2].acc, 'b', label='Grand Rapids, MI')
+        matplotlib.pyplot.plot(metrics[3].epoch, metrics[3].acc, 'c', label='ART data')
         matplotlib.pyplot.xlabel('Epoch')
         matplotlib.pyplot.ylabel('Training Accuracy')
         matplotlib.pyplot.legend(loc=4)
@@ -134,6 +137,7 @@ class Application(object):
         matplotlib.pyplot.plot(metrics[0].epoch, metrics[0].val_acc, 'r', label='Nashville, TN')
         matplotlib.pyplot.plot(metrics[1].epoch, metrics[1].val_acc, 'g', label='King County, WA')
         matplotlib.pyplot.plot(metrics[2].epoch, metrics[2].val_acc, 'b', label='Grand Rapids, MI')
+        matplotlib.pyplot.plot(metrics[3].epoch, metrics[3].val_acc, 'c', label='ART data')
         matplotlib.pyplot.xlabel('Epoch')
         matplotlib.pyplot.ylabel('Testing Accuracy')
         matplotlib.pyplot.legend(loc=4)

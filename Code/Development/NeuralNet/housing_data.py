@@ -285,6 +285,7 @@ class RedfinData(HousingData):
         return ('Housing data for the Grand Rapids, MI area.' + os.linesep +
                 'Training data entries: {}'.format(self.X_train.shape[0]) + os.linesep +
                 'Test data entries: {}'.format(self.X_test.shape[0]) + os.linesep +
+                'Number of features: {}'.format(self.X_test.shape[1]) + os.linesep +
                 'Target classes: {}'.format(self.target_dist))
 
 class KingCountyData(HousingData):
@@ -332,6 +333,7 @@ class KingCountyData(HousingData):
         return ('Housing data for the King County, WA area.' + os.linesep +
                 'Training data entries: {}'.format(self.X_train.shape[0]) + os.linesep +
                 'Test data entries: {}'.format(self.X_test.shape[0]) + os.linesep +
+                'Number of features: {}'.format(self.X_test.shape[1]) + os.linesep +
                 'Target classes: {}'.format(self.target_dist))
 
 class NashvilleData(HousingData):
@@ -391,4 +393,158 @@ class NashvilleData(HousingData):
         return ('Housing data for the Nashville, TN area.' + os.linesep +
                 'Training data entries: {}'.format(self.X_train.shape[0]) + os.linesep +
                 'Test data entries: {}'.format(self.X_test.shape[0]) + os.linesep +
+                'Target classes: {}'.format(self.target_dist))
+        
+class ARTData(HousingData):
+    """Represents Advanced Regression Techniques housing data
+    """
+    def __init__(self, filepath, num_classes):
+        """Constructs a new ART housing data object.
+        Arguments:
+            filepath - the file path to the ART csv file
+            num_clases - the number of desired target classes
+        """
+        fields = [
+                'Id',
+                'MSSubClass',
+                'MSZoning',
+                'LotFrontage',
+                'LotArea',
+                'Street',
+                'Alley',
+                'LotShape',
+                'LandContour',
+                'Utilities',
+                'LotConfig',
+                'LandSlope',
+                'Neighborhood',
+                'Condition1',
+                'Condition2',
+                'BldgType',
+                'HouseStyle',
+                'OverallQual',
+                'OverallCond',
+                'YearBuilt',
+                'YearRemodAdd',
+                'RoofStyle',
+                'RoofMatl',
+                'Exterior1st',
+                'Exterior2nd',
+                'MasVnrType',
+                'MasVnrArea',
+                'ExterQual',
+                'ExterCond',
+                'Foundation',
+                'BsmtQual',
+                'BsmtCond',
+                'BsmtExposure',
+                'BsmtFinType1',
+                'BsmtFinSF1',
+                'BsmtFinType2',
+                'BsmtFinSF2',
+                'BsmtUnfSF',
+                'TotalBsmtSF',
+                'Heating',
+                'HeatingQC',
+                'CentralAir',
+                'Electrical',
+                '1stFlrSF',
+                '2ndFlrSF',
+                'LowQualFinSF',
+                'GrLivArea',
+                'BsmtFullBath',
+                'BsmtHalfBath',
+                'FullBath',
+                'HalfBath',
+                'BedroomAbvGr',
+                'KitchebvGr',
+                'KitchenQual',
+                'TotRmsAbvGrd',
+                'Functiol',
+                'Fireplaces',
+                'FireplaceQu',
+                'GarageType',
+                'GarageYrBlt',
+                'GarageFinish',
+                'GarageCars',
+                'GarageArea',
+                'GarageQual',
+                'GarageCond',
+                'PavedDrive',
+                'WoodDeckSF',
+                'OpenPorchSF',
+                'EnclosedPorch',
+                '3SsnPorch',
+                'ScreenPorch',
+                'PoolArea',
+                'PoolQC',
+                'Fence',
+                'MiscFeature',
+                'MiscVal',
+                'MoSold',
+                'YrSold',
+                'SaleType',
+                'SaleCondition',
+                'SalePrice'
+                ]
+        cat_fields = [
+                'MSZoning',
+                'Street',
+                'Alley',
+                'LotShape',
+                'LandContour',
+                'Utilities',
+                'LotConfig',
+                'LandSlope',
+                'Neighborhood',
+                'Condition1',
+                'Condition2',
+                'BldgType',
+                'HouseStyle',
+                'RoofStyle',
+                'RoofMatl',
+                'Exterior1st',
+                'Exterior2nd',
+                'MasVnrType',
+                'ExterQual',
+                'ExterCond',
+                'Foundation',
+                'BsmtQual',
+                'BsmtCond',
+                'BsmtExposure',
+                'BsmtFinType1',
+                'BsmtFinType2',
+                'Heating',
+                'HeatingQC',
+                'CentralAir',
+                'Electrical',
+                'KitchenQual',
+                'Functiol',
+                'FireplaceQu',
+                'GarageType',
+                'GarageFinish',
+                'GarageQual',
+                'GarageCond',
+                'PavedDrive',
+                'PoolQC',
+                'Fence',
+                'MiscFeature',
+                'SaleType',
+                'SaleCondition'
+                ]
+        target_field = 'SalePrice'
+        super(ARTData, self).__init__(
+                filepath,
+                fields,
+                cat_fields,
+                target_field,
+                num_classes)
+
+    def get_description(self):
+        """Gets a description of the housing data.
+        """
+        return ('Housing data for the Advanced Regression Techniqes.' + os.linesep +
+                'Training data entries: {}'.format(self.X_train.shape[0]) + os.linesep +
+                'Test data entries: {}'.format(self.X_test.shape[0]) + os.linesep +
+                'Number of features: {}'.format(self.X_test.shape[1]) + os.linesep +
                 'Target classes: {}'.format(self.target_dist))
