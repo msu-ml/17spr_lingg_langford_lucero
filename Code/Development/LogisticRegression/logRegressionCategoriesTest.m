@@ -110,6 +110,7 @@ function MSE = RunError(ModelW, Categories, Truth, Data, Graph)
     subResult = zeros(1, max(Truth));
     for j = 1:Categories
         subResult( j ) = 1 / (1 + exp( -ModelW(j,:) * Data( i, : )' ) );
+
     end
     [junk result( i )] = max(subResult);
 

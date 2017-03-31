@@ -2,7 +2,7 @@ tbl = readtable ( 'train.csv' );
 
 tbl(1:5,:);
 
-lm = fitlm ( tbl, 'linear' );
+lm = fitlm ( tbl(1:size(tbl,1)/2,:), 'linear' );
 
 figure;
 lm.plot;
@@ -10,7 +10,7 @@ lm.plot;
 tblArray = table2array(tbl);
 tblArray = sortrows(tblArray,size(tblArray,2));
 disp('Run Error:');
-disp(RunError(lm,tblArray(:,size(tblArray,2)),tblArray(:,1:size(tblArray,2)-1)));
+disp(RunError(lm,tblArray(size(tbl,1)/2+1:size(tbl,1),size(tblArray,2)),tblArray(size(tbl,1)/2+1:size(tbl,1),1:size(tblArray,2)-1)));
 
   % Calculate the MSE where Data is the input Data,
   % Truth is the actual results corrisponding with the input Data,
