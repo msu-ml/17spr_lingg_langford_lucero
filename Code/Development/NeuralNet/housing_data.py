@@ -405,7 +405,6 @@ class ARTData(HousingData):
             num_clases - the number of desired target classes
         """
         fields = [
-                'Id',
                 'MSSubClass',
                 'MSZoning',
                 'LotFrontage',
@@ -457,7 +456,7 @@ class ARTData(HousingData):
                 'FullBath',
                 'HalfBath',
                 'BedroomAbvGr',
-                'KitchebvGr',
+                'KitchenAbvGr',
                 'KitchenQual',
                 'TotRmsAbvGrd',
                 'Functiol',
@@ -519,7 +518,7 @@ class ARTData(HousingData):
                 'CentralAir',
                 'Electrical',
                 'KitchenQual',
-                'Functiol',
+                'Functional',
                 'FireplaceQu',
                 'GarageType',
                 'GarageFinish',

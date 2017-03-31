@@ -97,7 +97,7 @@ class Application(object):
         print('Processing data.')
         self.sources = [NashvilleData('Data/Nashville_geocoded.csv', self.num_classes),
                         KingCountyData('Data/kc_house_data.csv', self.num_classes),
-                        RedfinData('Data/redfin.csv', self.num_classes)
+                        RedfinData('Data/redfin.csv', self.num_classes),
                         ARTData('Data/train.csv', self.num_classes)
                        ]
         
