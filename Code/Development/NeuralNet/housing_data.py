@@ -16,22 +16,28 @@ class SubstitutionMethod(object):
     CLOSEST_NEIGHBOR_MEAN = 3
 
 class HousingData(object):
-    def __init__(self, filepath, fields, cat_fields, target_field, num_classes):
+    def __init__(self,
+                 filepath,
+                 fields,
+                 target_field,
+                 num_classes,
+                 cat_fields=[],
+                 empty_value=''):
         """Constructs a new data object.
         Arguments:
             filepath - file path for a CSV file
             fields - the fields to read
-            cat_fields - the fields that contain categorical values
             target_field - the field containing the target values
+            empty_value - The string representation of an empty value.
             num_classes - the number of desired target classes
+            cat_fields - (optional) the fields that contain categorical values
+            empty_value - (optional) how empty values are represented in data
         """
         self.fields = fields
         self.num_classes = num_classes
 
-        self.max_values = []
-        
         # Read data from a csv file.
-        data = self.read_csv(filepath)
+        data = self.read_csv(filepath, empty_value)
         
         # Randomly shuffle the data rows.
         numpy.random.shuffle(data)
@@ -47,18 +53,17 @@ class HousingData(object):
         # Separate the target field from the rest.
         data = data.astype('float32')
         (X, y) = self.separate_targets(data, target_field)
-        X = X.astype('float32')
-        y = y.astype('int')
         
         # Replace any missing values with a substitute.
         X = self.replace_missing_values(X, SubstitutionMethod.CLOSEST_NEIGHBOR_MEAN)
         
         # Normalize values by column.
-        X = self.normalize_values(X)        
+        (self.X_max, X) = self.normalize_values(X)
+        (self.y_max, y) = self.normalize_values(y)
         
         # Determine the target distribution and categorize the target classes.
         self.target_dist = self.get_target_distribution(y)
-        y = self.categorize_targets(y)
+        #y = self.categorize_targets(y)
         
         # Separate the training data from the test data.
         test_size = numpy.int(X.shape[0] * 0.1)
@@ -72,10 +77,11 @@ class HousingData(object):
         """
         return ''
     
-    def read_csv(self, filepath):
+    def read_csv(self, filepath, empty_value):
         """Reads a CSV file.
         Arguments:
             filepath - the file path to a CSV file
+            empty_value - how empty values are represented in data
         """
         data = []
         
@@ -87,7 +93,7 @@ class HousingData(object):
                 entry = []
                 for field in self.fields:
                     # If the field is empty, put a nan value in it.
-                    if row[field] != '':
+                    if row[field] != '' and row[field] != empty_value:
                         entry.append(row[field])
                     else:
                         entry.append(numpy.nan)
@@ -188,8 +194,8 @@ class HousingData(object):
         Arguments:
             data - an array of data
         """
-        self.max_values = numpy.amax(numpy.absolute(data), axis=0)
-        return data / self.max_values
+        max_vals = numpy.amax(numpy.absolute(data), axis=0)
+        return max_vals, data / max_vals
         
     def separate_targets(self, data, field):
         """Separates the target values from the data set.
@@ -222,15 +228,16 @@ class HousingData(object):
         Arguments:
             targets - the target values
         """
+        y = targets.astype('int')
         for i in range(len(targets)):
             # Determine which class the value falls into, according to the 
             # target distribution.
             target_class = 0
             for j in range(len(self.target_dist)):
-                if targets[i] > self.target_dist[j]:
+                if y[i] > self.target_dist[j]:
                     target_class = j 
-            targets[i] = target_class
-        return np_utils.to_categorical(targets, self.num_classes)
+            y[i] = target_class
+        return np_utils.to_categorical(y, self.num_classes)
 
     def partition(self, data, n):
         """Partitions the given data set into n equally sized partitions.
@@ -275,9 +282,9 @@ class RedfinData(HousingData):
         super(RedfinData, self).__init__(
                 filepath, 
                 fields, 
-                cat_fields,
                 target_field,
-                num_classes)
+                num_classes,
+                cat_fields=cat_fields)
         
     def get_description(self):
         """Gets a description of the housing data.
@@ -318,12 +325,10 @@ class KingCountyData(HousingData):
                 'sqft_living15',
                 'sqft_lot15'
                 ]
-        cat_fields = []
         target_field = 'price'
         super(KingCountyData, self).__init__(
                 filepath, 
-                fields, 
-                cat_fields,
+                fields,
                 target_field,
                 num_classes)
         
@@ -383,9 +388,9 @@ class NashvilleData(HousingData):
         super(NashvilleData, self).__init__(
                 filepath,
                 fields,
-                cat_fields,
                 target_field,
-                num_classes)
+                num_classes,
+                cat_fields=cat_fields)
 
     def get_description(self):
         """Gets a description of the housing data.
@@ -459,7 +464,7 @@ class ARTData(HousingData):
                 'KitchenAbvGr',
                 'KitchenQual',
                 'TotRmsAbvGrd',
-                'Functiol',
+                'Functional',
                 'Fireplaces',
                 'FireplaceQu',
                 'GarageType',
@@ -532,12 +537,14 @@ class ARTData(HousingData):
                 'SaleCondition'
                 ]
         target_field = 'SalePrice'
+        empty_value = 'NA'
         super(ARTData, self).__init__(
                 filepath,
                 fields,
-                cat_fields,
                 target_field,
-                num_classes)
+                num_classes,
+                cat_fields=cat_fields,
+                empty_value=empty_value)
 
     def get_description(self):
         """Gets a description of the housing data.

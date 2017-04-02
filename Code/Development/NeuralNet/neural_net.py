@@ -44,25 +44,14 @@ class MetricTracker(Callback):
 class NeuralNetwork(object):
     def __init__(self, input_shape, num_outputs):
         self.batch_size = 20
-        self.adaptive_learning_rate = True
+        self.adaptive_learning_rate = False
         self.eta_init = 0.1
         self.model = self.create_model(input_shape, num_outputs)
         self.metrics = MetricTracker()
         self.lr_scheduler = LearningRateScheduler(self.update_learning_rate)
         
     def create_model(self, input_shape, num_outputs):
-        num_inputs = input_shape[0]
-        model = Sequential()
-        #model.add(Dense(num_outputs*4, activation='sigmoid', input_shape=input_shape))
-        #model.add(Dense(num_outputs*16, activation='sigmoid'))
-        model.add(Dense(num_outputs*4, activation='sigmoid', input_shape=input_shape))
-        model.add(Dense(num_outputs*2, activation='sigmoid'))
-        model.add(Dense(num_outputs, activation='softmax'))
-        model.compile(
-                optimizer=Adagrad(lr=self.eta_init),
-                loss='categorical_crossentropy',
-                metrics=['accuracy'])
-        return model
+        return None
     
     def train(self, data, num_epochs):
         self.model.fit(
@@ -89,10 +78,63 @@ class NeuralNetwork(object):
             eta = self.eta_init
         return float(eta)
 
+class RegressionNet(NeuralNetwork):
+    def __init__(self, input_shape):
+        num_outputs = 1
+        super(RegressionNet, self).__init__(input_shape, num_outputs)
+        
+    def create_model(self, input_shape, num_outputs):
+        num_inputs = input_shape[0]
+        model = Sequential()
+        model.add(Dense(num_inputs, init='normal', activation='relu', input_shape=input_shape))
+        model.add(Dense(num_outputs, init='normal'))
+        model.compile(
+                #optimizer=Adagrad(lr=self.eta_init),
+                optimizer='adam',
+                loss='mean_squared_error',
+                metrics=['accuracy'])
+        return model
+
+class ClassificationNet(NeuralNetwork):
+    def __init__(self, input_shape, num_outputs):
+        super(ClassificationNet, self).__init__(input_shape, num_outputs)
+        
+    def create_model(self, input_shape, num_outputs):
+        model = Sequential()
+        model.add(Dense(num_outputs*4, activation='sigmoid', input_shape=input_shape))
+        model.add(Dense(num_outputs*2, activation='sigmoid'))
+        model.add(Dense(num_outputs, activation='softmax'))
+        model.compile(
+                optimizer=Adagrad(lr=self.eta_init),
+                loss='categorical_crossentropy',
+                metrics=['accuracy'])
+        return model
+
+    def train(self, data, num_epochs):
+        X_train = data.X_train
+        y_train = data.categorize_targets(data.y_train)
+        X_test = data.X_test
+        y_test = data.categorize_targets(data.y_test)
+        self.model.fit(
+                X_train, 
+                y_train,
+                nb_epoch=num_epochs,
+                batch_size=self.batch_size,
+                verbose=1,
+                callbacks=[self.metrics, self.lr_scheduler],
+                validation_data=(X_test, y_test))
+
+    def test(self, data):
+        X_test = data.X_test
+        y_test = data.categorize_targets(data.y_test)
+        scores = self.model.evaluate(X_test, y_test, verbose=1)
+        self.metrics.eval_loss = scores[0]
+        self.metrics.eval_acc = scores[1]
+
 class Application(object):
     def __init__(self):
-        self.num_classes = 5
-        self.num_epochs = 50
+        self.num_classes = 20
+        self.num_epochs = 5
         
         print('Processing data.')
         self.sources = [NashvilleData('Data/Nashville_geocoded.csv', self.num_classes),
@@ -109,7 +151,8 @@ class Application(object):
             print('Building neural network.')
             input_shape = data.X_train.shape[1:]
             num_outputs = data.num_classes
-            network = NeuralNetwork(input_shape, num_outputs)
+            network = ClassificationNet(input_shape, num_outputs)
+            #network = RegressionNet(input_shape)
             
             print('Training neural network.')
             network.train(data, self.num_epochs)

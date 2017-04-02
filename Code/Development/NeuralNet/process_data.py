@@ -56,7 +56,7 @@ class Data(object):
             match = cat_field_regex.match(line)
             if (match):
                 cat_fields.append(match.group('cat_field'))
-
+        
         return fields, cat_fields
         
     def read_csv(self, filepath):
