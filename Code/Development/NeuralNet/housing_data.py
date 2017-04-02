@@ -8,7 +8,6 @@ Created on Fri Mar 10 12:24:58 2017
 import csv
 import numpy
 import os
-from keras.utils import np_utils
 
 class SubstitutionMethod(object):
     MEAN = 1
@@ -66,7 +65,7 @@ class HousingData(object):
         #y = self.categorize_targets(y)
         
         # Separate the training data from the test data.
-        test_size = numpy.int(X.shape[0] * 0.1)
+        test_size = numpy.int(X.shape[0] * 0.3)
         self.X_train = X[0:-test_size]
         self.y_train = y[0:-test_size]
         self.X_test = X[-test_size:]
@@ -217,37 +216,37 @@ class HousingData(object):
             targets - the target values
         """
         target_dist = []
-        partition_size = numpy.int(targets.shape[0]/(self.num_classes-1))
+        partition_size = numpy.int(targets.shape[0]/(self.num_classes))
         partitions = self.partition(numpy.sort(targets), partition_size)
         for partition in partitions:
             target_dist.append(partition[0])
         return target_dist
+
+    def partition(self, data, n):
+        """Partitions the given data set into n equally sized partitions.
+        Arguments:
+            data - an array of data
+            n - the size of desired partitions
+        """
+        for i in range(0, len(data), n):
+            yield data[i:i + n]
 
     def categorize_targets(self, targets):
         """Converts target values into categorical classes for the neural net.
         Arguments:
             targets - the target values
         """
-        y = targets.astype('int')
+        y = numpy.zeros((targets.shape[0], self.num_classes))
         for i in range(len(targets)):
             # Determine which class the value falls into, according to the 
             # target distribution.
             target_class = 0
-            for j in range(len(self.target_dist)):
-                if y[i] > self.target_dist[j]:
-                    target_class = j 
-            y[i] = target_class
-        return np_utils.to_categorical(y, self.num_classes)
-
-    def partition(self, data, n):
-        """Partitions the given data set into n equally sized partitions.
-        Arguments:
-            data - an array of data
-            n - the number of desired partitions
-        """
-        for i in range(0, len(data), n):
-            yield data[i:i + n]
-
+            for j in range(self.num_classes):
+                if targets[i] > self.target_dist[j]:
+                    target_class = j
+            y[i, target_class] = 1.0
+        return y
+            
 class RedfinData(HousingData):
     """Represents housing data from redfin.com
     """
