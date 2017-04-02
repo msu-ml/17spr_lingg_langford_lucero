@@ -101,8 +101,9 @@ class ClassificationNet(NeuralNetwork):
         
     def create_model(self, input_shape, num_outputs):
         model = Sequential()
-        model.add(Dense(num_outputs*4, activation='sigmoid', input_shape=input_shape))
-        model.add(Dense(num_outputs*2, activation='sigmoid'))
+        num_inputs = input_shape[0]
+        num_hidden = num_outputs*2
+        model.add(Dense(num_hidden, activation='sigmoid', input_shape=input_shape))
         model.add(Dense(num_outputs, activation='softmax'))
         model.compile(
                 optimizer=Adagrad(lr=self.eta_init),
@@ -133,14 +134,14 @@ class ClassificationNet(NeuralNetwork):
 
 class Application(object):
     def __init__(self):
-        self.num_classes = 20
-        self.num_epochs = 5
+        self.num_classes = 10
+        self.num_epochs = 500
         
         print('Processing data.')
         self.sources = [NashvilleData('Data/Nashville_geocoded.csv', self.num_classes),
-                        KingCountyData('Data/kc_house_data.csv', self.num_classes),
-                        RedfinData('Data/redfin.csv', self.num_classes),
-                        ARTData('Data/train.csv', self.num_classes)
+                        #KingCountyData('Data/kc_house_data.csv', self.num_classes),
+                        #RedfinData('Data/redfin.csv', self.num_classes),
+                        #ARTData('Data/train.csv', self.num_classes)
                        ]
         
     def run(self):
@@ -163,7 +164,7 @@ class Application(object):
             print('Accuracy: {:.2f}%'.format(network.metrics.eval_acc*100))
             metrics.append(network.metrics)
 
-        self.plot(metrics)
+        #self.plot(metrics)
         print('Done.')
         
     def plot(self, metrics):
