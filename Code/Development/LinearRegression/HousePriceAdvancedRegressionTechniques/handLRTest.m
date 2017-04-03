@@ -27,7 +27,7 @@ crossResults = zeros([1460 1]);
 
 for lambdaIndex = 1:9
     %Get the cross validation results for the current lambda.
-  crossResults( lambdaIndex ) = CrossValidation(testLambdas(lambdaIndex), tblArraySorted);
+  crossResults( lambdaIndex ) = CrossValidation(testLambdas(lambdaIndex), tblArray);
   disp(strcat('Cross Result lambda = ',num2str(testLambdas( lambdaIndex )),':',num2str(crossResults( lambdaIndex ))));
   
   if ( bestLambdaError > crossResults( lambdaIndex ) )
