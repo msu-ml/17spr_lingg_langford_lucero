@@ -101,8 +101,7 @@ class Data(object):
         
         # Normalize values by column
         if self.opts.normalize == True:
-            self.max_values = []
-            self.processed_data = self.normalize_values(self.processed_data)
+            (self.max_vals, self.min_vals, self.processed_data) = self.normalize_values(self.processed_data)
     
     def write_csv(self):
         if self.opts.output_filepath != '':
@@ -202,8 +201,9 @@ class Data(object):
         Arguments:
             data - an array of data
         """
-        self.max_values = numpy.amax(numpy.absolute(data), axis=0)
-        return data / self.max_values
+        max_vals = numpy.amax(data, axis=0)
+        min_vals = numpy.amin(data, axis=0)
+        return max_vals, min_vals, (data - min_vals) / (max_vals - min_vals)
 
 def main(argv):
     try:                                
