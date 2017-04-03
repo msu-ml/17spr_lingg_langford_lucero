@@ -30,9 +30,7 @@ class NeuralNetwork(object):
         results = []
         for i in range(num_iters):
             numpy.random.shuffle(data.train)
-            #batches = self.make_batches(data.train, batch_size)
-            batches = [data.train[k:k+batch_size]
-                        for k in range(0, len(data.train), batch_size)]
+            batches = self.make_batches(data.train, batch_size)
             for batch in batches:
                 grad_w = [numpy.zeros(w.shape) for w in self.weights]
                 grad_b = [numpy.zeros(b.shape) for b in self.biases]
@@ -44,10 +42,10 @@ class NeuralNetwork(object):
                                 for w, nw in zip(self.weights, grad_w)]
                 self.biases = [b - (eta / len(batch)) * nb
                                for b, nb in zip(self.biases, grad_b)]
-            train_acc = self.evaluate(data.train)
-            test_acc = self.evaluate(data.test)
+            train_loss, train_acc = self.evaluate(data.train)
+            test_loss, test_acc = self.evaluate(data.test)
             results.append((i, train_acc, test_acc))
-            print('SGD -- iter={} train_acc={:.2f} test_acc={:.2f}'.format(i, train_acc, test_acc))
+            print('SGD -[{:4d}]- training [loss={:.4f} acc={:.2f}]  testing [loss={:.4f} acc={:.2f}]'.format(i, train_loss, train_acc, test_loss, test_acc))
         return results
 
     def make_batches(self, data, batch_size):
@@ -56,6 +54,7 @@ class NeuralNetwork(object):
     
     def feedforward(self, a):
         sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
+        softmax = lambda z: numpy.exp(z) / numpy.sum(numpy.exp(z))
         for w, b in zip(self.weights, self.biases):
             y = numpy.dot(w, a) + b
             a = sigmoid(y)
@@ -68,6 +67,8 @@ class NeuralNetwork(object):
         sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
         d_sigmoid = lambda z: sigmoid(z) * (1 - sigmoid(z))
 
+        softmax = lambda z: numpy.exp(z) / numpy.sum(numpy.exp(z))
+        
         # forward pass
         a = x
         outputs = []
@@ -87,18 +88,24 @@ class NeuralNetwork(object):
             grad_w[-i] = numpy.dot(delta, activations[-i-1].T)
             grad_b[-i] = delta
 
-        return (grad_w, grad_b)
+        return grad_w, grad_b
 
     def evaluate(self, data):
+        loss = 0.0
         correct = 0.0
         total = len(data)
         for x, t in data:
             p = self.feedforward(x)
+            loss = numpy.sum(numpy.log(p[t==1])) + numpy.sum(numpy.log(1.0 - p[t==0]))
+
             y = numpy.zeros(p.shape)
-            y[numpy.argmax(p)] = 1.0
+            y[numpy.argmax(p)] = 1.0            
             if numpy.array_equal(y, t):
                 correct += 1.0
-        return correct / total
+                
+        loss = -loss / total
+        acc = correct / total
+        return loss, acc
 
 class Application(object):
     def __init__(self):
@@ -113,7 +120,7 @@ class Application(object):
         
     def run(self):
         num_iters = 1000
-        batch_size = 10
+        batch_size = 20
         eta = 0.1
         for data in self.sources:
             print('{}'.format(data.get_description()))
