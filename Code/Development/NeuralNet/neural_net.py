@@ -9,12 +9,6 @@ import getopt
 import matplotlib.pyplot
 import numpy
 import sys
-from keras.callbacks import Callback
-from keras.callbacks import LearningRateScheduler
-from keras.layers import Dense
-from keras.layers import Dropout
-from keras.models import Sequential
-from keras.optimizers import Adagrad
 from housing_data import ARTData
 from housing_data import KingCountyData
 from housing_data import NashvilleData
@@ -24,166 +18,125 @@ from housing_data import RedfinData
 seed = 69
 numpy.random.seed(seed)
 
-class MetricTracker(Callback):
-    def on_train_begin(self, logs={}):
-        self.epoch = []
-        self.loss = []
-        self.acc = []
-        self.val_loss = []
-        self.val_acc = []
-        self.eval_loss = None
-        self.eval_acc = None
-
-    def on_epoch_end(self, batch, logs={}):
-        self.epoch.append(len(self.epoch))
-        self.loss.append(logs.get('loss'))
-        self.acc.append(logs.get('acc'))
-        self.val_loss.append(logs.get('val_loss'))
-        self.val_acc.append(logs.get('val_acc'))
-
 class NeuralNetwork(object):
-    def __init__(self, input_shape, num_outputs):
-        self.batch_size = 20
-        self.adaptive_learning_rate = False
-        self.eta_init = 0.1
-        self.model = self.create_model(input_shape, num_outputs)
-        self.metrics = MetricTracker()
-        self.lr_scheduler = LearningRateScheduler(self.update_learning_rate)
-        
-    def create_model(self, input_shape, num_outputs):
-        return None
+    def __init__(self, layers):
+        self.num_layers = len(layers)
+        self.layers = layers
+        self.biases = [numpy.random.randn(b, 1) for b in layers[1:]]
+        self.weights = [numpy.random.randn(b, a)
+                        for a, b in zip(layers[:-1], layers[1:])]
     
-    def train(self, data, num_epochs):
-        self.model.fit(
-                data.X_train, 
-                data.y_train,
-                nb_epoch=num_epochs,
-                batch_size=self.batch_size,
-                verbose=1,
-                callbacks=[self.metrics, self.lr_scheduler],
-                validation_data=(data.X_test, data.y_test))
-        
-    def test(self, data):
-        scores = self.model.evaluate(data.X_test, data.y_test, verbose=1)
-        self.metrics.eval_loss = scores[0]
-        self.metrics.eval_acc = scores[1]
+    def SGD(self, data, num_iters, batch_size, eta):
+        results = []
+        for i in range(num_iters):
+            numpy.random.shuffle(data.train)
+            #batches = self.make_batches(data.train, batch_size)
+            batches = [data.train[k:k+batch_size]
+                        for k in range(0, len(data.train), batch_size)]
+            for batch in batches:
+                grad_w = [numpy.zeros(w.shape) for w in self.weights]
+                grad_b = [numpy.zeros(b.shape) for b in self.biases]
+                for x, y in batch:
+                    delta_grad_w, delta_grad_b = self.backprop(x, y)
+                    grad_w = [nw + dnw for nw, dnw in zip(grad_w, delta_grad_w)]
+                    grad_b = [nb + dnb for nb, dnb in zip(grad_b, delta_grad_b)]
+                self.weights = [w - (eta / len(batch)) * nw
+                                for w, nw in zip(self.weights, grad_w)]
+                self.biases = [b - (eta / len(batch)) * nb
+                               for b, nb in zip(self.biases, grad_b)]
+            train_acc = self.evaluate(data.train)
+            test_acc = self.evaluate(data.test)
+            results.append((i, train_acc, test_acc))
+            print('SGD -- iter={} train_acc={:.2f} test_acc={:.2f}'.format(i, train_acc, test_acc))
+        return results
 
-    def update_learning_rate(self, epoch):
-        if epoch > 0 and self.adaptive_learning_rate:
-            loss_init = self.metrics.loss[0]
-            loss = self.metrics.loss[-1]
-            eta = (self.eta_init*(numpy.exp(loss)-1))/(numpy.exp(loss_init)-1)
-            print('Epoch {} - Adaptive Learning Rate [eta={:.6f}]'.format(epoch, eta))
-        else:
-            eta = self.eta_init
-        return float(eta)
+    def make_batches(self, data, batch_size):
+        for i in range(0, len(data), batch_size):
+            yield data[i:i+batch_size]
+    
+    def feedforward(self, a):
+        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
+        for w, b in zip(self.weights, self.biases):
+            y = numpy.dot(w, a) + b
+            a = sigmoid(y)
+        return a
 
-class RegressionNet(NeuralNetwork):
-    def __init__(self, input_shape):
-        num_outputs = 1
-        super(RegressionNet, self).__init__(input_shape, num_outputs)
-        
-    def create_model(self, input_shape, num_outputs):
-        num_inputs = input_shape[0]
-        model = Sequential()
-        model.add(Dense(num_inputs, init='normal', activation='relu', input_shape=input_shape))
-        model.add(Dense(num_outputs, init='normal'))
-        model.compile(
-                #optimizer=Adagrad(lr=self.eta_init),
-                optimizer='adam',
-                loss='mean_squared_error',
-                metrics=['accuracy'])
-        return model
+    def backprop(self, x, y):
+        grad_w = [numpy.zeros(w.shape) for w in self.weights]
+        grad_b = [numpy.zeros(b.shape) for b in self.biases]
 
-class ClassificationNet(NeuralNetwork):
-    def __init__(self, input_shape, num_outputs):
-        super(ClassificationNet, self).__init__(input_shape, num_outputs)
-        
-    def create_model(self, input_shape, num_outputs):
-        model = Sequential()
-        num_inputs = input_shape[0]
-        num_hidden = num_outputs*2
-        model.add(Dense(num_hidden, activation='sigmoid', input_shape=input_shape))
-        model.add(Dense(num_outputs, activation='softmax'))
-        model.compile(
-                optimizer=Adagrad(lr=self.eta_init),
-                loss='categorical_crossentropy',
-                metrics=['accuracy'])
-        return model
+        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
+        d_sigmoid = lambda z: sigmoid(z) * (1 - sigmoid(z))
 
-    def train(self, data, num_epochs):
-        X_train = data.X_train
-        y_train = data.categorize_targets(data.y_train)
-        X_test = data.X_test
-        y_test = data.categorize_targets(data.y_test)
-        self.model.fit(
-                X_train, 
-                y_train,
-                nb_epoch=num_epochs,
-                batch_size=self.batch_size,
-                verbose=1,
-                callbacks=[self.metrics, self.lr_scheduler],
-                validation_data=(X_test, y_test))
+        # forward pass
+        a = x
+        outputs = []
+        activations = [a]
+        for w, b in zip(self.weights, self.biases):
+            z = numpy.dot(w, a) + b
+            a = sigmoid(z)
+            outputs.append(z)
+            activations.append(a)
+            
+        # backward pass
+        delta = (activations[-1] - y) * d_sigmoid(outputs[-1])
+        grad_w[-1] = numpy.dot(delta, activations[-2].T)
+        grad_b[-1] = delta
+        for i in range(2, self.num_layers):
+            delta = numpy.dot(self.weights[-i+1].T, delta) * d_sigmoid(outputs[-i])
+            grad_w[-i] = numpy.dot(delta, activations[-i-1].T)
+            grad_b[-i] = delta
 
-    def test(self, data):
-        X_test = data.X_test
-        y_test = data.categorize_targets(data.y_test)
-        scores = self.model.evaluate(X_test, y_test, verbose=1)
-        self.metrics.eval_loss = scores[0]
-        self.metrics.eval_acc = scores[1]
+        return (grad_w, grad_b)
+
+    def evaluate(self, data):
+        correct = 0.0
+        total = len(data)
+        for x, t in data:
+            p = self.feedforward(x)
+            y = numpy.zeros(p.shape)
+            y[numpy.argmax(p)] = 1.0
+            if numpy.array_equal(y, t):
+                correct += 1.0
+        return correct / total
 
 class Application(object):
     def __init__(self):
-        self.num_classes = 10
-        self.num_epochs = 500
+        num_classes = 10
         
         print('Processing data.')
-        self.sources = [NashvilleData('Data/Nashville_geocoded.csv', self.num_classes),
-                        #KingCountyData('Data/kc_house_data.csv', self.num_classes),
-                        #RedfinData('Data/redfin.csv', self.num_classes),
-                        #ARTData('Data/train.csv', self.num_classes)
+        self.sources = [#NashvilleData('Data/Nashville_geocoded.csv', num_classes),
+                        #KingCountyData('Data/kc_house_data.csv', num_classes),
+                        #RedfinData('Data/redfin.csv', num_classes),
+                        ARTData('Data/train.csv', num_classes)
                        ]
         
     def run(self):
-        metrics = []
+        num_iters = 1000
+        batch_size = 10
+        eta = 0.1
         for data in self.sources:
             print('{}'.format(data.get_description()))
             
-            print('Building neural network.')
-            input_shape = data.X_train.shape[1:]
+            print('Creating neural network.')
+            num_inputs = data.num_features
+            num_hidden = data.num_classes * 2
             num_outputs = data.num_classes
-            network = ClassificationNet(input_shape, num_outputs)
-            #network = RegressionNet(input_shape)
+            network = NeuralNetwork([num_inputs, num_hidden, num_outputs])
             
-            print('Training neural network.')
-            network.train(data, self.num_epochs)
+            print('Running neural network.')
+            results = network.SGD(data, num_iters, batch_size, eta)
+            self.plot(results)
             
-            print('Evaluating neural network.')
-            network.test(data)
-            print('')
-            print('Accuracy: {:.2f}%'.format(network.metrics.eval_acc*100))
-            metrics.append(network.metrics)
-
-        #self.plot(metrics)
         print('Done.')
         
-    def plot(self, metrics):
+    def plot(self, results):
+        iters, test_accs, train_accs = zip(*results)
         matplotlib.pyplot.figure(1)
-        matplotlib.pyplot.subplot(2, 1, 1)
-        matplotlib.pyplot.plot(metrics[0].epoch, metrics[0].acc, 'r', label='Nashville, TN')
-        matplotlib.pyplot.plot(metrics[1].epoch, metrics[1].acc, 'g', label='King County, WA')
-        matplotlib.pyplot.plot(metrics[2].epoch, metrics[2].acc, 'b', label='Grand Rapids, MI')
-        matplotlib.pyplot.plot(metrics[3].epoch, metrics[3].acc, 'c', label='ART data')
-        matplotlib.pyplot.xlabel('Epoch')
+        matplotlib.pyplot.plot(iters, train_accs, 'r', label='Training Data')
+        matplotlib.pyplot.plot(iters, test_accs, 'g', label='Test Data')
+        matplotlib.pyplot.xlabel('Iteration')
         matplotlib.pyplot.ylabel('Training Accuracy')
-        matplotlib.pyplot.legend(loc=4)
-        matplotlib.pyplot.subplot(2, 1, 2)
-        matplotlib.pyplot.plot(metrics[0].epoch, metrics[0].val_acc, 'r', label='Nashville, TN')
-        matplotlib.pyplot.plot(metrics[1].epoch, metrics[1].val_acc, 'g', label='King County, WA')
-        matplotlib.pyplot.plot(metrics[2].epoch, metrics[2].val_acc, 'b', label='Grand Rapids, MI')
-        matplotlib.pyplot.plot(metrics[3].epoch, metrics[3].val_acc, 'c', label='ART data')
-        matplotlib.pyplot.xlabel('Epoch')
-        matplotlib.pyplot.ylabel('Testing Accuracy')
         matplotlib.pyplot.legend(loc=4)
         matplotlib.pyplot.savefig('figure_01.jpg')
         matplotlib.pyplot.show()

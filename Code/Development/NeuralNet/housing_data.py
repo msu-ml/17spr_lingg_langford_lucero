@@ -8,6 +8,7 @@ Created on Fri Mar 10 12:24:58 2017
 import csv
 import numpy
 import os
+import sys
 
 class SubstitutionMethod(object):
     MEAN = 1
@@ -22,66 +23,50 @@ class HousingData(object):
                  num_classes,
                  cat_fields=[],
                  empty_value=''):
-        """Constructs a new data object.
-        Arguments:
-            filepath - file path for a CSV file
-            fields - the fields to read
-            target_field - the field containing the target values
-            empty_value - The string representation of an empty value.
-            num_classes - the number of desired target classes
-            cat_fields - (optional) the fields that contain categorical values
-            empty_value - (optional) how empty values are represented in data
-        """
         self.fields = fields
         self.num_classes = num_classes
 
         # Read data from a csv file.
         data = self.read_csv(filepath, empty_value)
         
-        # Randomly shuffle the data rows.
-        numpy.random.shuffle(data)
-
         # Split categorical fields up.
         if len(cat_fields) > 0:
             data = self.split_categorical_fields(data, cat_fields)
-            
-            # Write a copy of the processed data to a csv file.
-            output_path = os.path.splitext(filepath)[0] + '_processed.csv'
-            self.write_csv(output_path, self.fields, data)
+        data = numpy.asarray(data, dtype=numpy.float32)
         
         # Separate the target field from the rest.
-        data = data.astype('float32')
-        (X, y) = self.separate_targets(data, target_field)
+        X, y = self.separate_targets(data, target_field)
         
         # Replace any missing values with a substitute.
         X = self.replace_missing_values(X, SubstitutionMethod.CLOSEST_NEIGHBOR_MEAN)
         
         # Normalize values by column.
-        (self.X_max, X) = self.normalize_values(X)
-        (self.y_max, y) = self.normalize_values(y)
-        
-        # Determine the target distribution and categorize the target classes.
+        X, X_max, X_min = self.normalize_values(X)
+        y, y_max, y_min = self.normalize_values(y)
+        self.data_max = (X_max, y_max)
+        self.data_min = (X_min, y_min)
+
+        # Determine the target distribution for categorizing targets.
         self.target_dist = self.get_target_distribution(y)
-        #y = self.categorize_targets(y)
+
+        n = X.shape[0]
+        d = X.shape[1]
+        k = self.num_classes
+        y = [self.categorize_target(t) for t in y]        
+        X = [numpy.reshape(x, (d, 1)) for x in X]
+        y = [numpy.reshape(t, (k, 1)) for t in y]
+        self.num_features = d
+        self.data = [(X[i], y[i]) for i in range(n)]
         
         # Separate the training data from the test data.
-        test_size = numpy.int(X.shape[0] * 0.3)
-        self.X_train = X[0:-test_size]
-        self.y_train = y[0:-test_size]
-        self.X_test = X[-test_size:]
-        self.y_test = y[-test_size:]
+        test_size = int(len(self.data) * 0.3)
+        self.train = self.data[0:-test_size]
+        self.test = self.data[-test_size:]
         
     def get_description(self):
-        """Gets a description of the data.
-        """
         return ''
     
     def read_csv(self, filepath, empty_value):
-        """Reads a CSV file.
-        Arguments:
-            filepath - the file path to a CSV file
-            empty_value - how empty values are represented in data
-        """
         data = []
         
         # Open file for reading.
@@ -97,22 +82,9 @@ class HousingData(object):
                     else:
                         entry.append(numpy.nan)
                 data.append(entry)
-        return numpy.array(data)
-    
-    def write_csv(self, filepath, fields, data):
-        output_fields = numpy.array(fields)
-        output_data = numpy.vstack([output_fields, data])
-        with open(filepath, 'wb') as output_file:
-            writer = csv.writer(output_file)
-            writer.writerows(output_data)
+        return numpy.asarray(data)
     
     def split_categorical_fields(self, data, cat_fields):
-        """Finds unique values for a categorical field and splits it into a set
-        of binary fields for each category.
-        Arguments:
-            data - a data array
-            cat_fields - the fields that contain categorical values
-        """
         for field in cat_fields:
             column = self.fields.index(field)
             cats = numpy.unique(data[:,column])
@@ -133,11 +105,6 @@ class HousingData(object):
         return data
     
     def replace_missing_values(self, data, method):
-        """Replaces any missing data with a substitute.
-        Arguments:
-            data - an array of data
-            method - the substitution method
-        """
         # Determine where all the nan values are in the data array.
         nan_idx = numpy.isnan(data)
         
@@ -186,35 +153,25 @@ class HousingData(object):
                     # mean from the ten closest entries.
                     mean = numpy.mean(complete_data[closest_idx], axis=0)
                     entry[nan_idx] = mean[nan_idx]
+                    
         return data
     
     def normalize_values(self, data):
-        """Normalizes the values in the data by dividing by the column's max.
-        Arguments:
-            data - an array of data
-        """
-        max_vals = numpy.amax(numpy.absolute(data), axis=0)
-        return max_vals, data / max_vals
+        max_vals = numpy.amax(data, axis=0)
+        min_vals = numpy.amin(data, axis=0)
+        data = (data - min_vals) / (max_vals - min_vals)
+        return data, max_vals, min_vals
         
     def separate_targets(self, data, field):
-        """Separates the target values from the data set.
-        Arguments:
-            data - an array of data
-            field - the field containing the target values
-        """
         target_column = self.fields.index(field)
-        y = numpy.copy(data[:,target_column])
+
         X = numpy.copy(data)
+        y = numpy.copy(data[:,target_column])
         X = numpy.delete(X, [target_column], axis=1)
-        
+
         return (X, y)
     
     def get_target_distribution(self, targets):
-        """Computes a target distribution that partitions the data into equal-
-        sized classes.
-        Arguments:
-            targets - the target values
-        """
         target_dist = []
         partition_size = numpy.int(targets.shape[0]/(self.num_classes))
         partitions = self.partition(numpy.sort(targets), partition_size)
@@ -223,39 +180,24 @@ class HousingData(object):
         return target_dist
 
     def partition(self, data, n):
-        """Partitions the given data set into n equally sized partitions.
-        Arguments:
-            data - an array of data
-            n - the size of desired partitions
-        """
         for i in range(0, len(data), n):
             yield data[i:i + n]
 
-    def categorize_targets(self, targets):
-        """Converts target values into categorical classes for the neural net.
-        Arguments:
-            targets - the target values
-        """
-        y = numpy.zeros((targets.shape[0], self.num_classes))
-        for i in range(len(targets)):
-            # Determine which class the value falls into, according to the 
-            # target distribution.
-            target_class = 0
-            for j in range(self.num_classes):
-                if targets[i] > self.target_dist[j]:
-                    target_class = j
-            y[i, target_class] = 1.0
+    def categorize_target(self, target):
+        # Determine which class the value falls into, according to the 
+        # target distribution.
+        target_class = 0
+        for j in range(self.num_classes):
+            if target > self.target_dist[j]:
+                target_class = j
+        
+        y = numpy.zeros(self.num_classes)
+        y[target_class] = 1.0
+
         return y
             
 class RedfinData(HousingData):
-    """Represents housing data from redfin.com
-    """
     def __init__(self, filepath, num_classes):
-        """Constructs a new Redfin housing data object.
-        Arguments:
-            filepath - the file path to the Redfin csv file
-            num_clases - the number of desired target classes
-        """
         fields = [
                 'PROPERTY TYPE',
                 'CITY',
@@ -286,23 +228,14 @@ class RedfinData(HousingData):
                 cat_fields=cat_fields)
         
     def get_description(self):
-        """Gets a description of the housing data.
-        """
         return ('Housing data for the Grand Rapids, MI area.' + os.linesep +
-                'Training data entries: {}'.format(self.X_train.shape[0]) + os.linesep +
-                'Test data entries: {}'.format(self.X_test.shape[0]) + os.linesep +
-                'Number of features: {}'.format(self.X_test.shape[1]) + os.linesep +
+                'Training data entries: {}'.format(len(self.train)) + os.linesep +
+                'Test data entries: {}'.format(len(self.test)) + os.linesep +
+                'Number of features: {}'.format(self.num_features) + os.linesep +
                 'Target classes: {}'.format(self.target_dist))
 
 class KingCountyData(HousingData):
-    """Represents King Country housing data
-    """
     def __init__(self, filepath, num_classes):
-        """Constructs a new King County housing data object.
-        Arguments:
-            filepath - the file path to the King County csv file
-            num_clases - the number of desired target classes
-        """
         fields = [
                 'price',
                 'bedrooms',
@@ -332,23 +265,14 @@ class KingCountyData(HousingData):
                 num_classes)
         
     def get_description(self):
-        """Gets a description of the housing data.
-        """
         return ('Housing data for the King County, WA area.' + os.linesep +
-                'Training data entries: {}'.format(self.X_train.shape[0]) + os.linesep +
-                'Test data entries: {}'.format(self.X_test.shape[0]) + os.linesep +
-                'Number of features: {}'.format(self.X_test.shape[1]) + os.linesep +
+                'Training data entries: {}'.format(len(self.train)) + os.linesep +
+                'Test data entries: {}'.format(len(self.test)) + os.linesep +
+                'Number of features: {}'.format(self.num_features) + os.linesep +
                 'Target classes: {}'.format(self.target_dist))
 
 class NashvilleData(HousingData):
-    """Represents Nashville housing data
-    """
     def __init__(self, filepath, num_classes):
-        """Constructs a new Nashville housing data object.
-        Arguments:
-            filepath - the file path to the Nashville csv file
-            num_clases - the number of desired target classes
-        """
         fields = [
                 'Land Use',
                 'Property City',
@@ -395,19 +319,13 @@ class NashvilleData(HousingData):
         """Gets a description of the housing data.
         """
         return ('Housing data for the Nashville, TN area.' + os.linesep +
-                'Training data entries: {}'.format(self.X_train.shape[0]) + os.linesep +
-                'Test data entries: {}'.format(self.X_test.shape[0]) + os.linesep +
+                'Training data entries: {}'.format(len(self.train)) + os.linesep +
+                'Test data entries: {}'.format(len(self.test)) + os.linesep +
+                'Number of features: {}'.format(self.num_features) + os.linesep +
                 'Target classes: {}'.format(self.target_dist))
         
 class ARTData(HousingData):
-    """Represents Advanced Regression Techniques housing data
-    """
     def __init__(self, filepath, num_classes):
-        """Constructs a new ART housing data object.
-        Arguments:
-            filepath - the file path to the ART csv file
-            num_clases - the number of desired target classes
-        """
         fields = [
                 'MSSubClass',
                 'MSZoning',
@@ -546,10 +464,8 @@ class ARTData(HousingData):
                 empty_value=empty_value)
 
     def get_description(self):
-        """Gets a description of the housing data.
-        """
-        return ('Housing data for the Advanced Regression Techniqes.' + os.linesep +
-                'Training data entries: {}'.format(self.X_train.shape[0]) + os.linesep +
-                'Test data entries: {}'.format(self.X_test.shape[0]) + os.linesep +
-                'Number of features: {}'.format(self.X_test.shape[1]) + os.linesep +
+        return ('Housing data for Advanced Regression Techniques.' + os.linesep +
+                'Training data entries: {}'.format(len(self.train)) + os.linesep +
+                'Test data entries: {}'.format(len(self.test)) + os.linesep +
+                'Number of features: {}'.format(self.num_features) + os.linesep +
                 'Target classes: {}'.format(self.target_dist))
