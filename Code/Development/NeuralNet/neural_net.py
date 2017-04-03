@@ -95,7 +95,7 @@ class NeuralNetwork(object):
         total = len(data)
         for x, t in data:
             y = self.predict(x)
-            loss = numpy.sum(-numpy.log(y[t==1])) + numpy.sum(-numpy.log(1.0 - y[t==0]))
+            loss += numpy.sum(-numpy.log(y[t==1])) + numpy.sum(-numpy.log(1.0 - y[t==0]))
             if numpy.argmax(y) == numpy.argmax(t):
                 correct += 1.0
                 
