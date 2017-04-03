@@ -131,7 +131,7 @@ class Application(object):
         print('Done.')
         
     def plot(self, results):
-        iters, test_accs, train_accs = zip(*results)
+        iters, train_accs, test_accs = zip(*results)
         matplotlib.pyplot.figure(1)
         matplotlib.pyplot.plot(iters, train_accs, 'r', label='Training Data')
         matplotlib.pyplot.plot(iters, test_accs, 'g', label='Test Data')
