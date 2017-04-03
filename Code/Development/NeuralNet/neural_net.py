@@ -35,7 +35,7 @@ class NeuralNetwork(object):
                 grad_w = [numpy.zeros(w.shape) for w in self.weights]
                 grad_b = [numpy.zeros(b.shape) for b in self.biases]
                 for x, y in batch:
-                    delta_grad_w, delta_grad_b = self.backprop(x, y)
+                    delta_grad_w, delta_grad_b = self.backpropagate(x, y)
                     grad_w = [nw + dnw for nw, dnw in zip(grad_w, delta_grad_w)]
                     grad_b = [nb + dnb for nb, dnb in zip(grad_b, delta_grad_b)]
                 self.weights = [w - (eta / len(batch)) * nw
@@ -52,22 +52,21 @@ class NeuralNetwork(object):
         for i in range(0, len(data), batch_size):
             yield data[i:i+batch_size]
     
-    def feedforward(self, a):
-        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
+    def predict(self, a):
         softmax = lambda z: numpy.exp(z) / numpy.sum(numpy.exp(z))
+        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
         for w, b in zip(self.weights, self.biases):
             y = numpy.dot(w, a) + b
             a = sigmoid(y)
         return a
 
-    def backprop(self, x, y):
+    def backpropagate(self, x, y):
         grad_w = [numpy.zeros(w.shape) for w in self.weights]
         grad_b = [numpy.zeros(b.shape) for b in self.biases]
 
+        softmax = lambda z: numpy.exp(z) / numpy.sum(numpy.exp(z))
         sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
         d_sigmoid = lambda z: sigmoid(z) * (1 - sigmoid(z))
-
-        softmax = lambda z: numpy.exp(z) / numpy.sum(numpy.exp(z))
         
         # forward pass
         a = x
@@ -95,15 +94,12 @@ class NeuralNetwork(object):
         correct = 0.0
         total = len(data)
         for x, t in data:
-            p = self.feedforward(x)
-            loss = numpy.sum(numpy.log(p[t==1])) + numpy.sum(numpy.log(1.0 - p[t==0]))
-
-            y = numpy.zeros(p.shape)
-            y[numpy.argmax(p)] = 1.0            
-            if numpy.array_equal(y, t):
+            y = self.predict(x)
+            loss = numpy.sum(-numpy.log(y[t==1])) + numpy.sum(-numpy.log(1.0 - y[t==0]))
+            if numpy.argmax(y) == numpy.argmax(t):
                 correct += 1.0
                 
-        loss = -loss / total
+        loss = loss / total
         acc = correct / total
         return loss, acc
 
@@ -120,7 +116,7 @@ class Application(object):
         
     def run(self):
         num_iters = 1000
-        batch_size = 20
+        batch_size = 10
         eta = 0.1
         for data in self.sources:
             print('{}'.format(data.get_description()))
@@ -131,9 +127,13 @@ class Application(object):
             num_outputs = data.num_classes
             network = NeuralNetwork([num_inputs, num_hidden, num_outputs])
             
-            print('Running neural network.')
+            print('Training neural network.')
             results = network.SGD(data, num_iters, batch_size, eta)
             self.plot(results)
+            
+            print('Evaluating neural network.')
+            loss, acc = network.evaluate(data.test)
+            print('Results: [loss={:.4f} acc={:.2f}]'.format(loss, acc))
             
         print('Done.')
         
