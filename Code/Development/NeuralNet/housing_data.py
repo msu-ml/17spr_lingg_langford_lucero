@@ -20,11 +20,9 @@ class HousingData(object):
                  filepath,
                  fields,
                  target_field,
-                 num_classes,
                  cat_fields=[],
                  empty_value=''):
         self.fields = fields
-        self.num_classes = num_classes
 
         # Read data from a csv file.
         data = self.read_csv(filepath, empty_value)
@@ -45,26 +43,48 @@ class HousingData(object):
         y, y_max, y_min = self.normalize_values(y)
         self.data_max = (X_max, y_max)
         self.data_min = (X_min, y_min)
-
-        # Determine the target distribution for categorizing targets.
-        self.target_dist = self.get_target_distribution(y)
-
-        n = X.shape[0]
-        d = X.shape[1]
-        k = self.num_classes
-        y = [self.categorize_target(t) for t in y]        
-        X = [numpy.reshape(x, (d, 1)) for x in X]
-        y = [numpy.reshape(t, (k, 1)) for t in y]
-        self.num_features = d
-        self.data = [(X[i], y[i]) for i in range(n)]
         
-        # Separate the training data from the test data.
-        test_size = int(len(self.data) * 0.3)
-        self.train = self.data[0:-test_size]
-        self.test = self.data[-test_size:]
+        # reshape data
+        if X.ndim > 1:
+            X = [numpy.reshape(x, (X.shape[1], 1)) for x in X]
+        else:
+            X = [numpy.asarray(x) for x in y]
+        if y.ndim > 1:
+            y = [numpy.reshape(t, (y.shape[1], 1)) for t in y]
+        else:
+            y = [numpy.asarray(t) for t in y]
+
+        self.data = [(X[i], y[i]) for i in range(len(X))]
+        self.num_features = X[0].shape[0]
+        self.name = 'Unnamed'
         
-    def get_description(self):
-        return ''
+    def get_name(self):
+        return self.name
+    
+    def get_num_entries(self):
+        return len(self.data)
+    
+    def get_num_features(self):
+        return self.num_features
+    
+    def split_data(self, a, b):
+        test_size = int(len(self.data) * float(b) / float(a + b))
+        data_train = self.data[0:-test_size]
+        data_test = self.data[-test_size:]
+        return data_train, data_test
+    
+    def create_classes(self, num_classes):
+        classes = []
+        targets = zip(*self.data)[1]
+        batch_size = numpy.int(len(targets) / num_classes)
+        batches = self.make_batches(sorted(targets), batch_size)
+        for batch in batches:
+            classes.append(batch[0])
+        return classes
+    
+    def make_batches(self, data, batch_size):
+        for i in range(0, len(data), batch_size):
+            yield data[i:i+batch_size]
     
     def read_csv(self, filepath, empty_value):
         data = []
@@ -170,34 +190,9 @@ class HousingData(object):
         X = numpy.delete(X, [target_column], axis=1)
 
         return (X, y)
-    
-    def get_target_distribution(self, targets):
-        target_dist = []
-        partition_size = numpy.int(targets.shape[0]/(self.num_classes))
-        partitions = self.partition(numpy.sort(targets), partition_size)
-        for partition in partitions:
-            target_dist.append(partition[0])
-        return target_dist
-
-    def partition(self, data, n):
-        for i in range(0, len(data), n):
-            yield data[i:i + n]
-
-    def categorize_target(self, target):
-        # Determine which class the value falls into, according to the 
-        # target distribution.
-        target_class = 0
-        for j in range(self.num_classes):
-            if target > self.target_dist[j]:
-                target_class = j
-        
-        y = numpy.zeros(self.num_classes)
-        y[target_class] = 1.0
-
-        return y
             
 class RedfinData(HousingData):
-    def __init__(self, filepath, num_classes):
+    def __init__(self, filepath):
         fields = [
                 'PROPERTY TYPE',
                 'CITY',
@@ -224,18 +219,11 @@ class RedfinData(HousingData):
                 filepath, 
                 fields, 
                 target_field,
-                num_classes,
                 cat_fields=cat_fields)
-        
-    def get_description(self):
-        return ('Housing data for the Grand Rapids, MI area.' + os.linesep +
-                'Training data entries: {}'.format(len(self.train)) + os.linesep +
-                'Test data entries: {}'.format(len(self.test)) + os.linesep +
-                'Number of features: {}'.format(self.num_features) + os.linesep +
-                'Target classes: {}'.format(self.target_dist))
+        self.name = 'Redfin'
 
 class KingCountyData(HousingData):
-    def __init__(self, filepath, num_classes):
+    def __init__(self, filepath):
         fields = [
                 'price',
                 'bedrooms',
@@ -261,18 +249,11 @@ class KingCountyData(HousingData):
         super(KingCountyData, self).__init__(
                 filepath, 
                 fields,
-                target_field,
-                num_classes)
-        
-    def get_description(self):
-        return ('Housing data for the King County, WA area.' + os.linesep +
-                'Training data entries: {}'.format(len(self.train)) + os.linesep +
-                'Test data entries: {}'.format(len(self.test)) + os.linesep +
-                'Number of features: {}'.format(self.num_features) + os.linesep +
-                'Target classes: {}'.format(self.target_dist))
+                target_field)
+        self.name = 'King County, WA'
 
 class NashvilleData(HousingData):
-    def __init__(self, filepath, num_classes):
+    def __init__(self, filepath):
         fields = [
                 'Land Use',
                 'Property City',
@@ -312,20 +293,11 @@ class NashvilleData(HousingData):
                 filepath,
                 fields,
                 target_field,
-                num_classes,
                 cat_fields=cat_fields)
-
-    def get_description(self):
-        """Gets a description of the housing data.
-        """
-        return ('Housing data for the Nashville, TN area.' + os.linesep +
-                'Training data entries: {}'.format(len(self.train)) + os.linesep +
-                'Test data entries: {}'.format(len(self.test)) + os.linesep +
-                'Number of features: {}'.format(self.num_features) + os.linesep +
-                'Target classes: {}'.format(self.target_dist))
+        self.name = 'Nashville, TN'
         
 class ARTData(HousingData):
-    def __init__(self, filepath, num_classes):
+    def __init__(self, filepath):
         fields = [
                 'MSSubClass',
                 'MSZoning',
@@ -459,13 +431,6 @@ class ARTData(HousingData):
                 filepath,
                 fields,
                 target_field,
-                num_classes,
                 cat_fields=cat_fields,
                 empty_value=empty_value)
-
-    def get_description(self):
-        return ('Housing data for Advanced Regression Techniques.' + os.linesep +
-                'Training data entries: {}'.format(len(self.train)) + os.linesep +
-                'Test data entries: {}'.format(len(self.test)) + os.linesep +
-                'Number of features: {}'.format(self.num_features) + os.linesep +
-                'Target classes: {}'.format(self.target_dist))
+        self.name = 'ART'
