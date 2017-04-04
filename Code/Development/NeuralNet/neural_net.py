@@ -68,8 +68,8 @@ class NeuralNetwork(object):
             # Evaluate performance on training and test data.
             train_loss, train_acc = self.evaluate(data_train)
             test_loss, test_acc = self.evaluate(data_test)
-            results.append((i, train_acc, test_acc))
-            print('[{:4d}] '\
+            results.append((i, train_loss, train_acc, test_loss, test_acc))
+            print('[{:4d}] ' \
                   'training [loss={:.4f} acc={:.2f}] ' \
                   'validating [loss={:.4f} acc={:.2f}]'.format(
                           i,
@@ -109,13 +109,11 @@ class NeuralNetwork(object):
         """
         return None
 
-    def evaluate(self, data, epsilon=1e-5):
+    def evaluate(self, data):
         """Evaluates the loss and accuracy for the model in its current state
         on the given data set.
         Arguments
             data - A set of data to evaluate
-            epsilon - (optional) A threshold for measuring how closely the 
-                      prediction can match the truth. [default=1e-5].
         Returns the calculated loss and accuracy.
         """
         return None, None
@@ -176,15 +174,14 @@ class ClassificationNetwork(NeuralNetwork):
         for w, b in zip(self.weights, self.biases):
             z = numpy.dot(w, a) + b
             a = sigmoid(z)
-        return a
+        y = a
+        return y
     
-    def evaluate(self, data, epsilon=1e-5):
+    def evaluate(self, data):
         """Evaluates the loss and accuracy for the model in its current state
         on the given data set. Uses cross-entropy to measure loss.
         Arguments
             data - A set of data to evaluate
-            epsilon - (optional) A threshold for measuring how closely the 
-                      prediction can match the truth. [default=1e-5].
         Returns the calculated loss and accuracy.
         """
         loss = 0.0
@@ -214,6 +211,10 @@ class RegressionNetwork(NeuralNetwork):
             layers - A set of sizes for each layer in the network.
         """
         super(RegressionNetwork, self).__init__(layers)
+        self.epsilon = 1e-5
+
+    def set_epsilon(self, epsilon):
+        self.epsilon = epsilon
 
     def fit(self, x, y):
         """
@@ -261,17 +262,16 @@ class RegressionNetwork(NeuralNetwork):
         sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
         a = x
         for w, b in zip(self.weights, self.biases):
-            y = numpy.dot(w, a) + b
-            a = sigmoid(y)
-        return a
+            z = numpy.dot(w, a) + b
+            a = sigmoid(z)
+        y = a[0][0]
+        return y
 
-    def evaluate(self, data, epsilon=1e-5):
+    def evaluate(self, data):
         """Evaluates the loss and accuracy for the model in its current state
         on the given data set. Uses mean-squared-error to measure loss.
         Arguments
             data - A set of data to evaluate
-            epsilon - (optional) A threshold for measuring how closely the 
-                      prediction can match the truth. [default=1e-5].
         Returns the calculated loss and accuracy.
         """
         loss = 0.0
@@ -285,7 +285,7 @@ class RegressionNetwork(NeuralNetwork):
             loss += (py - y)**2
             
             # check if prediction matches truth            
-            if abs(py - y) <= epsilon:
+            if abs(py - y) <= self.epsilon:
                 correct += 1.0
         
         # average metrics across all data points
@@ -307,7 +307,7 @@ class Application(object):
     def run(self):
         """Executes the application.
         """
-        num_iters = 100
+        num_iters = 1000
         batch_size = 10
         eta = 0.1
         for data in self.sources:
@@ -319,18 +319,29 @@ class Application(object):
             print('Test entries: {}'.format(len(data_test)))
             
             print('Creating neural network.')
+            #num_inputs = data.get_num_features()
+            #num_hidden = 20
+            #num_outputs = 10
+            #classes = data.create_classes(num_outputs)
+            #data_train = data.classify_targets(data_train, classes)
+            #data_test = data.classify_targets(data_test, classes)
+            #network = ClassificationNetwork([num_inputs, num_hidden, num_outputs])
+            
             num_inputs = data.get_num_features()
             num_hidden = 20
-            num_outputs = 10
-            classes = data.create_classes(num_outputs)
-            data_train = data.classify_targets(data_train, classes)
-            data_test = data.classify_targets(data_test, classes)
-            network = ClassificationNetwork(
-                    [num_inputs, num_hidden, num_outputs])
+            num_outputs = 1
+            network = RegressionNetwork([num_inputs, num_hidden, num_outputs])
+            
+            # Set allowable error for measuring accuracy.
+            error = 5000
+            y_min = data.unnormalize_target(0.0)
+            y_max = data.unnormalize_target(1.0)
+            epsilon = error / (y_max - y_min)
+            network.set_epsilon(epsilon)
             
             print('Training neural network.')
             results = network.train(data_train, data_test, num_iters, batch_size, eta)
-            self.plot(results)
+            self.plot(data, results)
             
             print('Evaluating neural network.')
             loss, acc = network.evaluate(data_test)
@@ -338,19 +349,28 @@ class Application(object):
             
         print('Done.')
         
-    def plot(self, results):
+    def plot(self, data, results):
         """Plots the given results.
         Arguments
             results - A set of results for the execution of the neural network.
         """
-        iters, train_accs, test_accs = zip(*results)
+        iters, train_losses, train_accs, test_losses, test_accs = zip(*results)
         matplotlib.pyplot.figure(1)
+        matplotlib.pyplot.title(data.get_name())
         matplotlib.pyplot.plot(iters, train_accs, 'r', label='Training Data')
         matplotlib.pyplot.plot(iters, test_accs, 'g', label='Test Data')
         matplotlib.pyplot.xlabel('Iteration')
-        matplotlib.pyplot.ylabel('Training Accuracy')
+        matplotlib.pyplot.ylabel('Accuracy')
         matplotlib.pyplot.legend(loc=4)
-        matplotlib.pyplot.savefig('figure_01.jpg')
+        matplotlib.pyplot.savefig('fig_accuracy.jpg')
+        matplotlib.pyplot.figure(2)
+        matplotlib.pyplot.title(data.get_name())
+        matplotlib.pyplot.plot(iters, train_losses, 'r', label='Training Data')
+        matplotlib.pyplot.plot(iters, test_losses, 'g', label='Test Data')
+        matplotlib.pyplot.xlabel('Iteration')
+        matplotlib.pyplot.ylabel('Loss')
+        matplotlib.pyplot.legend(loc=1)
+        matplotlib.pyplot.savefig('fig_loss.jpg')
         matplotlib.pyplot.show()
 
 def main(argv):

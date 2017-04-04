@@ -81,6 +81,22 @@ class HousingData(object):
         for batch in batches:
             classes.append(batch[0])
         return classes
+
+    def classify_targets(self, data, classes):
+        temp = zip(*data)
+        X = temp[0]
+        y = [self.classify_target(y, classes) for y in temp[1]]
+        data = [(X[i], y[i]) for i in range(len(data))]
+        return data
+    
+    def classify_target(self, target, classes):
+        target_class = 0
+        for j in range(len(classes)):
+            if target > classes[j]:
+                target_class = j
+        t = numpy.zeros((len(classes), 1))
+        t[target_class] = 1.0
+        return t
     
     def make_batches(self, data, batch_size):
         for i in range(0, len(data), batch_size):
@@ -181,6 +197,12 @@ class HousingData(object):
         min_vals = numpy.amin(data, axis=0)
         data = (data - min_vals) / (max_vals - min_vals)
         return data, max_vals, min_vals
+
+    def unnormalize_target(self, value):
+        y_max = self.data_max[1]
+        y_min = self.data_min[1]
+        value = ((y_max - y_min) * value) + y_min
+        return value
         
     def separate_targets(self, data, field):
         target_column = self.fields.index(field)
