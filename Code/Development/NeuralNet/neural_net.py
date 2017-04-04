@@ -20,79 +20,127 @@ numpy.random.seed(seed)
 
 class NeuralNetwork(object):
     def __init__(self, layers):
+        """Initializes a new neural network.
+        Arguments
+            layers - A set of sizes for each layer in the network.
+        """
         self.num_layers = len(layers)
         self.layers = layers
         self.biases = [numpy.random.randn(b, 1) for b in layers[1:]]
         self.weights = [numpy.random.randn(b, a)
                         for a, b in zip(layers[:-1], layers[1:])]
 
-    def SGD(self, data_train, data_test, num_iters, batch_size, eta):
+    def train(self, data_train, data_test, num_iters, batch_size, eta):
+        """Trains the neural network, using Stochastic Gradient Descent (SGD)
+        for optimizing the model's weights.
+        Arguments
+            data_train - Data that the model will be fitted to.
+            data_test - Data that the model will only be evaluated against.
+            num_iters - The number of iterations to train for.
+            batch_size - Number of data points to process in each batch.
+            eta - The learning rate for adjusting weights.
+        Returns a collection of performance results.
+        """
+        # Stochastic Gradient Descent
         results = []
         for i in range(num_iters):
+            # Randomly shuff the training data.
             numpy.random.shuffle(data_train)
+            
+            # Divide the training data into batches.
             batches = self.make_batches(data_train, batch_size)
             for batch in batches:
+                # Initialize Gradients
                 grad_w = [numpy.zeros(w.shape) for w in self.weights]
                 grad_b = [numpy.zeros(b.shape) for b in self.biases]
                 for x, y in batch:
-                    delta_grad_w, delta_grad_b = self.backpropagate(x, y)
+                    # Compute the gradient for fitting each data point.
+                    delta_grad_w, delta_grad_b = self.fit(x, y)
                     grad_w = [nw + dnw for nw, dnw in zip(grad_w, delta_grad_w)]
                     grad_b = [nb + dnb for nb, dnb in zip(grad_b, delta_grad_b)]
+
+                # Adjust weights.
                 self.weights = [w - (eta / len(batch)) * nw
                                 for w, nw in zip(self.weights, grad_w)]
                 self.biases = [b - (eta / len(batch)) * nb
                                for b, nb in zip(self.biases, grad_b)]
+            
+            # Evaluate performance on training and test data.
             train_loss, train_acc = self.evaluate(data_train)
             test_loss, test_acc = self.evaluate(data_test)
             results.append((i, train_acc, test_acc))
-            print('SGD -[{:4d}]- training [loss={:.4f} acc={:.2f}]  testing [loss={:.4f} acc={:.2f}]'.format(i, train_loss, train_acc, test_loss, test_acc))
+            print('[{:4d}] '\
+                  'training [loss={:.4f} acc={:.2f}] ' \
+                  'validating [loss={:.4f} acc={:.2f}]'.format(
+                          i,
+                          train_loss,
+                          train_acc,
+                          test_loss,
+                          test_acc))
         return results
 
     def make_batches(self, data, batch_size):
+        """Used to create a collection of batches from a set of data.
+        Arguments
+            data - A data set to divide into batches.
+            batch_size - The number of data points in each batch.
+        Returns a collection of batches for iteration.
+        """
         for i in range(0, len(data), batch_size):
             yield data[i:i+batch_size]
-    
-    def predict(self, a):
-        return None
 
-    def backpropagate(self, x, y):
+    def fit(self, x, y):
+        """
+        Performs a forward pass to compute a prediction and loss value for the
+        given data point. Then performs a backward pass to compute the gradient
+        for optimizing weights.
+        Arguments
+            x - A set of data features
+            y - An associated target value
+        Returns A weight and bias gradient
+        """
         return None, None
 
-    def evaluate(self, data):
+    def predict(self, x):
+        """Predicts a target value, given a set of data features.
+        Arguments
+            x - A set of data features
+        Returns a target value
+        """
+        return None
+
+    def evaluate(self, data, epsilon=1e-5):
+        """Evaluates the loss and accuracy for the model in its current state
+        on the given data set.
+        Arguments
+            data - A set of data to evaluate
+            epsilon - (optional) A threshold for measuring how closely the 
+                      prediction can match the truth. [default=1e-5].
+        Returns the calculated loss and accuracy.
+        """
         return None, None
 
 class ClassificationNetwork(NeuralNetwork):
-    def __init__(self, layers, classes):
-        self.num_classes = layers[-1]
-        self.classes = classes
+    def __init__(self, layers):
+        """Initializes a new classification neural network.
+        Arguments
+            layers - A set of sizes for each layer in the network.
+        """
         super(ClassificationNetwork, self).__init__(layers)
-        
-    def SGD(self, data_train, data_test, num_iters, batch_size, eta):
-        temp_train = zip(*data_train)
-        X_train = temp_train[0]
-        y_train = [self.target_to_class(y) for y in temp_train[1]]
-        data_train = [(X_train[i], y_train[i]) for i in range(len(data_train))]
 
-        temp_test = zip(*data_test)
-        X_test = temp_test[0]
-        y_test = [self.target_to_class(y) for y in temp_test[1]]
-        data_test = [(X_test[i], y_test[i]) for i in range(len(data_test))]
-        
-        super(ClassificationNetwork, self).SGD(data_train, data_test, num_iters, batch_size, eta)
-
-    def predict(self, a):
-        softmax = lambda z: numpy.exp(z) / numpy.sum(numpy.exp(z))
-        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
-        for w, b in zip(self.weights, self.biases):
-            z = numpy.dot(w, a) + b
-            a = sigmoid(z)
-        return a
-
-    def backpropagate(self, x, y):
+    def fit(self, x, y):
+        """
+        Performs a forward pass to compute a prediction and loss value for the
+        given data point. Then performs a backward pass to compute the gradient
+        for optimizing weights.
+        Arguments
+            x - A set of data features
+            y - An associated target value
+        Returns A weight and bias gradient
+        """
         grad_w = [numpy.zeros(w.shape) for w in self.weights]
         grad_b = [numpy.zeros(b.shape) for b in self.biases]
 
-        softmax = lambda z: numpy.exp(z) / numpy.sum(numpy.exp(z))
         sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
         d_sigmoid = lambda z: sigmoid(z) * (1 - sigmoid(z))
         
@@ -117,7 +165,28 @@ class ClassificationNetwork(NeuralNetwork):
 
         return grad_w, grad_b
     
+    def predict(self, x):
+        """Predicts a target value, given a set of data features.
+        Arguments
+            x - A set of data features
+        Returns a target value
+        """
+        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
+        a = x
+        for w, b in zip(self.weights, self.biases):
+            z = numpy.dot(w, a) + b
+            a = sigmoid(z)
+        return a
+    
     def evaluate(self, data, epsilon=1e-5):
+        """Evaluates the loss and accuracy for the model in its current state
+        on the given data set. Uses cross-entropy to measure loss.
+        Arguments
+            data - A set of data to evaluate
+            epsilon - (optional) A threshold for measuring how closely the 
+                      prediction can match the truth. [default=1e-5].
+        Returns the calculated loss and accuracy.
+        """
         loss = 0.0
         correct = 0.0
         total = len(data)
@@ -137,35 +206,28 @@ class ClassificationNetwork(NeuralNetwork):
         acc = correct / total
         
         return loss, acc
-    
-    def target_to_class(self, target):
-        target_class = 0
-        for j in range(self.num_classes):
-            if target > self.classes[j]:
-                target_class = j
-        
-        t = numpy.zeros((self.num_classes, 1))
-        t[target_class] = 1.0
-
-        return t
 
 class RegressionNetwork(NeuralNetwork):
     def __init__(self, layers):
+        """Initializes a new regression neural network.
+        Arguments
+            layers - A set of sizes for each layer in the network.
+        """
         super(RegressionNetwork, self).__init__(layers)
 
-    def predict(self, a):
-        softmax = lambda z: numpy.exp(z) / numpy.sum(numpy.exp(z))
-        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
-        for w, b in zip(self.weights, self.biases):
-            y = numpy.dot(w, a) + b
-            a = sigmoid(y)
-        return a
-
-    def backpropagate(self, x, y):
+    def fit(self, x, y):
+        """
+        Performs a forward pass to compute a prediction and loss value for the
+        given data point. Then performs a backward pass to compute the gradient
+        for optimizing weights.
+        Arguments
+            x - A set of data features
+            y - An associated target value
+        Returns A weight and bias gradient
+        """
         grad_w = [numpy.zeros(w.shape) for w in self.weights]
         grad_b = [numpy.zeros(b.shape) for b in self.biases]
 
-        softmax = lambda z: numpy.exp(z) / numpy.sum(numpy.exp(z))
         sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
         d_sigmoid = lambda z: sigmoid(z) * (1 - sigmoid(z))
         
@@ -190,7 +252,28 @@ class RegressionNetwork(NeuralNetwork):
 
         return grad_w, grad_b
 
+    def predict(self, x):
+        """Predicts a target value, given a set of data features.
+        Arguments
+            x - A set of data features
+        Returns a target value
+        """
+        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
+        a = x
+        for w, b in zip(self.weights, self.biases):
+            y = numpy.dot(w, a) + b
+            a = sigmoid(y)
+        return a
+
     def evaluate(self, data, epsilon=1e-5):
+        """Evaluates the loss and accuracy for the model in its current state
+        on the given data set. Uses mean-squared-error to measure loss.
+        Arguments
+            data - A set of data to evaluate
+            epsilon - (optional) A threshold for measuring how closely the 
+                      prediction can match the truth. [default=1e-5].
+        Returns the calculated loss and accuracy.
+        """
         loss = 0.0
         correct = 0.0
         total = len(data)
@@ -210,9 +293,10 @@ class RegressionNetwork(NeuralNetwork):
         acc = correct / total
         return loss, acc
 
-
 class Application(object):
     def __init__(self):
+        """Creates an application for managing overall execution.
+        """
         print('Processing data.')
         self.sources = [#NashvilleData('Data/Nashville_geocoded.csv'),
                         #KingCountyData('Data/kc_house_data.csv'),
@@ -221,12 +305,13 @@ class Application(object):
                        ]
         
     def run(self):
-        num_iters = 1000
+        """Executes the application.
+        """
+        num_iters = 100
         batch_size = 10
         eta = 0.1
         for data in self.sources:
             data_train, data_test = data.split_data(2, 1)
-            
             print('Data Source: {}'.format(data.get_name()))
             print('Total features: {}'.format(data.get_num_features()))
             print('Total entries: {}'.format(data.get_num_entries()))
@@ -238,10 +323,13 @@ class Application(object):
             num_hidden = 20
             num_outputs = 10
             classes = data.create_classes(num_outputs)
-            network = ClassificationNetwork([num_inputs, num_hidden, num_outputs], classes)
+            data_train = data.classify_targets(data_train, classes)
+            data_test = data.classify_targets(data_test, classes)
+            network = ClassificationNetwork(
+                    [num_inputs, num_hidden, num_outputs])
             
             print('Training neural network.')
-            results = network.SGD(data_train, data_test, num_iters, batch_size, eta)
+            results = network.train(data_train, data_test, num_iters, batch_size, eta)
             self.plot(results)
             
             print('Evaluating neural network.')
@@ -251,6 +339,10 @@ class Application(object):
         print('Done.')
         
     def plot(self, results):
+        """Plots the given results.
+        Arguments
+            results - A set of results for the execution of the neural network.
+        """
         iters, train_accs, test_accs = zip(*results)
         matplotlib.pyplot.figure(1)
         matplotlib.pyplot.plot(iters, train_accs, 'r', label='Training Data')
