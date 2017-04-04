@@ -37,7 +37,7 @@ class HousingData(object):
         
         # Replace any missing values with a substitute.
         X = self.replace_missing_values(X, SubstitutionMethod.CLOSEST_NEIGHBOR_MEAN)
-        
+
         # Normalize values by column.
         X, X_max, X_min = self.normalize_values(X)
         y, y_max, y_min = self.normalize_values(y)
@@ -57,7 +57,7 @@ class HousingData(object):
         self.data = [(X[i], y[i]) for i in range(len(X))]
         self.num_features = X[0].shape[0]
         self.name = 'Unnamed'
-        
+       
     def get_name(self):
         return self.name
     
@@ -212,112 +212,7 @@ class HousingData(object):
         X = numpy.delete(X, [target_column], axis=1)
 
         return (X, y)
-            
-class RedfinData(HousingData):
-    def __init__(self, filepath):
-        fields = [
-                'PROPERTY TYPE',
-                'CITY',
-                'STATE',
-                'ZIP',
-                'BEDS',
-                'BATHS',
-                'SQUARE FEET',
-                'LOT SIZE',
-                'YEAR BUILT',
-                'DAYS ON MARKET',
-                'HOA/MONTH',
-                'LATITUDE',
-                'LONGITUDE',
-                'PRICE'
-                ]
-        cat_fields = [
-                'PROPERTY TYPE',
-                'CITY',
-                'STATE'
-                ]
-        target_field = 'PRICE'
-        super(RedfinData, self).__init__(
-                filepath, 
-                fields, 
-                target_field,
-                cat_fields=cat_fields)
-        self.name = 'Redfin'
 
-class KingCountyData(HousingData):
-    def __init__(self, filepath):
-        fields = [
-                'price',
-                'bedrooms',
-                'bathrooms',
-                'sqft_living',
-                'sqft_lot',
-                'floors',
-                'waterfront',
-                'view',
-                'condition',
-                'grade',
-                'sqft_above',
-                'sqft_basement',
-                'yr_built',
-                'yr_renovated',
-                'zipcode',
-                'lat',
-                'long',
-                'sqft_living15',
-                'sqft_lot15'
-                ]
-        target_field = 'price'
-        super(KingCountyData, self).__init__(
-                filepath, 
-                fields,
-                target_field)
-        self.name = 'King County, WA'
-
-class NashvilleData(HousingData):
-    def __init__(self, filepath):
-        fields = [
-                'Land Use',
-                'Property City',
-                'Sale Price',
-                'Sold As Vacant',
-                'Multiple Parcels Involved in Sale',
-                'Acreage',
-                'Tax District',
-                'Neighborhood',
-                'Land Value',
-                'Building Value',
-                'Total Value',
-                'Finished Area',
-                'Foundation Type',
-                'Year Built',
-                'Exterior Wall',
-                'Grade',
-                'Bedrooms',
-                'Full Bath',
-                'Half Bath',
-                'geocoded_zipcode',
-                'geocoded_latitude',
-                'geocoded_longitude'
-                ]
-        cat_fields = [
-                'Land Use',
-                'Property City',
-                'Sold As Vacant',
-                'Multiple Parcels Involved in Sale',
-                'Tax District',
-                'Foundation Type',
-                'Exterior Wall',
-                'Grade'
-                ]
-        target_field = 'Sale Price'
-        super(NashvilleData, self).__init__(
-                filepath,
-                fields,
-                target_field,
-                cat_fields=cat_fields)
-        self.name = 'Nashville, TN'
-        
 class ARTData(HousingData):
     def __init__(self, filepath):
         fields = [
@@ -456,3 +351,106 @@ class ARTData(HousingData):
                 cat_fields=cat_fields,
                 empty_value=empty_value)
         self.name = 'ART'
+
+class KingCountyData(HousingData):
+    def __init__(self, filepath):
+        fields = [
+                'price',
+                'bedrooms',
+                'bathrooms',
+                'sqft_living',
+                'sqft_lot',
+                'floors',
+                'waterfront',
+                'view',
+                'condition',
+                'grade',
+                'sqft_above',
+                'sqft_basement',
+                'yr_built',
+                'yr_renovated',
+                'zipcode',
+                'lat',
+                'long',
+                'sqft_living15',
+                'sqft_lot15'
+                ]
+        target_field = 'price'
+        super(KingCountyData, self).__init__(
+                filepath, 
+                fields,
+                target_field)
+        self.name = 'King County, WA'
+
+class NashvilleData(HousingData):
+    def __init__(self, filepath):
+        fields = [
+                'Land Use',
+                'Property City',
+                'Sale Price',
+                'Sold As Vacant',
+                'Multiple Parcels Involved in Sale',
+                'Acreage',
+                'Tax District',
+                'Neighborhood',
+                'Land Value',
+                'Building Value',
+                'Total Value',
+                'Finished Area',
+                'Foundation Type',
+                'Year Built',
+                'Exterior Wall',
+                'Grade',
+                'Bedrooms',
+                'Full Bath',
+                'Half Bath',
+                'geocoded_zipcode',
+                'geocoded_latitude',
+                'geocoded_longitude'
+                ]
+        cat_fields = [
+                'Land Use',
+                'Property City',
+                'Sold As Vacant',
+                'Multiple Parcels Involved in Sale',
+                'Tax District',
+                'Foundation Type',
+                'Exterior Wall',
+                'Grade'
+                ]
+        target_field = 'Sale Price'
+        super(NashvilleData, self).__init__(
+                filepath,
+                fields,
+                target_field,
+                cat_fields=cat_fields)
+        self.name = 'Nashville, TN'
+
+class RedfinData(HousingData):
+    def __init__(self, filepath):
+        fields = [
+                'PROPERTY TYPE',
+                'CITY',
+                'ZIP',
+                'BEDS',
+                'BATHS',
+                'SQUARE FEET',
+                'LOT SIZE',
+                'YEAR BUILT',
+                'DAYS ON MARKET',
+                'HOA/MONTH',
+                'LATITUDE',
+                'LONGITUDE',
+                'PRICE'
+                ]
+        cat_fields = [
+                'PROPERTY TYPE',
+                'CITY'
+                ]
+        target_field = 'PRICE'
+        super(RedfinData, self).__init__(
+                filepath, 
+                fields, 
+                target_field,
+                cat_fields=cat_fields)
+        self.name = 'Redfin'

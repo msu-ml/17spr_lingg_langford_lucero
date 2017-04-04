@@ -318,7 +318,6 @@ class Application(object):
             print('Training entries: {}'.format(len(data_train)))
             print('Test entries: {}'.format(len(data_test)))
             
-            print('Creating neural network.')
             #num_inputs = data.get_num_features()
             #num_hidden = 20
             #num_outputs = 10
@@ -333,7 +332,7 @@ class Application(object):
             network = RegressionNetwork([num_inputs, num_hidden, num_outputs])
             
             # Set allowable error for measuring accuracy.
-            error = 5000
+            error = 10000
             y_min = data.unnormalize_target(0.0)
             y_max = data.unnormalize_target(1.0)
             epsilon = error / (y_max - y_min)
