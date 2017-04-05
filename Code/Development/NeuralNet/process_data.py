@@ -5,7 +5,6 @@ Created on Fri Mar 10 09:55:15 2017
 @author: Michael Austin Langford
 """
 
-import csv
 import getopt
 import numpy
 import os

@@ -56,7 +56,7 @@ class NeuralNetwork(object):
                                for b, nb in zip(self.biases, grad_b)]
             
             # Evaluate performance on training and test data.
-            print_out = '[{:4d}] '.format(i)
+            print_out = '[{:3d}] '.format(i)
             if data_validate == None:
                 train_loss, train_acc = self.evaluate(data_train)
                 results.append((i, train_loss, train_acc))

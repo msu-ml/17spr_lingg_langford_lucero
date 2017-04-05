@@ -73,8 +73,6 @@ class Experiment(object):
             epsilon = error / (y_max - y_min)
             network.set_epsilon(epsilon)
             
-            #self.cross_validate(network, data_train, batch_size)
-            
             print('')
             print('Training neural network.')
             results = network.train(data_train, num_iters, batch_size, eta, data_validate=data_test)
@@ -87,31 +85,62 @@ class Experiment(object):
             
         print('Done.')
 
-    def cross_validate(self, network, data, batch_size):
+    def cross_validate(self):
         best_eta = None
         best_loss = None
+        
         etas = [1e1, 1e-1, 1e-2, 1e-3]
         num_folds = len(etas)
         num_iters = 100
-        fold_size = numpy.int(len(data) / num_folds)
-        print('num_folds={}'.format(num_folds))
-        print('len(data)={}'.format(len(data)))
-        print('len(data)/num_folds={}'.format(len(data)/num_folds))
-        print('fold_size={}'.format(fold_size))
-        folds = network.make_batches(data, fold_size)
-        i = 0
-        for fold in folds:
-            if i < len(etas):
-                eta = etas[i]
-                results = network.train(data, num_iters, batch_size, eta, verbose=False)
-                (j, loss, acc) = results[-1]
-                print('Cross Validate: eta={} loss={}'.format(eta, loss))
-                if best_loss == None or best_loss > loss:
-                    best_eta = eta
-                    best_loss = loss
-            i += 1
-        print('Cross Validate: best_eta={}'.format(best_eta))
+        batch_size = 10
+        for data in self.sources:
+            data_train, data_test = data.split_data(2, 1)
+            print('')
+            print('Data    ' + '-'*60)
+            print('Data Source: {}'.format(data.get_name()))
+            print('Total features: {}'.format(data.get_num_features()))
+            print('Total entries: {}'.format(data.get_num_entries()))
+            print('Training entries: {}'.format(len(data_train)))
+            print('Test entries: {}'.format(len(data_test)))
+            
+            n_inputs = data.get_num_features()
+            n_hidden = 10
+            n_outputs = 1
+            network = RegressionNetwork([n_inputs, n_hidden, n_outputs])
+            print('')
+            print('Network ' + '-'*60)
+            print('Type: Feedforward')
+            print('Target Type: Regression')
+            print('Layers:')
+            print('\t1: {} units'.format(n_inputs))
+            print('\t2: {} units'.format(n_hidden))
+            print('\t3: {} units'.format(n_outputs))
+            
+            # Set allowable error for measuring accuracy.
+            error = 10000
+            y_min = data.unnormalize_target(0.0)
+            y_max = data.unnormalize_target(1.0)
+            epsilon = error / (y_max - y_min)
+            network.set_epsilon(epsilon)
+            
+            print('')
+            print('Cross-validating')
+            fold_size = numpy.int(len(data_train) / num_folds)
+            folds = network.make_batches(data_train, fold_size)
+            i = 0
+            for fold in folds:
+                if i < len(etas):
+                    eta = etas[i]
+                    results = network.train(fold, num_iters, batch_size, eta, verbose=False)
+                    _, loss, _ = results[-1]
+                    print('[{:3d}] eta={:06.3f} loss={:09.6f}'.format(i, eta, loss))
+                    if best_loss == None or best_loss > loss:
+                        best_eta = eta
+                        best_loss = loss
+                    i += 1
+        print('Best eta={:06.3f}'.format(best_eta))
         return best_eta
+        
             
     def plot(self, data, results):
         """Plots the given results.
@@ -139,7 +168,8 @@ class Experiment(object):
 
 def main(argv):
     experiment = Experiment()
-    experiment.run()
+    #experiment.run()
+    experiment.cross_validate()
 
 if __name__ == '__main__':
     main(sys.argv[1:])
