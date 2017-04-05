@@ -86,13 +86,38 @@ class Experiment(object):
         print('Done.')
 
     def cross_validate(self):
-        best_eta = None
-        best_loss = None
+        candidates = [
+                [80],
+                [75],
+                [70],
+                [65],
+                [60],
+                [75, 50],
+                [75, 45],
+                [75, 40],
+                [75, 35],
+                [75, 30],
+                [70, 45],
+                [70, 40],
+                [70, 35],
+                [70, 30],
+                [70, 25],
+                [65, 40],
+                [65, 35],
+                [65, 30],
+                [65, 25],
+                [65, 20],
+                [70, 45, 25],
+                [70, 40, 20],
+                [70, 35, 15],
+                [70, 30, 10],
+                [70, 25, 5]
+                ]
         
-        etas = [1e1, 1e0, 1e-1, 1e-2, 1e-3]
-        num_folds = len(etas)
-        num_iters = 100
+        num_folds = 5
+        num_iters = 10
         batch_size = 10
+        eta = 0.1
         for data in self.sources:
             data_train, data_test = data.split_data(2, 1)
             print('')
@@ -103,43 +128,43 @@ class Experiment(object):
             print('Training entries: {}'.format(len(data_train)))
             print('Test entries: {}'.format(len(data_test)))
             
-            n_inputs = data.get_num_features()
-            n_hidden = 10
-            n_outputs = 1
-            network = RegressionNetwork([n_inputs, n_hidden, n_outputs])
-            print('')
-            print('Network ' + '-'*60)
-            print('Type: Feedforward')
-            print('Target Type: Regression')
-            print('Layers:')
-            print('\t1: {} units'.format(n_inputs))
-            print('\t2: {} units'.format(n_hidden))
-            print('\t3: {} units'.format(n_outputs))
-            
-            # Set allowable error for measuring accuracy.
-            error = 10000
-            y_min = data.unnormalize_target(0.0)
-            y_max = data.unnormalize_target(1.0)
-            epsilon = error / (y_max - y_min)
-            network.set_epsilon(epsilon)
-            
-            print('')
-            print('Cross-validating ({} folds)'.format(num_folds))
             fold_size = numpy.int(len(data_train) / num_folds)
-            
-            for i in xrange(num_folds):
-                p = i * fold_size
-                fold_test = data_train[p:p+fold_size]
-                fold_train = data_train[0:p] + data_train[p+fold_size:]
-                eta = etas[i]
-                results = network.train(fold_train, fold_test, num_iters, batch_size, eta, verbose=False)
-                _, train_loss, _, test_loss, _ = results[-1]
-                print('[{:3d}] eta={:06.3f} train_loss={:09.6f} test_loss={:09.6f}'.format(i, eta, train_loss, test_loss))
-                if best_loss == None or best_loss > test_loss:
-                    best_eta = eta
-                    best_loss = test_loss
-        print('Best eta={:06.3f}'.format(best_eta))
-        return best_eta
+            for candidate in candidates:
+                layers = []
+                layers.append(data.get_num_features())
+                for value in candidate:
+                    layers.append(value)
+                layers.append(1)
+                network = RegressionNetwork(layers)
+                print('')
+                print('Network ' + '-'*60)
+                print('Type: Feedforward')
+                print('Target Type: Regression')
+                print('Layers:')
+                for j in xrange(len(layers)):
+                    print('\t{}: {} units'.format(j, layers[j]))
+
+                print('')
+                print('Cross-validating ({} folds)'.format(num_folds))
+                
+                best_candidate = None
+                best_loss = None
+                avg_loss = 0.0
+                for i in xrange(num_folds):
+                    p = i * fold_size
+                    fold_test = data_train[p:p+fold_size]
+                    fold_train = data_train[0:p] + data_train[p+fold_size:]
+                    
+                    results = network.train(fold_train, fold_test, num_iters, batch_size, eta, verbose=False)
+                    _, train_loss, _, test_loss, _ = results[-1]
+                    print('[{:3d}] Training loss: {:09.6f} Test loss: {:09.6f}'.format(i, train_loss, test_loss))
+                    avg_loss += test_loss
+                avg_loss /= num_folds
+                print('Average loss: {:09.6f}'.format(avg_loss))
+                if best_loss == None or best_loss > avg_loss:
+                    best_candidate = candidate
+                    best_loss = avg_loss
+            print('Best candidate: {}'.format(best_candidate))
         
             
     def plot(self, data, results):
