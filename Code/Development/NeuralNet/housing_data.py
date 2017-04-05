@@ -11,52 +11,66 @@ import os
 import sys
 
 class SubstitutionMethod(object):
+    NONE = 0
     MEAN = 1
-    CLOSEST_NEIGHBOR_VALUE = 2
-    CLOSEST_NEIGHBOR_MEAN = 3
+    CLOSEST_VALUE = 2
+    CLOSEST_MEAN = 3
 
 class HousingData(object):
     def __init__(self,
                  filepath,
-                 fields,
-                 target_field,
+                 name='Unnamed',
+                 preprocessed=True,
+                 fields=[],
+                 target_field=None,
                  cat_fields=[],
-                 empty_value=''):
-        self.fields = fields
+                 empty_value='',
+                 subMethod=SubstitutionMethod.CLOSEST_MEAN,
+                 normalize=True):
+        if preprocessed:
+            # Read data from preprocessed csv file.
+            data, fields = self.read_processed_csv(filepath)
 
-        # Read data from a csv file.
-        data = self.read_csv(filepath, empty_value)
+            # Read unnormalized data bounds from preprocssed csv file.
+            bounds_filepath = os.path.splitext(filepath)[0] + '_bounds.csv'
+            bounds, _ = self.read_processed_csv(bounds_filepath)
+            self.data_min = (bounds[0,:-1], bounds[0,-1])
+            self.data_max = (bounds[1,:-1], bounds[1,-1])
+            
+            # Separate the target field from the rest.
+            (X, y), fields = self.separate_targets(data, fields, fields[-1])
+        else:
+            # Read data from a csv file.
+            data, fields = self.read_unprocessed_csv(filepath, fields, cat_fields, empty_value)
         
-        # Split categorical fields up.
-        if len(cat_fields) > 0:
-            data = self.split_categorical_fields(data, cat_fields)
-        data = numpy.asarray(data, dtype=numpy.float32)
+            # Separate the target field from the rest.
+            (X, y), fields = self.separate_targets(data, fields, target_field)
         
-        # Separate the target field from the rest.
-        X, y = self.separate_targets(data, target_field)
-        
-        # Replace any missing values with a substitute.
-        X = self.replace_missing_values(X, SubstitutionMethod.CLOSEST_NEIGHBOR_MEAN)
+            # Replace any missing values with a substitute.
+            if subMethod != SubstitutionMethod.NONE:
+                X = self.replace_missing_values(X, subMethod)
 
-        # Normalize values by column.
-        X, X_max, X_min = self.normalize_values(X)
-        y, y_max, y_min = self.normalize_values(y)
-        self.data_max = (X_max, y_max)
-        self.data_min = (X_min, y_min)
-        
+            # Normalize values by column.
+            if normalize:
+                X, X_min, X_max = self.normalize_values(X)
+                y, y_min, y_max = self.normalize_values(y)
+                self.data_min = (X_min, y_min)
+                self.data_max = (X_max, y_max)
+            
         # reshape data
         if X.ndim > 1:
             X = [numpy.reshape(x, (X.shape[1], 1)) for x in X]
         else:
-            X = [numpy.asarray(x) for x in y]
+            X = [numpy.array(x, ndmin=2, copy=False) for x in X]
         if y.ndim > 1:
             y = [numpy.reshape(t, (y.shape[1], 1)) for t in y]
         else:
-            y = [numpy.asarray(t) for t in y]
+            y = [numpy.array(t, ndmin=2, copy=False) for t in y]
 
-        self.data = [(X[i], y[i]) for i in range(len(X))]
-        self.num_features = X[0].shape[0]
-        self.name = 'Unnamed'
+        self.name = name
+        self.fields = fields
+        self.data = [(X[i], y[i]) for i in xrange(len(X))]
+        self.num_features = X[0].shape[0]        
        
     def get_name(self):
         return self.name
@@ -86,12 +100,12 @@ class HousingData(object):
         temp = zip(*data)
         X = temp[0]
         y = [self.classify_target(y, classes) for y in temp[1]]
-        data = [(X[i], y[i]) for i in range(len(data))]
+        data = [(X[i], y[i]) for i in xrange(len(data))]
         return data
     
     def classify_target(self, target, classes):
         target_class = 0
-        for j in range(len(classes)):
+        for j in xrange(len(classes)):
             if target > classes[j]:
                 target_class = j
         t = numpy.zeros((len(classes), 1))
@@ -99,10 +113,22 @@ class HousingData(object):
         return t
     
     def make_batches(self, data, batch_size):
-        for i in range(0, len(data), batch_size):
+        for i in xrange(0, len(data), batch_size):
             yield data[i:i+batch_size]
     
-    def read_csv(self, filepath, empty_value):
+    def read_processed_csv(self, data_filepath):
+        data = []
+        with open(data_filepath, 'rb') as input_file:
+            reader = csv.reader(input_file)
+            for row in reader:
+                data.append(row)
+                
+        fields = data[0]
+        data = numpy.asarray(data[1:], dtype=numpy.float32)
+        
+        return data, fields
+        
+    def read_unprocessed_csv(self, filepath, fields, cat_fields, empty_value):
         data = []
         
         # Open file for reading.
@@ -111,34 +137,41 @@ class HousingData(object):
             reader = csv.DictReader(input_file)
             for row in reader:
                 entry = []
-                for field in self.fields:
+                for field in fields:
                     # If the field is empty, put a nan value in it.
                     if row[field] != '' and row[field] != empty_value:
                         entry.append(row[field])
                     else:
                         entry.append(numpy.nan)
                 data.append(entry)
-        return numpy.asarray(data)
+        data = numpy.asarray(data)
+        
+        # Split categorical fields up.
+        if len(cat_fields) > 0:
+            data, fields = self.split_categorical_fields(data, fields, cat_fields)
+        data = numpy.asarray(data, dtype=numpy.float32)
+        
+        return data, fields
     
-    def split_categorical_fields(self, data, cat_fields):
+    def split_categorical_fields(self, data, fields, cat_fields):
         for field in cat_fields:
-            column = self.fields.index(field)
+            column = fields.index(field)
             cats = numpy.unique(data[:,column])
             cats = numpy.delete(cats, numpy.argwhere(cats=='nan'))
             cat_data = numpy.zeros((data.shape[0], cats.shape[0]))
-            for i in range(cats.shape[0]):
+            for i in xrange(cats.shape[0]):
                 cat_data[:,i] = (data[:,column] == cats[i])
-                new_field = field + ' (is ' + cats[i].strip().title() + ')'
-                self.fields.append(new_field)
+                new_field = field + '_is_' + cats[i].strip().title()
+                fields.append(new_field)
             data = numpy.concatenate((data, cat_data), axis=1)
         
         delete_columns = []
         for field in cat_fields:
-            delete_columns.append(self.fields.index(field))
+            delete_columns.append(fields.index(field))
         data = numpy.delete(data, delete_columns, axis=1)
-        self.fields = [x for x in self.fields if x not in cat_fields]
+        fields = [f for f in fields if f not in cat_fields]
         
-        return data
+        return data, fields
     
     def replace_missing_values(self, data, method):
         # Determine where all the nan values are in the data array.
@@ -159,7 +192,7 @@ class HousingData(object):
                 nan_idx = numpy.isnan(entry)
                 if nan_idx.any():
                     entry[nan_idx] = mean[nan_idx]
-        elif method == SubstitutionMethod.CLOSEST_NEIGHBOR_VALUE:
+        elif method == SubstitutionMethod.CLOSEST_VALUE:
             for entry in data:
                 # Find the nan values in the current entry.
                 nan_idx = numpy.isnan(entry)
@@ -173,7 +206,7 @@ class HousingData(object):
                     # Replace the nan values in this entry with the corresponding
                     # values in the closest entry.
                     entry[nan_idx] = complete_data[closest_idx,nan_idx]
-        elif method == SubstitutionMethod.CLOSEST_NEIGHBOR_MEAN:
+        elif method == SubstitutionMethod.CLOSEST_MEAN:
             for entry in data:
                 # Find the nan values in the current entry.
                 nan_idx = numpy.isnan(entry)
@@ -196,7 +229,7 @@ class HousingData(object):
         max_vals = numpy.amax(data, axis=0)
         min_vals = numpy.amin(data, axis=0)
         data = (data - min_vals) / (max_vals - min_vals)
-        return data, max_vals, min_vals
+        return data, min_vals, max_vals
 
     def unnormalize_target(self, value):
         y_max = self.data_max[1]
@@ -204,14 +237,32 @@ class HousingData(object):
         value = ((y_max - y_min) * value) + y_min
         return value
         
-    def separate_targets(self, data, field):
-        target_column = self.fields.index(field)
+    def separate_targets(self, data, fields, target_field):
+        target_column = fields.index(target_field)
 
         X = numpy.copy(data)
         y = numpy.copy(data[:,target_column])
         X = numpy.delete(X, [target_column], axis=1)
 
-        return (X, y)
+        X_fields = [f for f in fields if f != target_field]
+        y_fields = [target_field]
+        return (X, y), (X_fields, y_fields)
+    
+    def write_csv(self, filepath):
+        # Write processed data to csv file.
+        with open(filepath, 'wb') as output_file:
+            writer = csv.writer(output_file)
+            writer.writerow(numpy.hstack(self.fields))
+            for X, y in self.data:
+                writer.writerow(numpy.hstack(numpy.vstack((X, y))))
+        
+        # Write boundary values from normalization to csv file.
+        bounds_filepath = os.path.splitext(filepath)[0] + '_bounds.csv'
+        with open(bounds_filepath, 'wb') as output_file:
+            writer = csv.writer(output_file)
+            writer.writerow(numpy.hstack(self.fields))
+            writer.writerow(numpy.hstack(self.data_min))
+            writer.writerow(numpy.hstack(self.data_max))
 
 class ARTData(HousingData):
     def __init__(self, filepath):
@@ -345,12 +396,15 @@ class ARTData(HousingData):
         target_field = 'SalePrice'
         empty_value = 'NA'
         super(ARTData, self).__init__(
-                filepath,
-                fields,
-                target_field,
+                filepath, 
+                name = 'ART',
+                preprocessed=False,
+                fields=fields,
+                target_field=target_field,
                 cat_fields=cat_fields,
-                empty_value=empty_value)
-        self.name = 'ART'
+                empty_value='NA',
+                subMethod=SubstitutionMethod.CLOSEST_MEAN,
+                normalize=True)
 
 class KingCountyData(HousingData):
     def __init__(self, filepath):
@@ -378,9 +432,13 @@ class KingCountyData(HousingData):
         target_field = 'price'
         super(KingCountyData, self).__init__(
                 filepath, 
-                fields,
-                target_field)
-        self.name = 'King County, WA'
+                name = 'King County, WA',
+                preprocessed=False,
+                fields=fields,
+                target_field=target_field,
+                empty_value='',
+                subMethod=SubstitutionMethod.CLOSEST_MEAN,
+                normalize=True)
 
 class NashvilleData(HousingData):
     def __init__(self, filepath):
@@ -420,11 +478,15 @@ class NashvilleData(HousingData):
                 ]
         target_field = 'Sale Price'
         super(NashvilleData, self).__init__(
-                filepath,
-                fields,
-                target_field,
-                cat_fields=cat_fields)
-        self.name = 'Nashville, TN'
+                filepath, 
+                name = 'Nashville, TN',
+                preprocessed=False,
+                fields=fields,
+                target_field=target_field,
+                cat_fields=cat_fields,
+                empty_value='',
+                subMethod=SubstitutionMethod.CLOSEST_MEAN,
+                normalize=True)
 
 class RedfinData(HousingData):
     def __init__(self, filepath):
@@ -450,7 +512,11 @@ class RedfinData(HousingData):
         target_field = 'PRICE'
         super(RedfinData, self).__init__(
                 filepath, 
-                fields, 
-                target_field,
-                cat_fields=cat_fields)
-        self.name = 'Redfin'
+                name = 'Grand Rapids, MI',
+                preprocessed=False,
+                fields=fields,
+                target_field=target_field,
+                cat_fields=cat_fields,
+                empty_value='',
+                subMethod=SubstitutionMethod.CLOSEST_MEAN,
+                normalize=True)

@@ -5,18 +5,8 @@ Created on Fri Mar 10 09:55:15 2017
 @author: Michael Austin Langford
 """
 
-import getopt
-import matplotlib.pyplot
 import numpy
 import sys
-from housing_data import ARTData
-from housing_data import KingCountyData
-from housing_data import NashvilleData
-from housing_data import RedfinData
-
-# set RNG with a specific seed
-seed = 69
-numpy.random.seed(seed)
 
 class NeuralNetwork(object):
     def __init__(self, layers):
@@ -30,7 +20,7 @@ class NeuralNetwork(object):
         self.weights = [numpy.random.randn(b, a)
                         for a, b in zip(layers[:-1], layers[1:])]
 
-    def train(self, data_train, data_test, num_iters, batch_size, eta):
+    def train(self, data_train, num_iters, batch_size, eta, data_validate=None, verbose=True):
         """Trains the neural network, using Stochastic Gradient Descent (SGD)
         for optimizing the model's weights.
         Arguments
@@ -43,7 +33,7 @@ class NeuralNetwork(object):
         """
         # Stochastic Gradient Descent
         results = []
-        for i in range(num_iters):
+        for i in xrange(num_iters):
             # Randomly shuff the training data.
             numpy.random.shuffle(data_train)
             
@@ -66,17 +56,27 @@ class NeuralNetwork(object):
                                for b, nb in zip(self.biases, grad_b)]
             
             # Evaluate performance on training and test data.
-            train_loss, train_acc = self.evaluate(data_train)
-            test_loss, test_acc = self.evaluate(data_test)
-            results.append((i, train_loss, train_acc, test_loss, test_acc))
-            print('[{:4d}] ' \
-                  'training [loss={:.4f} acc={:.2f}] ' \
-                  'validating [loss={:.4f} acc={:.2f}]'.format(
-                          i,
-                          train_loss,
-                          train_acc,
-                          test_loss,
-                          test_acc))
+            print_out = '[{:4d}] '.format(i)
+            if data_validate == None:
+                train_loss, train_acc = self.evaluate(data_train)
+                results.append((i, train_loss, train_acc))
+                print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(
+                                train_loss,
+                                train_acc * 100.0)
+            else:
+                train_loss, train_acc = self.evaluate(data_train)
+                test_loss, test_acc = self.evaluate(data_validate)
+                results.append((i, train_loss, train_acc, test_loss, test_acc))
+                print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(
+                                train_loss,
+                                train_acc * 100.0)
+                print_out += 'validating [loss={:09.6f} acc={:05.2f}]'.format(
+                                test_loss,
+                                test_acc * 100.0)
+            
+            if verbose:
+                print(print_out)
+
         return results
 
     def make_batches(self, data, batch_size):
@@ -86,7 +86,7 @@ class NeuralNetwork(object):
             batch_size - The number of data points in each batch.
         Returns a collection of batches for iteration.
         """
-        for i in range(0, len(data), batch_size):
+        for i in xrange(0, len(data), batch_size):
             yield data[i:i+batch_size]
 
     def fit(self, x, y):
@@ -156,7 +156,7 @@ class ClassificationNetwork(NeuralNetwork):
         delta = (activations[-1] - y) * d_sigmoid(outputs[-1])
         grad_w[-1] = numpy.dot(delta, activations[-2].T)
         grad_b[-1] = delta
-        for i in range(2, self.num_layers):
+        for i in xrange(2, self.num_layers):
             delta = numpy.dot(self.weights[-i+1].T, delta) * d_sigmoid(outputs[-i])
             grad_w[-i] = numpy.dot(delta, activations[-i-1].T)
             grad_b[-i] = delta
@@ -246,7 +246,7 @@ class RegressionNetwork(NeuralNetwork):
         delta = (activations[-1] - y) * d_sigmoid(outputs[-1])
         grad_w[-1] = numpy.dot(delta, activations[-2].T)
         grad_b[-1] = delta
-        for i in range(2, self.num_layers):
+        for i in xrange(2, self.num_layers):
             delta = numpy.dot(self.weights[-i+1].T, delta) * d_sigmoid(outputs[-i])
             grad_w[-i] = numpy.dot(delta, activations[-i-1].T)
             grad_b[-i] = delta
@@ -278,6 +278,8 @@ class RegressionNetwork(NeuralNetwork):
         correct = 0.0
         total = len(data)
         for x, y in data:
+            y = y[0][0]
+            
             # make a prediction for the current data point
             py = self.predict(x)
             
@@ -292,89 +294,3 @@ class RegressionNetwork(NeuralNetwork):
         loss = loss / total
         acc = correct / total
         return loss, acc
-
-class Application(object):
-    def __init__(self):
-        """Creates an application for managing overall execution.
-        """
-        print('Processing data.')
-        self.sources = [#NashvilleData('Data/Nashville_geocoded.csv'),
-                        #KingCountyData('Data/kc_house_data.csv'),
-                        #RedfinData('Data/redfin.csv'),
-                        ARTData('Data/train.csv')
-                       ]
-        
-    def run(self):
-        """Executes the application.
-        """
-        num_iters = 1000
-        batch_size = 10
-        eta = 0.1
-        for data in self.sources:
-            data_train, data_test = data.split_data(2, 1)
-            print('Data Source: {}'.format(data.get_name()))
-            print('Total features: {}'.format(data.get_num_features()))
-            print('Total entries: {}'.format(data.get_num_entries()))
-            print('Training entries: {}'.format(len(data_train)))
-            print('Test entries: {}'.format(len(data_test)))
-            
-            #num_inputs = data.get_num_features()
-            #num_hidden = 20
-            #num_outputs = 10
-            #classes = data.create_classes(num_outputs)
-            #data_train = data.classify_targets(data_train, classes)
-            #data_test = data.classify_targets(data_test, classes)
-            #network = ClassificationNetwork([num_inputs, num_hidden, num_outputs])
-            
-            num_inputs = data.get_num_features()
-            num_hidden = 20
-            num_outputs = 1
-            network = RegressionNetwork([num_inputs, num_hidden, num_outputs])
-            
-            # Set allowable error for measuring accuracy.
-            error = 10000
-            y_min = data.unnormalize_target(0.0)
-            y_max = data.unnormalize_target(1.0)
-            epsilon = error / (y_max - y_min)
-            network.set_epsilon(epsilon)
-            
-            print('Training neural network.')
-            results = network.train(data_train, data_test, num_iters, batch_size, eta)
-            self.plot(data, results)
-            
-            print('Evaluating neural network.')
-            loss, acc = network.evaluate(data_test)
-            print('Results: [loss={:.4f} acc={:.2f}]'.format(loss, acc))
-            
-        print('Done.')
-        
-    def plot(self, data, results):
-        """Plots the given results.
-        Arguments
-            results - A set of results for the execution of the neural network.
-        """
-        iters, train_losses, train_accs, test_losses, test_accs = zip(*results)
-        matplotlib.pyplot.figure(1)
-        matplotlib.pyplot.title(data.get_name())
-        matplotlib.pyplot.plot(iters, train_accs, 'r', label='Training Data')
-        matplotlib.pyplot.plot(iters, test_accs, 'g', label='Test Data')
-        matplotlib.pyplot.xlabel('Iteration')
-        matplotlib.pyplot.ylabel('Accuracy')
-        matplotlib.pyplot.legend(loc=4)
-        matplotlib.pyplot.savefig('fig_accuracy.jpg')
-        matplotlib.pyplot.figure(2)
-        matplotlib.pyplot.title(data.get_name())
-        matplotlib.pyplot.plot(iters, train_losses, 'r', label='Training Data')
-        matplotlib.pyplot.plot(iters, test_losses, 'g', label='Test Data')
-        matplotlib.pyplot.xlabel('Iteration')
-        matplotlib.pyplot.ylabel('Loss')
-        matplotlib.pyplot.legend(loc=1)
-        matplotlib.pyplot.savefig('fig_loss.jpg')
-        matplotlib.pyplot.show()
-
-def main(argv):
-    app = Application()
-    app.run()
-
-if __name__ == '__main__':
-    main(sys.argv[1:])
