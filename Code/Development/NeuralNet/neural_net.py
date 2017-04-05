@@ -20,7 +20,7 @@ class NeuralNetwork(object):
         self.weights = [numpy.random.randn(b, a)
                         for a, b in zip(layers[:-1], layers[1:])]
 
-    def train(self, data_train, num_iters, batch_size, eta, data_validate=None, verbose=True):
+    def train(self, data_train, data_test, num_iters, batch_size, eta, verbose=True):
         """Trains the neural network, using Stochastic Gradient Descent (SGD)
         for optimizing the model's weights.
         Arguments
@@ -57,22 +57,15 @@ class NeuralNetwork(object):
             
             # Evaluate performance on training and test data.
             print_out = '[{:3d}] '.format(i)
-            if data_validate == None:
-                train_loss, train_acc = self.evaluate(data_train)
-                results.append((i, train_loss, train_acc))
-                print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(
-                                train_loss,
-                                train_acc * 100.0)
-            else:
-                train_loss, train_acc = self.evaluate(data_train)
-                test_loss, test_acc = self.evaluate(data_validate)
-                results.append((i, train_loss, train_acc, test_loss, test_acc))
-                print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(
-                                train_loss,
-                                train_acc * 100.0)
-                print_out += 'validating [loss={:09.6f} acc={:05.2f}]'.format(
-                                test_loss,
-                                test_acc * 100.0)
+            train_loss, train_acc = self.evaluate(data_train)
+            test_loss, test_acc = self.evaluate(data_test)
+            results.append((i, train_loss, train_acc, test_loss, test_acc))
+            print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(
+                            train_loss,
+                            train_acc * 100.0)
+            print_out += 'validating [loss={:09.6f} acc={:05.2f}]'.format(
+                            test_loss,
+                            test_acc * 100.0)
             
             if verbose:
                 print(print_out)

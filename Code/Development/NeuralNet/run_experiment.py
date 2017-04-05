@@ -75,7 +75,7 @@ class Experiment(object):
             
             print('')
             print('Training neural network.')
-            results = network.train(data_train, num_iters, batch_size, eta, data_validate=data_test)
+            results = network.train(data_train, data_test, num_iters, batch_size, eta)
             self.plot(data, results)
             
             print('')
@@ -89,7 +89,7 @@ class Experiment(object):
         best_eta = None
         best_loss = None
         
-        etas = [1e1, 1e-1, 1e-2, 1e-3]
+        etas = [1e1, 1e0, 1e-1, 1e-2, 1e-3]
         num_folds = len(etas)
         num_iters = 100
         batch_size = 10
@@ -124,20 +124,20 @@ class Experiment(object):
             network.set_epsilon(epsilon)
             
             print('')
-            print('Cross-validating')
+            print('Cross-validating ({} folds)'.format(num_folds))
             fold_size = numpy.int(len(data_train) / num_folds)
-            folds = network.make_batches(data_train, fold_size)
-            i = 0
-            for fold in folds:
-                if i < len(etas):
-                    eta = etas[i]
-                    results = network.train(fold, num_iters, batch_size, eta, verbose=False)
-                    _, loss, _ = results[-1]
-                    print('[{:3d}] eta={:06.3f} loss={:09.6f}'.format(i, eta, loss))
-                    if best_loss == None or best_loss > loss:
-                        best_eta = eta
-                        best_loss = loss
-                    i += 1
+            
+            for i in xrange(num_folds):
+                p = i * fold_size
+                fold_test = data_train[p:p+fold_size]
+                fold_train = data_train[0:p] + data_train[p+fold_size:]
+                eta = etas[i]
+                results = network.train(fold_train, fold_test, num_iters, batch_size, eta, verbose=False)
+                _, train_loss, _, test_loss, _ = results[-1]
+                print('[{:3d}] eta={:06.3f} train_loss={:09.6f} test_loss={:09.6f}'.format(i, eta, train_loss, test_loss))
+                if best_loss == None or best_loss > test_loss:
+                    best_eta = eta
+                    best_loss = test_loss
         print('Best eta={:06.3f}'.format(best_eta))
         return best_eta
         
