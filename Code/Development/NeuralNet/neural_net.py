@@ -16,10 +16,13 @@ class NeuralNetwork(object):
         """
         self.num_layers = len(layers)
         self.layers = layers
-        self.biases = [numpy.random.randn(b, 1) for b in layers[1:]]
-        self.weights = [numpy.random.randn(b, a)
-                        for a, b in zip(layers[:-1], layers[1:])]
-
+        self.reset()
+        
+    def reset(self):
+        self.biases = [numpy.random.randn(m, 1) for m in self.layers[1:]]
+        self.weights = [numpy.random.randn(m, n)
+                        for n, m in zip(self.layers[:-1], self.layers[1:])]
+        
     def train(self, data_train, data_test, num_iters, batch_size, eta, verbose=True):
         """Trains the neural network, using Stochastic Gradient Descent (SGD)
         for optimizing the model's weights.
