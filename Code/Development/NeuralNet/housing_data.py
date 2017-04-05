@@ -44,6 +44,8 @@ class HousingData(object):
             data, fields = self.read_unprocessed_csv(filepath, fields, cat_fields, empty_value)
         
             # Separate the target field from the rest.
+            if target_field == None:
+                target_field = fields[-1]
             (X, y), fields = self.separate_targets(data, fields, target_field)
         
             # Replace any missing values with a substitute.

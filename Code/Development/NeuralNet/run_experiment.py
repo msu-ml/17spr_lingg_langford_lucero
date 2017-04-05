@@ -21,10 +21,10 @@ class Experiment(object):
         """Creates an application for managing overall execution.
         """
         print('Processing data.')
-        self.sources = [#HousingData('Data/Nashville_processed.csv', name='Nashville, TN', preprocessed=True),
-                        #HousingData('Data/kingcounty_processed.csv', name='King County, WA', preprocessed=True),
-                        #HousingData('Data/redfin_processed.csv', name='Grand Rapids, MI', preprocessed=True),
-                        HousingData('Data/art_processed.csv', name='ART', preprocessed=True)
+        self.sources = [#HousingData('Data/Nashville_processed.csv', name='Nashville, TN'),
+                        #HousingData('Data/kingcounty_processed.csv', name='King County, WA'),
+                        #HousingData('Data/redfin_processed.csv', name='Grand Rapids, MI'),
+                        HousingData('Data/art_processed.csv', name='ART')
                        ]
         
     def run(self):
