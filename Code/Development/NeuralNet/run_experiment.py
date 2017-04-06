@@ -5,6 +5,7 @@ Created on Tue Apr 04 23:10:38 2017
 @author: mick
 """
 
+import csv
 import getopt
 import matplotlib.pyplot
 import numpy
@@ -21,18 +22,19 @@ class Experiment(object):
         """Creates an application for managing overall execution.
         """
         print('Processing data.')
-        self.sources = [#HousingData('Data/Nashville_processed.csv', name='Nashville, TN'),
-                        #HousingData('Data/kingcounty_processed.csv', name='King County, WA'),
-                        #HousingData('Data/redfin_processed.csv', name='Grand Rapids, MI'),
+        self.sources = [#HousingData('Data/Nashville_processed.csv', name='Nashville'),
+                        #HousingData('Data/kingcounty_processed.csv', name='KingCounty'),
+                        #HousingData('Data/redfin_processed.csv', name='GrandRapids'),
                         HousingData('Data/art_processed.csv', name='ART')
                        ]
         
     def run(self):
         """Executes the application.
         """
-        num_iters = 1000
+        num_iters = 250
         batch_size = 10
-        eta = 0.1
+        gamma = 0.9
+        eta = 0.01
         for data in self.sources:
             data_train, data_test = data.split_data(2, 1)
             print('')
@@ -45,28 +47,24 @@ class Experiment(object):
             
             """
             n_inputs = data.get_num_features()
-            n_hidden = 20
-            n_outputs = 10
+            n_hidden1 = 35
+            n_hidden2 = 25
+            n_hidden3 = 15
+            n_outputs = 5
+            layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
+            network = ClassificationNetwork(layers)
             classes = data.create_classes(n_outputs)
             data_train = data.classify_targets(data_train, classes)
             data_test = data.classify_targets(data_test, classes)
-            network = ClassificationNetwork([n_inputs, n_hidden, n_outputs])
             """
             
             n_inputs = data.get_num_features()
-            n_hidden1 = 70
-            n_hidden2 = 35
+            n_hidden1 = 35
+            n_hidden2 = 25
             n_hidden3 = 15
             n_outputs = 1
             layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
             network = RegressionNetwork(layers)
-            print('')
-            print('Network ' + '-'*60)
-            print('Type: Feedforward')
-            print('Target Type: Regression')
-            print('Layers:')
-            for j in xrange(len(layers)):
-                    print('\t{}: {} units'.format(j, layers[j]))
             
             # Set allowable error for measuring accuracy.
             error = 10000
@@ -75,9 +73,17 @@ class Experiment(object):
             epsilon = error / (y_max - y_min)
             network.set_epsilon(epsilon)
             
+
+            print('')
+            print('Network ' + '-'*60)
+            print('Type: Feedforward')
+            print('Layers:')
+            for j in xrange(len(layers)):
+                    print('\t{}: {} units'.format(j, layers[j]))
+            
             print('')
             print('Training neural network.')
-            results = network.train(data_train, data_test, num_iters, batch_size, eta)
+            results = network.train(data_train, data_test, num_iters, batch_size, gamma, eta)
             self.plot(data, results)
             
             print('')
@@ -89,37 +95,23 @@ class Experiment(object):
 
     def cross_validate(self):
         candidates = [
-                [80],
-                [75],
-                [70],
-                [65],
-                [60],
-                [75, 50],
-                [75, 45],
-                [75, 40],
-                [75, 35],
-                [75, 30],
-                [70, 45],
-                [70, 40],
-                [70, 35],
-                [70, 30],
-                [70, 25],
-                [65, 40],
-                [65, 35],
-                [65, 30],
-                [65, 25],
-                [65, 20],
-                [70, 45, 25],
-                [70, 40, 20],
-                [70, 35, 15],
-                [70, 30, 10],
-                [70, 25, 5]
-                ]
-        
-        num_folds = 5
-        num_iters = 10
+                [35],
+                [35, 25],
+                [35, 25, 15],
+                [35, 25, 15, 10],
+                [35, 25, 15, 10, 5],
+                [25, 15, 10, 5],
+                [15, 10, 5],
+                [10, 5],
+                [5],
+                ]                
+                
+        num_folds = 3
+        num_iters = 500
         batch_size = 10
-        eta = 0.1
+        gamma = 0.9
+        eta = 0.01
+        record = []
         for data in self.sources:
             data_train, data_test = data.split_data(2, 1)
             print('')
@@ -129,9 +121,7 @@ class Experiment(object):
             print('Total entries: {}'.format(data.get_num_entries()))
             print('Training entries: {}'.format(len(data_train)))
             print('Test entries: {}'.format(len(data_test)))
-            
-            best_candidate = None
-            best_loss = None
+                
             fold_size = numpy.int(len(data_train) / num_folds)
             for candidate in candidates:
                 layers = []
@@ -140,6 +130,14 @@ class Experiment(object):
                     layers.append(value)
                 layers.append(1)
                 network = RegressionNetwork(layers)
+                
+                # Set allowable error for measuring accuracy.
+                error = 10000
+                y_min = data.unnormalize_target(0.0)
+                y_max = data.unnormalize_target(1.0)
+                epsilon = error / (y_max - y_min)
+                network.set_epsilon(epsilon)
+                
                 print('')
                 print('Network ' + '-'*60)
                 print('Type: Feedforward')
@@ -158,17 +156,26 @@ class Experiment(object):
                     fold_train = data_train[0:p] + data_train[p+fold_size:]
 
                     network.reset()                    
-                    results = network.train(fold_train, fold_test, num_iters, batch_size, eta, verbose=False)
-                    _, train_loss, _, test_loss, _ = results[-1]
-                    print('[{}] Training loss: {:09.6f} Test loss: {:09.6f}'.format(i, train_loss, test_loss))
+                    results = network.train(fold_train, fold_test, num_iters, batch_size, gamma, eta, verbose=False)
+                    _, train_loss, train_acc, test_loss, test_acc = results[-1]
+                    print_out = '[{}] '.format(i)
+                    print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(
+                                    train_loss,
+                                    train_acc * 100.0)
+                    print_out += 'validating [loss={:09.6f} acc={:05.2f}]'.format(
+                                    test_loss,
+                                    test_acc * 100.0)
+                    print(print_out)
                     avg_loss += test_loss
                 avg_loss /= num_folds
-                if best_loss == None or avg_loss < best_loss:
-                    best_candidate = candidate
-                    best_loss = avg_loss
+                record.append((candidate, avg_loss))
                 print('Average loss: {:09.6f}'.format(avg_loss))
-                print('Best candidate: {} loss: {:09.6f}'.format(best_candidate, best_loss))
-        
+
+            record = numpy.asarray(record)
+            record = record[record[:,1].argsort()]
+            with open('cross_validate_{}.csv'.format(data.get_name()), 'wb') as out_file:
+                writer = csv.writer(out_file)
+                writer.writerows(record)
             
     def plot(self, data, results):
         """Plots the given results.
@@ -184,7 +191,9 @@ class Experiment(object):
         matplotlib.pyplot.ylabel('Accuracy')
         matplotlib.pyplot.legend(loc=4)
         matplotlib.pyplot.savefig('fig_accuracy.jpg')
+        matplotlib.pyplot.show()
         matplotlib.pyplot.figure(2)
+        matplotlib.pyplot.yscale('log')
         matplotlib.pyplot.title(data.get_name())
         matplotlib.pyplot.plot(iters, train_losses, 'r', label='Training Data')
         matplotlib.pyplot.plot(iters, test_losses, 'g', label='Test Data')

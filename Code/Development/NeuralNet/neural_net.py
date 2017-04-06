@@ -23,7 +23,7 @@ class NeuralNetwork(object):
         self.weights = [numpy.random.randn(m, n)
                         for n, m in zip(self.layers[:-1], self.layers[1:])]
         
-    def train(self, data_train, data_test, num_iters, batch_size, eta, verbose=True):
+    def train(self, data_train, data_test, num_iters, batch_size, gamma, eta, verbose=True):
         """Trains the neural network, using Stochastic Gradient Descent (SGD)
         for optimizing the model's weights.
         Arguments
@@ -36,6 +36,8 @@ class NeuralNetwork(object):
         """
         # Stochastic Gradient Descent
         results = []
+        delta_W = [0.0 for w in self.weights]
+        delta_b = [0.0 for b in self.biases]
         for i in xrange(num_iters):
             # Randomly shuff the training data.
             numpy.random.shuffle(data_train)
@@ -53,11 +55,13 @@ class NeuralNetwork(object):
                     grad_b = [nb + dnb for nb, dnb in zip(grad_b, delta_grad_b)]
 
                 # Adjust weights.
-                self.weights = [w - (eta / len(batch)) * nw
-                                for w, nw in zip(self.weights, grad_w)]
-                self.biases = [b - (eta / len(batch)) * nb
-                               for b, nb in zip(self.biases, grad_b)]
-            
+                delta_W = [gamma*dw + (eta * nw / len(batch))
+                            for dw, nw in zip(delta_W, grad_w)]
+                delta_b = [gamma*db + (eta * nb / len(batch))
+                            for db, nb in zip(delta_b, grad_b)]
+                self.weights = [(w - dw) for w, dw in zip(self.weights, delta_W)]
+                self.biases = [(b - db) for b, db in zip(self.biases, delta_b)]
+
             # Evaluate performance on training and test data.
             print_out = '[{:3d}] '.format(i)
             train_loss, train_acc = self.evaluate(data_train)
