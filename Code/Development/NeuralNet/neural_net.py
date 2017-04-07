@@ -9,13 +9,14 @@ import numpy
 import sys
 
 class NeuralNetwork(object):
-    def __init__(self, layers):
-        """Initializes a new neural network.
+    def __init__(self, layers, dropout=0.0):
+        """Initializes a feedforward neural network.
         Arguments
             layers - A set of sizes for each layer in the network.
         """
         self.num_layers = len(layers)
         self.layers = layers
+        self.dropout = dropout
         self.reset()
         
     def reset(self):
@@ -99,7 +100,42 @@ class NeuralNetwork(object):
             y - An associated target value
         Returns A weight and bias gradient
         """
-        return None, None
+        grad_w = [numpy.zeros(w.shape) for w in self.weights]
+        grad_b = [numpy.zeros(b.shape) for b in self.biases]
+
+        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
+        d_sigmoid = lambda z: sigmoid(z) * (1 - sigmoid(z))
+
+        # forward pass
+        a = x
+        outputs = []
+        activations = [a]
+        masked_weights = []
+        for w, b in zip(self.weights, self.biases):
+            mask = numpy.random.binomial(1, 1.0 - self.dropout, size=w.shape)
+            masked_w  = w * mask
+
+            #z = numpy.dot(w, a) + b            
+            z = numpy.dot(masked_w, a) + b
+            a = sigmoid(z)
+            outputs.append(z)
+            activations.append(a)
+            masked_weights.append(masked_w)
+            
+        # backward pass
+        delta = (activations[-1] - y) * d_sigmoid(outputs[-1])
+        grad_w[-1] = numpy.dot(delta, activations[-2].T)
+        grad_b[-1] = delta
+        for i in xrange(2, self.num_layers):
+            w = self.weights[-i+1]
+            masked_w = masked_weights[-i+1]
+            
+            #delta = numpy.dot(w.T, delta) * d_sigmoid(outputs[-i])
+            delta = numpy.dot(masked_w.T, delta) * d_sigmoid(outputs[-i])
+            grad_w[-i] = numpy.dot(delta, activations[-i-1].T)
+            grad_b[-i] = delta
+
+        return grad_w, grad_b
 
     def predict(self, x):
         """Predicts a target value, given a set of data features.
@@ -107,7 +143,16 @@ class NeuralNetwork(object):
             x - A set of data features
         Returns a target value
         """
-        return None
+        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
+        a = x
+        for w, b in zip(self.weights, self.biases):
+            adjusted_w = w * (1 - self.dropout)
+
+            #z = numpy.dot(w, a) + b
+            z = numpy.dot(adjusted_w, a) + b
+            a = sigmoid(z)
+        
+        return a
 
     def evaluate(self, data):
         """Evaluates the loss and accuracy for the model in its current state
@@ -119,63 +164,12 @@ class NeuralNetwork(object):
         return None, None
 
 class ClassificationNetwork(NeuralNetwork):
-    def __init__(self, layers):
+    def __init__(self, layers, dropout=0.0):
         """Initializes a new classification neural network.
         Arguments
             layers - A set of sizes for each layer in the network.
         """
-        super(ClassificationNetwork, self).__init__(layers)
-
-    def fit(self, x, y):
-        """
-        Performs a forward pass to compute a prediction and loss value for the
-        given data point. Then performs a backward pass to compute the gradient
-        for optimizing weights.
-        Arguments
-            x - A set of data features
-            y - An associated target value
-        Returns A weight and bias gradient
-        """
-        grad_w = [numpy.zeros(w.shape) for w in self.weights]
-        grad_b = [numpy.zeros(b.shape) for b in self.biases]
-
-        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
-        d_sigmoid = lambda z: sigmoid(z) * (1 - sigmoid(z))
-        
-        # forward pass
-        a = x
-        outputs = []
-        activations = [a]
-        for w, b in zip(self.weights, self.biases):
-            z = numpy.dot(w, a) + b
-            a = sigmoid(z)
-            outputs.append(z)
-            activations.append(a)
-            
-        # backward pass
-        delta = (activations[-1] - y) * d_sigmoid(outputs[-1])
-        grad_w[-1] = numpy.dot(delta, activations[-2].T)
-        grad_b[-1] = delta
-        for i in xrange(2, self.num_layers):
-            delta = numpy.dot(self.weights[-i+1].T, delta) * d_sigmoid(outputs[-i])
-            grad_w[-i] = numpy.dot(delta, activations[-i-1].T)
-            grad_b[-i] = delta
-
-        return grad_w, grad_b
-    
-    def predict(self, x):
-        """Predicts a target value, given a set of data features.
-        Arguments
-            x - A set of data features
-        Returns a target value
-        """
-        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
-        a = x
-        for w, b in zip(self.weights, self.biases):
-            z = numpy.dot(w, a) + b
-            a = sigmoid(z)
-        y = a
-        return y
+        super(ClassificationNetwork, self).__init__(layers, dropout)
     
     def evaluate(self, data):
         """Evaluates the loss and accuracy for the model in its current state
@@ -205,53 +199,16 @@ class ClassificationNetwork(NeuralNetwork):
         return loss, acc
 
 class RegressionNetwork(NeuralNetwork):
-    def __init__(self, layers):
+    def __init__(self, layers, dropout=0.0):
         """Initializes a new regression neural network.
         Arguments
             layers - A set of sizes for each layer in the network.
         """
-        super(RegressionNetwork, self).__init__(layers)
+        super(RegressionNetwork, self).__init__(layers, dropout)
         self.epsilon = 1e-5
 
     def set_epsilon(self, epsilon):
         self.epsilon = epsilon
-
-    def fit(self, x, y):
-        """
-        Performs a forward pass to compute a prediction and loss value for the
-        given data point. Then performs a backward pass to compute the gradient
-        for optimizing weights.
-        Arguments
-            x - A set of data features
-            y - An associated target value
-        Returns A weight and bias gradient
-        """
-        grad_w = [numpy.zeros(w.shape) for w in self.weights]
-        grad_b = [numpy.zeros(b.shape) for b in self.biases]
-
-        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
-        d_sigmoid = lambda z: sigmoid(z) * (1 - sigmoid(z))
-        
-        # forward pass
-        a = x
-        outputs = []
-        activations = [a]
-        for w, b in zip(self.weights, self.biases):
-            z = numpy.dot(w, a) + b
-            a = sigmoid(z)
-            outputs.append(z)
-            activations.append(a)
-            
-        # backward pass
-        delta = (activations[-1] - y) * d_sigmoid(outputs[-1])
-        grad_w[-1] = numpy.dot(delta, activations[-2].T)
-        grad_b[-1] = delta
-        for i in xrange(2, self.num_layers):
-            delta = numpy.dot(self.weights[-i+1].T, delta) * d_sigmoid(outputs[-i])
-            grad_w[-i] = numpy.dot(delta, activations[-i-1].T)
-            grad_b[-i] = delta
-
-        return grad_w, grad_b
 
     def predict(self, x):
         """Predicts a target value, given a set of data features.
@@ -259,13 +216,9 @@ class RegressionNetwork(NeuralNetwork):
             x - A set of data features
         Returns a target value
         """
-        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
-        a = x
-        for w, b in zip(self.weights, self.biases):
-            z = numpy.dot(w, a) + b
-            a = sigmoid(z)
-        y = a[0][0]
-        return y
+        y = super(RegressionNetwork, self).predict(x)
+        
+        return y[0][0]
 
     def evaluate(self, data):
         """Evaluates the loss and accuracy for the model in its current state

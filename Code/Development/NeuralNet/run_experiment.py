@@ -31,7 +31,7 @@ class Experiment(object):
     def run(self):
         """Executes the application.
         """
-        num_iters = 250
+        num_iters = 200
         batch_size = 10
         gamma = 0.9
         eta = 0.01
@@ -45,35 +45,33 @@ class Experiment(object):
             print('Training entries: {}'.format(len(data_train)))
             print('Test entries: {}'.format(len(data_test)))
             
-            """
+            """Classification network
             n_inputs = data.get_num_features()
             n_hidden1 = 35
             n_hidden2 = 25
             n_hidden3 = 15
-            n_outputs = 5
+            n_outputs = 4
             layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
-            network = ClassificationNetwork(layers)
+            network = ClassificationNetwork(layers, dropout=0.1)
             classes = data.create_classes(n_outputs)
             data_train = data.classify_targets(data_train, classes)
             data_test = data.classify_targets(data_test, classes)
             """
             
+            """Regression network
+            """
             n_inputs = data.get_num_features()
             n_hidden1 = 35
             n_hidden2 = 25
             n_hidden3 = 15
             n_outputs = 1
             layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
-            network = RegressionNetwork(layers)
-            
-            # Set allowable error for measuring accuracy.
-            error = 10000
+            network = RegressionNetwork(layers, dropout=0.0)
             y_min = data.unnormalize_target(0.0)
             y_max = data.unnormalize_target(1.0)
-            epsilon = error / (y_max - y_min)
+            epsilon = 10000 / (y_max - y_min)
             network.set_epsilon(epsilon)
             
-
             print('')
             print('Network ' + '-'*60)
             print('Type: Feedforward')
@@ -91,6 +89,76 @@ class Experiment(object):
             loss, acc = network.evaluate(data_test)
             print('Results: [loss={:09.6f} acc={:05.2f}]'.format(loss, acc * 100.0))
             
+            
+            """ Test for running different regression nets for different classes.
+            data_train.sort(key=lambda (X, y): y)
+            data_test.sort(key=lambda d: d[1])
+            
+            num_classes = 3
+            class_size = numpy.int(len(data_train) / num_classes)            
+            class_bounds = [data_train[i*class_size+class_size][1]
+                                for i in xrange(num_classes)]
+            j = 0
+            data_train_classes = [[] for _ in xrange(num_classes)]
+            for i in xrange(len(data_train)):
+                (X, y) = data_train[i]
+                if y > class_bounds[j] and j < num_classes - 1:
+                    j += 1
+                data_train_classes[j].append((X, y))
+
+            j = 0
+            data_test_classes = [[] for _ in xrange(num_classes)]                    
+            for i in xrange(len(data_test)):
+                (X, y) = data_test[i]
+                if y > class_bounds[j] and j < num_classes - 1:
+                    j += 1
+                data_test_classes[j].append((X, y))
+            
+            for i in xrange(num_classes):
+                data_train_class = data_train_classes[i]
+                data_test_class = data_test_classes[i]
+                
+                n_inputs = data.get_num_features()
+                n_hidden1 = 35
+                n_hidden2 = 25
+                n_hidden3 = 15
+                n_outputs = 1
+                layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
+                network = RegressionNetwork(layers)
+                y_min = data.unnormalize_target(0.0)
+                y_max = data.unnormalize_target(1.0)
+                epsilon = 10000 / (y_max - y_min)
+                network.set_epsilon(epsilon)
+
+                n_inputs = data.get_num_features()
+                n_hidden1 = 35
+                n_hidden2 = 25
+                n_hidden3 = 15
+                n_outputs = 1
+                layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
+                network = RegressionNetwork(layers)
+                y_min = data.unnormalize_target(0.0)
+                y_max = data.unnormalize_target(1.0)
+                epsilon = 10000 / (y_max - y_min)
+                network.set_epsilon(epsilon)
+    
+                print('')
+                print('Network ' + '-'*60)
+                print('Type: Feedforward')
+                print('Layers:')
+                for j in xrange(len(layers)):
+                        print('\t{}: {} units'.format(j, layers[j]))
+                
+                print('')
+                print('Training neural network.')
+                results = network.train(data_train_class, data_test_class, num_iters, batch_size, gamma, eta)
+                self.plot(data, results)
+                
+                print('')
+                print('Evaluating neural network.')
+                loss, acc = network.evaluate(data_test_class)
+                print('Results: [loss={:09.6f} acc={:05.2f}]'.format(loss, acc * 100.0))
+            """
         print('Done.')
 
     def cross_validate(self):
