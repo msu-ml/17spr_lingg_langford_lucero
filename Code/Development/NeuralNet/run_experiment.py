@@ -31,7 +31,7 @@ class Experiment(object):
     def run(self):
         """Executes the application.
         """
-        num_iters = 1000
+        num_iters = 200
         batch_size = 10
         gamma = 0.9
         eta = 0.01
@@ -46,6 +46,7 @@ class Experiment(object):
             print('Test entries: {}'.format(len(data_test)))
             
             """Classification network
+            """
             n_inputs = data.get_num_features()
             n_hidden1 = 35
             n_hidden2 = 25
@@ -56,10 +57,8 @@ class Experiment(object):
             classes = data.create_classes(n_outputs)
             data_train = data.classify_targets(data_train, classes)
             data_test = data.classify_targets(data_test, classes)
-            """
-            
+             
             """Regression network
-            """
             n_inputs = data.get_num_features()
             n_hidden1 = 35
             n_hidden2 = 25
@@ -71,6 +70,7 @@ class Experiment(object):
             y_max = data.unnormalize_target(1.0)
             epsilon = 10000 / (y_max - y_min)
             network.set_epsilon(epsilon)
+            """
             
             print('')
             print('Network ' + '-'*60)

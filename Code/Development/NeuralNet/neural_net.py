@@ -44,6 +44,10 @@ class NeuralNet(object):
             eta - The learning rate for adjusting weights.
         Returns a collection of performance results.
         """
+        best_loss = None
+        best_W = self.weights
+        best_b = self.biases
+        
         # Stochastic Gradient Descent
         results = []
         delta_W = [0.0 for w in self.weights]
@@ -73,19 +77,25 @@ class NeuralNet(object):
                 self.biases = [(b - db) for b, db in zip(self.biases, delta_b)]
 
             # Evaluate performance on training and test data.
-            print_out = '[{:3d}] '.format(i)
             train_loss, train_acc = self.evaluate(data_train)
             test_loss, test_acc = self.evaluate(data_test)
+            if best_loss is None or test_loss < best_loss:
+                best_loss = test_loss
+                best_W = [numpy.copy(w) for w in self.weights]
+                best_b = [numpy.copy(b) for b in self.biases]
             results.append((i, train_loss, train_acc, test_loss, test_acc))
+            print_out = '[{:3d}] '.format(i)
             print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(
                             train_loss,
                             train_acc * 100.0)
             print_out += 'validating [loss={:09.6f} acc={:05.2f}]'.format(
                             test_loss,
                             test_acc * 100.0)
-            
             if verbose:
                 print(print_out)
+
+        self.weights = best_W
+        self.biases = best_b
 
         return results
 
@@ -127,7 +137,7 @@ class NeuralNet(object):
             masked_weights.append(masked_w)
             
         # backward pass
-        delta = (activations[-1] - y) * self.activation_deriv(outputs[-1])
+        delta = self.error_deriv(activations[-1], y) * self.activation_deriv(outputs[-1])
         grad_w[-1] = numpy.dot(delta, activations[-2].T)
         grad_b[-1] = delta
         for i in xrange(2, self.num_layers):
