@@ -11,7 +11,7 @@ import matplotlib.pyplot
 import numpy
 import sys
 from housing_data import HousingData
-from neural_net import ClassificationNetwork, RegressionNetwork
+from neural_net import ClassNet, RegressNet
 
 # set RNG with a specific seed
 seed = 69
@@ -31,7 +31,7 @@ class Experiment(object):
     def run(self):
         """Executes the application.
         """
-        num_iters = 200
+        num_iters = 1000
         batch_size = 10
         gamma = 0.9
         eta = 0.01
@@ -50,9 +50,9 @@ class Experiment(object):
             n_hidden1 = 35
             n_hidden2 = 25
             n_hidden3 = 15
-            n_outputs = 4
+            n_outputs = 3
             layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
-            network = ClassificationNetwork(layers, dropout=0.1)
+            network = ClassNet(layers, dropout=0.1)
             classes = data.create_classes(n_outputs)
             data_train = data.classify_targets(data_train, classes)
             data_test = data.classify_targets(data_test, classes)
@@ -66,7 +66,7 @@ class Experiment(object):
             n_hidden3 = 15
             n_outputs = 1
             layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
-            network = RegressionNetwork(layers, dropout=0.0)
+            network = RegressNet(layers, dropout=0.0)
             y_min = data.unnormalize_target(0.0)
             y_max = data.unnormalize_target(1.0)
             epsilon = 10000 / (y_max - y_min)
@@ -136,7 +136,7 @@ class Experiment(object):
                 n_hidden3 = 15
                 n_outputs = 1
                 layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
-                network = RegressionNetwork(layers)
+                network = RegressNet(layers)
                 y_min = data.unnormalize_target(0.0)
                 y_max = data.unnormalize_target(1.0)
                 epsilon = 10000 / (y_max - y_min)
@@ -261,7 +261,6 @@ class Experiment(object):
         matplotlib.pyplot.savefig('fig_accuracy.jpg')
         matplotlib.pyplot.show()
         matplotlib.pyplot.figure(2)
-        matplotlib.pyplot.yscale('log')
         matplotlib.pyplot.title(data.get_name())
         matplotlib.pyplot.plot(iters, train_losses, 'r', label='Training Data')
         matplotlib.pyplot.plot(iters, test_losses, 'g', label='Test Data')
@@ -269,6 +268,16 @@ class Experiment(object):
         matplotlib.pyplot.ylabel('Loss')
         matplotlib.pyplot.legend(loc=1)
         matplotlib.pyplot.savefig('fig_loss.jpg')
+        matplotlib.pyplot.show()
+        matplotlib.pyplot.figure(3)
+        matplotlib.pyplot.yscale('log')
+        matplotlib.pyplot.title(data.get_name())
+        matplotlib.pyplot.plot(iters, train_losses, 'r', label='Training Data')
+        matplotlib.pyplot.plot(iters, test_losses, 'g', label='Test Data')
+        matplotlib.pyplot.xlabel('Iteration')
+        matplotlib.pyplot.ylabel('Loss')
+        matplotlib.pyplot.legend(loc=1)
+        matplotlib.pyplot.savefig('fig_loss_logscale.jpg')
         matplotlib.pyplot.show()
 
 def main(argv):

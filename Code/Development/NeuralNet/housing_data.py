@@ -96,6 +96,8 @@ class HousingData(object):
         batches = self.make_batches(sorted(targets), batch_size)
         for batch in batches:
             classes.append(batch[0])
+        if len(classes) > num_classes:
+            classes = [classes[i] for i in xrange(num_classes)]
         return classes
 
     def classify_targets(self, data, classes):
