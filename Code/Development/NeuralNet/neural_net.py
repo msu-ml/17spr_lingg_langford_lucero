@@ -33,8 +33,8 @@ class NeuralNet(object):
         self.weights = [numpy.random.randn(m, n)
                         for n, m in zip(self.layers[:-1], self.layers[1:])]
         
-    def train(self, data_train, data_test, num_iters, batch_size, gamma, eta, verbose=True):
-        """Trains the neural network, using Stochastic Gradient Descent (SGD)
+    def train(self, data_train, data_test, num_iters, batch_size, eta, verbose=True):
+        """Trains the neural network, using Adaptive Gradient Descent (Adagrad)
         for optimizing the model's weights.
         Arguments
             data_train - Data that the model will be fitted to.
@@ -48,7 +48,7 @@ class NeuralNet(object):
         best_W = self.weights
         best_b = self.biases
         
-        # Stochastic Gradient Descent
+        # Adaptive Gradient Descent (Adagrad)
         results = []
         for i in xrange(num_iters):
             # Randomly shuffle the training data and split it into batches.
@@ -56,16 +56,19 @@ class NeuralNet(object):
             batches = self.make_batches(data_train, batch_size)
             
             # Get gradient for each batch and adjust the weights.
-            vW = [numpy.zeros(w.shape) for w in self.weights]
-            vb = [numpy.zeros(b.shape) for b in self.biases]
+            mem_W = [numpy.zeros(w.shape) for w in self.weights]
+            mem_b = [numpy.zeros(b.shape) for b in self.biases]
             for batch in batches:
                 grad_W, grad_b = self.get_batch_gradient(batch)
-                vW = [(gamma * v) - (eta * dw) for v, dw in zip(vW, grad_W)]
-                vb = [(gamma * v) - (eta * db) for v, db in zip(vb, grad_b)]
-                #vW = [-(eta * dw) for v, dw in zip(vW, grad_W)]
-                #vb = [-(eta * db) for v, db in zip(vb, grad_b)]
-                self.weights = [(w + v) for w, v in zip(self.weights, vW)]
-                self.biases = [(b + v) for b, v in zip(self.biases,  vb)]
+                mem_W = [(mw + gw**2) for mw, gw in zip(mem_W, grad_W)]
+                mem_b = [(mb + gb**2) for mb, gb in zip(mem_b, grad_b)]
+                delta_W = [-(eta * gw / numpy.sqrt(mw + 1e-8)) for mw, gw in zip(mem_W, grad_W)]
+                delta_b = [-(eta * gb / numpy.sqrt(mb + 1e-8)) for mb, gb in zip(mem_b, grad_b)]
+                self.weights = [(w + dw) for w, dw in zip(self.weights, delta_W)]
+                self.biases = [(b + db) for b, db in zip(self.biases,  delta_b)]
+
+                #mem += dparam * dparam
+                #param += -learning_rate * dparam / np.sqrt(mem + 1e-8) # adagrad update
 
             # Evaluate performance on training and test data.
             train_loss, train_acc = self.evaluate(data_train)
@@ -110,10 +113,10 @@ class NeuralNet(object):
         grad_b = [numpy.zeros(b.shape) for b in self.biases]
         for x, y in batch:
             delta_grad_W, delta_grad_b = self.backpropagation(x, y)
-            grad_W = [dw + ddw for dw, ddw in zip(grad_W, delta_grad_W)]
-            grad_b = [db + ddb for db, ddb in zip(grad_b, delta_grad_b)]
-        grad_W = [(dw / len(batch)) for dw in grad_W]
-        grad_b = [(db / len(batch)) for db in grad_b]
+            grad_W = [(gw + dgw) for gw, dgw in zip(grad_W, delta_grad_W)]
+            grad_b = [(gb + dgb) for gb, dgb in zip(grad_b, delta_grad_b)]
+        grad_W = [(gw / len(batch)) for gw in grad_W]
+        grad_b = [(gb / len(batch)) for gb in grad_b]
         
         return grad_W, grad_b
 

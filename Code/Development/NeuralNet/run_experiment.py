@@ -33,7 +33,6 @@ class Experiment(object):
         """
         num_iters = 200
         batch_size = 10
-        gamma = 0.9
         eta = 0.01
         for data in self.sources:
             data_train, data_test = data.split_data(2, 1)
@@ -66,7 +65,7 @@ class Experiment(object):
             n_hidden3 = 15
             n_outputs = 1
             layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
-            network = RegressNet(layers, dropout=0.0)
+            network = RegressNet(layers, dropout=0.2)
             y_min = data.unnormalize_target(0.0)
             y_max = data.unnormalize_target(1.0)
             epsilon = 10000 / (y_max - y_min)
@@ -81,7 +80,7 @@ class Experiment(object):
             
             print('')
             print('Training neural network.')
-            results = network.train(data_train, data_test, num_iters, batch_size, gamma, eta)
+            results = network.train(data_train, data_test, num_iters, batch_size, eta)
             self.plot(data, results)
             
             print('')
@@ -151,7 +150,7 @@ class Experiment(object):
                 
                 print('')
                 print('Training neural network.')
-                results = network.train(data_train_class, data_test_class, num_iters, batch_size, gamma, eta)
+                results = network.train(data_train_class, data_test_class, num_iters, batch_size, eta)
                 self.plot(data, results)
                 
                 print('')
@@ -177,7 +176,6 @@ class Experiment(object):
         num_folds = 3
         num_iters = 500
         batch_size = 10
-        gamma = 0.9
         eta = 0.01
         record = []
         for data in self.sources:
@@ -224,7 +222,7 @@ class Experiment(object):
                     fold_train = data_train[0:p] + data_train[p+fold_size:]
 
                     network.reset()                    
-                    results = network.train(fold_train, fold_test, num_iters, batch_size, gamma, eta, verbose=False)
+                    results = network.train(fold_train, fold_test, num_iters, batch_size, eta, verbose=False)
                     _, train_loss, train_acc, test_loss, test_acc = results[-1]
                     print_out = '[{}] '.format(i)
                     print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(
