@@ -50,31 +50,22 @@ class NeuralNet(object):
         
         # Stochastic Gradient Descent
         results = []
-        delta_W = [0.0 for w in self.weights]
-        delta_b = [0.0 for b in self.biases]
         for i in xrange(num_iters):
-            # Randomly shuff the training data.
+            # Randomly shuffle the training data and split it into batches.
             numpy.random.shuffle(data_train)
-            
-            # Divide the training data into batches.
             batches = self.make_batches(data_train, batch_size)
+            
+            # Get gradient for each batch and adjust the weights.
+            vW = [numpy.zeros(w.shape) for w in self.weights]
+            vb = [numpy.zeros(b.shape) for b in self.biases]
             for batch in batches:
-                # Initialize Gradients
-                grad_w = [numpy.zeros(w.shape) for w in self.weights]
-                grad_b = [numpy.zeros(b.shape) for b in self.biases]
-                for x, y in batch:
-                    # Compute the gradient for fitting each data point.
-                    delta_grad_w, delta_grad_b = self.fit(x, y)
-                    grad_w = [nw + dnw for nw, dnw in zip(grad_w, delta_grad_w)]
-                    grad_b = [nb + dnb for nb, dnb in zip(grad_b, delta_grad_b)]
-
-                # Adjust weights.
-                delta_W = [gamma*dw + (eta * nw / len(batch))
-                            for dw, nw in zip(delta_W, grad_w)]
-                delta_b = [gamma*db + (eta * nb / len(batch))
-                            for db, nb in zip(delta_b, grad_b)]
-                self.weights = [(w - dw) for w, dw in zip(self.weights, delta_W)]
-                self.biases = [(b - db) for b, db in zip(self.biases, delta_b)]
+                grad_W, grad_b = self.get_batch_gradient(batch)
+                vW = [(gamma * v) - (eta * dw) for v, dw in zip(vW, grad_W)]
+                vb = [(gamma * v) - (eta * db) for v, db in zip(vb, grad_b)]
+                #vW = [-(eta * dw) for v, dw in zip(vW, grad_W)]
+                #vb = [-(eta * db) for v, db in zip(vb, grad_b)]
+                self.weights = [(w + v) for w, v in zip(self.weights, vW)]
+                self.biases = [(b + v) for b, v in zip(self.biases,  vb)]
 
             # Evaluate performance on training and test data.
             train_loss, train_acc = self.evaluate(data_train)
@@ -98,7 +89,7 @@ class NeuralNet(object):
         self.biases = best_b
 
         return results
-
+    
     def make_batches(self, data, batch_size):
         """Used to create a collection of batches from a set of data.
         Arguments
@@ -108,8 +99,25 @@ class NeuralNet(object):
         """
         for i in xrange(0, len(data), batch_size):
             yield data[i:i+batch_size]
+    
+    def get_batch_gradient(self, batch):
+        """ Compute the average gradient for the batch using back propagation.
+        Arguments:
+            batch - A batch of data.
+        Returns the gradient for the given batch.
+        """
+        grad_W = [numpy.zeros(w.shape) for w in self.weights]
+        grad_b = [numpy.zeros(b.shape) for b in self.biases]
+        for x, y in batch:
+            delta_grad_W, delta_grad_b = self.backpropagation(x, y)
+            grad_W = [dw + ddw for dw, ddw in zip(grad_W, delta_grad_W)]
+            grad_b = [db + ddb for db, ddb in zip(grad_b, delta_grad_b)]
+        grad_W = [(dw / len(batch)) for dw in grad_W]
+        grad_b = [(db / len(batch)) for db in grad_b]
+        
+        return grad_W, grad_b
 
-    def fit(self, x, y):
+    def backpropagation(self, x, y):
         """
         Performs a forward pass to compute a prediction and loss value for the
         given data point. Then performs a backward pass to compute the gradient
@@ -119,7 +127,7 @@ class NeuralNet(object):
             y - An associated target value
         Returns A weight and bias gradient
         """
-        grad_w = [numpy.zeros(w.shape) for w in self.weights]
+        grad_W = [numpy.zeros(w.shape) for w in self.weights]
         grad_b = [numpy.zeros(b.shape) for b in self.biases]
 
         # forward pass
@@ -138,16 +146,16 @@ class NeuralNet(object):
             
         # backward pass
         delta = self.error_deriv(activations[-1], y) * self.activation_deriv(outputs[-1])
-        grad_w[-1] = numpy.dot(delta, activations[-2].T)
+        grad_W[-1] = numpy.dot(delta, activations[-2].T)
         grad_b[-1] = delta
         for i in xrange(2, self.num_layers):
             w = self.weights[-i+1]
             masked_w = masked_weights[-i+1]
             delta = numpy.dot(masked_w.T, delta) * self.activation_deriv(outputs[-i])
-            grad_w[-i] = numpy.dot(delta, activations[-i-1].T)
+            grad_W[-i] = numpy.dot(delta, activations[-i-1].T)
             grad_b[-i] = delta
 
-        return grad_w, grad_b
+        return grad_W, grad_b
     
     def activation(self, z):
         """Applies a non-linearity function to determine neuron activation.
