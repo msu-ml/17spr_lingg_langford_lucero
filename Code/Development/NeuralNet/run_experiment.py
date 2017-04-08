@@ -33,16 +33,14 @@ class Experiment(object):
         """Executes the application.
         """
         for data in self.sources:
-            data_train, data_test = data.split_data(2, 1)
             print('')
-            print('Data ' + '-'*60)
-            print('Data Source: {}'.format(data.name))
-            print('Total features: {}'.format(data.num_features))
-            print('Total entries: {}'.format(data.num_entries))
-            print('Training entries: {}'.format(len(data_train)))
-            print('Test entries: {}'.format(len(data_test)))
+            print('Data  ' + '-'*60)
+            data_train, data_test = data.split_data(2, 1)
+            self.display_data(data, data_train, data_test)
             
             """Classification network
+            print('')
+            print('Model ' + '-'*60)
             n_inputs = data.num_features
             n_hidden1 = 35
             n_hidden2 = 25
@@ -57,95 +55,71 @@ class Experiment(object):
              
             """Regression network
             """
+            print('')
+            print('Model ' + '-'*60)
             n_inputs = data.num_features
             n_hidden1 = 35
             n_hidden2 = 25
             n_hidden3 = 15
             n_outputs = 1
             layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
+            layers = [n_inputs, 100, n_outputs]
             network = RegressNet(layers)
             y_min = data.unnormalize_target(0.0)
             y_max = data.unnormalize_target(1.0)
             network.epsilon = 10000 / (y_max - y_min)
+            self.display_model(network)
             
             print('')
-            print('Network ' + '-'*60)
-            print('Type: Feedforward')
-            print('Layers:')
-            for j in xrange(len(layers)):
-                print('\t{}: {} units'.format(j, layers[j]))
-            
-            print('')
-            print('Training neural network.')
+            print('Training model.')
             results = network.train(
                             data_train,
                             data_test,
-                            optimizer=network.adadelta,
-                            num_iters=500,
+                            optimizer=network.sgd,
+                            num_iters=10,
                             batch_size=10,
-                            eta=0.1,
-                            rho=0.9)
+                            learning_rate=0.1,
+                            regularization=0.5,
+                            rho=0.9,
+                            output=self.display_training)
             self.plot(data, results)
             
             print('')
-            print('Evaluating neural network.')
-            loss, acc = network.evaluate(data_test)
-            print('Results: [loss={:09.6f} acc={:05.2f}]'.format(loss, acc * 100.0))
-
+            print('Evaluating model.')
+            results = network.evaluate(data_test)
+            self.display_evaluation(results)                            
         print('Done.')
 
     def cross_validate(self):
-        candidates = [
-                [35],
-                [35, 25],
-                [35, 25, 15],
-                [35, 25, 15, 10],
-                [35, 25, 15, 10, 5],
-                [25, 15, 10, 5],
-                [15, 10, 5],
-                [10, 5],
-                [5],
-                ]                
-                
+        candidates = []
+        for i in xrange(100):
+            n = numpy.int(numpy.random.rand() * 9 + 1)
+            r = numpy.random.randint(5, 50, size=(n))
+            candidates.append(r.tolist())
+             
         num_folds = 3
         record = []
         for data in self.sources:
-            data_train, data_test = data.split_data(2, 1)
             print('')
-            print('Data    ' + '-'*60)
-            print('Data Source: {}'.format(data.name))
-            print('Total features: {}'.format(data.num_features))
-            print('Total entries: {}'.format(data.num_entries))
-            print('Training entries: {}'.format(len(data_train)))
-            print('Test entries: {}'.format(len(data_test)))
+            print('Data  ' + '-'*60)
+            data_train, data_test = data.split_data(2, 1)
+            self.display_data(data, data_train, data_test)
                 
             fold_size = numpy.int(len(data_train) / num_folds)
             for candidate in candidates:
-                layers = []
-                layers.append(data.num_features)
-                for value in candidate:
-                    layers.append(value)
-                layers.append(1)
+                print('')
+                print('Model ' + '-'*60)
+                layers = [data.num_features] + candidate + [1]
                 network = RegressNet(layers)
-                
-                # Set allowable error for measuring accuracy.
-                error = 10000
                 y_min = data.unnormalize_target(0.0)
                 y_max = data.unnormalize_target(1.0)
-                network.epsilon = error / (y_max - y_min)
-                
-                print('')
-                print('Network ' + '-'*60)
-                print('Type: Feedforward')
-                print('Target Type: Regression')
-                print('Layers:')
-                for j in xrange(len(layers)):
-                    print('\t{}: {} units'.format(j, layers[j]))
+                network.epsilon = 10000 / (y_max - y_min)
+                self.display_model(network)
 
                 print('')
                 print('Cross-validating ({} folds)'.format(num_folds))
-                
-                avg_loss = 0.0
+                train_loss_avg = 0.0
+                test_loss_avg = 0.0
                 for i in xrange(num_folds):
                     p = i * fold_size
                     fold_test = data_train[p:p+fold_size]
@@ -155,32 +129,54 @@ class Experiment(object):
                     results = network.train(
                                 fold_train,
                                 fold_test,
-                                optimizer=network.adagrad,
+                                optimizer=network.sgd,
                                 num_iters=200,
                                 batch_size=10,
-                                eta=0.1,
-                                rho=0.9,
-                                verbose=False)
+                                learning_rate=0.1,
+                                regularization=0.5,
+                                rho=0.9)
                     _, train_loss, train_acc, test_loss, test_acc = results[-1]
-                    print_out = '[{}] '.format(i)
-                    print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(
-                                    train_loss,
-                                    train_acc * 100.0)
-                    print_out += 'validating [loss={:09.6f} acc={:05.2f}]'.format(
-                                    test_loss,
-                                    test_acc * 100.0)
-                    print(print_out)
-                    avg_loss += test_loss
-                avg_loss /= num_folds
-                record.append((candidate, avg_loss))
-                print('Average loss: {:09.6f}'.format(avg_loss))
+                    self.display_training([(i, train_loss, train_acc, test_loss, test_acc)])
+                    train_loss_avg += train_loss
+                    test_loss_avg += test_loss
+                train_loss_avg /= num_folds
+                test_loss_avg /= num_folds
+                record.append((candidate, train_loss_avg, test_loss_avg))
+                print('Average: training [loss={:09.6f}] validating [loss={:09.6f}]'.format(train_loss_avg, test_loss_avg))
 
             record = numpy.asarray(record)
-            record = record[record[:,1].argsort()]
+            record = record[record[:,2].argsort()]
             with open('cross_validate_{}.csv'.format(data.name), 'wb') as out_file:
                 writer = csv.writer(out_file)
                 writer.writerows(record)
-            
+    
+    def display_data(self, data, data_train=None, data_test=None):
+        print('Data Source: {}'.format(data.name))
+        print('Total features: {}'.format(data.num_features))
+        print('Total entries: {}'.format(data.num_entries))
+        if not data_train is None:
+            print('Training entries: {}'.format(len(data_train)))
+        if not data_test is None:
+            print('Test entries: {}'.format(len(data_test)))
+
+    def display_model(self, network):
+        print('Type: Feedforward Neural Network')
+        print('Layers:')
+        for i in xrange(network.num_layers):
+            print('\t{}: {} units'.format(i, network.layers[i]))
+    
+    def display_training(self, results):
+        if not results is None and len(results) > 0:
+            i, train_loss, train_acc, test_loss, test_acc = results[-1]
+            print_out = '[{: 4d}] '.format(i)
+            print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(train_loss, train_acc * 100.0)
+            print_out += 'validating [loss={:09.6f} acc={:05.2f}]'.format(test_loss, test_acc * 100.0)
+            print(print_out)
+    
+    def display_evaluation(self, results):
+        loss, acc = results
+        print('Results: [loss={:09.6f} acc={:05.2f}]'.format(loss, acc * 100.0))
+    
     def plot(self, data, results):
         """Plots the given results.
         Arguments

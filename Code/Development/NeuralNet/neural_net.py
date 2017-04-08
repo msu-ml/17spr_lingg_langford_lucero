@@ -81,12 +81,11 @@ class NeuralNet(object):
               optimizer=None,
               num_iters=1000,
               batch_size=10,
-              eta=0.1,
-              gamma=0.0,
-              lmbda=0.5,
+              learning_rate=0.1,
+              momentum=0.0,
+              regularization=0.0,
               rho=0.9,
-              epsilon=1e-8,
-              verbose=True):
+              output=None):
         """Trains the neural network, using Adaptive Gradient Descent (Adagrad)
         for optimizing the model's weights.
         Arguments
@@ -95,11 +94,11 @@ class NeuralNet(object):
             optimizer - A gradient descent method for optimization.
             num_iters - The number of iterations to train for.
             batch_size - Number of data points to process in each batch.
-            eta - The learning rate for the gradient descent optimizer.
-            lmbda - Regularization term
-            gamma - The momentum for the gradient descent optimizer.
+            learning_rate - The learning rate for the gradient descent optimizer.
+            regularization - Weight regularization term.
+            momentum - The momentum for the gradient descent optimizer.
             rho - Parameter for adadelta
-            epsilon - The epsilon value for the gradient descent optimizer.
+            output - A function to display the training progress.
         Returns a collection of performance results.
         """
         best_loss = None
@@ -109,13 +108,16 @@ class NeuralNet(object):
         if optimizer is None:
             optimizer = self.adadelta
         
-        eta_init = eta
-        
         # Adaptive Gradient Descent (Adagrad)
         results = []
         for i in xrange(num_iters):
             # Fit the model to the training data.            
-            optimizer(data_train, batch_size, eta=eta, gamma=gamma, lmbda=lmbda, rho=rho, epsilon=epsilon)
+            optimizer(data_train,
+                      batch_size,
+                      learning_rate=learning_rate,
+                      momentum=momentum,
+                      regularization=regularization,
+                      rho=rho)
 
             # Evaluate performance on training and test data.
             train_loss, train_acc = self.evaluate(data_train)
@@ -125,27 +127,20 @@ class NeuralNet(object):
                 best_W = [numpy.copy(w) for w in self.weights]
                 best_b = [numpy.copy(b) for b in self.biases]
             results.append((i, train_loss, train_acc, test_loss, test_acc))
-            print_out = '[{:3d}] '.format(i)
-            print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(
-                            train_loss,
-                            train_acc * 100.0)
-            print_out += 'validating [loss={:09.6f} acc={:05.2f}]'.format(
-                            test_loss,
-                            test_acc * 100.0)
-            if verbose:
-                print(print_out)
-                
-            #eta = eta_init * numpy.exp(train_loss-1.0)
+            if not output is None:
+                output(results)
 
         self.weights = best_W
         self.biases = best_b
 
         return results
     
-    def adadelta(self, data, batch_size, eta=1.0, gamma=0.0, lmbda=0.5, rho=0.9, epsilon=1e-8):
+    def adadelta(self, data, batch_size, learning_rate=1.0, momentum=0.0, regularization=0.0, rho=0.9):
         """Adjusts the models weights to fit the given training data using an
         ADADELTA optimization method.
-        """        
+        """
+        eps = 1e-8
+        
         # Randomly shuffle the training data and split it into batches.
         numpy.random.shuffle(data)
         batches = self.make_batches(data, batch_size)
@@ -159,19 +154,23 @@ class NeuralNet(object):
             grad_W, grad_b = self.get_batch_gradient(batch)
             mem_gW = [((rho * mgw) + ((1 - rho) * gw**2)) for mgw, gw in zip(mem_gW, grad_W)]
             mem_gb = [((rho * mgb) + ((1 - rho) * gb**2)) for mgb, gb in zip(mem_gb, grad_b)]
-            delta_W = [-(gw * numpy.sqrt(mdw + epsilon) / numpy.sqrt(mgw + epsilon)) for gw, mdw, mgw in zip(grad_W, mem_dW, mem_gW)]
-            delta_b = [-(gb * numpy.sqrt(mdb + epsilon) / numpy.sqrt(mgb + epsilon)) for gb, mdb, mgb in zip(grad_b, mem_db, mem_gb)]
+            delta_W = [-(gw * numpy.sqrt(mdw + eps) / numpy.sqrt(mgw + eps)) for gw, mdw, mgw in zip(grad_W, mem_dW, mem_gW)]
+            delta_b = [-(gb * numpy.sqrt(mdb + eps) / numpy.sqrt(mgb + eps)) for gb, mdb, mgb in zip(grad_b, mem_db, mem_gb)]
             mem_dW = [((rho * mdw) + ((1 - rho) * dw**2)) for mdw, dw in zip(mem_dW, delta_W)]
             mem_db = [((rho * mdb) + ((1 - rho) * db**2)) for mdb, db in zip(mem_db, delta_b)]
             self.weights = [(w + dw) for w, dw in zip(self.weights, delta_W)]
             self.biases = [(b + db) for b, db in zip(self.biases,  delta_b)]
     
-    def adagrad(self, data, batch_size, eta=1.0, gamma=0.0, lmbda=0.5, rho=0.9, epsilon=1e-8):
+    def adagrad(self, data, batch_size, learning_rate=1.0, momentum=0.0, regularization=0.0, rho=0.9):
         """Adjusts the models weights to fit the given training data using an
         ADAGRAD optimization method.
         """
+        lr = learning_rate
+        reg = regularization
+        eps = 1e-8
+        
         # Term for regularizing the weights.
-        reg_decay = (1.0 - (eta * lmbda / len(data)))
+        reg_decay = (1.0 - (lr * reg / len(data)))
         
         # Randomly shuffle the training data and split it into batches.
         numpy.random.shuffle(data)
@@ -184,17 +183,20 @@ class NeuralNet(object):
             grad_W, grad_b = self.get_batch_gradient(batch)
             mem_gW = [(mw + gw**2) for mw, gw in zip(mem_gW, grad_W)]
             mem_gb = [(mb + gb**2) for mb, gb in zip(mem_gb, grad_b)]
-            delta_W = [-(gw * eta / numpy.sqrt(mgw + epsilon)) for gw, mgw in zip(grad_W, mem_gW)]
-            delta_b = [-(gb * eta / numpy.sqrt(mgb + epsilon)) for gb, mgb in zip(grad_b, mem_gb)]
+            delta_W = [-(gw * lr / numpy.sqrt(mgw + eps)) for gw, mgw in zip(grad_W, mem_gW)]
+            delta_b = [-(gb * lr / numpy.sqrt(mgb + eps)) for gb, mgb in zip(grad_b, mem_gb)]
             self.weights = [(reg_decay * w + dw) for w, dw in zip(self.weights, delta_W)]
             self.biases = [(b + db) for b, db in zip(self.biases,  delta_b)]
 
-    def sgd(self, data, batch_size, eta=1.0, gamma=0.0, lmbda=0.5, rho=0.9, epsilon=1e-8):
+    def sgd(self, data, batch_size, learning_rate=1.0, momentum=0.0, regularization=0.0, rho=0.9):
         """Adjusts the models weights to fit the given training data using a
         stochastic gradient descent (SGD) optimization method.
         """
+        lr = learning_rate
+        reg = regularization
+        
         # Term for regularizing the weights.
-        reg_decay = (1.0 - (eta * lmbda / len(data)))
+        reg_decay = (1.0 - (lr * reg / len(data)))
         
         # Randomly shuffle the training data and split it into batches.
         numpy.random.shuffle(data)
@@ -203,21 +205,22 @@ class NeuralNet(object):
         mem_db = [numpy.zeros(b.shape) for b in self.biases]
         for batch in batches:
             grad_W, grad_b = self.get_batch_gradient(batch)
-            delta_W = [((rho * mdw) + (eta * gw)) for mdw, gw in zip(mem_dW, grad_W)]
-            delta_b = [((rho * mdb) + (eta * gb)) for mdb, gb in zip(mem_db, grad_b)]
+            delta_W = [((rho * mdw) + (lr * gw)) for mdw, gw in zip(mem_dW, grad_W)]
+            delta_b = [((rho * mdb) + (lr * gb)) for mdb, gb in zip(mem_db, grad_b)]
             mem_dW = [dw for dw in delta_W]
             mem_db = [db for db in delta_b]
             #self.weights = [(w - dw) for w, dw in zip(self.weights, delta_W)]
             self.weights = [(reg_decay * w - dw) for w, dw in zip(self.weights, delta_W)]
             self.biases = [(b - db) for b, db in zip(self.biases, delta_b)]
 
-    def gd(self, data, batch_size, eta=1.0, gamma=0.0, lmbda=0.5, rho=0.9, epsilon=1e-8):
+    def gd(self, data, batch_size, learning_rate=1.0, momentum=0.0, regularization=0.0, rho=0.9):
         """Adjusts the models weights to fit the given training data using a
         full batch gradient descent optimization method.
         """
+        lr = learning_rate
         grad_W, grad_b = self.get_batch_gradient(data)
-        delta_W = [-(eta * gw) for gw in grad_W]
-        delta_b = [-(eta * gb) for gb in grad_b]
+        delta_W = [-(lr * gw) for gw in grad_W]
+        delta_b = [-(lr * gb) for gb in grad_b]
         self.weights = [(w + dw) for w, dw in zip(self.weights, delta_W)]
         self.biases = [(b + db) for b, db in zip(self.biases, delta_b)]
 
