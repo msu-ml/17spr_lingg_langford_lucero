@@ -49,7 +49,7 @@ class Experiment(object):
             n_hidden3 = 15
             n_outputs = 3
             layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
-            network = ClassNet(layers, dropout=0.1)
+            network = ClassNet(layers)
             classes = data.create_classes(n_outputs)
             data_train = data.classify_targets(data_train, classes)
             data_test = data.classify_targets(data_test, classes)
@@ -63,7 +63,7 @@ class Experiment(object):
             n_hidden3 = 15
             n_outputs = 1
             layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
-            network = RegressNet(layers, dropout=0.0)
+            network = RegressNet(layers)
             y_min = data.unnormalize_target(0.0)
             y_max = data.unnormalize_target(1.0)
             network.epsilon = 10000 / (y_max - y_min)
@@ -80,8 +80,8 @@ class Experiment(object):
             results = network.train(
                             data_train,
                             data_test,
-                            optimizer=network.sgd,
-                            num_iters=1000,
+                            optimizer=network.adadelta,
+                            num_iters=500,
                             batch_size=10,
                             eta=0.1,
                             rho=0.9)

@@ -9,13 +9,12 @@ import numpy
 import sys
 
 class NeuralNet(object):
-    def __init__(self, layers, dropout=0.0, name=''):
+    def __init__(self, layers, name=''):
         """Initializes a feedforward neural network.
         Arguments
             layers - A set of sizes for each layer in the network.
         """
         self.layers = layers
-        self.dropout = dropout
         self.name = name
         self.reset()
 
@@ -58,17 +57,6 @@ class NeuralNet(object):
     biases = property(fget=lambda self: self.get_biases(),
                       fset=lambda self, v: self.set_biases(v))
 
-    def get_dropout(self):
-        """Gets the amount of dropout for each layer.
-        """
-        return self.__dropout
-    def set_dropout(self, v):
-        """Sets the amount of dropout for each layer.
-        """
-        self.__dropout = v
-    dropout = property(fget=lambda self: self.get_dropout(),
-                       fset=lambda self, v: self.set_dropout(v))
-
     def get_name(self):
         """Gets the name of the network.
         """
@@ -95,6 +83,7 @@ class NeuralNet(object):
               batch_size=10,
               eta=0.1,
               gamma=0.0,
+              lmbda=0.5,
               rho=0.9,
               epsilon=1e-8,
               verbose=True):
@@ -107,6 +96,7 @@ class NeuralNet(object):
             num_iters - The number of iterations to train for.
             batch_size - Number of data points to process in each batch.
             eta - The learning rate for the gradient descent optimizer.
+            lmbda - Regularization term
             gamma - The momentum for the gradient descent optimizer.
             rho - Parameter for adadelta
             epsilon - The epsilon value for the gradient descent optimizer.
@@ -117,7 +107,7 @@ class NeuralNet(object):
         best_b = self.biases
         
         if optimizer is None:
-            optimizer = self.adagrad
+            optimizer = self.adadelta
         
         eta_init = eta
         
@@ -125,7 +115,7 @@ class NeuralNet(object):
         results = []
         for i in xrange(num_iters):
             # Fit the model to the training data.            
-            optimizer(data_train, batch_size, eta=eta, gamma=gamma, rho=rho, epsilon=epsilon)
+            optimizer(data_train, batch_size, eta=eta, gamma=gamma, lmbda=lmbda, rho=rho, epsilon=epsilon)
 
             # Evaluate performance on training and test data.
             train_loss, train_acc = self.evaluate(data_train)
@@ -152,10 +142,10 @@ class NeuralNet(object):
 
         return results
     
-    def adadelta(self, data, batch_size, eta=1.0, gamma=0.0, rho=0.9, epsilon=1e-8):
+    def adadelta(self, data, batch_size, eta=1.0, gamma=0.0, lmbda=0.5, rho=0.9, epsilon=1e-8):
         """Adjusts the models weights to fit the given training data using an
         ADADELTA optimization method.
-        """
+        """        
         # Randomly shuffle the training data and split it into batches.
         numpy.random.shuffle(data)
         batches = self.make_batches(data, batch_size)
@@ -176,10 +166,13 @@ class NeuralNet(object):
             self.weights = [(w + dw) for w, dw in zip(self.weights, delta_W)]
             self.biases = [(b + db) for b, db in zip(self.biases,  delta_b)]
     
-    def adagrad(self, data, batch_size, eta=1.0, gamma=0.0, rho=0.9, epsilon=1e-8):
+    def adagrad(self, data, batch_size, eta=1.0, gamma=0.0, lmbda=0.5, rho=0.9, epsilon=1e-8):
         """Adjusts the models weights to fit the given training data using an
         ADAGRAD optimization method.
         """
+        # Term for regularizing the weights.
+        reg_decay = (1.0 - (eta * lmbda / len(data)))
+        
         # Randomly shuffle the training data and split it into batches.
         numpy.random.shuffle(data)
         batches = self.make_batches(data, batch_size)
@@ -193,13 +186,16 @@ class NeuralNet(object):
             mem_gb = [(mb + gb**2) for mb, gb in zip(mem_gb, grad_b)]
             delta_W = [-(gw * eta / numpy.sqrt(mgw + epsilon)) for gw, mgw in zip(grad_W, mem_gW)]
             delta_b = [-(gb * eta / numpy.sqrt(mgb + epsilon)) for gb, mgb in zip(grad_b, mem_gb)]
-            self.weights = [(w + dw) for w, dw in zip(self.weights, delta_W)]
+            self.weights = [(reg_decay * w + dw) for w, dw in zip(self.weights, delta_W)]
             self.biases = [(b + db) for b, db in zip(self.biases,  delta_b)]
 
-    def sgd(self, data, batch_size, eta=1.0, gamma=0.0, rho=0.9, epsilon=1e-8):
+    def sgd(self, data, batch_size, eta=1.0, gamma=0.0, lmbda=0.5, rho=0.9, epsilon=1e-8):
         """Adjusts the models weights to fit the given training data using a
         stochastic gradient descent (SGD) optimization method.
         """
+        # Term for regularizing the weights.
+        reg_decay = (1.0 - (eta * lmbda / len(data)))
+        
         # Randomly shuffle the training data and split it into batches.
         numpy.random.shuffle(data)
         batches = self.make_batches(data, batch_size)
@@ -211,10 +207,11 @@ class NeuralNet(object):
             delta_b = [((rho * mdb) + (eta * gb)) for mdb, gb in zip(mem_db, grad_b)]
             mem_dW = [dw for dw in delta_W]
             mem_db = [db for db in delta_b]
-            self.weights = [(w - dw) for w, dw in zip(self.weights, delta_W)]
+            #self.weights = [(w - dw) for w, dw in zip(self.weights, delta_W)]
+            self.weights = [(reg_decay * w - dw) for w, dw in zip(self.weights, delta_W)]
             self.biases = [(b - db) for b, db in zip(self.biases, delta_b)]
 
-    def gd(self, data, batch_size, eta=1.0, gamma=0.0, rho=0.9, epsilon=1e-8):
+    def gd(self, data, batch_size, eta=1.0, gamma=0.0, lmbda=0.5, rho=0.9, epsilon=1e-8):
         """Adjusts the models weights to fit the given training data using a
         full batch gradient descent optimization method.
         """
@@ -268,8 +265,6 @@ class NeuralNet(object):
         zs = []
         hs = [x]
         for i in xrange(self.num_layers-1):
-            mask = numpy.random.binomial(1, 1.0 - self.dropout, size=ws[i].shape)
-            ws[i] = ws[i] * mask
             z = numpy.dot(ws[i], hs[-1]) + bs[i]
             h = self.activation(z)
             zs.append(z)
@@ -333,10 +328,7 @@ class NeuralNet(object):
         """
         a = x
         for w, b in zip(self.weights, self.biases):
-            adjusted_w = w * (1 - self.dropout)
-
-            #z = numpy.dot(w, a) + b
-            z = numpy.dot(adjusted_w, a) + b
+            z = numpy.dot(w, a) + b
             a = self.activation(z)
         
         return a
@@ -350,7 +342,6 @@ class NeuralNet(object):
         """
         loss = 0.0
         correct = 0.0
-        total = len(data)
         for x, t in data:
             # make a prediction for the current data point
             y = self.predict(x)
@@ -362,19 +353,19 @@ class NeuralNet(object):
             if self.is_match(y, t):
                 correct += 1.0
         
-        # average metrics across all data points        
-        loss = loss / total
-        acc = correct / total
+        n = len(data)
+        loss = loss / n
+        acc = correct / len(data)
         
         return loss, acc
 
 class ClassNet(NeuralNet):
-    def __init__(self, layers, dropout=0.0, name='ClassNet'):
+    def __init__(self, layers, name='ClassNet'):
         """Initializes a new classification neural network.
         Arguments
             layers - A set of sizes for each layer in the network.
         """
-        super(ClassNet, self).__init__(layers, dropout)
+        super(ClassNet, self).__init__(layers)
     
     def activation(self, z):
         """Applies a non-linearity function (sigmoid) to determine neuron
@@ -396,7 +387,8 @@ class ClassNet(NeuralNet):
             t: The true target value.
         Returns a error value for the prediction.
         """
-        return numpy.sum(-numpy.log(y[t==1])) + numpy.sum(-numpy.log(1.0 - y[t==0]))
+        #return numpy.sum(-numpy.log(y[t==1])) + numpy.sum(-numpy.log(1.0 - y[t==0]))
+        return numpy.sum(-t*numpy.log(y) - (1 - t) * numpy.log(1.0 - y))
     
     def error_deriv(self, y, t):
         """Computes the derivative of the error function.
@@ -405,7 +397,10 @@ class ClassNet(NeuralNet):
             t: The true target value.
         Returns a value for the derivative of the error.
         """
-        return (y - t) / ((1 - y) * y)
+        return (y - t)
+    
+    def regularized_error(self, w, y, t):
+        return self.error(y, t)
 
     def is_match(self, y, t):
         """Determines if a prediction matches the truth.
@@ -418,12 +413,12 @@ class ClassNet(NeuralNet):
 
 
 class RegressNet(NeuralNet):
-    def __init__(self, layers, dropout=0.0, name='RegressNet'):
+    def __init__(self, layers, name='RegressNet'):
         """Initializes a new regression neural network.
         Arguments
             layers - A set of sizes for each layer in the network.
         """
-        super(RegressNet, self).__init__(layers, dropout)
+        super(RegressNet, self).__init__(layers)
         self.epsilon = 1e-5
 
     def get_epsilon(self):
