@@ -7,9 +7,11 @@ Created on Tue Apr 04 23:10:38 2017
 
 import csv
 import getopt
+import matplotlib.cbook
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
+import warnings
 from housing_data import HousingData
 from neural_net import ClassNet
 from neural_net import RegressNet
@@ -24,10 +26,10 @@ class Experiment(object):
         """
         print('')
         print('Loading data.')
-        self.sources = [#HousingData('Data/Nashville_processed.csv', name='Nashville'),
+        self.sources = [HousingData('Data/Nashville_processed.csv', name='Nashville'),
                         #HousingData('Data/kingcounty_processed.csv', name='KingCounty'),
                         #HousingData('Data/redfin_processed.csv', name='GrandRapids'),
-                        HousingData('Data/art_processed.csv', name='ART')
+                        #HousingData('Data/art_processed.csv', name='ART')
                        ]
         
         self.ifigure = plt.figure(0)
@@ -197,10 +199,10 @@ class Experiment(object):
                 self.ifigure.clf()
                 plt.xlabel('Iteration')
                 plt.ylabel('Loss')
-                plt.legend(loc=4)
                 plt.yscale('log')
                 plt.plot(iters, train_losses, 'r', label='Training Data')
                 plt.plot(iters, test_losses, 'g', label='Test Data')
+                plt.legend(loc=4)
                 plt.pause(0.001)
                 plt.draw()
     
@@ -244,6 +246,11 @@ class Experiment(object):
         plt.show()
 
 def main(argv):
+    # Suppress deprecation warnings. I don't care.
+    warnings.filterwarnings("ignore", category=DeprecationWarning) 
+    warnings.filterwarnings("ignore",
+                            category=matplotlib.cbook.MatplotlibDeprecationWarning) 
+
     experiment = Experiment()
     experiment.run()
     #experiment.cross_validate()
