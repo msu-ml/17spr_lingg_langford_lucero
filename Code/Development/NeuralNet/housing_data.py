@@ -72,16 +72,73 @@ class HousingData(object):
         self.name = name
         self.fields = fields
         self.data = [(X[i], y[i]) for i in xrange(len(X))]
-        self.num_features = X[0].shape[0]        
-       
+
     def get_name(self):
-        return self.name
+        """Gets the name of the data set.
+        """
+        return self.__name
+    def set_name(self, v):
+        """Sets the name of the data set.
+        """
+        self.__name = v
+    name = property(fget=lambda self: self.get_name(),
+                    fset=lambda self, v: self.set_name(v))
+
+    def get_fields(self):
+        """Gets the data fields.
+        """
+        return self.__fields
+    def set_fields(self, v):
+        """Sets the data fields.
+        """
+        self.__fields = v
+    fields = property(fget=lambda self: self.get_fields(),
+                      fset=lambda self, v: self.set_fields(v))
+
+    def get_data(self):
+        """Gets the data set.
+        """
+        return self.__data
+    def set_data(self, v):
+        """Sets the data set.
+        """
+        self.__data = v
+    data = property(fget=lambda self: self.get_data(),
+                    fset=lambda self, v: self.set_data(v))
     
     def get_num_entries(self):
-        return len(self.data)
+        """Gets the number of data entries.
+        """
+        return len(self.__data)
+    num_entries = property(fget=lambda self: self.get_num_entries())
     
     def get_num_features(self):
-        return self.num_features
+        """Gets the number of data features.
+        """
+        return self.__data[0][0].shape[0]
+    num_features = property(fget=lambda self: self.get_num_features())
+    
+    def get_data_max(self):
+        """Gets the max values of the unnormalized data.
+        """
+        return self.__data_max
+    def set_data_max(self, v):
+        """Sets the max values of the unnormalized data
+        """
+        self.__data_max = v
+    data_max = property(fget=lambda self: self.get_data_max(),
+                        fset=lambda self, v: self.set_data_max(v))
+
+    def get_data_min(self):
+        """Gets the min values of the unnormalized data.
+        """
+        return self.__data_min
+    def set_data_min(self, v):
+        """Sets the min values of the unnormalized data
+        """
+        self.__data_min = v
+    data_min = property(fget=lambda self: self.get_data_min(),
+                        fset=lambda self, v: self.set_data_min(v))
     
     def split_data(self, a, b):
         test_size = int(len(self.data) * float(b) / float(a + b))
