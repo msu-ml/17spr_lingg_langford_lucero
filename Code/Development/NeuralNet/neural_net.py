@@ -5,7 +5,7 @@ Created on Fri Mar 10 09:55:15 2017
 @author: Michael Austin Langford
 """
 
-import numpy
+import numpy as np
 import sys
 
 class NeuralNet(object):
@@ -71,8 +71,8 @@ class NeuralNet(object):
     def reset(self):
         """Resets the weights of the network.
         """
-        self.biases = [numpy.random.randn(m, 1) for m in self.layers[1:]]
-        self.weights = [numpy.random.randn(m, n)
+        self.biases = [np.random.randn(m, 1) for m in self.layers[1:]]
+        self.weights = [np.random.randn(m, n)
                         for n, m in zip(self.layers[:-1], self.layers[1:])]
 
     def train(self,
@@ -124,8 +124,8 @@ class NeuralNet(object):
             test_loss, test_acc = self.evaluate(data_test)
             if best_loss is None or test_loss < best_loss:
                 best_loss = test_loss
-                best_W = [numpy.copy(w) for w in self.weights]
-                best_b = [numpy.copy(b) for b in self.biases]
+                best_W = [np.copy(w) for w in self.weights]
+                best_b = [np.copy(b) for b in self.biases]
             results.append((i, train_loss, train_acc, test_loss, test_acc))
             if not output is None:
                 output(results)
@@ -142,20 +142,20 @@ class NeuralNet(object):
         eps = 1e-8
         
         # Randomly shuffle the training data and split it into batches.
-        numpy.random.shuffle(data)
+        np.random.shuffle(data)
         batches = self.make_batches(data, batch_size)
             
         # Get gradient for each batch and adjust the weights.
-        mem_gW = [numpy.zeros(w.shape) for w in self.weights]
-        mem_gb = [numpy.zeros(b.shape) for b in self.biases]
-        mem_dW = [numpy.zeros(w.shape) for w in self.weights]
-        mem_db = [numpy.zeros(b.shape) for b in self.biases]
+        mem_gW = [np.zeros(w.shape) for w in self.weights]
+        mem_gb = [np.zeros(b.shape) for b in self.biases]
+        mem_dW = [np.zeros(w.shape) for w in self.weights]
+        mem_db = [np.zeros(b.shape) for b in self.biases]
         for batch in batches:
             grad_W, grad_b = self.get_batch_gradient(batch)
             mem_gW = [((rho * mgw) + ((1 - rho) * gw**2)) for mgw, gw in zip(mem_gW, grad_W)]
             mem_gb = [((rho * mgb) + ((1 - rho) * gb**2)) for mgb, gb in zip(mem_gb, grad_b)]
-            delta_W = [-(gw * numpy.sqrt(mdw + eps) / numpy.sqrt(mgw + eps)) for gw, mdw, mgw in zip(grad_W, mem_dW, mem_gW)]
-            delta_b = [-(gb * numpy.sqrt(mdb + eps) / numpy.sqrt(mgb + eps)) for gb, mdb, mgb in zip(grad_b, mem_db, mem_gb)]
+            delta_W = [-(gw * np.sqrt(mdw + eps) / np.sqrt(mgw + eps)) for gw, mdw, mgw in zip(grad_W, mem_dW, mem_gW)]
+            delta_b = [-(gb * np.sqrt(mdb + eps) / np.sqrt(mgb + eps)) for gb, mdb, mgb in zip(grad_b, mem_db, mem_gb)]
             mem_dW = [((rho * mdw) + ((1 - rho) * dw**2)) for mdw, dw in zip(mem_dW, delta_W)]
             mem_db = [((rho * mdb) + ((1 - rho) * db**2)) for mdb, db in zip(mem_db, delta_b)]
             self.weights = [(w + dw) for w, dw in zip(self.weights, delta_W)]
@@ -173,18 +173,18 @@ class NeuralNet(object):
         reg_decay = (1.0 - (lr * reg / len(data)))
         
         # Randomly shuffle the training data and split it into batches.
-        numpy.random.shuffle(data)
+        np.random.shuffle(data)
         batches = self.make_batches(data, batch_size)
             
         # Get gradient for each batch and adjust the weights.
-        mem_gW = [numpy.zeros(w.shape) for w in self.weights]
-        mem_gb = [numpy.zeros(b.shape) for b in self.biases]
+        mem_gW = [np.zeros(w.shape) for w in self.weights]
+        mem_gb = [np.zeros(b.shape) for b in self.biases]
         for batch in batches:
             grad_W, grad_b = self.get_batch_gradient(batch)
             mem_gW = [(mw + gw**2) for mw, gw in zip(mem_gW, grad_W)]
             mem_gb = [(mb + gb**2) for mb, gb in zip(mem_gb, grad_b)]
-            delta_W = [-(gw * lr / numpy.sqrt(mgw + eps)) for gw, mgw in zip(grad_W, mem_gW)]
-            delta_b = [-(gb * lr / numpy.sqrt(mgb + eps)) for gb, mgb in zip(grad_b, mem_gb)]
+            delta_W = [-(gw * lr / np.sqrt(mgw + eps)) for gw, mgw in zip(grad_W, mem_gW)]
+            delta_b = [-(gb * lr / np.sqrt(mgb + eps)) for gb, mgb in zip(grad_b, mem_gb)]
             self.weights = [(reg_decay * w + dw) for w, dw in zip(self.weights, delta_W)]
             self.biases = [(b + db) for b, db in zip(self.biases,  delta_b)]
 
@@ -199,10 +199,11 @@ class NeuralNet(object):
         reg_decay = (1.0 - (lr * reg / len(data)))
         
         # Randomly shuffle the training data and split it into batches.
-        numpy.random.shuffle(data)
+        np.random.shuffle(data)
         batches = self.make_batches(data, batch_size)
-        mem_dW = [numpy.zeros(w.shape) for w in self.weights]
-        mem_db = [numpy.zeros(b.shape) for b in self.biases]
+        
+        mem_dW = [np.zeros(w.shape) for w in self.weights]
+        mem_db = [np.zeros(b.shape) for b in self.biases]
         for batch in batches:
             grad_W, grad_b = self.get_batch_gradient(batch)
             delta_W = [((rho * mdw) + (lr * gw)) for mdw, gw in zip(mem_dW, grad_W)]
@@ -240,8 +241,8 @@ class NeuralNet(object):
             batch - A batch of data.
         Returns the average gradient for the given batch.
         """
-        batch_grad_W = [numpy.zeros(w.shape) for w in self.weights]
-        batch_grad_b = [numpy.zeros(b.shape) for b in self.biases]
+        batch_grad_W = [np.zeros(w.shape) for w in self.weights]
+        batch_grad_b = [np.zeros(b.shape) for b in self.biases]
         for x, t in batch:
             grad_W, grad_b = self.back_propagation(x, t)
             batch_grad_W = [(bgw + gw) for bgw, gw in zip(batch_grad_W, grad_W)]
@@ -268,33 +269,33 @@ class NeuralNet(object):
         zs = []
         hs = [x]
         for i in xrange(self.num_layers-1):
-            z = numpy.dot(ws[i], hs[-1]) + bs[i]
+            z = np.dot(ws[i], hs[-1]) + bs[i]
             h = self.activation(z)
             zs.append(z)
             hs.append(h)
         y = hs[-1]
             
         # backward pass
-        grad_W = [numpy.zeros(w.shape) for w in self.weights]
-        grad_b = [numpy.zeros(b.shape) for b in self.biases]
+        grad_W = [np.zeros(w.shape) for w in self.weights]
+        grad_b = [np.zeros(b.shape) for b in self.biases]
         delta_h = self.error_deriv(y, t)
         for i in xrange(1, self.num_layers):
             delta_h = delta_h * self.activation_deriv(zs[-i])
-            grad_W[-i] = numpy.dot(delta_h, hs[-i-1].T)
+            grad_W[-i] = np.dot(delta_h, hs[-i-1].T)
             grad_b[-i] = delta_h
-            delta_h = numpy.dot(ws[-i].T, delta_h)
+            delta_h = np.dot(ws[-i].T, delta_h)
 
         return grad_W, grad_b
     
     def activation(self, z):
         """Applies a non-linearity function to determine neuron activation.
         """
-        return numpy.nan
+        return np.nan
     
     def activation_deriv(self, z):
         """Computes the derivative of the activation function.
         """
-        return numpy.nan
+        return np.nan
     
     def error(self, y, t):
         """Computes the error of a prediction using an objective function.
@@ -303,7 +304,7 @@ class NeuralNet(object):
             t: The true target value.
         Returns a error value for the prediction.
         """
-        return numpy.nan
+        return np.nan
     
     def error_deriv(self, y, t):
         """Computes the derivative of the error function.
@@ -312,7 +313,7 @@ class NeuralNet(object):
             t: The true target value.
         Returns a value for the derivative of the error.
         """
-        return numpy.nan
+        return np.nan
     
     def is_match(self, y, t):
         """Determines if a prediction matches the truth.
@@ -331,7 +332,7 @@ class NeuralNet(object):
         """
         a = x
         for w, b in zip(self.weights, self.biases):
-            z = numpy.dot(w, a) + b
+            z = np.dot(w, a) + b
             a = self.activation(z)
         
         return a
@@ -374,13 +375,13 @@ class ClassNet(NeuralNet):
         """Applies a non-linearity function (sigmoid) to determine neuron
         activation.
         """
-        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
+        sigmoid = lambda z: 1.0 / (1.0 + np.exp(-z))
         return sigmoid(z)
     
     def activation_deriv(self, z):
         """Computes the derivative of the activation function (sigmoid).
         """
-        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
+        sigmoid = lambda z: 1.0 / (1.0 + np.exp(-z))
         return sigmoid(z) * (1 - sigmoid(z))
     
     def error(self, y, t):
@@ -390,8 +391,8 @@ class ClassNet(NeuralNet):
             t: The true target value.
         Returns a error value for the prediction.
         """
-        #return numpy.sum(-numpy.log(y[t==1])) + numpy.sum(-numpy.log(1.0 - y[t==0]))
-        return numpy.sum(-t*numpy.log(y) - (1 - t) * numpy.log(1.0 - y))
+        #return np.sum(-np.log(y[t==1])) + np.sum(-np.log(1.0 - y[t==0]))
+        return np.sum(-t*np.log(y) - (1 - t) * np.log(1.0 - y))
     
     def error_deriv(self, y, t):
         """Computes the derivative of the error function.
@@ -412,7 +413,7 @@ class ClassNet(NeuralNet):
             t: The true target value.
         Returns true if the prediction matches the Truth
         """
-        return numpy.argmax(y) == numpy.argmax(t)
+        return np.argmax(y) == np.argmax(t)
 
 
 class RegressNet(NeuralNet):
@@ -448,13 +449,13 @@ class RegressNet(NeuralNet):
         """Applies a non-linearity function (sigmoid) to determine neuron
         activation.
         """
-        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
+        sigmoid = lambda z: 1.0 / (1.0 + np.exp(-z))
         return sigmoid(z)
     
     def activation_deriv(self, z):
         """Computes the derivative of the activation function (sigmoid).
         """
-        sigmoid = lambda z: 1.0 / (1.0 + numpy.exp(-z))
+        sigmoid = lambda z: 1.0 / (1.0 + np.exp(-z))
         return sigmoid(z) * (1 - sigmoid(z))
 
     def error(self, y, t):

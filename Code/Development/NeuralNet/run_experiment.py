@@ -7,16 +7,16 @@ Created on Tue Apr 04 23:10:38 2017
 
 import csv
 import getopt
-import matplotlib.pyplot
-import numpy
-import random
+import matplotlib.pyplot as plt
+import numpy as np
 import sys
 from housing_data import HousingData
-from neural_net import ClassNet, RegressNet
+from neural_net import ClassNet
+from neural_net import RegressNet
 
 # set RNG with a specific seed
 seed = 69
-numpy.random.seed(seed)
+np.random.seed(seed)
 
 class Experiment(object):
     def __init__(self):
@@ -76,7 +76,7 @@ class Experiment(object):
                             data_train,
                             data_test,
                             optimizer=network.sgd,
-                            num_iters=10,
+                            num_iters=1000,
                             batch_size=10,
                             learning_rate=0.1,
                             regularization=0.5,
@@ -93,8 +93,8 @@ class Experiment(object):
     def cross_validate(self):
         candidates = []
         for i in xrange(100):
-            n = numpy.int(numpy.random.rand() * 9 + 1)
-            r = numpy.random.randint(5, 50, size=(n))
+            n = np.int(np.random.rand() * 9 + 1)
+            r = np.random.randint(5, 50, size=(n))
             candidates.append(r.tolist())
              
         num_folds = 3
@@ -105,7 +105,7 @@ class Experiment(object):
             data_train, data_test = data.split_data(2, 1)
             self.display_data(data, data_train, data_test)
                 
-            fold_size = numpy.int(len(data_train) / num_folds)
+            fold_size = np.int(len(data_train) / num_folds)
             for candidate in candidates:
                 print('')
                 print('Model ' + '-'*60)
@@ -144,7 +144,7 @@ class Experiment(object):
                 record.append((candidate, train_loss_avg, test_loss_avg))
                 print('Average: training [loss={:09.6f}] validating [loss={:09.6f}]'.format(train_loss_avg, test_loss_avg))
 
-            record = numpy.asarray(record)
+            record = np.asarray(record)
             record = record[record[:,2].argsort()]
             with open('cross_validate_{}.csv'.format(data.name), 'wb') as out_file:
                 writer = csv.writer(out_file)
@@ -183,34 +183,34 @@ class Experiment(object):
             results - A set of results for the execution of the neural network.
         """
         iters, train_losses, train_accs, test_losses, test_accs = zip(*results)
-        matplotlib.pyplot.figure(1)
-        matplotlib.pyplot.title(data.name)
-        matplotlib.pyplot.plot(iters, train_accs, 'r', label='Training Data')
-        matplotlib.pyplot.plot(iters, test_accs, 'g', label='Test Data')
-        matplotlib.pyplot.xlabel('Iteration')
-        matplotlib.pyplot.ylabel('Accuracy')
-        matplotlib.pyplot.legend(loc=4)
-        matplotlib.pyplot.savefig('fig_accuracy.jpg')
-        matplotlib.pyplot.show()
-        matplotlib.pyplot.figure(2)
-        matplotlib.pyplot.title(data.name)
-        matplotlib.pyplot.plot(iters, train_losses, 'r', label='Training Data')
-        matplotlib.pyplot.plot(iters, test_losses, 'g', label='Test Data')
-        matplotlib.pyplot.xlabel('Iteration')
-        matplotlib.pyplot.ylabel('Loss')
-        matplotlib.pyplot.legend(loc=1)
-        matplotlib.pyplot.savefig('fig_loss.jpg')
-        matplotlib.pyplot.show()
-        matplotlib.pyplot.figure(3)
-        matplotlib.pyplot.yscale('log')
-        matplotlib.pyplot.title(data.name)
-        matplotlib.pyplot.plot(iters, train_losses, 'r', label='Training Data')
-        matplotlib.pyplot.plot(iters, test_losses, 'g', label='Test Data')
-        matplotlib.pyplot.xlabel('Iteration')
-        matplotlib.pyplot.ylabel('Loss')
-        matplotlib.pyplot.legend(loc=1)
-        matplotlib.pyplot.savefig('fig_loss_logscale.jpg')
-        matplotlib.pyplot.show()
+        plt.figure(1)
+        plt.title(data.name)
+        plt.plot(iters, train_accs, 'r', label='Training Data')
+        plt.plot(iters, test_accs, 'g', label='Test Data')
+        plt.xlabel('Iteration')
+        plt.ylabel('Accuracy')
+        plt.legend(loc=4)
+        plt.savefig('fig_accuracy.jpg')
+        plt.show()
+        plt.figure(2)
+        plt.title(data.name)
+        plt.plot(iters, train_losses, 'r', label='Training Data')
+        plt.plot(iters, test_losses, 'g', label='Test Data')
+        plt.xlabel('Iteration')
+        plt.ylabel('Loss')
+        plt.legend(loc=1)
+        plt.savefig('fig_loss.jpg')
+        plt.show()
+        plt.figure(3)
+        plt.yscale('log')
+        plt.title(data.name)
+        plt.plot(iters, train_losses, 'r', label='Training Data')
+        plt.plot(iters, test_losses, 'g', label='Test Data')
+        plt.xlabel('Iteration')
+        plt.ylabel('Loss')
+        plt.legend(loc=1)
+        plt.savefig('fig_loss_logscale.jpg')
+        plt.show()
 
 def main(argv):
     experiment = Experiment()
