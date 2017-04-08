@@ -26,10 +26,10 @@ class Experiment(object):
         """
         print('')
         print('Loading data.')
-        self.sources = [HousingData('Data/Nashville_processed.csv', name='Nashville'),
+        self.sources = [#HousingData('Data/Nashville_processed.csv', name='Nashville'),
                         #HousingData('Data/kingcounty_processed.csv', name='KingCounty'),
                         #HousingData('Data/redfin_processed.csv', name='GrandRapids'),
-                        #HousingData('Data/art_processed.csv', name='ART')
+                        HousingData('Data/art_processed.csv', name='ART')
                        ]
         
         self.ifigure = plt.figure(0)
@@ -197,12 +197,18 @@ class Experiment(object):
             # Plot progress.
             if not self.ifigure is None:
                 self.ifigure.clf()
+                plt.subplot(2, 1, 1)
+                plt.ylabel('Accuracy')
+                plt.plot(iters, train_accs, 'r', label='Training Data')
+                plt.plot(iters, test_accs, 'g', label='Test Data')
+                plt.legend(loc=4)
+                plt.subplot(2, 1, 2)
                 plt.xlabel('Iteration')
                 plt.ylabel('Loss')
                 plt.yscale('log')
                 plt.plot(iters, train_losses, 'r', label='Training Data')
                 plt.plot(iters, test_losses, 'g', label='Test Data')
-                plt.legend(loc=4)
+                plt.legend(loc=1)
                 plt.pause(0.001)
                 plt.draw()
     
@@ -224,7 +230,7 @@ class Experiment(object):
         plt.ylabel('Accuracy')
         plt.legend(loc=4)
         plt.savefig('fig_accuracy.jpg')
-        plt.show()
+        plt.close()
         plt.figure(2)
         plt.title(data.name)
         plt.plot(iters, train_losses, 'r', label='Training Data')
@@ -233,7 +239,7 @@ class Experiment(object):
         plt.ylabel('Loss')
         plt.legend(loc=1)
         plt.savefig('fig_loss.jpg')
-        plt.show()
+        plt.close()
         plt.figure(3)
         plt.yscale('log')
         plt.title(data.name)
@@ -243,7 +249,7 @@ class Experiment(object):
         plt.ylabel('Loss')
         plt.legend(loc=1)
         plt.savefig('fig_loss_logscale.jpg')
-        plt.show()
+        plt.close()
 
 def main(argv):
     # Suppress deprecation warnings. I don't care.
