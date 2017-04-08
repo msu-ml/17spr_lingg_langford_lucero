@@ -22,13 +22,38 @@ class Experiment(object):
     def __init__(self):
         """Creates an application for managing overall execution.
         """
-        print('Processing data.')
+        print('')
+        print('Loading data.')
         self.sources = [#HousingData('Data/Nashville_processed.csv', name='Nashville'),
                         #HousingData('Data/kingcounty_processed.csv', name='KingCounty'),
                         #HousingData('Data/redfin_processed.csv', name='GrandRapids'),
                         HousingData('Data/art_processed.csv', name='ART')
                        ]
         
+        self.ifigure = plt.figure(0)
+
+    def get_ifigure(self):
+        """Gets the interactive plot figure.
+        """
+        return self.__ifigure
+    def set_ifigure(self, v):
+        """Sets the interactive plot figure.
+        """
+        self.__ifigure = v
+    ifigure = property(fget=lambda self: self.get_ifigure(),
+                       fset=lambda self, v: self.set_ifigure(v))
+
+    def iplot_test(self):
+        """Gets the interactive plot for test data.
+        """
+        return self.__iplot_test
+    def set_iplot_test(self, v):
+        """Sets the interactive plot for test data.
+        """
+        self.__iplot_test = v
+    iplot_test = property(fget=lambda self: self.get_iplot_test(),
+                          fset=lambda self, v: self.set_iplot_test(v))
+
     def run(self):
         """Executes the application.
         """
@@ -41,12 +66,7 @@ class Experiment(object):
             """Classification network
             print('')
             print('Model ' + '-'*60)
-            n_inputs = data.num_features
-            n_hidden1 = 35
-            n_hidden2 = 25
-            n_hidden3 = 15
-            n_outputs = 3
-            layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
+            layers = [data.num_features, 100, 1]
             network = ClassNet(layers)
             classes = data.create_classes(n_outputs)
             data_train = data.classify_targets(data_train, classes)
@@ -57,13 +77,7 @@ class Experiment(object):
             """
             print('')
             print('Model ' + '-'*60)
-            n_inputs = data.num_features
-            n_hidden1 = 35
-            n_hidden2 = 25
-            n_hidden3 = 15
-            n_outputs = 1
-            layers = [n_inputs, n_hidden1, n_hidden2, n_hidden3, n_outputs]
-            layers = [n_inputs, 100, n_outputs]
+            layers = [data.num_features, 100, 1]
             network = RegressNet(layers)
             y_min = data.unnormalize_target(0.0)
             y_max = data.unnormalize_target(1.0)
@@ -72,6 +86,7 @@ class Experiment(object):
             
             print('')
             print('Training model.')
+            plt.ion()
             results = network.train(
                             data_train,
                             data_test,
@@ -82,6 +97,7 @@ class Experiment(object):
                             regularization=0.5,
                             rho=0.9,
                             output=self.display_training)
+            plt.ioff()
             self.plot(data, results)
             
             print('')
@@ -91,11 +107,7 @@ class Experiment(object):
         print('Done.')
 
     def cross_validate(self):
-        candidates = []
-        for i in xrange(100):
-            n = np.int(np.random.rand() * 9 + 1)
-            r = np.random.randint(5, 50, size=(n))
-            candidates.append(r.tolist())
+        candidates = [self.create_candidate() for _ in xrange(100)]
              
         num_folds = 3
         record = []
@@ -130,7 +142,7 @@ class Experiment(object):
                                 fold_train,
                                 fold_test,
                                 optimizer=network.sgd,
-                                num_iters=200,
+                                num_iters=10,
                                 batch_size=10,
                                 learning_rate=0.1,
                                 regularization=0.5,
@@ -150,6 +162,11 @@ class Experiment(object):
                 writer = csv.writer(out_file)
                 writer.writerows(record)
     
+    def create_candidate(self):
+        n = np.int(np.random.rand() * 9 + 1)
+        r = np.random.randint(5, 50, size=(n))
+        return r.tolist()
+    
     def display_data(self, data, data_train=None, data_test=None):
         print('Data Source: {}'.format(data.name))
         print('Total features: {}'.format(data.num_features))
@@ -167,11 +184,25 @@ class Experiment(object):
     
     def display_training(self, results):
         if not results is None and len(results) > 0:
-            i, train_loss, train_acc, test_loss, test_acc = results[-1]
-            print_out = '[{: 4d}] '.format(i)
-            print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(train_loss, train_acc * 100.0)
-            print_out += 'validating [loss={:09.6f} acc={:05.2f}]'.format(test_loss, test_acc * 100.0)
+            iters, train_losses, train_accs, test_losses, test_accs = zip(*results)
+            
+            # Print progress to console.
+            print_out = '[{: 4d}] '.format(iters[-1])
+            print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(train_losses[-1], train_accs[-1] * 100.0)
+            print_out += 'validating [loss={:09.6f} acc={:05.2f}]'.format(test_losses[-1], test_accs[-1] * 100.0)
             print(print_out)
+            
+            # Plot progress.
+            if not self.ifigure is None:
+                self.ifigure.clf()
+                plt.xlabel('Iteration')
+                plt.ylabel('Loss')
+                plt.legend(loc=4)
+                plt.yscale('log')
+                plt.plot(iters, train_losses, 'r', label='Training Data')
+                plt.plot(iters, test_losses, 'g', label='Test Data')
+                plt.pause(0.001)
+                plt.draw()
     
     def display_evaluation(self, results):
         loss, acc = results
