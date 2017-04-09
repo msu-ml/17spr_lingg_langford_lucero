@@ -157,14 +157,14 @@ class HousingData(object):
             classes = [classes[i] for i in xrange(num_classes)]
         return classes
 
-    def classify_targets(self, data, classes):
+    def encode_targets(self, data, classes):
         temp = zip(*data)
         X = temp[0]
-        y = [self.classify_target(y, classes) for y in temp[1]]
+        y = [self.encode_target(y, classes) for y in temp[1]]
         data = [(X[i], y[i]) for i in xrange(len(data))]
         return data
     
-    def classify_target(self, target, classes):
+    def encode_target(self, target, classes):
         target_class = 0
         for j in xrange(len(classes)):
             if target > classes[j]:

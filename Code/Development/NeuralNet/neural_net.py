@@ -85,19 +85,19 @@ class NeuralNet(object):
               momentum=0.0,
               regularization=0.0,
               rho=0.9,
+              early_stopping = True,
+              min_iters=10,
               output=None):
         """Trains the neural network, using Adaptive Gradient Descent (Adagrad)
         for optimizing the model's weights.
         Arguments
             data_train - Data that the model will be fitted to.
             data_test - Data that the model will only be evaluated against.
-            optimizer - A gradient descent method for optimization.
+            optimizer - A gradient descent optimizer.
             num_iters - The number of iterations to train for.
             batch_size - Number of data points to process in each batch.
-            learning_rate - The learning rate for the gradient descent optimizer.
-            regularization - Weight regularization term.
-            momentum - The momentum for the gradient descent optimizer.
-            rho - Parameter for adadelta
+            early_stopping - If set, training will stop when negligible change is
+                             observed in the test loss.
             output - A function to display the training progress.
         Returns a collection of performance results.
         """
@@ -111,13 +111,8 @@ class NeuralNet(object):
         # Adaptive Gradient Descent (Adagrad)
         results = []
         for i in xrange(num_iters):
-            # Fit the model to the training data.            
-            optimizer(data_train,
-                      batch_size,
-                      learning_rate=learning_rate,
-                      momentum=momentum,
-                      regularization=regularization,
-                      rho=rho)
+            # Fit the model to the training data.
+            optimizer.optimize(self, data_train, batch_size)
 
             # Evaluate performance on training and test data.
             train_loss, train_acc = self.evaluate(data_train)
@@ -129,128 +124,24 @@ class NeuralNet(object):
             results.append((i, train_loss, train_acc, test_loss, test_acc))
             if not output is None:
                 output(results)
+            
+            if early_stopping:
+                # Look at the amount of change over the past number of iterations.
+                # Stop early if the change is negligible.
+                change_window = min_iters
+                if len(results) > change_window:
+                    change = 0.0
+                    for j in xrange(change_window):
+                        _, loss1, _, _, _ = results[-j]
+                        _, loss2, _, _, _ = results[-j-1]
+                        change += loss1 - loss2
+                    if np.abs(change) < 1e-6:
+                        break;
 
         self.weights = best_W
         self.biases = best_b
 
         return results
-    
-    def adadelta(self, data, batch_size, learning_rate=1.0, momentum=0.0, regularization=0.0, rho=0.9):
-        """Adjusts the models weights to fit the given training data using an
-        ADADELTA optimization method.
-        """
-        eps = 1e-8
-        
-        # Randomly shuffle the training data and split it into batches.
-        np.random.shuffle(data)
-        batches = self.make_batches(data, batch_size)
-            
-        # Get gradient for each batch and adjust the weights.
-        mem_gW = [np.zeros(w.shape) for w in self.weights]
-        mem_gb = [np.zeros(b.shape) for b in self.biases]
-        mem_dW = [np.zeros(w.shape) for w in self.weights]
-        mem_db = [np.zeros(b.shape) for b in self.biases]
-        for batch in batches:
-            grad_W, grad_b = self.get_batch_gradient(batch)
-            mem_gW = [((rho * mgw) + ((1 - rho) * gw**2)) for mgw, gw in zip(mem_gW, grad_W)]
-            mem_gb = [((rho * mgb) + ((1 - rho) * gb**2)) for mgb, gb in zip(mem_gb, grad_b)]
-            delta_W = [-(gw * np.sqrt(mdw + eps) / np.sqrt(mgw + eps)) for gw, mdw, mgw in zip(grad_W, mem_dW, mem_gW)]
-            delta_b = [-(gb * np.sqrt(mdb + eps) / np.sqrt(mgb + eps)) for gb, mdb, mgb in zip(grad_b, mem_db, mem_gb)]
-            mem_dW = [((rho * mdw) + ((1 - rho) * dw**2)) for mdw, dw in zip(mem_dW, delta_W)]
-            mem_db = [((rho * mdb) + ((1 - rho) * db**2)) for mdb, db in zip(mem_db, delta_b)]
-            self.weights = [(w + dw) for w, dw in zip(self.weights, delta_W)]
-            self.biases = [(b + db) for b, db in zip(self.biases,  delta_b)]
-    
-    def adagrad(self, data, batch_size, learning_rate=1.0, momentum=0.0, regularization=0.0, rho=0.9):
-        """Adjusts the models weights to fit the given training data using an
-        ADAGRAD optimization method.
-        """
-        lr = learning_rate
-        reg = regularization
-        eps = 1e-8
-        
-        # Term for regularizing the weights.
-        reg_decay = (1.0 - (lr * reg / len(data)))
-        
-        # Randomly shuffle the training data and split it into batches.
-        np.random.shuffle(data)
-        batches = self.make_batches(data, batch_size)
-            
-        # Get gradient for each batch and adjust the weights.
-        mem_gW = [np.zeros(w.shape) for w in self.weights]
-        mem_gb = [np.zeros(b.shape) for b in self.biases]
-        for batch in batches:
-            grad_W, grad_b = self.get_batch_gradient(batch)
-            mem_gW = [(mw + gw**2) for mw, gw in zip(mem_gW, grad_W)]
-            mem_gb = [(mb + gb**2) for mb, gb in zip(mem_gb, grad_b)]
-            delta_W = [-(gw * lr / np.sqrt(mgw + eps)) for gw, mgw in zip(grad_W, mem_gW)]
-            delta_b = [-(gb * lr / np.sqrt(mgb + eps)) for gb, mgb in zip(grad_b, mem_gb)]
-            self.weights = [(reg_decay * w + dw) for w, dw in zip(self.weights, delta_W)]
-            self.biases = [(b + db) for b, db in zip(self.biases,  delta_b)]
-
-    def sgd(self, data, batch_size, learning_rate=1.0, momentum=0.0, regularization=0.0, rho=0.9):
-        """Adjusts the models weights to fit the given training data using a
-        stochastic gradient descent (SGD) optimization method.
-        """
-        lr = learning_rate
-        reg = regularization
-        
-        # Term for regularizing the weights.
-        reg_decay = (1.0 - (lr * reg / len(data)))
-        
-        # Randomly shuffle the training data and split it into batches.
-        np.random.shuffle(data)
-        batches = self.make_batches(data, batch_size)
-        
-        mem_dW = [np.zeros(w.shape) for w in self.weights]
-        mem_db = [np.zeros(b.shape) for b in self.biases]
-        for batch in batches:
-            grad_W, grad_b = self.get_batch_gradient(batch)
-            delta_W = [((rho * mdw) + (lr * gw)) for mdw, gw in zip(mem_dW, grad_W)]
-            delta_b = [((rho * mdb) + (lr * gb)) for mdb, gb in zip(mem_db, grad_b)]
-            mem_dW = [dw for dw in delta_W]
-            mem_db = [db for db in delta_b]
-            #self.weights = [(w - dw) for w, dw in zip(self.weights, delta_W)]
-            self.weights = [(reg_decay * w - dw) for w, dw in zip(self.weights, delta_W)]
-            self.biases = [(b - db) for b, db in zip(self.biases, delta_b)]
-
-    def gd(self, data, batch_size, learning_rate=1.0, momentum=0.0, regularization=0.0, rho=0.9):
-        """Adjusts the models weights to fit the given training data using a
-        full batch gradient descent optimization method.
-        """
-        lr = learning_rate
-        grad_W, grad_b = self.get_batch_gradient(data)
-        delta_W = [-(lr * gw) for gw in grad_W]
-        delta_b = [-(lr * gb) for gb in grad_b]
-        self.weights = [(w + dw) for w, dw in zip(self.weights, delta_W)]
-        self.biases = [(b + db) for b, db in zip(self.biases, delta_b)]
-
-    def make_batches(self, data, batch_size):
-        """Used to create a collection of batches from a set of data.
-        Arguments
-            data - A data set to divide into batches.
-            batch_size - The number of data points in each batch.
-        Returns a collection of batches for iteration.
-        """
-        for i in xrange(0, len(data), batch_size):
-            yield data[i:i+batch_size]
-    
-    def get_batch_gradient(self, batch):
-        """ Compute the average gradient for the batch using back propagation.
-        Arguments:
-            batch - A batch of data.
-        Returns the average gradient for the given batch.
-        """
-        batch_grad_W = [np.zeros(w.shape) for w in self.weights]
-        batch_grad_b = [np.zeros(b.shape) for b in self.biases]
-        for x, t in batch:
-            grad_W, grad_b = self.back_propagation(x, t)
-            batch_grad_W = [(bgw + gw) for bgw, gw in zip(batch_grad_W, grad_W)]
-            batch_grad_b = [(bgb + gb) for bgb, gb in zip(batch_grad_b, grad_b)]
-        batch_grad_W = [(bgw / len(batch)) for bgw in batch_grad_W]
-        batch_grad_b = [(bgb / len(batch)) for bgb in batch_grad_b]
-        
-        return batch_grad_W, batch_grad_b
 
     def back_propagation(self, x, t):
         """
@@ -363,13 +254,225 @@ class NeuralNet(object):
         
         return loss, acc
 
+class GradientDescent(object):
+    def __init__(self, learning_rate=1.0):
+        """Initializes a new gradient descent optimizer.
+        Arguments
+            learning_rate - Adjust the intensity of gradient descent.
+        """
+        self.learning_rate = learning_rate
+    
+    def get_learning_rate(self):
+        """Gets the learning rate of the gradient descent.
+        """
+        return self.__learning_rate
+    def set_learning_rate(self, v):
+        """Sets the learning rate of the gradient descent.
+        """
+        self.__learning_rate = v
+    learning_rate = property(fget=lambda self: self.get_learning_rate(),
+                             fset=lambda self, v: self.set_learning_rate(v))
+    
+    def optimize(self, network, data, batch_size):
+        """Adjusts the models weights to fit the given training data using a
+        full batch gradient descent optimization method.
+        """
+        eta = self.learning_rate
+        grad_W, grad_b = self.get_batch_gradient(network, data)
+        delta_W = [-(eta * gw) for gw in grad_W]
+        delta_b = [-(eta * gb) for gb in grad_b]
+        network.weights = [(w + dw) for w, dw in zip(network.weights, delta_W)]
+        network.biases = [(b + db) for b, db in zip(network.biases, delta_b)]
+
+    def make_batches(self, data, batch_size):
+        """Used to create a collection of batches from a set of data.
+        Arguments
+            data - A data set to divide into batches.
+            batch_size - The number of data points in each batch.
+        Returns a collection of batches for iteration.
+        """
+        for i in xrange(0, len(data), batch_size):
+            yield data[i:i+batch_size]
+
+    def get_batch_gradient(self, network, batch):
+        """ Compute the average gradient for the batch using back propagation.
+        Arguments:
+            batch - A batch of data.
+        Returns the gradient for the given batch.
+        """
+        batch_grad_W = [np.zeros(w.shape) for w in network.weights]
+        batch_grad_b = [np.zeros(b.shape) for b in network.biases]
+        for x, t in batch:
+            grad_W, grad_b = network.back_propagation(x, t)
+            batch_grad_W = [(bgw + gw) for bgw, gw in zip(batch_grad_W, grad_W)]
+            batch_grad_b = [(bgb + gb) for bgb, gb in zip(batch_grad_b, grad_b)]
+        batch_grad_W = [(bgw / len(batch)) for bgw in batch_grad_W]
+        batch_grad_b = [(bgb / len(batch)) for bgb in batch_grad_b]
+        
+        return batch_grad_W, batch_grad_b
+
+class SGD(GradientDescent):
+    def __init__(self, learning_rate=1.0, momentum=0.0, regularization=0.0):
+        """Initializes a new schoastic gradient descent optimizer.
+        Arguments
+            learning_rate - Adjust the intensity of gradient descent.
+            momentum - Adjusts the momentum of the gradient descent.
+            regularization - Adjusts the amount of L2 regularization for weights.
+        """
+        super(SGD, self).__init__(learning_rate=learning_rate)
+        self.momentum = momentum
+        self.regularization = regularization
+
+    def get_momentum(self):
+        """Gets the momentum of the gradient descent.
+        """
+        return self.__momentum
+    def set_momentum(self, v):
+        """Sets the momentum of the gradient descent.
+        """
+        self.__momentum = v
+    momentum = property(fget=lambda self: self.get_momentum(),
+                        fset=lambda self, v: self.set_momentum(v))
+
+    def get_regularization(self):
+        """Gets the amount of L2 regularization for the gradient descent.
+        """
+        return self.__regularization
+    def set_regularization(self, v):
+        """Sets the amount of L2 regularization for the gradient descent.
+        """
+        self.__regularization = v
+    regularization = property(fget=lambda self: self.get_regularization(),
+                              fset=lambda self, v: self.set_regularization(v))
+
+    def optimize(self, network, data, batch_size):
+        """Adjusts the models weights to fit the given training data using a
+        stochastic gradient descent (SGD) optimization method.
+        """
+        eta = self.learning_rate
+        rho = self.momentum
+        lmbda = self.regularization
+        
+        # Term for regularizing the weights.
+        reg_decay = (1.0 - (eta * lmbda / len(data)))
+        
+        # Randomly shuffle the training data and split it into batches.
+        np.random.shuffle(data)
+        batches = self.make_batches(data, batch_size)
+        
+        mem_dW = [np.zeros(w.shape) for w in network.weights]
+        mem_db = [np.zeros(b.shape) for b in network.biases]
+        for batch in batches:
+            grad_W, grad_b = self.get_batch_gradient(network, batch)
+            delta_W = [((rho * mdw) + (eta * gw)) for mdw, gw in zip(mem_dW, grad_W)]
+            delta_b = [((rho * mdb) + (eta * gb)) for mdb, gb in zip(mem_db, grad_b)]
+            mem_dW = [dw for dw in delta_W]
+            mem_db = [db for db in delta_b]
+            network.weights = [(reg_decay * w - dw) for w, dw in zip(network.weights, delta_W)]
+            network.biases = [(b - db) for b, db in zip(network.biases, delta_b)]
+
+class AdaGrad(GradientDescent):
+    def __init__(self, learning_rate=1.0, regularization=0.0):
+        """Initializes a new AdaGrad gradient descent optimizer.
+        Arguments
+            learning_rate - Adjust the intensity of gradient descent.
+            regularization - Adjusts the amount of L2 regularization for weights.
+        """
+        super(AdaGrad, self).__init__(learning_rate=learning_rate)
+        self.regularization = regularization
+
+    def get_regularization(self):
+        """Gets the amount of L2 regularization for the gradient descent.
+        """
+        return self.__regularization
+    def set_regularization(self, v):
+        """Sets the amount of L2 regularization for the gradient descent.
+        """
+        self.__regularization = v
+    regularization = property(fget=lambda self: self.get_regularization(),
+                              fset=lambda self, v: self.set_regularization(v))
+
+    def optimize(self, network, data, batch_size):
+        """Adjusts the models weights to fit the given training data using an
+        AdaGrad optimization method.
+        """
+        eta = self.learning_rate
+        lmbda = self.regularization
+        eps = 1e-8
+        
+        # Term for regularizing the weights.
+        reg_decay = (1.0 - (eta * lmbda / len(data)))
+        
+        # Randomly shuffle the training data and split it into batches.
+        np.random.shuffle(data)
+        batches = self.make_batches(data, batch_size)
+            
+        # Get gradient for each batch and adjust the weights.
+        mem_gW = [np.zeros(w.shape) for w in network.weights]
+        mem_gb = [np.zeros(b.shape) for b in network.biases]
+        for batch in batches:
+            grad_W, grad_b = self.get_batch_gradient(network, batch)
+            mem_gW = [(mw + gw**2) for mw, gw in zip(mem_gW, grad_W)]
+            mem_gb = [(mb + gb**2) for mb, gb in zip(mem_gb, grad_b)]
+            delta_W = [-(gw * eta / np.sqrt(mgw + eps)) for gw, mgw in zip(grad_W, mem_gW)]
+            delta_b = [-(gb * eta / np.sqrt(mgb + eps)) for gb, mgb in zip(grad_b, mem_gb)]
+            network.weights = [(reg_decay * w + dw) for w, dw in zip(network.weights, delta_W)]
+            network.biases = [(b + db) for b, db in zip(network.biases,  delta_b)]
+
+class AdaDelta(GradientDescent):
+    def __init__(self, scale=0.9):
+        """Initializes a new AdaGrad gradient descent optimizer.
+        Arguments
+            scale - A term to adjust the affect of the AdaDelta algorithm.
+        """
+        super(AdaDelta, self).__init__(learning_rate=0.0)
+        self.scale = scale
+
+    def get_scale(self):
+        """Gets the amount to scale the affect of AdaDelta.
+        """
+        return self.__scale
+    def set_scale(self, v):
+        """Sets the amount to scale the affect of AdaDelta.
+        """
+        self.__scale = v
+    scale = property(fget=lambda self: self.get_scale(),
+                     fset=lambda self, v: self.set_scale(v))
+
+    def optimize(self, network, data, batch_size):
+        """Adjusts the models weights to fit the given training data using an
+        AdaDelta optimization method.
+        """
+        rho = self.scale
+        eps = 1e-8
+        
+        # Randomly shuffle the training data and split it into batches.
+        np.random.shuffle(data)
+        batches = self.make_batches(data, batch_size)
+            
+        # Get gradient for each batch and adjust the weights.
+        mem_gW = [np.zeros(w.shape) for w in network.weights]
+        mem_gb = [np.zeros(b.shape) for b in network.biases]
+        mem_dW = [np.zeros(w.shape) for w in network.weights]
+        mem_db = [np.zeros(b.shape) for b in network.biases]
+        for batch in batches:
+            grad_W, grad_b = self.get_batch_gradient(network, batch)
+            mem_gW = [((rho * mgw) + ((1 - rho) * gw**2)) for mgw, gw in zip(mem_gW, grad_W)]
+            mem_gb = [((rho * mgb) + ((1 - rho) * gb**2)) for mgb, gb in zip(mem_gb, grad_b)]
+            delta_W = [-(gw * np.sqrt(mdw + eps) / np.sqrt(mgw + eps)) for gw, mdw, mgw in zip(grad_W, mem_dW, mem_gW)]
+            delta_b = [-(gb * np.sqrt(mdb + eps) / np.sqrt(mgb + eps)) for gb, mdb, mgb in zip(grad_b, mem_db, mem_gb)]
+            mem_dW = [((rho * mdw) + ((1 - rho) * dw**2)) for mdw, dw in zip(mem_dW, delta_W)]
+            mem_db = [((rho * mdb) + ((1 - rho) * db**2)) for mdb, db in zip(mem_db, delta_b)]
+            network.weights = [(w + dw) for w, dw in zip(network.weights, delta_W)]
+            network.biases = [(b + db) for b, db in zip(network.biases,  delta_b)]
+
 class ClassNet(NeuralNet):
-    def __init__(self, layers, name='ClassNet'):
+    def __init__(self, layers, name='Classification'):
         """Initializes a new classification neural network.
         Arguments
             layers - A set of sizes for each layer in the network.
         """
-        super(ClassNet, self).__init__(layers)
+        super(ClassNet, self).__init__(layers, name)
     
     def activation(self, z):
         """Applies a non-linearity function (sigmoid) to determine neuron
@@ -417,12 +520,12 @@ class ClassNet(NeuralNet):
 
 
 class RegressNet(NeuralNet):
-    def __init__(self, layers, name='RegressNet'):
+    def __init__(self, layers, name='Regression'):
         """Initializes a new regression neural network.
         Arguments
             layers - A set of sizes for each layer in the network.
         """
-        super(RegressNet, self).__init__(layers)
+        super(RegressNet, self).__init__(layers, name)
         self.epsilon = 1e-5
 
     def get_epsilon(self):

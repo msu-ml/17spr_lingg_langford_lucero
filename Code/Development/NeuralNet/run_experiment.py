@@ -13,6 +13,10 @@ import numpy as np
 import sys
 import warnings
 from housing_data import HousingData
+from neural_net import GradientDescent
+from neural_net import SGD
+from neural_net import AdaDelta
+from neural_net import AdaGrad
 from neural_net import ClassNet
 from neural_net import RegressNet
 
@@ -64,17 +68,18 @@ class Experiment(object):
             print('Data  ' + '-'*60)
             data_train, data_test = data.split_data(2, 1)
             self.display_data(data, data_train, data_test)
-            
+             
             """Classification network
             print('')
             print('Model ' + '-'*60)
-            layers = [data.num_features, 100, 1]
+            layers = [data.num_features, 500, 3]
             network = ClassNet(layers)
-            classes = data.create_classes(n_outputs)
-            data_train = data.classify_targets(data_train, classes)
-            data_test = data.classify_targets(data_test, classes)
+            classes = data.create_classes(3)
+            data_train = data.encode_targets(data_train, classes)
+            data_test = data.encode_targets(data_test, classes)
+            self.display_model(network)
             """
-             
+            
             """Regression network
             """
             print('')
@@ -92,20 +97,18 @@ class Experiment(object):
             results = network.train(
                             data_train,
                             data_test,
-                            optimizer=network.adadelta,
-                            num_iters=1000,
+                            num_iters=50,
                             batch_size=10,
-                            learning_rate=0.1,
-                            regularization=0.5,
-                            rho=0.9,
+                            optimizer=AdaDelta(scale=0.7),
                             output=self.display_training)
             plt.ioff()
-            self.plot(data, results)
+            self.plot(data, network, results)
             
             print('')
             print('Evaluating model.')
             results = network.evaluate(data_test)
             self.display_evaluation(results)                            
+
         print('Done.')
 
     def cross_validate(self):
@@ -143,12 +146,9 @@ class Experiment(object):
                     results = network.train(
                                 fold_train,
                                 fold_test,
-                                optimizer=network.sgd,
                                 num_iters=10,
                                 batch_size=10,
-                                learning_rate=0.1,
-                                regularization=0.5,
-                                rho=0.9)
+                                optimizer=SGD(learning_rate=0.1, momentum=0.0, regularization=0.5))
                     _, train_loss, train_acc, test_loss, test_acc = results[-1]
                     self.display_training([(i, train_loss, train_acc, test_loss, test_acc)])
                     train_loss_avg += train_loss
@@ -160,7 +160,8 @@ class Experiment(object):
 
             record = np.asarray(record)
             record = record[record[:,2].argsort()]
-            with open('cross_validate_{}.csv'.format(data.name), 'wb') as out_file:
+            filepath = 'cross_validate_{}.csv'.format(data.name.lower())
+            with open(filepath, 'wb') as out_file:
                 writer = csv.writer(out_file)
                 writer.writerows(record)
     
@@ -180,6 +181,7 @@ class Experiment(object):
 
     def display_model(self, network):
         print('Type: Feedforward Neural Network')
+        print('Objective: {}'.format(network.name))
         print('Layers:')
         for i in xrange(network.num_layers):
             print('\t{}: {} units'.format(i, network.layers[i]))
@@ -216,7 +218,7 @@ class Experiment(object):
         loss, acc = results
         print('Results: [loss={:09.6f} acc={:05.2f}]'.format(loss, acc * 100.0))
     
-    def plot(self, data, results):
+    def plot(self, data, network, results):
         """Plots the given results.
         Arguments
             results - A set of results for the execution of the neural network.
@@ -229,7 +231,8 @@ class Experiment(object):
         plt.xlabel('Iteration')
         plt.ylabel('Accuracy')
         plt.legend(loc=4)
-        plt.savefig('fig_accuracy.jpg')
+        filepath = 'fig_{}_{}_acc.jpg'.format(data.name.lower(), network.name.lower())
+        plt.savefig(filepath)
         plt.close()
         plt.figure(2)
         plt.title(data.name)
@@ -238,7 +241,8 @@ class Experiment(object):
         plt.xlabel('Iteration')
         plt.ylabel('Loss')
         plt.legend(loc=1)
-        plt.savefig('fig_loss.jpg')
+        filepath = 'fig_{}_{}_loss.jpg'.format(data.name.lower(), network.name.lower())
+        plt.savefig(filepath)
         plt.close()
         plt.figure(3)
         plt.yscale('log')
@@ -248,7 +252,8 @@ class Experiment(object):
         plt.xlabel('Iteration')
         plt.ylabel('Loss')
         plt.legend(loc=1)
-        plt.savefig('fig_loss_logscale.jpg')
+        filepath = 'fig_{}_{}_loss_log.jpg'.format(data.name.lower(), network.name.lower())
+        plt.savefig(filepath)
         plt.close()
 
 def main(argv):
