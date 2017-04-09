@@ -30,7 +30,7 @@ classdef NeuralNet < handle
                 obj.biases{end+1} = randn(obj.layers(i), 1);
             end
         end
-        function results = train(obj, data_train, data_test, num_iters, batch_size)
+        function results = train(obj, data_train, data_test, optimizer, num_iters, batch_size)
             results = {};
             
             best_loss = Inf;
@@ -38,7 +38,7 @@ classdef NeuralNet < handle
             best_b = obj.biases;
             for i = 1:num_iters
                 % gradient descent
-                obj.gradient_descent(data_train, batch_size);
+                optimizer.optimize(obj, data_train, batch_size);
                 
                 [train_loss, train_acc] = obj.evaluate(data_train);
                 [test_loss, test_acc] = obj.evaluate(data_test);
@@ -53,51 +53,6 @@ classdef NeuralNet < handle
             
             obj.weights = best_W;
             obj.biases = best_b;
-        end
-        function gradient_descent(obj, data, batch_size)
-            eta = 0.1;
-            [grad_W, grad_b] = obj.get_batch_gradient(data);
-            n_layers = size(obj.layers, 2);
-            for i = 1:n_layers-1
-                w = obj.weights{i};
-                b = obj.biases{i};
-                gw = grad_W{i};
-                gb = grad_b{i};
-                obj.weights{i} = w - (eta * gw);
-                obj.biases{i} = b - (eta * gb);
-            end
-        end
-        function [grad_W, grad_b] = get_batch_gradient(obj, data)
-            n_layers = size(obj.layers, 2);
-            
-            % initialize to zero
-            batch_grad_W = cell(n_layers-1, 1);
-            batch_grad_b = cell(n_layers-1, 1);
-            for i = 1:n_layers-1
-                batch_grad_W{i} = zeros(size(obj.weights{i}));
-                batch_grad_b{i} = zeros(size(obj.biases{i}));
-            end
-            
-            % sum the gradients for each point
-            n_data = size(data, 1);
-            for i = 1:n_data
-                x = data{i,1};
-                t = data{i,2};
-                [grad_W, grad_b] = obj.back_propagation(x, t);
-                for j = 1:n_layers-1
-                    batch_grad_W{j} = batch_grad_W{j} + grad_W{j};
-                    batch_grad_b{j} = batch_grad_b{j} + grad_b{j};
-                end
-            end
-
-            % average the batch gradient
-            for j = 1:n_layers-1
-                batch_grad_W{j} = batch_grad_W{j} / n_data;
-                batch_grad_b{j} = batch_grad_b{j} / n_data;
-            end
-
-            grad_W = batch_grad_W;
-            grad_b = batch_grad_b;
         end
         function [grad_W, grad_b] = back_propagation(obj, x, t)
             n_layers = size(obj.layers, 2);
