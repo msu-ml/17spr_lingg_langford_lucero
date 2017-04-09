@@ -78,13 +78,9 @@ class NeuralNet(object):
     def train(self,
               data_train,
               data_test,
-              optimizer=None,
+              optimizer,
               num_iters=1000,
               batch_size=10,
-              learning_rate=0.1,
-              momentum=0.0,
-              regularization=0.0,
-              rho=0.9,
               early_stopping = True,
               min_iters=10,
               output=None):
@@ -104,10 +100,7 @@ class NeuralNet(object):
         best_loss = None
         best_W = self.weights
         best_b = self.biases
-        
-        if optimizer is None:
-            optimizer = self.adadelta
-        
+                
         # Adaptive Gradient Descent (Adagrad)
         results = []
         for i in xrange(num_iters):

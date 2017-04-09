@@ -97,9 +97,9 @@ class Experiment(object):
             results = network.train(
                             data_train,
                             data_test,
+                            optimizer=AdaDelta(scale=0.7),
                             num_iters=50,
                             batch_size=10,
-                            optimizer=AdaDelta(scale=0.7),
                             output=self.display_training)
             plt.ioff()
             self.plot(data, network, results)
