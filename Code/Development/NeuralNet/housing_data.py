@@ -148,13 +148,12 @@ class HousingData(object):
     
     def create_classes(self, num_classes):
         classes = []
-        targets = zip(*self.data)[1]
+        targets = sorted(zip(*self.data)[1])
         batch_size = np.int(len(targets) / num_classes)
-        batches = self.make_batches(sorted(targets), batch_size)
-        for batch in batches:
+        num_targets = batch_size * num_classes
+        for i in xrange(0, num_targets, batch_size):
+            batch = targets[i:i+batch_size]
             classes.append(batch[0])
-        if len(classes) > num_classes:
-            classes = [classes[i] for i in xrange(num_classes)]
         return classes
 
     def encode_targets(self, data, classes):
@@ -167,15 +166,11 @@ class HousingData(object):
     def encode_target(self, target, classes):
         target_class = 0
         for j in xrange(len(classes)):
-            if target > classes[j]:
+            if target >= classes[j]:
                 target_class = j
         t = np.zeros((len(classes), 1))
         t[target_class] = 1.0
         return t
-    
-    def make_batches(self, data, batch_size):
-        for i in xrange(0, len(data), batch_size):
-            yield data[i:i+batch_size]
     
     def read_processed_csv(self, data_filepath):
         data = []

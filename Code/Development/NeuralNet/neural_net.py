@@ -71,9 +71,9 @@ class NeuralNet(object):
     def reset(self):
         """Resets the weights of the network.
         """
-        self.biases = [np.random.randn(m, 1) for m in self.layers[1:]]
-        self.weights = [np.random.randn(m, n)
-                        for n, m in zip(self.layers[:-1], self.layers[1:])]
+        self.weights = [np.random.randn(b, a)
+                        for a, b in zip(self.layers[:-1], self.layers[1:])]
+        self.biases = [np.random.randn(b, 1) for b in self.layers[1:]]
 
     def train(self,
               data_train,
@@ -101,7 +101,6 @@ class NeuralNet(object):
         best_W = self.weights
         best_b = self.biases
                 
-        # Adaptive Gradient Descent (Adagrad)
         results = []
         for i in xrange(num_iters):
             # Fit the model to the training data.
@@ -277,16 +276,6 @@ class GradientDescent(object):
         network.weights = [(w + dw) for w, dw in zip(network.weights, delta_W)]
         network.biases = [(b + db) for b, db in zip(network.biases, delta_b)]
 
-    def make_batches(self, data, batch_size):
-        """Used to create a collection of batches from a set of data.
-        Arguments
-            data - A data set to divide into batches.
-            batch_size - The number of data points in each batch.
-        Returns a collection of batches for iteration.
-        """
-        for i in xrange(0, len(data), batch_size):
-            yield data[i:i+batch_size]
-
     def get_batch_gradient(self, network, batch):
         """ Compute the average gradient for the batch using back propagation.
         Arguments:
@@ -351,11 +340,11 @@ class SGD(GradientDescent):
         
         # Randomly shuffle the training data and split it into batches.
         np.random.shuffle(data)
-        batches = self.make_batches(data, batch_size)
         
         mem_dW = [np.zeros(w.shape) for w in network.weights]
         mem_db = [np.zeros(b.shape) for b in network.biases]
-        for batch in batches:
+        for i in xrange(0, len(data), batch_size):
+            batch = data[i:i+batch_size]
             grad_W, grad_b = self.get_batch_gradient(network, batch)
             delta_W = [((rho * mdw) + (eta * gw)) for mdw, gw in zip(mem_dW, grad_W)]
             delta_b = [((rho * mdb) + (eta * gb)) for mdb, gb in zip(mem_db, grad_b)]
@@ -398,12 +387,12 @@ class AdaGrad(GradientDescent):
         
         # Randomly shuffle the training data and split it into batches.
         np.random.shuffle(data)
-        batches = self.make_batches(data, batch_size)
             
         # Get gradient for each batch and adjust the weights.
         mem_gW = [np.zeros(w.shape) for w in network.weights]
         mem_gb = [np.zeros(b.shape) for b in network.biases]
-        for batch in batches:
+        for i in xrange(0, len(data), batch_size):
+            batch = data[i:i+batch_size]
             grad_W, grad_b = self.get_batch_gradient(network, batch)
             mem_gW = [(mw + gw**2) for mw, gw in zip(mem_gW, grad_W)]
             mem_gb = [(mb + gb**2) for mb, gb in zip(mem_gb, grad_b)]
@@ -441,14 +430,14 @@ class AdaDelta(GradientDescent):
         
         # Randomly shuffle the training data and split it into batches.
         np.random.shuffle(data)
-        batches = self.make_batches(data, batch_size)
             
         # Get gradient for each batch and adjust the weights.
         mem_gW = [np.zeros(w.shape) for w in network.weights]
         mem_gb = [np.zeros(b.shape) for b in network.biases]
         mem_dW = [np.zeros(w.shape) for w in network.weights]
         mem_db = [np.zeros(b.shape) for b in network.biases]
-        for batch in batches:
+        for i in xrange(0, len(data), batch_size):
+            batch = data[i:i+batch_size]
             grad_W, grad_b = self.get_batch_gradient(network, batch)
             mem_gW = [((rho * mgw) + ((1 - rho) * gw**2)) for mgw, gw in zip(mem_gW, grad_W)]
             mem_gb = [((rho * mgb) + ((1 - rho) * gb**2)) for mgb, gb in zip(mem_gb, grad_b)]
