@@ -39,7 +39,9 @@ classdef Experiment < handle
                     fprintf('\nTraining Model.\n');
                     num_iters = 200;
                     batch_size = 10;
-                    results = network.train(data_train, data_test, AdaGrad(0.1, 0.5), num_iters, batch_size, @obj.display_training);
+                    %results = network.train(data_train, data_test, SGD(0.1, 0.9, 0.5), num_iters, batch_size, @obj.display_training);
+                    %results = network.train(data_train, data_test, AdaGrad(0.1, 0.5), num_iters, batch_size, @obj.display_training);
+                    results = network.train(data_train, data_test, AdaDelta(0.5), num_iters, batch_size, @obj.display_training);
                     obj.plot(data, network, results);
                     
                     fprintf('\nEvaluating model.\n');
@@ -71,14 +73,13 @@ classdef Experiment < handle
             subplot(2, 1, 1);
             plot(results(:,1), results(:,3), 'r', results(:,1), results(:,5), 'g');
             ylabel('Accuracy');
-            legend('Training Data', 'Test Data', 'Location', 'southeast');
+            legend('Training Data', 'Test Data', 'Location', 'NorthEastOutside');
             grid('on');
             subplot(2, 1, 2);
             plot(results(:,1), results(:,2), 'r', results(:,1), results(:,4), 'g');
-            legend('Training Data', 'Test Data', 'Location', 'northeast');
+            legend('Training Data', 'Test Data', 'Location', 'NorthEastOutside');
             xlabel('Iteration');
             ylabel('Loss');
-            set(gca, 'YScale', 'log');
             grid('on');
             drawnow();
         end
