@@ -39,7 +39,7 @@ classdef Experiment < handle
                     fprintf('\nTraining Model.\n');
                     num_iters = 200;
                     batch_size = 10;
-                    results = network.train(data_train, data_test, AdaDelta(0.8), num_iters, batch_size, @obj.display_training);
+                    results = network.train(data_train, data_test, AdaGrad(0.1, 0.5), num_iters, batch_size, @obj.display_training);
                     obj.plot(data, network, results);
                     
                     fprintf('\nEvaluating model.\n');
@@ -83,7 +83,7 @@ classdef Experiment < handle
             drawnow();
         end
         function display_evaluation(obj, loss, acc)
-            fprintf('Results: [loss=%8.6f acc=%4.2f]\n', loss, acc * 100.0);
+            fprintf('Results: [loss=%8.6f acc=%4.2f]\n', loss, acc*100.0);
         end
         function plot(obj, data, network, results)
             results = cell2mat(cellfun(@(x) cell2mat(x), results, 'un', 0));
