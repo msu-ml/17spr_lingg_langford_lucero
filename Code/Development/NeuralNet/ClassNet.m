@@ -2,7 +2,7 @@ classdef ClassNet < NeuralNet
     methods
         function obj = ClassNet(layers)
             obj = obj@NeuralNet(layers);
-            obj.name = 'Classfication'
+            obj.name = 'Classfication';
         end
         function value = activation(obj, z)
             sigmoid = @(z) 1.0 ./ (1.0 + exp(-z));

@@ -30,7 +30,7 @@ classdef NeuralNet < handle
                 obj.biases{end+1} = randn(obj.layers(i), 1);
             end
         end
-        function results = train(obj, data_train, data_test, optimizer, num_iters, batch_size)
+        function results = train(obj, data_train, data_test, optimizer, num_iters, batch_size, display_func)
             results = cell(num_iters, 1);
             
             best_loss = Inf;
@@ -48,7 +48,7 @@ classdef NeuralNet < handle
                     best_b = obj.biases;
                 end
                 results{i} = {i, train_loss, train_acc, test_loss, test_acc};
-                fprintf('[%4d] training [loss=%8.6f acc=%4.2f] validating [loss=%8.6f acc=%4.2f]\n', i, train_loss, train_acc*100.0, test_loss, test_acc*100.0);
+                display_func(results);
             end
             
             obj.weights = best_W;

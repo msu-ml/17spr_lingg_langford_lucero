@@ -37,15 +37,14 @@ classdef Experiment < handle
                     %}
                     
                     fprintf('\nTraining Model.\n');
-                    num_iters = 100;
+                    num_iters = 200;
                     batch_size = 10;
-                    results = network.train(data_train, data_test, AdaDelta(0.8), num_iters, batch_size);
+                    results = network.train(data_train, data_test, AdaDelta(0.8), num_iters, batch_size, @obj.display_training);
                     obj.plot(data, network, results);
                     
                     fprintf('\nEvaluating model.\n');
                     [loss, acc] = network.evaluate(data_test);
-                    obj.display_evaluation(loss, acc);
-                    
+                    obj.display_evaluation(loss, acc);    
             end
         end
         function display_data(obj, data, data_train, data_test)
@@ -64,6 +63,25 @@ classdef Experiment < handle
                 fprintf('\t%d: %d units\n', i, network.layers(i))
             end
         end
+        function display_training(obj, results)
+            results = cell2mat(cellfun(@(x) cell2mat(x), results, 'un', 0));
+            fprintf('[%4d] training [loss=%8.6f acc=%4.2f] validating [loss=%8.6f acc=%4.2f]\n', results(end,:));
+            
+            gcf;
+            subplot(2, 1, 1);
+            plot(results(:,1), results(:,3), 'r', results(:,1), results(:,5), 'g');
+            ylabel('Accuracy');
+            legend('Training Data', 'Test Data', 'Location', 'southeast');
+            grid('on');
+            subplot(2, 1, 2);
+            plot(results(:,1), results(:,2), 'r', results(:,1), results(:,4), 'g');
+            legend('Training Data', 'Test Data', 'Location', 'northeast');
+            xlabel('Iteration');
+            ylabel('Loss');
+            set(gca, 'YScale', 'log');
+            grid('on');
+            drawnow();
+        end
         function display_evaluation(obj, loss, acc)
             fprintf('Results: [loss=%8.6f acc=%4.2f]\n', loss, acc * 100.0);
         end
@@ -76,6 +94,7 @@ classdef Experiment < handle
             xlabel('Iteration');
             ylabel('Accuracy');
             legend('Training Data', 'Test Data', 'Location', 'southeast');
+            grid('on');
             file_path = sprintf('fig_%s_%s_acc.jpg', lower(data.name), lower(network.name));
             saveas(gcf, file_path);
             close(gcf)
@@ -86,6 +105,7 @@ classdef Experiment < handle
             xlabel('Iteration');
             ylabel('Loss');
             legend('Training Data', 'Test Data', 'Location', 'northeast');
+            grid('on');
             file_path = sprintf('fig_%s_%s_loss.jpg', lower(data.name), lower(network.name));
             saveas(gcf, file_path);
             close(gcf)
@@ -97,6 +117,7 @@ classdef Experiment < handle
             ylabel('Loss');
             legend('Training Data', 'Test Data', 'Location', 'northeast');
             set(gca, 'YScale', 'log');
+            grid('on');
             file_path = sprintf('fig_%s_%s_log_loss.jpg', lower(data.name), lower(network.name));
             saveas(gcf, file_path);
             close(gcf)
