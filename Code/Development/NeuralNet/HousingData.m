@@ -41,6 +41,7 @@ classdef HousingData
             obj.num_features = size(obj.data{1}, 1);
         end
         %{
+        Python source:
             def separate_targets(self, data, fields, target_field):
                 target_column = fields.index(target_field)
                 X = np.copy(data)
@@ -60,6 +61,7 @@ classdef HousingData
             y_fields = fields(~idx);
         end
         %{
+        Python source:
             def split_data(self, a, b):
                 test_size = int(len(self.data) * float(b) / float(a + b))
                 data_train = self.data[0:-test_size]
@@ -67,11 +69,12 @@ classdef HousingData
                 return data_train, data_test
         %}
         function [data_train, data_test] = split_data(obj, a, b)
-            num_train = floor(obj.num_entries * a / (a + b))
+            num_train = floor(obj.num_entries * a / (a + b));
             data_train = obj.data(1:num_train+1,:);
             data_test = obj.data(num_train+2:end,:);
         end
         %{
+        Python source:
             def create_classes(self, num_classes):
                 classes = []
                 targets = sorted(zip(*self.data)[1])
@@ -94,6 +97,7 @@ classdef HousingData
             end
         end
         %{
+        Python source:
             def encode_target(self, target, classes):
                 target_class = 0
                 for j in xrange(len(classes)):
@@ -115,6 +119,7 @@ classdef HousingData
             t(target_class) = 1.0;
         end
         %{
+        Python source:
             def encode_targets(self, data, classes):
                 temp = zip(*data)
                 X = temp[0]
@@ -131,6 +136,7 @@ classdef HousingData
             end 
         end
         %{
+        Python source:
             def unnormalize_target(self, value):
                 y_max = self.data_max[1]
                 y_min = self.data_min[1]
