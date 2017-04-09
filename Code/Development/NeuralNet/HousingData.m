@@ -1,4 +1,4 @@
-classdef HousingData < handle
+classdef HousingData
     properties
         name
         fields
@@ -57,11 +57,11 @@ classdef HousingData < handle
         function classes = create_classes(obj, num_classes)
             classes = [];
             targets = sort(cell2mat(obj.data(:,2)));
-            n_targets = size(targets, 1);
+            num_targets = size(targets, 1);
             batch_size = floor(num_targets / num_classes);
-            n_targets = n_targets - mod(n_targets, batch_size);
-            for i = 1:batch_size:n_targets
-                batch = targets(i:i+batch_size-1);
+            num_targets = num_classes * batch_size;
+            for i = 1:batch_size:num_targets
+                batch = targets(i:i+batch_size);
                 classes = [classes, batch(1)];
             end
         end

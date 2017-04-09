@@ -11,7 +11,7 @@ classdef NeuralNet < handle
             obj.name = '';
             
             % initialize weights and biases
-            n_layers = size(obj.layers, 2);
+            n_layers = length(obj.layers);
             obj.weights = cell(n_layers-1, 1);
             obj.biases = cell(n_layers-1, 1);
             for i = 2:n_layers
@@ -24,7 +24,7 @@ classdef NeuralNet < handle
             % re-initialize weights and biases
             obj.weights = {};
             obj.biases = {};
-            n_layers = size(obj.layers, 2);
+            n_layers = length(obj.layers);
             for i = 2:n_layers
                 obj.weights{end+1} = randn(obj.layers(i), obj.layers(i-1));
                 obj.biases{end+1} = randn(obj.layers(i), 1);
@@ -55,7 +55,7 @@ classdef NeuralNet < handle
             obj.biases = best_b;
         end
         function [grad_W, grad_b] = back_propagation(obj, x, t)
-            n_layers = size(obj.layers, 2);
+            n_layers = length(obj.layers);
             
             % forward pass
             ws = obj.weights;
@@ -63,7 +63,7 @@ classdef NeuralNet < handle
             zs = cell(n_layers-1, 1);
             hs = cell(n_layers, 1);
             hs{1} = x;
-            n_layers = size(obj.layers, 2);
+            n_layers = length(obj.layers);
             for i = 1:n_layers-1
                 zs{i} = ws{i} * hs{i} + bs{i};
                 hs{i+1} = obj.activation(zs{i});
@@ -82,7 +82,7 @@ classdef NeuralNet < handle
             end
         end
         function y = predict(obj, x)
-            n_layers = size(obj.layers, 2);
+            n_layers = length(obj.layers);
             
             h = x;
             for i = 1:n_layers-1
@@ -96,7 +96,7 @@ classdef NeuralNet < handle
         function [loss, acc] = evaluate(obj, data)
             loss = 0.0;
             correct = 0.0;
-            n_data = size(data, 1);
+            n_data = length(data);
             for i = 1:n_data
                 x = data{i,1};
                 t = data{i,2};

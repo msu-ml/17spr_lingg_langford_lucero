@@ -13,7 +13,7 @@ classdef Experiment < handle
                           };
         end
         function run(obj)
-            n_sources = size(obj.sources, 1);
+            n_sources = length(obj.sources);
             for i = 1:n_sources
                 data = obj.sources{i};
                     fprintf('\nData ----------------------------------\n');
@@ -31,7 +31,7 @@ classdef Experiment < handle
                     fprintf('\nTraining Model.\n');
                     num_iters = 10;
                     batch_size = 10;
-                    results = network.train(data_train, data_test, SGD(0.1, 0.9, 0.5), num_iters, batch_size);
+                    results = network.train(data_train, data_test, AdaDelta(0.8), num_iters, batch_size);
                     %obj.plot(data, network, results);
                     
                     fprintf('\nEvaluating model.\n');
@@ -44,14 +44,14 @@ classdef Experiment < handle
             fprintf('Data Source: %s\n', data.name);
             fprintf('Total features: %d\n', data.num_features);
             fprintf('Total entries: %d\n', data.num_entries);
-            fprintf('Training entries: %d\n', size(data_train, 1));
-            fprintf('Test entries: %d\n', size(data_test, 1));
+            fprintf('Training entries: %d\n', length(data_train));
+            fprintf('Test entries: %d\n', length(data_test));
         end
         function display_model(obj, network)
             fprintf('Type: Feedforward Neural Network\n');
             fprintf('Objective: %s\n', network.name);
             fprintf('Layers:\n');
-            n_layers = size(network.layers, 2);
+            n_layers = length(network.layers);
             for i = 1:n_layers
                 fprintf('\t%d: %d units\n', i, network.layers(i))
             end

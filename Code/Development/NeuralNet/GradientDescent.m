@@ -9,7 +9,7 @@ classdef GradientDescent < handle
         function optimize(obj, network, data, batch_size)
             eta = obj.learning_rate;
             [grad_W, grad_b] = obj.get_batch_gradient(network, data);
-            n_layers = size(network.layers, 2);
+            n_layers = length(network.layers);
             for i = 1:n_layers-1
                 w = network.weights{i};
                 b = network.biases{i};
@@ -20,7 +20,7 @@ classdef GradientDescent < handle
             end
         end
         function [grad_W, grad_b] = get_batch_gradient(obj, network, data)
-            n_layers = size(network.layers, 2);
+            n_layers = length(network.layers);
             
             % initialize to zero
             batch_grad_W = cell(n_layers-1, 1);
@@ -31,7 +31,7 @@ classdef GradientDescent < handle
             end
             
             % sum the gradients for each point
-            n_data = size(data, 1);
+            n_data = length(data);
             for i = 1:n_data
                 x = data{i,1};
                 t = data{i,2};

@@ -1,32 +1,30 @@
-classdef SGD < GradientDescent
+classdef AdaGrad < GradientDescent
     properties
-        momentum
         regularization
     end
     methods
-        function obj = SGD(learning_rate, momentum, regularization)
+        function obj = AdaGrad(learning_rate, regularization)
             obj = obj@GradientDescent(learning_rate);
-            obj.momentum = momentum;
             obj.regularization = regularization;
         end
         function optimize(obj, network, data, batch_size)
             eta = obj.learning_rate;
-            rho = obj.momentum;
             lambda = obj.regularization;
+            eps = 1e-8;
         
             % term for regularizing the weights.
-            n_data = length(data);
+            n_data = size(data, 1);
             reg_decay = (1.0 - (eta * lambda / n_data));
         
             % Randomly shuffle the training data and split it into batches.
             data = data(randperm(n_data),:);
             
             n_layers = length(network.layers);
-            mem_dW = cell(n_layers-1, 1);
-            mem_db = cell(n_layers-1, 1);
+            mem_gW = cell(n_layers-1, 1);
+            mem_gb = cell(n_layers-1, 1);
             for i = 1:n_layers-1
-                mem_dW{i} = zeros(size(network.weights{i}));
-                mem_db{i} = zeros(size(network.biases{i}));
+                mem_gW{i} = zeros(size(network.weights{i}));
+                mem_gb{i} = zeros(size(network.biases{i}));
             end
             
             n_data = n_data - mod(n_data, batch_size);
@@ -39,16 +37,18 @@ classdef SGD < GradientDescent
                     b = network.biases{j};
                     gw = grad_W{j};
                     gb = grad_b{j};
-                    mdw = mem_dW{j};
-                    mdb = mem_db{j};
+                    mgw = mem_gW{j};
+                    mgb = mem_gb{j};
                     
-                    dw = (rho * mdw) + (eta * gw);
-                    db = (rho * mdb) + (eta * gb);
-                    network.weights{j} = reg_decay * w - dw;
-                    network.biases{j} = b - db;
+                    mgw = mgw + gw.^2;
+                    mgb = mgb + gb.^2;
+                    dw = -((gw * eta) ./ (mgw + eps).^0.5);
+                    db = -((gb * eta) ./ (mgb + eps).^0.5);
+                    network.weights{j} = reg_decay * w + dw;
+                    network.biases{j} = b + db;
                     
-                    mem_dW{j} = dw;
-                    mem_db{j} = db;
+                    mem_gW{j} = mgw;
+                    mem_gb{j} = mgb;
                 end
             end
         end
