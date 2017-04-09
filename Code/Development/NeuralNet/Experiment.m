@@ -27,26 +27,16 @@ classdef Experiment
                     y_max = data.unnormalize_target(1.0);
                     network.epsilon = 10000 / (y_max - y_min);
                     obj.display_model(network);
-                    %{
-            
-            print('')
-            print('Training model.')
-            plt.ion()
-            results = network.train(
-                            data_train,
-                            data_test,
-                            optimizer=AdaDelta(scale=0.7),
-                            num_iters=50,
-                            batch_size=10,
-                            output=self.display_training)
-            plt.ioff()
-            self.plot(data, network, results)
-            
-            print('')
-            print('Evaluating model.')
-            results = network.evaluate(data_test)
-            self.display_evaluation(results)   
-                    %}
+                    
+                    fprintf('\nTraining Model.');
+                    num_iters = 50;
+                    batch_size = 10;
+                    results = network.train(data_train, data_test, num_iters, batch_size);
+                    %obj.plot(data, network, results);
+                    
+                    fprintf('\nEvaluating model.');
+                    %results = network.evaluate(data_test);
+                    %obj.display_evaluation(results);
             end
         end
         function display_data(obj, data, data_train, data_test)

@@ -10,8 +10,8 @@ import numpy
 import os
 import re
 import sys
-from housing_data import HousingData
-from housing_data import SubstitutionMethod
+from HousingData import HousingData
+from HousingData import SubstitutionMethod
 
 seed = 69
 numpy.random.seed(seed)

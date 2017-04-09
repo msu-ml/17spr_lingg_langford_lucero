@@ -41,7 +41,7 @@ classdef NeuralNet
         end
         function gradient_descent(obj, data, batch_size)
             eta = 0.1;
-            [grad_W, grad_b] = obj.get_batch_gradient(data_train);
+            [grad_W, grad_b] = obj.get_batch_gradient(data);
             n = size(obj.weights, 2);
             for i = 1:n
                 gw = grad_W{i}
@@ -52,7 +52,7 @@ classdef NeuralNet
                 obj.weights{i} = b + db
             end
         end
-        function get_batch_gradient(obj, data_train)
+        function [grad_W, grad_b] = get_batch_gradient(obj, data_train)
         end
     end
 end
