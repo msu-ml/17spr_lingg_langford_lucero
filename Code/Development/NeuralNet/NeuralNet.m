@@ -8,7 +8,7 @@ classdef NeuralNet
     methods
         function obj = NeuralNet(layers)
             obj.layers = layers;
-            obj.name = 'test';
+            obj.name = '';
             
             % initialize weights and biases
             n = size(obj.layers, 2);
