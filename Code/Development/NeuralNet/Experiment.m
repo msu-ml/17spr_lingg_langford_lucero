@@ -26,13 +26,21 @@ classdef Experiment < handle
                     y_min = data.unnormalize_target(0.0);
                     y_max = data.unnormalize_target(1.0);
                     network.epsilon = 10000 / (y_max - y_min);
+                    
+                    %{
+                    layers = [data.num_features 35 15 10 3];
+                    network = ClassNet(layers);
+                    classes = data.create_classes(3);
+                    data_train = data.encode_targets(data_train, classes);
+                    data_test = data.encode_targets(data_test, classes);
                     obj.display_model(network);
+                    %}
                     
                     fprintf('\nTraining Model.\n');
-                    num_iters = 10;
+                    num_iters = 100;
                     batch_size = 10;
                     results = network.train(data_train, data_test, AdaDelta(0.8), num_iters, batch_size);
-                    %obj.plot(data, network, results);
+                    obj.plot(data, network, results);
                     
                     fprintf('\nEvaluating model.\n');
                     [loss, acc] = network.evaluate(data_test);
@@ -58,6 +66,40 @@ classdef Experiment < handle
         end
         function display_evaluation(obj, loss, acc)
             fprintf('Results: [loss=%8.6f acc=%4.2f]\n', loss, acc * 100.0);
+        end
+        function plot(obj, data, network, results)
+            results = cell2mat(cellfun(@(x) cell2mat(x), results, 'un', 0));
+
+            figure(1);
+            plot(results(:,1), results(:,3), 'r', results(:,1), results(:,5), 'g');
+            title(data.name);
+            xlabel('Iteration');
+            ylabel('Accuracy');
+            legend('Training Data', 'Test Data', 'Location', 'southeast');
+            file_path = sprintf('fig_%s_%s_acc.jpg', lower(data.name), lower(network.name));
+            saveas(gcf, file_path);
+            close(gcf)
+
+            figure(2);
+            plot(results(:,1), results(:,2), 'r', results(:,1), results(:,4), 'g');
+            title(data.name);
+            xlabel('Iteration');
+            ylabel('Loss');
+            legend('Training Data', 'Test Data', 'Location', 'northeast');
+            file_path = sprintf('fig_%s_%s_loss.jpg', lower(data.name), lower(network.name));
+            saveas(gcf, file_path);
+            close(gcf)
+            
+            figure(3);
+            plot(results(:,1), results(:,2), 'r', results(:,1), results(:,4), 'g');
+            title(data.name);
+            xlabel('Iteration');
+            ylabel('Loss');
+            legend('Training Data', 'Test Data', 'Location', 'northeast');
+            set(gca, 'YScale', 'log');
+            file_path = sprintf('fig_%s_%s_log_loss.jpg', lower(data.name), lower(network.name));
+            saveas(gcf, file_path);
+            close(gcf)
         end
     end
 end

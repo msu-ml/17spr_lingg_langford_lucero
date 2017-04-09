@@ -31,7 +31,7 @@ classdef NeuralNet < handle
             end
         end
         function results = train(obj, data_train, data_test, optimizer, num_iters, batch_size)
-            results = {};
+            results = cell(num_iters, 1);
             
             best_loss = Inf;
             best_W = obj.weights;
@@ -47,7 +47,7 @@ classdef NeuralNet < handle
                     best_W = obj.weights;
                     best_b = obj.biases;
                 end
-                results{end+1} = {i, train_loss, train_acc, test_loss, test_acc};
+                results{i} = {i, train_loss, train_acc, test_loss, test_acc};
                 fprintf('[%4d] training [loss=%8.6f acc=%4.2f] validating [loss=%8.6f acc=%4.2f]\n', i, train_loss, train_acc*100.0, test_loss, test_acc*100.0);
             end
             
