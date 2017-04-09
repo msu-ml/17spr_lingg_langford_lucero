@@ -1,4 +1,4 @@
-classdef HousingData
+classdef HousingData < handle
     properties
         name
         fields
@@ -85,9 +85,9 @@ classdef HousingData
             end 
         end
         function value = unnormalize_target(obj, value)
-            y_max = obj.data_max{2}
-            y_min = obj.data_min{2}
-            value = ((y_max - y_min) * value) + y_min
+            y_max = obj.data_max{2};
+            y_min = obj.data_min{2};
+            value = ((y_max - y_min) * value) + y_min;
         end
     end
 end

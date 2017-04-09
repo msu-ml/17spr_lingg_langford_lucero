@@ -1,4 +1,4 @@
-classdef Experiment
+classdef Experiment < handle
     properties
         sources
     end
@@ -28,15 +28,16 @@ classdef Experiment
                     network.epsilon = 10000 / (y_max - y_min);
                     obj.display_model(network);
                     
-                    fprintf('\nTraining Model.');
-                    num_iters = 50;
+                    fprintf('\nTraining Model.\n');
+                    num_iters = 10;
                     batch_size = 10;
                     results = network.train(data_train, data_test, num_iters, batch_size);
                     %obj.plot(data, network, results);
                     
-                    fprintf('\nEvaluating model.');
-                    %results = network.evaluate(data_test);
-                    %obj.display_evaluation(results);
+                    fprintf('\nEvaluating model.\n');
+                    [loss, acc] = network.evaluate(data_test);
+                    obj.display_evaluation(loss, acc);
+                    
             end
         end
         function display_data(obj, data, data_train, data_test)
@@ -54,6 +55,9 @@ classdef Experiment
             for i = 1:n_layers
                 fprintf('\t%d: %d units\n', i, network.layers(i))
             end
+        end
+        function display_evaluation(obj, loss, acc)
+            fprintf('Results: [loss=%8.6f acc=%4.2f]\n', loss, acc * 100.0);
         end
     end
 end

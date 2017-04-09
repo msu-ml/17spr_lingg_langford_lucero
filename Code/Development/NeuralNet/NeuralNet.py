@@ -213,12 +213,11 @@ class NeuralNet(object):
             x - A set of data features
         Returns a target value
         """
-        a = x
+        h = x
         for w, b in zip(self.weights, self.biases):
-            z = np.dot(w, a) + b
-            a = self.activation(z)
-        
-        return a
+            z = np.dot(w, h) + b
+            h = self.activation(z)
+        return h
 
     def evaluate(self, data):
         """Evaluates the loss and accuracy for the model in its current state
@@ -541,7 +540,7 @@ class RegressNet(NeuralNet):
         """Computes the derivative of the activation function (sigmoid).
         """
         sigmoid = lambda z: 1.0 / (1.0 + np.exp(-z))
-        return sigmoid(z) * (1 - sigmoid(z))
+        return sigmoid(z) * (1.0 - sigmoid(z))
 
     def error(self, y, t):
         """Computes the error of a prediction using cross entropy.
