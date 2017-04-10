@@ -23,10 +23,10 @@ class Experiment(object):
         """
         print('')
         print('Loading data.')
-        self.sources = [#HousingData('Data/nashville_processed.csv', name='Nashville'),
+        self.sources = [HousingData('Data/nashville_processed.csv', name='Nashville'),
                         #HousingData('Data/kingcounty_processed.csv', name='KingCounty'),
                         #HousingData('Data/redfin_processed.csv', name='GrandRapids'),
-                        HousingData('Data/art_processed.csv', name='ART')
+                        #HousingData('Data/art_processed.csv', name='ART')
                        ]
         
         self.ifigure = plt.figure(0)

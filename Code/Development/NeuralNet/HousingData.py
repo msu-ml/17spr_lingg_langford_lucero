@@ -8,6 +8,7 @@ Created on Fri Mar 10 12:24:58 2017
 import csv
 import numpy as np
 import os
+import string
 import sys
 
 class SubstitutionMethod(object):
@@ -205,6 +206,8 @@ class HousingData(object):
         # Split categorical fields up.
         if len(cat_fields) > 0:
             data, fields = self.split_categorical_fields(data, fields, cat_fields)
+        fields = [f.upper().replace(" ", "_").strip() for f in fields]
+        
         data = np.asarray(data, dtype=np.float32)
         
         return data, fields
@@ -217,7 +220,7 @@ class HousingData(object):
             cat_data = np.zeros((data.shape[0], cats.shape[0]))
             for i in xrange(cats.shape[0]):
                 cat_data[:,i] = (data[:,column] == cats[i])
-                new_field = field + '_is_' + cats[i].strip().title()
+                new_field = field + ' is ' + cats[i]
                 fields.append(new_field)
             data = np.concatenate((data, cat_data), axis=1)
         
