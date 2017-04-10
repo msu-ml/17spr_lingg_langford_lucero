@@ -88,7 +88,8 @@ classdef Experiment < handle
         end
         function plot(obj, data, network, results)
             results = cell2mat(cellfun(@(x) cell2mat(x), results, 'un', 0));
-
+            
+            clf();
             figure(1);
             plot(results(:,1), results(:,3), 'r', results(:,1), results(:,5), 'g');
             title(data.name);
