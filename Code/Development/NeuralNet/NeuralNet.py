@@ -16,6 +16,7 @@ class NeuralNet(object):
         """
         self.layers = layers
         self.name = name
+        self.dropout = 0.0
         self.reset()
 
     def get_layers(self):
@@ -67,6 +68,17 @@ class NeuralNet(object):
         self.__name = v
     name = property(fget=lambda self: self.get_name(),
                     fset=lambda self, v: self.set_name(v))
+    
+    def get_dropout(self):
+        """Gets the amount of dropout allowed for each layer.
+        """
+        return self.__dropout
+    def set_dropout(self, v):
+        """Sets the amount of dropout allowed for each layer.
+        """
+        self.__dropout = v
+    dropout = property(fget=lambda self: self.get_dropout(),
+                       fset=lambda self, v: self.set_dropout(v))
         
     def reset(self):
         """Resets the weights of the network.
@@ -151,19 +163,30 @@ class NeuralNet(object):
         bs = [b for b in self.biases]
         zs = []
         hs = [x]
+        masks = []
         for i in xrange(self.num_layers-1):
             z = np.dot(ws[i], hs[-1]) + bs[i]
             h = self.activation(z)
+            
+            # apply dropout for each layer but the last
+            if i < self.num_layers-2:
+                mask = np.random.binomial(1.0, 1.0 - self.dropout, size=h.shape)
+            else:
+                mask = np.ones(h.shape)
+            masks.append(mask)
+            h *= mask
+
             zs.append(z)
             hs.append(h)
         y = hs[-1]
-            
+        
         # backward pass
         grad_W = [np.zeros(w.shape) for w in self.weights]
         grad_b = [np.zeros(b.shape) for b in self.biases]
         delta_h = self.error_deriv(y, t)
         for i in xrange(1, self.num_layers):
             delta_h = delta_h * self.activation_deriv(zs[-i])
+            delta_h *= masks[-i]
             grad_W[-i] = np.dot(delta_h, hs[-i-1].T)
             grad_b[-i] = delta_h
             delta_h = np.dot(ws[-i].T, delta_h)
@@ -214,9 +237,16 @@ class NeuralNet(object):
         Returns a target value
         """
         h = x
-        for w, b in zip(self.weights, self.biases):
+        for i in xrange(self.num_layers-1):
+            w = self.weights[i]
+            b = self.biases[i]
             z = np.dot(w, h) + b
             h = self.activation(z)
+            
+            # factor in dropout
+            if i < self.num_layers-2:
+                h *= (1.0 - self.dropout)
+
         return h
 
     def evaluate(self, data):

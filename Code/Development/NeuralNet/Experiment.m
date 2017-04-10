@@ -37,11 +37,11 @@ classdef Experiment < handle
                     %}
                     
                     fprintf('\nTraining Model.\n');
-                    num_iters = 200;
+                    num_iters = 500;
                     batch_size = 10;
-                    %results = network.train(data_train, data_test, SGD(0.1, 0.9, 0.5), num_iters, batch_size, @obj.display_training);
+                    results = network.train(data_train, data_test, SGD(0.1, 0.9, 0.5), num_iters, batch_size, @obj.display_training);
                     %results = network.train(data_train, data_test, AdaGrad(0.1, 0.5), num_iters, batch_size, @obj.display_training);
-                    results = network.train(data_train, data_test, AdaDelta(0.5), num_iters, batch_size, @obj.display_training);
+                    %results = network.train(data_train, data_test, AdaDelta(0.5), num_iters, batch_size, @obj.display_training);
                     obj.plot(data, network, results);
                     
                     fprintf('\nEvaluating model.\n');
@@ -120,7 +120,7 @@ classdef Experiment < handle
             legend('Training Data', 'Test Data', 'Location', 'northeast');
             set(gca, 'YScale', 'log');
             grid('on');
-            file_path = sprintf('fig_%s_%s_log_loss.jpg', lower(data.name), lower(network.name));
+            file_path = sprintf('fig_%s_%s_loss_log.jpg', lower(data.name), lower(network.name));
             saveas(gcf, file_path);
             close(gcf)
         end

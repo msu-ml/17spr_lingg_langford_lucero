@@ -23,10 +23,10 @@ class Experiment(object):
         """
         print('')
         print('Loading data.')
-        self.sources = [HousingData('Data/nashville_processed.csv', name='Nashville'),
+        self.sources = [#HousingData('Data/nashville_processed.csv', name='Nashville'),
                         #HousingData('Data/kingcounty_processed.csv', name='KingCounty'),
                         #HousingData('Data/redfin_processed.csv', name='GrandRapids'),
-                        #HousingData('Data/art_processed.csv', name='ART')
+                        HousingData('Data/art_processed.csv', name='ART')
                        ]
         
         self.ifigure = plt.figure(0)
@@ -77,7 +77,7 @@ class Experiment(object):
             """
             print('')
             print('Model ' + '-'*60)
-            layers = [data.num_features, 35, 15, 10, 1]
+            layers = [data.num_features, 35, 15, 10, 8, 6, 4, 1]
             network = RegressNet(layers)
             y_min = data.unnormalize_target(0.0)
             y_max = data.unnormalize_target(1.0)
@@ -87,11 +87,14 @@ class Experiment(object):
             print('')
             print('Training model.')
             plt.ion()
+            network.dropout = 0.25
             results = network.train(
                             data_train,
                             data_test,
-                            optimizer=AdaDelta(scale=0.7),
-                            num_iters=250,
+                            optimizer=SGD(learning_rate=0.1, momentum=0.9, regularization=0.0),
+                            #optimizer=AdaGrad(learning_rate=0.1, regularization=0.5),
+                            #optimizer=AdaDelta(scale=0.7),
+                            num_iters=2000,
                             batch_size=10,
                             output=self.display_training)
             plt.ioff()
