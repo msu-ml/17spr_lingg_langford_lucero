@@ -46,7 +46,7 @@ classdef Experiment < handle
                     
                     fprintf('\nEvaluating model.\n');
                     [loss, acc] = network.evaluate(data_test);
-                    obj.display_evaluation(loss, acc);    
+                    obj.display_evaluation(loss, acc);
             end
         end
         function display_data(obj, data, data_train, data_test)
