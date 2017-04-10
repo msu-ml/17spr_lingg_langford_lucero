@@ -207,7 +207,6 @@ class HousingData(object):
         if len(cat_fields) > 0:
             data, fields = self.split_categorical_fields(data, fields, cat_fields)
         fields = [f.upper().replace(" ", "_").strip() for f in fields]
-        
         data = np.asarray(data, dtype=np.float32)
         
         return data, fields

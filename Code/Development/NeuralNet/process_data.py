@@ -32,7 +32,7 @@ def read_fields(field_filepath):
             match = cat_field_regex.match(line)
             if (match):
                 cat_fields.append(match.group('cat_field'))
-        
+
         return fields, cat_fields
 
 def main(argv):
