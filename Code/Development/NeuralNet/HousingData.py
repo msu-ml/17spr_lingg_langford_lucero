@@ -216,12 +216,12 @@ class HousingData(object):
             column = fields.index(field)
             cats = np.unique(data[:,column])
             cats = np.delete(cats, np.argwhere(cats=='nan'))
-            cat_data = np.zeros((data.shape[0], cats.shape[0]))
+            #cat_data = np.zeros((data.shape[0], cats.shape[0]))
             for i in xrange(cats.shape[0]):
-                cat_data[:,i] = (data[:,column] == cats[i])
+                cat_data = (data[:,column] == cats[i]).astype(np.float32)
                 new_field = field + ' is ' + cats[i]
-                fields.append(new_field)
-            data = np.concatenate((data, cat_data), axis=1)
+                fields.insert(-1, new_field)
+                data = np.insert(data, -1, cat_data, axis=1)
         
         delete_columns = []
         for field in cat_fields:
