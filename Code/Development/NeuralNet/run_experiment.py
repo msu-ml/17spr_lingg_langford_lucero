@@ -24,7 +24,6 @@ def main(argv):
 
     experiment = Experiment()
     experiment.run()
-    #experiment.cross_validate()
 
 if __name__ == '__main__':
     main(sys.argv[1:])

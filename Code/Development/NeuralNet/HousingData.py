@@ -48,31 +48,24 @@ class HousingData(object):
             if target_field == None:
                 target_field = fields[-1]
             (X, y), fields = self.separate_targets(data, fields, target_field)
-        
+            
             # Replace any missing values with a substitute.
             if subMethod != SubstitutionMethod.NONE:
                 X = self.replace_missing_values(X, subMethod)
-
+            
             # Normalize values by column.
             if normalize:
                 X, X_min, X_max = self.normalize_values(X)
                 y, y_min, y_max = self.normalize_values(y)
                 self.data_min = (X_min, y_min)
                 self.data_max = (X_max, y_max)
-            
-        # reshape data
-        if X.ndim > 1:
-            X = [np.reshape(x, (X.shape[1], 1)) for x in X]
-        else:
-            X = [np.array(x, ndmin=2, copy=False) for x in X]
-        if y.ndim > 1:
-            y = [np.reshape(t, (y.shape[1], 1)) for t in y]
-        else:
-            y = [np.array(t, ndmin=2, copy=False) for t in y]
+                
+        if y.ndim == 1:
+            y = np.reshape(y, (y.shape[0], 1))
 
         self.name = name
         self.fields = fields
-        self.data = [(X[i], y[i]) for i in xrange(len(X))]
+        self.data = (X, y)
 
     def get_name(self):
         """Gets the name of the data set.
@@ -107,18 +100,6 @@ class HousingData(object):
     data = property(fget=lambda self: self.get_data(),
                     fset=lambda self, v: self.set_data(v))
     
-    def get_num_entries(self):
-        """Gets the number of data entries.
-        """
-        return len(self.__data)
-    num_entries = property(fget=lambda self: self.get_num_entries())
-    
-    def get_num_features(self):
-        """Gets the number of data features.
-        """
-        return self.__data[0][0].shape[0]
-    num_features = property(fget=lambda self: self.get_num_features())
-    
     def get_data_max(self):
         """Gets the max values of the unnormalized data.
         """
@@ -140,38 +121,6 @@ class HousingData(object):
         self.__data_min = v
     data_min = property(fget=lambda self: self.get_data_min(),
                         fset=lambda self, v: self.set_data_min(v))
-    
-    def split_data(self, a, b):
-        test_size = int(len(self.data) * float(b) / float(a + b))
-        data_train = self.data[0:-test_size]
-        data_test = self.data[-test_size:]
-        return data_train, data_test
-    
-    def create_classes(self, num_classes):
-        classes = []
-        targets = sorted(zip(*self.data)[1])
-        batch_size = np.int(len(targets) / num_classes)
-        num_targets = batch_size * num_classes
-        for i in xrange(0, num_targets, batch_size):
-            batch = targets[i:i+batch_size]
-            classes.append(batch[0])
-        return classes
-
-    def encode_targets(self, data, classes):
-        temp = zip(*data)
-        X = temp[0]
-        y = [self.encode_target(y, classes) for y in temp[1]]
-        data = [(X[i], y[i]) for i in xrange(len(data))]
-        return data
-    
-    def encode_target(self, target, classes):
-        target_class = 0
-        for j in xrange(len(classes)):
-            if target >= classes[j]:
-                target_class = j
-        t = np.zeros((len(classes), 1))
-        t[target_class] = 1.0
-        return t
     
     def read_processed_csv(self, data_filepath):
         data = []
@@ -311,8 +260,9 @@ class HousingData(object):
         with open(filepath, 'wb') as output_file:
             writer = csv.writer(output_file)
             writer.writerow(np.hstack(self.fields))
-            for X, y in self.data:
-                writer.writerow(np.hstack(np.vstack((X, y))))
+            data = np.hstack(self.data)
+            for row in data:
+                writer.writerow(data)
         
         # Write boundary values from normalization to csv file.
         bounds_filepath = os.path.splitext(filepath)[0] + '_bounds.csv'
