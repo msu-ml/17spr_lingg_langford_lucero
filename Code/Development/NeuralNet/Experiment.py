@@ -23,12 +23,14 @@ class Experiment(object):
         """
         print('')
         print('Loading data.')
-        self.__sources = [#HousingData('Data/nashville_processed.csv', name='Nashville'),
-                          #HousingData('Data/kingcounty_processed.csv', name='KingCounty'),
-                          #HousingData('Data/redfin_processed.csv', name='GrandRapids'),
-                          HousingData('Data/art_processed.csv', name='ART')
-                         ]        
-        self.__ifigure = plt.figure(0)
+        self.__sources = []
+        self.__sources.append(HousingData('Data/art_processed.csv', name='ART'))
+        self.__sources.append(HousingData('Data/redfin_processed.csv', name='GrandRapids'))
+        self.__sources.append(HousingData('Data/kingcounty_processed.csv', name='KingCounty'))
+        self.__sources.append(HousingData('Data/nashville_processed.csv', name='Nashville'))
+        
+        #self.__ifigure = plt.figure(0)
+        self.__ifigure = None
 
     def run(self):
         """Executes the application.
@@ -36,17 +38,17 @@ class Experiment(object):
         for source in self.__sources:
             print('')
             print('Data  ' + '-'*60)
-            train_dataset, test_dataset = Dataset(*source.data).split(2, 1)
-            self.display_data(source, train_dataset, test_dataset)
+            dataset_train, dataset_test = Dataset(*source.data).split(2.0/3.0)
+            self.display_data(source, dataset_train, dataset_test)
              
             """Classification network
             print('')
             print('Model ' + '-'*60)
-            layers = [train_dataset.num_features, 35, 15, 10, 3]
+            layers = [dataset_train.num_features, 35, 15, 10, 3]
             network = ClassNet(layers)
-            classes = train_dataset.create_classes(3)
-            train_dataset.encode_targets(classes)
-            test_dataset.encode_targets(classes)
+            classes = dataset_train.create_classes(3)
+            dataset_train.encode_targets(classes)
+            dataset_test.encode_targets(classes)
             self.display_model(network)
             """
             
@@ -54,7 +56,7 @@ class Experiment(object):
             """
             print('')
             print('Model ' + '-'*60)
-            layers = [train_dataset.num_features, 35, 15, 10, 1]
+            layers = [dataset_train.num_features, 35, 15, 10, 1]
             network = RegressNet(layers)
             y_min = source.unnormalize_target(0.0)
             y_max = source.unnormalize_target(1.0)
@@ -66,12 +68,12 @@ class Experiment(object):
             plt.ion()
             network.dropout = 0.0
             results = network.train(
-                            train_dataset,
-                            test_dataset,
+                            dataset_train,
+                            dataset_test,
                             optimizer=SGD(learning_rate=0.1, momentum=0.9, regularization=0.0),
                             #optimizer=AdaGrad(learning_rate=0.001, regularization=0.5),
                             #optimizer=AdaDelta(scale=0.7),
-                            num_iters=2000,
+                            num_iters=500,
                             batch_size=10,
                             output=self.display_training)
             plt.ioff()
@@ -79,22 +81,17 @@ class Experiment(object):
             
             print('')
             print('Evaluating model.')
-            results = network.evaluate(test_dataset)
+            results = network.evaluate(dataset_test)
             self.display_evaluation(results)                            
 
         print('Done.')
     
-    def create_candidate(self):
-        n = np.int(np.random.rand() * 9 + 1)
-        r = np.random.randint(5, 50, size=(n))
-        return r.tolist()
-    
-    def display_data(self, source, train_dataset, test_dataset):
+    def display_data(self, source, dataset_train, dataset_test):
         print('Data Source: {}'.format(source.name))
-        print('Total features: {}'.format(train_dataset.num_features))
-        print('Total entries: {}'.format(train_dataset.num_entries + test_dataset.num_entries))
-        print('Training entries: {}'.format(train_dataset.num_entries))
-        print('Test entries: {}'.format(test_dataset.num_entries))
+        print('Total features: {}'.format(dataset_train.num_features))
+        print('Total entries: {}'.format(dataset_train.num_entries + dataset_test.num_entries))
+        print('Training entries: {}'.format(dataset_train.num_entries))
+        print('Test entries: {}'.format(dataset_test.num_entries))
 
     def display_model(self, network):
         print('Type: Feedforward Neural Network')
@@ -151,6 +148,7 @@ class Experiment(object):
         filepath = 'fig_{}_{}_acc.jpg'.format(source.name.lower(), network.name.lower())
         plt.savefig(filepath)
         plt.close()
+        
         plt.figure(2)
         plt.title(source.name)
         plt.plot(iters, train_losses, 'r', label='Training Data')
@@ -161,6 +159,7 @@ class Experiment(object):
         filepath = 'fig_{}_{}_loss.jpg'.format(source.name.lower(), network.name.lower())
         plt.savefig(filepath)
         plt.close()
+        
         plt.figure(3)
         plt.yscale('log')
         plt.title(source.name)

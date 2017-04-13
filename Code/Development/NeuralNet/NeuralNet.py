@@ -90,8 +90,8 @@ class NeuralNet(object):
         self.biases = [np.random.randn(b) for b in self.layers[1:]]
 
     def train(self,
-              train_dataset,
-              test_dataset,
+              dataset_train,
+              dataset_test,
               optimizer,
               num_iters=1000,
               batch_size=10,
@@ -99,8 +99,8 @@ class NeuralNet(object):
         """Trains the neural network, using Adaptive Gradient Descent (Adagrad)
         for optimizing the model's weights.
         Arguments
-            train_dataset - Data that the model will be fitted to.
-            test_dataset - Data that the model will only be evaluated against.
+            dataset_train - Data that the model will be fitted to.
+            dataset_test - Data that the model will only be evaluated against.
             optimizer - A gradient descent optimizer.
             num_iters - The number of iterations to train for.
             batch_size - Number of data points to process in each batch.
@@ -114,11 +114,11 @@ class NeuralNet(object):
         results = []
         for i in xrange(num_iters):
             # Fit the model to the training data.
-            optimizer.optimize(self, train_dataset, batch_size)
+            optimizer.optimize(self, dataset_train, batch_size)
 
             # Evaluate performance on training and test data.
-            train_loss, train_acc = self.evaluate(train_dataset)
-            test_loss, test_acc = self.evaluate(test_dataset)
+            train_loss, train_acc = self.evaluate(dataset_train)
+            test_loss, test_acc = self.evaluate(dataset_test)
             if best_loss is None or test_loss < best_loss:
                 best_loss = test_loss
                 best_W = [np.copy(w) for w in self.weights]

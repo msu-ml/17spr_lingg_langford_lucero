@@ -35,7 +35,7 @@ class Dataset(object):
         self.__dataset[:,self.num_features:] = v
     targets = property(fget=lambda self: self.get_targets(),
                        fset=lambda self, v: self.set_targets(v))
-    
+        
     def get_num_entries(self):
         """Gets the number of data entries.
         """
@@ -51,11 +51,11 @@ class Dataset(object):
     def shuffle(self):
         np.random.shuffle(self.__dataset)
 
-    def split(self, a, b):
-        train_size = int(self.num_entries * float(a) / float(a + b))
-        train_dataset = Dataset(self.data[:train_size,:], self.targets[:train_size,:])
-        test_dataset = Dataset(self.data[train_size:,:], self.targets[train_size:,:])
-        return train_dataset, test_dataset
+    def split(self, ratio):
+        n = int(self.num_entries * ratio)
+        dataset1 = Dataset(self.data[:n,:], self.targets[:n,:])
+        dataset2 = Dataset(self.data[n:,:], self.targets[n:,:])
+        return dataset1, dataset2
 
     def create_classes(self, num_classes):
         classes = np.zeros(num_classes)

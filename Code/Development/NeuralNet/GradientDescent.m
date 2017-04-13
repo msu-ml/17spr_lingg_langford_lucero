@@ -6,9 +6,9 @@ classdef GradientDescent < handle
         function obj = GradientDescent(learning_rate)
             obj.learning_rate = learning_rate;
         end
-        function optimize(obj, network, data, batch_size)
+        function optimize(obj, network, dataset, batch_size)
             eta = obj.learning_rate;
-            [grad_W, grad_b] = obj.get_batch_gradient(network, data);
+            [grad_W, grad_b] = obj.get_batch_gradient(network, dataset);
             n_layers = length(network.layers);
             for i = 1:n_layers-1
                 w = network.weights{i};
@@ -19,7 +19,7 @@ classdef GradientDescent < handle
                 network.biases{i} = b - (eta * gb);
             end
         end
-        function [grad_W, grad_b] = get_batch_gradient(obj, network, data)
+        function [grad_W, grad_b] = get_batch_gradient(obj, network, dataset)
             n_layers = length(network.layers);
             
             % initialize to zero
@@ -31,10 +31,12 @@ classdef GradientDescent < handle
             end
             
             % sum the gradients for each point
-            n_data = length(data);
-            for i = 1:n_data
-                x = data{i,1};
-                t = data{i,2};
+            data = dataset.get_data();
+            targets = dataset.get_targets();
+            n_entries = dataset.num_entries;
+            for i = 1:n_entries
+                x = data(i,:);
+                t = targets(i,:);
                 [grad_W, grad_b] = network.back_propagation(x, t);
                 for j = 1:n_layers-1
                     batch_grad_W{j} = batch_grad_W{j} + grad_W{j};
@@ -44,8 +46,8 @@ classdef GradientDescent < handle
 
             % average the batch gradient
             for j = 1:n_layers-1
-                batch_grad_W{j} = batch_grad_W{j} / n_data;
-                batch_grad_b{j} = batch_grad_b{j} / n_data;
+                batch_grad_W{j} = batch_grad_W{j} / n_entries;
+                batch_grad_b{j} = batch_grad_b{j} / n_entries;
             end
 
             grad_W = batch_grad_W;

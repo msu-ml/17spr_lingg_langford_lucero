@@ -30,7 +30,7 @@ classdef NeuralNet < handle
                 obj.biases{end+1} = randn(obj.layers(i), 1);
             end
         end
-        function results = train(obj, data_train, data_test, optimizer, num_iters, batch_size, display_func)
+        function results = train(obj, dataset_train, dataset_test, optimizer, num_iters, batch_size, display_func)
             results = cell(num_iters, 1);
             
             best_loss = Inf;
@@ -38,10 +38,10 @@ classdef NeuralNet < handle
             best_b = obj.biases;
             for i = 1:num_iters
                 % gradient descent
-                optimizer.optimize(obj, data_train, batch_size);
+                optimizer.optimize(obj, dataset_train, batch_size);
                 
-                [train_loss, train_acc] = obj.evaluate(data_train);
-                [test_loss, test_acc] = obj.evaluate(data_test);
+                [train_loss, train_acc] = obj.evaluate(dataset_train);
+                [test_loss, test_acc] = obj.evaluate(dataset_test);
                 if test_loss < best_loss
                     best_loss = test_loss;
                     best_W = obj.weights;
@@ -62,7 +62,7 @@ classdef NeuralNet < handle
             bs = obj.biases;
             zs = cell(n_layers-1, 1);
             hs = cell(n_layers, 1);
-            hs{1} = x;
+            hs{1} = x.';
             n_layers = length(obj.layers);
             for i = 1:n_layers-1
                 zs{i} = ws{i} * hs{i} + bs{i};
@@ -84,7 +84,7 @@ classdef NeuralNet < handle
         function y = predict(obj, x)
             n_layers = length(obj.layers);
             
-            h = x;
+            h = x.';
             for i = 1:n_layers-1
                 w = obj.weights{i};
                 b = obj.biases{i};
@@ -93,13 +93,16 @@ classdef NeuralNet < handle
             end
             y = h;
         end
-        function [loss, acc] = evaluate(obj, data)
+        function [loss, acc] = evaluate(obj, dataset)
             loss = 0.0;
             correct = 0.0;
-            n_data = length(data);
-            for i = 1:n_data
-                x = data{i,1};
-                t = data{i,2};
+            
+            data = dataset.get_data();
+            targets = dataset.get_targets();
+            n_entries = dataset.num_entries;
+            for i = 1:n_entries
+                x = data(i,:);
+                t = targets(i,:);
                 
                 % make a prediction for the current data point
                 y = obj.predict(x);
@@ -113,8 +116,8 @@ classdef NeuralNet < handle
                 end
             end
             
-            loss = loss / n_data;
-            acc = correct / n_data;
+            loss = loss / n_entries;
+            acc = correct / n_entries;
         end
         function value = activation(obj, z)
             value = 0.0;

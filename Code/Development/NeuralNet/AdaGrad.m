@@ -7,17 +7,16 @@ classdef AdaGrad < GradientDescent
             obj = obj@GradientDescent(learning_rate);
             obj.regularization = regularization;
         end
-        function optimize(obj, network, data, batch_size)
+        function optimize(obj, network, dataset, batch_size)
             eta = obj.learning_rate;
             lambda = obj.regularization;
             eps = 1e-8;
         
             % term for regularizing the weights.
-            n_data = size(data, 1);
-            reg_decay = (1.0 - (eta * lambda / n_data));
+            reg_decay = (1.0 - (eta * lambda / dataset.num_entries));
         
             % Randomly shuffle the training data and split it into batches.
-            data = data(randperm(n_data),:);
+            dataset.shuffle();
             
             n_layers = length(network.layers);
             mem_gW = cell(n_layers-1, 1);
@@ -27,10 +26,10 @@ classdef AdaGrad < GradientDescent
                 mem_gb{i} = zeros(size(network.biases{i}));
             end
             
-            n_data = n_data - mod(n_data, batch_size);
-            for i = 1:batch_size:n_data
-                batch = data(i:i+batch_size-1,:);
-                [grad_W, grad_b] = obj.get_batch_gradient(network, batch);
+            batches = dataset.make_batches(batch_size);
+            n_batches = length(batches);
+            for i = 1:n_batches
+                [grad_W, grad_b] = obj.get_batch_gradient(network, batches{i});
                 n_layers = length(network.layers);
                 for j = 1:n_layers-1
                     w = network.weights{j};
