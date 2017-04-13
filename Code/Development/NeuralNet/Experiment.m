@@ -40,8 +40,8 @@ classdef Experiment < handle
                 fprintf('\nTraining Model.\n');
                 num_iters = 500;
                 batch_size = 10;
-                results = network.train(dataset_train, dataset_test, SGD(0.1, 0.9, 0.5), num_iters, batch_size, @obj.display_training);
-                %results = network.train(dataset_train, dataset_test, AdaGrad(0.1, 0.5), num_iters, batch_size, @obj.display_training);
+                results = network.train(dataset_train, dataset_test, SGD(0.1, 0.9, 0.0, 0.0), num_iters, batch_size, @obj.display_training);
+                %results = network.train(dataset_train, dataset_test, AdaGrad(0.1), num_iters, batch_size, @obj.display_training);
                 %results = network.train(dataset_train, dataset_test, AdaDelta(0.5), num_iters, batch_size, @obj.display_training);
                 obj.plot(source, network, results);
 

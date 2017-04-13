@@ -87,7 +87,7 @@ class NeuralNet(object):
         """
         self.weights = [np.random.randn(b, a)
                         for a, b in zip(self.layers[:-1], self.layers[1:])]
-        self.biases = [np.random.randn(b) for b in self.layers[1:]]
+        self.biases = [np.random.randn(b, 1) for b in self.layers[1:]]
 
     def train(self,
               dataset_train,
@@ -146,7 +146,7 @@ class NeuralNet(object):
         ws = [w for w in self.weights]
         bs = [b for b in self.biases]
         zs = []
-        hs = [x]
+        hs = [x.reshape((x.shape[0],1))]
         masks = []
         for i in xrange(self.num_layers-1):
             z = np.dot(ws[i], hs[-1]) + bs[i]
@@ -177,7 +177,6 @@ class NeuralNet(object):
                 grad_W[-i] = np.dot(delta_h, hs[-i-1].T)
             grad_b[-i] = delta_h
             delta_h = np.dot(ws[-i].T, delta_h)
-
         return grad_W, grad_b
     
     def activation(self, z):
@@ -223,7 +222,7 @@ class NeuralNet(object):
             x - A set of data features
         Returns a target value
         """
-        h = x
+        h = x.reshape((x.shape[0],1))
         for i in xrange(self.num_layers-1):
             w = self.weights[i]
             b = self.biases[i]
@@ -362,7 +361,7 @@ class RegressNet(NeuralNet):
             t: The true target value.
         Returns a error value for the prediction.
         """
-        return np.sum((y - t)**2)
+        return 0.5 * np.linalg.norm(y - t)**2
     
     def error_deriv(self, y, t):
         """Computes the derivative of the error function.
@@ -371,7 +370,7 @@ class RegressNet(NeuralNet):
             t: The true target value.
         Returns a value for the derivative of the error.
         """
-        return np.sum(y - t)
+        return (y - t)
     
     def is_match(self, y, t):
         """Determines if a prediction matches the truth.

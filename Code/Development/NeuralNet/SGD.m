@@ -1,21 +1,21 @@
 classdef SGD < GradientDescent
     properties
         momentum
-        regularization
+        l1_regularization
+        l2_regularization
     end
     methods
-        function obj = SGD(learning_rate, momentum, regularization)
+        function obj = SGD(learning_rate, momentum, l1_regularization, l2_regularization)
             obj = obj@GradientDescent(learning_rate);
             obj.momentum = momentum;
-            obj.regularization = regularization;
+            obj.l1_regularization = l1_regularization;
+            obj.l2_regularization = l2_regularization;
         end
         function optimize(obj, network, dataset, batch_size)
             eta = obj.learning_rate;
             rho = obj.momentum;
-            lambda = obj.regularization;
-        
-            % term for regularizing the weights.
-            reg_decay = (1.0 - (eta * lambda / dataset.num_entries));
+            lambda1 = obj.l1_regularization;
+            lambda2 = obj.l2_regularization;
         
             % Randomly shuffle the training data and split it into batches.
             dataset.shuffle();
@@ -41,9 +41,11 @@ classdef SGD < GradientDescent
                     mdw = mem_dW{j};
                     mdb = mem_db{j};
                     
+                    l1_term = eta * lambda1 / batch_size;
+                    l2_term = eta * lambda2 / batch_size;
                     dw = (rho * mdw) + (eta * gw);
                     db = (rho * mdb) + (eta * gb);
-                    network.weights{j} = reg_decay * w - dw;
+                    network.weights{j} = ((1- l2_term) * w) - (l2_term * sign(w)) - dw;
                     network.biases{j} = b - db;
                     
                     mem_dW{j} = dw;

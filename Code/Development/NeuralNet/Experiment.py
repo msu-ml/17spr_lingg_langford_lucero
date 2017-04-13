@@ -25,12 +25,12 @@ class Experiment(object):
         print('Loading data.')
         self.__sources = []
         self.__sources.append(HousingData('Data/art_processed.csv', name='ART'))
-        self.__sources.append(HousingData('Data/redfin_processed.csv', name='GrandRapids'))
-        self.__sources.append(HousingData('Data/kingcounty_processed.csv', name='KingCounty'))
-        self.__sources.append(HousingData('Data/nashville_processed.csv', name='Nashville'))
+        #self.__sources.append(HousingData('Data/redfin_processed.csv', name='GrandRapids'))
+        #self.__sources.append(HousingData('Data/kingcounty_processed.csv', name='KingCounty'))
+        #self.__sources.append(HousingData('Data/nashville_processed.csv', name='Nashville'))
         
-        #self.__ifigure = plt.figure(0)
-        self.__ifigure = None
+        self.__ifigure = plt.figure(0)
+        #self.__ifigure = None
 
     def run(self):
         """Executes the application.
@@ -70,8 +70,8 @@ class Experiment(object):
             results = network.train(
                             dataset_train,
                             dataset_test,
-                            optimizer=SGD(learning_rate=0.1, momentum=0.9, regularization=0.0),
-                            #optimizer=AdaGrad(learning_rate=0.001, regularization=0.5),
+                            optimizer=SGD(learning_rate=0.1, momentum=0.9, l1_regularization=0.0, l2_regularization=0.0),
+                            #optimizer=AdaGrad(learning_rate=0.1),
                             #optimizer=AdaDelta(scale=0.7),
                             num_iters=500,
                             batch_size=10,

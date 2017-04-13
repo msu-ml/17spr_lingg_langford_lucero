@@ -45,7 +45,7 @@ class GradientDescent(object):
         return batch_grad_W, batch_grad_b
 
 class SGD(GradientDescent):
-    def __init__(self, learning_rate=1.0, momentum=0.0, regularization=0.0):
+    def __init__(self, learning_rate=1.0, momentum=0.0, l1_regularization=0.0, l2_regularization=0.0):
         """Initializes a new schoastic gradient descent optimizer.
         Arguments
             learning_rate - Adjust the intensity of gradient descent.
@@ -54,7 +54,8 @@ class SGD(GradientDescent):
         """
         self.__learning_rate = learning_rate
         self.__momentum = momentum
-        self.__regularization = regularization
+        self.__l1_regularization = l1_regularization
+        self.__l2_regularization = l2_regularization
 
     def optimize(self, network, dataset, batch_size):
         """Adjusts the models weights to fit the given training data using a
@@ -62,10 +63,8 @@ class SGD(GradientDescent):
         """
         eta = self.__learning_rate
         rho = self.__momentum
-        lmbda = self.__regularization
-        
-        # Term for regularizing the weights.
-        reg_decay = (1.0 - (eta * lmbda / dataset.num_entries))
+        lambda1 = self.__l1_regularization
+        lambda2 = self.__l2_regularization
         
         # Randomly shuffle the data
         dataset.shuffle()
@@ -79,29 +78,26 @@ class SGD(GradientDescent):
             delta_b = [((rho * mdb) + (eta * gb)) for mdb, gb in zip(mem_db, grad_b)]
             mem_dW = [dw for dw in delta_W]
             mem_db = [db for db in delta_b]
-            network.weights = [(reg_decay * w - dw) for w, dw in zip(network.weights, delta_W)]
+            l1_term = eta * lambda1 / batch_size
+            l2_term = eta * lambda2 / batch_size
+            network.weights = [(((1.0 - l2_term) * w) - (l1_term * np.sign(w))  - dw) for w, dw in zip(network.weights, delta_W)]
             network.biases = [(b - db) for b, db in zip(network.biases, delta_b)]
 
 class AdaGrad(GradientDescent):
-    def __init__(self, learning_rate=1.0, regularization=0.0):
+    def __init__(self, learning_rate=1.0):
         """Initializes a new AdaGrad gradient descent optimizer.
         Arguments
             learning_rate - Adjust the intensity of gradient descent.
             regularization - Adjusts the amount of L2 regularization for weights.
         """
         self.__learning_rate = learning_rate
-        self.__regularization = regularization
 
     def optimize(self, network, dataset, batch_size):
         """Adjusts the models weights to fit the given training data using an
         AdaGrad optimization method.
         """
         eta = self.__learning_rate
-        lmbda = self.__regularization
         eps = 1e-8
-        
-        # Term for regularizing the weights.
-        reg_decay = (1.0 - (eta * lmbda / dataset.num_entries))
         
         # Randomly shuffle the data
         dataset.shuffle()
@@ -116,7 +112,7 @@ class AdaGrad(GradientDescent):
             mem_gb = [(mb + gb**2) for mb, gb in zip(mem_gb, grad_b)]
             delta_W = [-(gw * eta / np.sqrt(mgw + eps)) for gw, mgw in zip(grad_W, mem_gW)]
             delta_b = [-(gb * eta / np.sqrt(mgb + eps)) for gb, mgb in zip(grad_b, mem_gb)]
-            network.weights = [(reg_decay * w + dw) for w, dw in zip(network.weights, delta_W)]
+            network.weights = [(w + dw) for w, dw in zip(network.weights, delta_W)]
             network.biases = [(b + db) for b, db in zip(network.biases,  delta_b)]
 
 class AdaDelta(GradientDescent):
