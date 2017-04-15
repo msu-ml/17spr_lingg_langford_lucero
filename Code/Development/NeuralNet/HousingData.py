@@ -27,7 +27,8 @@ class HousingData(object):
                  cat_fields=[],
                  empty_value='',
                  subMethod=SubstitutionMethod.CLOSEST_MEAN,
-                 normalize=True):
+                 normalize=True,
+                 y_bounds=None):
         if preprocessed:
             # Read data from preprocessed csv file.
             data, fields = self.read_processed_csv(filepath)
@@ -56,7 +57,7 @@ class HousingData(object):
             # Normalize values by column.
             if normalize:
                 X, X_min, X_max = self.normalize_values(X)
-                y, y_min, y_max = self.normalize_values(y)
+                y, y_min, y_max = self.normalize_values(y, bounds=y_bounds)
                 self.data_min = (X_min, y_min)
                 self.data_max = (X_max, y_max)
                 
@@ -232,9 +233,12 @@ class HousingData(object):
                     
         return data
     
-    def normalize_values(self, data):
-        max_vals = np.amax(data, axis=0)
-        min_vals = np.amin(data, axis=0)
+    def normalize_values(self, data, bounds=None):
+        if bounds is None:
+            min_vals = np.amin(data, axis=0)
+            max_vals = np.amax(data, axis=0)
+        else:
+            min_vals, max_vals = bounds
         data = (data - min_vals) / (max_vals - min_vals)
         return data, min_vals, max_vals
 
@@ -262,7 +266,7 @@ class HousingData(object):
             writer.writerow(np.hstack(self.fields))
             data = np.hstack(self.data)
             for row in data:
-                writer.writerow(data)
+                writer.writerow(row)
         
         # Write boundary values from normalization to csv file.
         bounds_filepath = os.path.splitext(filepath)[0] + '_bounds.csv'
