@@ -58,9 +58,7 @@ class Experiment(object):
             print('Model ' + '-'*60)
             layers = [dataset_train.num_features, 35, 15, 10, 1]
             network = RegressNet(layers)
-            y_min = source.unnormalize_target(0.0)
-            y_max = source.unnormalize_target(1.0)
-            network.epsilon = 10000 / (y_max - y_min)
+            network.epsilon = source.normalize_target(10000)
             self.display_model(network)
             
             print('')
@@ -70,9 +68,9 @@ class Experiment(object):
             results = network.train(
                             dataset_train,
                             dataset_test,
-                            optimizer=SGD(learning_rate=0.1, momentum=0.9, l1_regularization=0.0, l2_regularization=0.0),
+                            #optimizer=SGD(learning_rate=0.1, momentum=0.9, l1_regularization=0.0, l2_regularization=0.0),
                             #optimizer=AdaGrad(learning_rate=0.1),
-                            #optimizer=AdaDelta(scale=0.7),
+                            optimizer=AdaDelta(scale=0.7),
                             num_iters=500,
                             batch_size=10,
                             output=self.display_training)

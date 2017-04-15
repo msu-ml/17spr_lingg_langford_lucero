@@ -53,7 +53,7 @@ def main(argv):
     subMethod = SubstitutionMethod.NONE
     y_min = None
     y_max = None
-    y_bounds = None
+    target_bounds = None
 
     for opt, arg in opts:
         if opt in ('-o', '--output'):
@@ -83,7 +83,7 @@ def main(argv):
             output_filepath = os.path.splitext(filepath)[0] + '_processed.csv'
     
         if (not y_min is None and not y_max is None):
-            y_bounds = (y_min, y_max)
+            target_bounds = (y_min, y_max)
 
         print('Processing data...')
         data = HousingData(
@@ -94,7 +94,7 @@ def main(argv):
                 empty_value=empty_value,
                 subMethod=subMethod,
                 normalize=normalize,
-                y_bounds=y_bounds)
+                target_bounds=target_bounds)
         
         print('Writing processed data...')
         data.write_csv(output_filepath)
