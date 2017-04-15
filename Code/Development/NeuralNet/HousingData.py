@@ -38,17 +38,21 @@ class HousingData(object):
             bounds, _ = self.read_processed_csv(bounds_filepath)
             self.data_min = (bounds[0,:-1], bounds[0,-1])
             self.data_max = (bounds[1,:-1], bounds[1,-1])
-            
+
             # Separate the target field from the rest.
             (X, y), fields = self.separate_targets(data, fields, fields[-1])
         else:
+            given_target_field = target_field
+            
             # Read data from a csv file.
-            data, fields = self.read_unprocessed_csv(filepath, fields, cat_fields, empty_value)
-
-            # Separate the target field from the rest.
-            if target_field == None:
+            if given_target_field == None:
                 target_field = fields[-1]
-            (X, y), fields = self.separate_targets(data, fields, target_field, target_bounds)
+            data, fields = self.read_unprocessed_csv(filepath, fields, cat_fields, target_field, target_bounds, empty_value)
+            
+            # Separate the target field from the rest.
+            if given_target_field == None:
+                target_field = fields[-1]
+            (X, y), fields = self.separate_targets(data, fields, target_field)
             
             # Replace any missing values with a substitute.
             if subMethod != SubstitutionMethod.NONE:
@@ -135,8 +139,11 @@ class HousingData(object):
         
         return data, fields
         
-    def read_unprocessed_csv(self, filepath, fields, cat_fields, empty_value):
+    def read_unprocessed_csv(self, filepath, fields, cat_fields, target_field, target_bounds, empty_value):
         data = []
+        
+        if not target_bounds is None:
+            target_min, target_max = target_bounds
         
         # Open file for reading.
         with open(filepath, 'rb') as input_file:
@@ -144,19 +151,27 @@ class HousingData(object):
             reader = csv.DictReader(input_file)
             for row in reader:
                 entry = []
+                target_value = np.nan
                 for field in fields:
                     # If the field is empty, put a nan value in it.
                     if row[field] != '' and row[field] != empty_value:
                         entry.append(row[field])
                     else:
                         entry.append(np.nan)
-                data.append(entry)
+                    if field.upper().strip() == target_field.upper().strip():
+                        target_value = np.float(row[field])
+                # only include entries that fall within the target_bounds
+                if not target_bounds is None:
+                    if target_value >= target_min and target_value <= target_max:
+                        data.append(entry)
+                else:
+                    data.append(entry)
         data = np.asarray(data)
         
         # Split categorical fields up.
         if len(cat_fields) > 0:
             data, fields = self.split_categorical_fields(data, fields, cat_fields)
-        fields = [f.upper().replace(" ", "_").strip() for f in fields]
+        fields = [f.upper().replace(' ', '_').replace('/', '_').replace(':', '_').replace('\\', '_').replace('(', '').replace(')', '').strip() for f in fields]
         data = np.asarray(data, dtype=np.float32)
         
         return data, fields
@@ -198,7 +213,7 @@ class HousingData(object):
             # For each entry, replace its nan values with the column's mean.
             for entry in data:
                 nan_idx = np.isnan(entry)
-                if nan_idx.any():
+                if np.any(nan_idx):
                     entry[nan_idx] = mean[nan_idx]
         elif method == SubstitutionMethod.CLOSEST_VALUE:
             for entry in data:
@@ -254,15 +269,8 @@ class HousingData(object):
         value = ((y_max - y_min) * value) + y_min
         return value
         
-    def separate_targets(self, data, fields, target_field, target_bounds=None):
+    def separate_targets(self, data, fields, target_field):
         target_column = fields.index(target_field)
-
-        # Prune out any outliers.
-        if not target_bounds is None:
-            data = np.copy(data)
-            min_val, max_val = target_bounds
-            data = data[data[:,target_column] > min_val]
-            data = data[data[:,target_column] < max_val]
 
         X = np.copy(data)
         y = np.copy(data[:,target_column])
