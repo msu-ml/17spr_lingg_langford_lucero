@@ -27,7 +27,8 @@ class HousingData(object):
                  cat_fields=[],
                  empty_value='',
                  subMethod=SubstitutionMethod.CLOSEST_MEAN,
-                 normalize=True):
+                 normalize=True,
+                 target_bounds=None):
         if preprocessed:
             # Read data from preprocessed csv file.
             data, fields = self.read_processed_csv(filepath)
@@ -43,11 +44,11 @@ class HousingData(object):
         else:
             # Read data from a csv file.
             data, fields = self.read_unprocessed_csv(filepath, fields, cat_fields, empty_value)
-        
+
             # Separate the target field from the rest.
             if target_field == None:
                 target_field = fields[-1]
-            (X, y), fields = self.separate_targets(data, fields, target_field)
+            (X, y), fields = self.separate_targets(data, fields, target_field, target_bounds)
             
             # Replace any missing values with a substitute.
             if subMethod != SubstitutionMethod.NONE:
@@ -56,7 +57,7 @@ class HousingData(object):
             # Normalize values by column.
             if normalize:
                 X, X_min, X_max = self.normalize_values(X)
-                y, y_min, y_max = self.normalize_values(y)
+                y, y_min, y_max = self.normalize_values(y, bounds=target_bounds)
                 self.data_min = (X_min, y_min)
                 self.data_max = (X_max, y_max)
                 
@@ -232,11 +233,20 @@ class HousingData(object):
                     
         return data
     
-    def normalize_values(self, data):
-        max_vals = np.amax(data, axis=0)
-        min_vals = np.amin(data, axis=0)
+    def normalize_values(self, data, bounds=None):
+        if bounds is None:
+            min_vals = np.amin(data, axis=0)
+            max_vals = np.amax(data, axis=0)
+        else:
+            min_vals, max_vals = bounds
         data = (data - min_vals) / (max_vals - min_vals)
         return data, min_vals, max_vals
+
+    def normalize_target(self, value):
+        y_max = self.data_max[1]
+        y_min = self.data_min[1]
+        value = (value - y_min) / (y_max - y_min)
+        return value
 
     def unnormalize_target(self, value):
         y_max = self.data_max[1]
@@ -244,8 +254,15 @@ class HousingData(object):
         value = ((y_max - y_min) * value) + y_min
         return value
         
-    def separate_targets(self, data, fields, target_field):
+    def separate_targets(self, data, fields, target_field, target_bounds=None):
         target_column = fields.index(target_field)
+
+        # Prune out any outliers.
+        if not target_bounds is None:
+            data = np.copy(data)
+            min_val, max_val = target_bounds
+            data = data[data[:,target_column] > min_val]
+            data = data[data[:,target_column] < max_val]
 
         X = np.copy(data)
         y = np.copy(data[:,target_column])
@@ -262,7 +279,7 @@ class HousingData(object):
             writer.writerow(np.hstack(self.fields))
             data = np.hstack(self.data)
             for row in data:
-                writer.writerow(data)
+                writer.writerow(row)
         
         # Write boundary values from normalization to csv file.
         bounds_filepath = os.path.splitext(filepath)[0] + '_bounds.csv'

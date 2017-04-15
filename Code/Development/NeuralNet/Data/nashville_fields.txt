@@ -1,0 +1,16 @@
+*Land Use
+*Property City
+*Sold As Vacant
+*Multiple Parcels Involved in Sale
++Acreage
+*Tax District
++Neighborhood
++Finished Area
+*Foundation Type
++Year Built
+*Exterior Wall
+*Grade
++Bedrooms
++Full Bath
++Half Bath
++Sale Price

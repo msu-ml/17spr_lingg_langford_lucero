@@ -6,7 +6,7 @@ Created on Fri Mar 10 09:55:15 2017
 """
 
 import getopt
-import numpy
+import numpy as np
 import os
 import re
 import sys
@@ -14,7 +14,7 @@ from HousingData import HousingData
 from HousingData import SubstitutionMethod
 
 seed = 69
-numpy.random.seed(seed)
+np.random.seed(seed)
 
 def read_fields(field_filepath):
         fields = []
@@ -39,10 +39,10 @@ def main(argv):
     try:                                
         opts, args = getopt.getopt(
                 argv,
-                'f:o:x:ns:',
-                ['fields', 'output', 'missing', 'normalize', 'sub'])
+                'f:o:1:2:x:ns:',
+                ['fields=', 'output=', 'maxy=', 'miny=', 'missing=', 'normalize', 'sub='])
     except getopt.GetoptError:
-        sys.exit(2)
+       sys.exit(2)
 
     filepath = ''
     output_filepath = ''
@@ -51,6 +51,9 @@ def main(argv):
     empty_value = ''
     normalize = False
     subMethod = SubstitutionMethod.NONE
+    y_min = None
+    y_max = None
+    target_bounds = None
 
     for opt, arg in opts:
         if opt in ('-o', '--output'):
@@ -61,7 +64,7 @@ def main(argv):
             empty_value = arg
         elif opt in ('-n', '--normalize'):
             normalize = True
-        elif opt in ('-s', '-sub'):
+        elif opt in ('-s', '--sub'):
             method = arg.lower()
             if method == 'mean':
                 subMethod = SubstitutionMethod.MEAN
@@ -69,21 +72,29 @@ def main(argv):
                 subMethod = SubstitutionMethod.CLOSEST_VALUE
             elif method == 'closest_mean':
                 subMethod = SubstitutionMethod.CLOSEST_MEAN
+        elif opt in ('-1', '--miny'):
+            y_min = np.float32(arg)
+        elif opt in ('-2', '--maxy'):
+            y_max = np.float32(arg)
 
     if len(args) > 0:
         filepath = args[0]
         if output_filepath == '':
             output_filepath = os.path.splitext(filepath)[0] + '_processed.csv'
     
+        if (not y_min is None and not y_max is None):
+            target_bounds = (y_min, y_max)
+
         print('Processing data...')
         data = HousingData(
                 filepath,
+                preprocessed=False,
                 fields=fields,
                 cat_fields=cat_fields,
                 empty_value=empty_value,
                 subMethod=subMethod,
                 normalize=normalize,
-                preprocessed=False)
+                target_bounds=target_bounds)
         
         print('Writing processed data...')
         data.write_csv(output_filepath)
