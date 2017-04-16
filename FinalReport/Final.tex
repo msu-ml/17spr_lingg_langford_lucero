@@ -127,24 +127,33 @@
 		\par
 	 		The second approach also uses a matrix of independent regression models but instead the results classify if the house is worth more than the lower value of the class k of each model. The training method only differes from the first approach by setting the Y value corresponding with the class equal to 1 if the value of the current house is higher than the lower value of the class. Then classification is performed by summing up the range represented by each class with a confidence higher than 0.5.
 		\par
- 			Table \ref{table:logr_performance} shows that the second approach for logistic regression, determining if the house is worth more than each class, works better than the first approach, determining which class the house would fall under. The second approach also produces a result much faster than the first approach. However, both approaches have a bit higher MSE when compared with the ideal linear regression model. At the same time, the logistic regression models appear to do a better job of classifying prices at the higher price range, where linear regression performed more poorly.
+ 			Table \ref{table:logr_performance} shows that the second approach for logistic regression, determining if the house is worth more than each class, works better than the first approach, determining which class the house would fall under.
 		\par
         	\captionsetup{type=table}
 			\begin{tabular}{r|c}
 				& \small{Mean Squared Error} \\
 				\hline
-				\small{Linear Regression Mode} & \small{1.3e+09} \\
+				\small{Linear Regression Mode} & \small{1.0e-03} \\
 				\hline
-				\small{Logistic Regression Model 2} & \small{1.4e+09} \\
+				\small{Logistic Regression Model 2} & \small{4.8e-03} \\
 				\hline
-				\small{Logistic Regression Model 1} & \small{2.9e+09} \\
+				\small{Logistic Regression Model 1} & \small{1.3e-02} \\
 				\hline
 			\end{tabular}
 			\captionof{table}{Observed performance from logistic regression model.}
 			\label{table:logr_performance}        
 			\setlength{\parindent}{15pt}
 		\par
- 			Moving forward in the project we are looking at attempting to combine the strengths of the two approaches. To do this we intend to use logistic regression to identify ranges where the test data can be represented by similar models. Then logistic regression can be used to model each section without being influenced by data in the other sections. However, a simpler solution might simply be to transform the training data to use the logarithm of the house prices.
+			Figure \ref{fig:logr_MSE_Accuracy} shows the accuracy is best for a small number of classes, except for Advanced Regression Techniques.  For Advanced Regression Techniques, 5 classes causes most houses to fall right on a boundary between classes, which causes poor performance.  Advanced Regression Techniques performs better for 10 classes, where most of the house values happens to fall in the middle of one class. While accuracy decreases with an increase in classes, the mean squared error difference between the lowest value of the predicted class and the true value decreases.  This is caused by predictions being for a narrower range with more classes, increasing the precision.
+		\par
+		\begin{center}
+	            \captionsetup{type=figure}
+			\includegraphics[scale=0.38]{Images/LogisticRegressionMSEAccuracy} \\
+			\captionof{figure}{MSE and accuracy for Logistic Regression.}
+			\label{fig:logr_MSE_Accuracy}
+		\end{center}
+		\par
+ 			
 		\subsection{Decision Tree}
 		\par
 		For our Decision Tree approach, we used a Classification Decision Tree and a Regression Decision Tree. For the Classification Tree, since the data was not already classified, it was split into \(k\) equally sized classes where each class represents a range of prices. The average value for every feature column is also calculated and used to subsitute for any missing data points in the observations. A classification model was built for the KC data set, Redfin data set, and Nashville data set. For each data set, initially a classification tree model was built using crossfold validation with 10 folds using 90\% of the data for training. This model used the default parameters for tree size, which are maximum number of splits of n-1, minimum leaf size of 1, and minimum parent size of 1. 

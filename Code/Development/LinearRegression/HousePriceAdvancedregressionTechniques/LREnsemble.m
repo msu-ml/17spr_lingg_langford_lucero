@@ -2,30 +2,51 @@ fileName = 'train_processed';
 tbl = readtable ( strcat('../../../../Data/Processed/',fileName,'.csv') );
 
 tblArray = table2array(tbl);
-tblArray = cat(2,tblArray(:,1),tblArray(:,randperm(size(tblArray,2)-1)+1));
-tblArraySorted = sortrows(tblArray,1);
 
-y_train = tblArray(1:size(tblArray,1)/2,1);
-x_train = tblArray(1:size(tblArray,1)/2,2:size(tblArray,2));
-y_weights = tblArray(size(tblArray,1)/2+1:size(tblArray,1)*3/4,1);
-x_weights = tblArray(size(tblArray,1)/2+1:size(tblArray,1)*3/4,2:size(tblArray,2));
-y_test = tblArray(size(tblArray,1)*3/4 + 1:size(tblArray,1),1);
-x_test = tblArray(size(tblArray,1)*3/4 + 1:size(tblArray,1),2:size(tblArray,2));
+data = tblArray(:,2:size(tblArray,2));
+dataMean = mean(data,1);
+temp = ones(size(data,1),1)*dataMean;
+[U, E, V] = svd(data - ones(size(data,1),1)*dataMean);
+principals = (U * E);
+recon1 = principals(:,1:100) * V(:,1:100)' + ones(size(data,1),1)*dataMean;
 
-ensembleSize = ceil(double(size(tblArray,2)-1)/4.0);
+testArray = cat(2,tblArray(:,1),recon1(:,1:size(recon1,2)));
+%testArray = cat(2,tblArray(:,1),tblArray(:,2:size(tblArray,2)));
+testArraySorted = sortrows(testArray,1);
+
+y_train = testArray(1:size(testArray,1)/2,1);
+x_train = testArray(1:size(testArray,1)/2,2:size(testArray,2));
+y_weights = testArray(size(testArray,1)/2+1:size(testArray,1)*3/4,1);
+x_weights = testArray(size(testArray,1)/2+1:size(testArray,1)*3/4,2:size(testArray,2));
+y_test = testArray(size(testArray,1)*3/4 + 1:size(testArray,1),1);
+x_test = testArray(size(testArray,1)*3/4 + 1:size(testArray,1),2:size(testArray,2));
+
+ensembleSize = ceil(double(size(x_train,2)-1)/4.0) * 10;
 
 W_ML = zeros(4,ensembleSize);
 
 for i = 1:ensembleSize
-  W_ML(:,i) = CalcWeights(y_train, x_train(:,(i-1)*4+1:min(size(x_train,2),(i-1)*4+4)));
+  randFeatures = randperm(size(x_train,2));
+  W_ML(:,i) = CalcWeights(y_train, x_train(:,randFeatures(1:4)));
 end
 
+%testArray = cat(2,tblArray(:,1),tblArray(:,2:size(tblArray,2)));
+%testArraySorted = sortrows(testArray,1);
+
+%y_train = testArray(1:size(testArray,1)/2,1);
+%x_train = testArray(1:size(testArray,1)/2,2:size(testArray,2));
+%y_weights = testArray(size(testArray,1)/2+1:size(testArray,1)*3/4,1);
+%x_weights = testArray(size(testArray,1)/2+1:size(testArray,1)*3/4,2:size(testArray,2));
+%y_test = testArray(size(testArray,1)*3/4 + 1:size(testArray,1),1);
+%x_test = testArray(size(testArray,1)*3/4 + 1:size(testArray,1),2:size(testArray,2));
+
 Weights = TrainWeights(W_ML,y_weights,x_weights);
+%Weights = ones(ensembleSize,1)/ensembleSize;
 
 disp(EnsembleError(W_ML,Weights,y_test,x_test,true,true,fileName));
 
-y_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),1);
-x_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),2:size(tblArray,2));
+y_test = testArraySorted(size(testArraySorted,1)/2 + 1:size(testArraySorted,1),1);
+x_test = testArraySorted(size(testArraySorted,1)/2 + 1:size(testArraySorted,1),2:size(testArraySorted,2));
 
 disp('Run Error:');
 disp(EnsembleError(W_ML,Weights,y_test,x_test,true,false));
@@ -44,13 +65,18 @@ function MSE = CrossError(ModelW, Truth, Data)
     MSE = MSE + ( Truth( i ) - result ( i ) )^2;
   end
 
+%    figure;
+%    plot ( Truth, 'g' );
+%    hold;
+%    plot ( result, 'r' );
+%    legend('Prediction','Truth');
     % Calculate the final MSE.
   MSE = 1/length(Truth) * MSE;
 end
 
   % Perform 5 fold cross validation on the training data set for the given
   % lambda.
-function MSE = CrossValidation(LambdaValue, ModelW, Truth, Data)
+function MSE = CrossValidation(LambdaValue, Truth, Data)
   runningMSE = 0;
 
   y_train = Truth;
@@ -72,11 +98,11 @@ function MSE = CrossValidation(LambdaValue, ModelW, Truth, Data)
     crossTestTruth = y_train(startTrain:endTrain);
 
     % Peform the current cross train.
-    ClassifierWeights = ( LambdaValue*eye(size(crossTrain,2)) + crossTrain'*crossTrain ) \ crossTrain' * crossTestTruth;
+    ClassifierWeights = inv( LambdaValue*eye(size(crossTrain,2)) + crossTrain'*crossTrain ) * crossTrain' * crossTestTruth;
     
       % Calculate the MSE of the model against the cross test data.
-    crossTestData = x_train(4 * crossLength:length(x_train),:);
-    testTruth = y_train(4 * crossLength:length(y_train));
+    crossTestData = x_train(4 * crossLength:size(x_train,1),:);
+    testTruth = y_train(4 * crossLength:size(y_train,1));
     runningMSE = runningMSE + CrossError(ClassifierWeights, testTruth, crossTestData);
   end
 
@@ -85,51 +111,52 @@ function MSE = CrossValidation(LambdaValue, ModelW, Truth, Data)
 end
 
 function ModelW = CalcWeights(Truth, Data)
-  % Setup the lambda regularization values to test.
-  testLambdas( 1 ) = 1e-7;
-  testLambdas( 2 ) = 1.5e-7;
-  testLambdas( 3 ) = 1e-6;
-  testLambdas( 4 ) = 1.5e-6;
-  testLambdas( 5 ) = 1e-5;
-  testLambdas( 6 ) = 1e-4;
-  testLambdas( 7 ) = 1e-3;
-  testLambdas( 8 ) = 1e-2;
-  testLambdas( 9 ) = 1e-1;
-
   bestLambdaError = 999999999999;
-  bestLambda = 1;
+  bestLambda = 0;
 
-  for lambdaIndex = 1:9
+  testLambda = 1;
+  testLambdaDir = 1;
+  testLambdaDelta = 10;
+  lastError = 0;
+  currError = 999999999999999;
+
+  while(abs(lastError - currError) > 0.0001)
+    lastError = currError;
+
       %Get the cross validation results for the current lambda.
-    ModelW = ( lambdaIndex*eye(size(Data,2)) + Data'*Data ) \ Data' * Truth; 
-    crossResults = CrossError(ModelW, Truth, Data);
+%    ModelW = inv( testLambda*eye(size(Data,2)) + Data'*Data ) * Data' * Truth; 
+    currError = CrossValidation(testLambda, Truth, Data);
+%    disp(strcat('Cross Result lambda = ',num2str(testLambda),':',num2str(currError)));
   
-    if ( bestLambdaError > crossResults )
-       bestLambdaError = crossResults;
-       bestLambda = testLambdas(lambdaIndex);
+      %Check if this lambda produces a better result.
+    if ( lastError > currError )
+      if ( bestLambdaError > currError )
+         bestLambdaError = currError;
+         bestLambda = testLambda;
+       end
+    else
+      testLambdaDir = -testLambdaDir;
+      testLambdaDelta = testLambdaDelta * 0.1;
     end
+    testLambda = testLambda + testLambdaDir * testLambdaDelta;
   end
 
   %disp(strcat('Best Lambda: ',num2str(bestLambda)));
 
-  ModelW = ( bestLambda*eye(size(Data,2)) + Data'*Data ) \ Data' * Truth; 
+  ModelW = inv( bestLambda*eye(size(Data,2)) + Data'*Data ) * Data' * Truth; 
 end
 
 function ClassifierWeights = TrainWeights(ModelW, Truth, Data)
-  ensembleSize = ceil(double(size(Data,2))/4.0);
-
-  testLambdas( 1 ) = 1e-7;
-  testLambdas( 2 ) = 1.5e-7;
-  testLambdas( 3 ) = 1e-6;
-  testLambdas( 4 ) = 1.5e-6;
-  testLambdas( 5 ) = 1e-5;
-  testLambdas( 6 ) = 1e-4;
-  testLambdas( 7 ) = 1e-3;
-  testLambdas( 8 ) = 1e-2;
-  testLambdas( 9 ) = 1e-1;
+  ensembleSize = ceil(double(size(Data,2))/4.0) * 10;
 
   bestLambdaError = 999999999999;
-  bestLambda = 1;
+  bestLambda = 0;
+
+  testLambda = 1;
+  testLambdaDir = 1;
+  testLambdaDelta = 10;
+  lastError = 0;
+  currError = 999999999999999;
   
     ensembleData = zeros( size(Truth,1), ensembleSize );
     for i = 1:size(Truth,1)
@@ -138,14 +165,23 @@ function ClassifierWeights = TrainWeights(ModelW, Truth, Data)
       end
     end
     
-  for lambdaIndex = 1:9
-    crossResults = CrossValidation(testLambdas(lambdaIndex),ModelW,Truth,ensembleData);
-    if ( bestLambdaError > crossResults )
-       bestLambdaError = crossResults;
-       bestLambda = testLambdas(lambdaIndex);
+  while(abs(lastError - currError) > 0.000001)
+    lastError = currError;
+    currError = CrossValidation(testLambda,Truth,ensembleData);
+
+      %Check if this lambda produces a better result.
+    if ( lastError > currError )
+      if ( bestLambdaError > currError )
+         bestLambdaError = currError;
+         bestLambda = testLambda;
+       end
+    else
+      testLambdaDir = -testLambdaDir;
+      testLambdaDelta = testLambdaDelta * 0.1;
     end
+    testLambda = testLambda + testLambdaDir * testLambdaDelta;
   end
-  ClassifierWeights = ( bestLambda*eye(size(ensembleData,2)) + ensembleData'*ensembleData ) \ ensembleData' * Truth;
+  ClassifierWeights = inv( bestLambda*eye(size(ensembleData,2)) + ensembleData'*ensembleData ) * ensembleData' * Truth;
 end
 
   % Calculate the MSE where Data is the input Data,
@@ -153,7 +189,7 @@ end
   % ModelW and Bias are our model to test.
 function MSE = EnsembleError(ModelW, ClassifierWeights, Truth, Data, Graph, DumpData, FileName)
   MSE = 0;
-  ensembleSize = ceil(double(size(Data,2))/4.0);
+  ensembleSize = ceil(double(size(Data,2))/4.0) * 10;
 
     % Calculate the MSE of each data sample.
   ensembleData = zeros( ensembleSize, 1 );
