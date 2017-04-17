@@ -1,72 +1,89 @@
 function MSE = BasicLinearRegression(FileName,Normalize)
   tbl = readtable ( strcat('../Data/',FileName,'.csv') );
 
-  % Setup the lambda regularization values to test.
-  testLambdas( 1 ) = 1e-7;
-  testLambdas( 2 ) = 1.5e-7;
-  testLambdas( 3 ) = 1e-6;
-  testLambdas( 4 ) = 1.5e-6;
-  testLambdas( 5 ) = 1e-5;
-  testLambdas( 6 ) = 1.5e-5;
-  testLambdas( 7 ) = 1e-4;
-  testLambdas( 8 ) = 1.5e-4;
-  testLambdas( 9 ) = 1e-3;
-  testLambdas( 10 ) = 1.5e-3;
-  testLambdas( 11 ) = 1e-2;
-  testLambdas( 12 ) = 1.5e-2;
-  testLambdas( 13 ) = 1e-1;
-
   tblArray = table2array(tbl);
   
+    % Normalize the data if requested.
   if ( nargin > 1 )
     if ( Normalize == true )
       for i = 1:size(tblArray,2)
-        tblArray(:,i) = (tblArray(:,i) - min(tblArray(:,i)))/(max(tblArray(:,i) - min(tblArray(:,i))));
+        tblArray(:,i) = (tblArray(:,i) )/(max(tblArray(:,i) ));
       end
     end
   end
 
+    % Create sorted data for debug graph.
   tblArraySorted = sortrows(tblArray,1);
 
   bestLambdaError = 999999999999;
   bestLambda = 0;
 
-  crossResults = zeros([1460 1]);
-
-  for lambdaIndex = 1:size(testLambdas,1)
+  testLambda = 1;
+  testLambdaDir = 1;
+  testLambdaDelta = 10;
+  lastError = 0;
+  currError = 999999999999999;
+  testIndex = 1;
+  while(abs(lastError - currError) > 0.0000001)
+    lastError = currError;
+      
       %Get the cross validation results for the current lambda.
-    crossResults( lambdaIndex ) = CrossValidation(testLambdas(lambdaIndex), tblArray);
-    disp(strcat('Cross Result lambda = ',num2str(testLambdas( lambdaIndex )),':',num2str(crossResults( lambdaIndex ))));
+    currError = CrossValidation(testLambda, tblArray);
+    disp(strcat('Cross Result lambda = ',num2str(testLambda),':',num2str(currError)));
+    lambdaErrors(testIndex) = currError;
+    lambdaVals(testIndex) = testLambda;
+    testIndex = testIndex + 1;
   
-    if ( bestLambdaError > crossResults( lambdaIndex ) )
-       bestLambdaError = crossResults( lambdaIndex );
-       bestLambda = testLambdas(lambdaIndex);
+      %Check if this lambda produces a better result.
+    if ( lastError > currError )
+      if ( bestLambdaError > currError )
+         bestLambdaError = currError;
+         bestLambda = testLambda;
+       end
+    else
+      testLambdaDir = -testLambdaDir;
+      testLambdaDelta = testLambdaDelta * 0.1;
     end
+    testLambda = testLambda + testLambdaDir * testLambdaDelta;
   end
 
+    %Print the best lambda for debug.
   disp(strcat('Best Lambda: ',num2str(bestLambda)));
 
-  y_train = tblArray(1:size(tblArray,1)/2,1);
-  x_train = tblArray(1:size(tblArray,1)/2,2:size(tblArray,2));
-  y_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),1);
-  x_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),2:size(tblArray,2));
+    %Split the training and testing data, 50/50 or 90/10 split?
+  y_train = tblArray(1:size(tblArray,1)/2,size(tblArray,2));
+  x_train = tblArray(1:size(tblArray,1)/2,1:size(tblArray,2)-1);
+  y_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),size(tblArray,2));
+  x_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),1:size(tblArray,2)-1);
 
+    %Train using the best lambda.
   W_ML = inv( bestLambda*eye(size(x_train,2)) + x_train'*x_train ) * x_train' * y_train; 
 
-    figure;
-    plot ( W_ML, 'r' );
-    legend('BestWeights');
+    %Print out the best weights for debug.
+  figure;
+  plot ( W_ML, 'r' );
+  legend('BestWeights');
 
-    MSE = RunError(y_test, CalculatePredictions(W_ML,y_test,x_test,true,FileName),true);
+    %Calculate the MSE for the model.
+  if mean(y_test) > 1
+    predictions = CalculatePredictions(W_ML,x_test,true,FileName);
+    MSE = RunError(y_test / max(y_test), predictions / max(predictions),true);
+  else
+    MSE = RunError(y_test, CalculatePredictions(W_ML,x_test,true,FileName),true);
+  end
 
-    %Calculate the error of the sorted test data and display it for debug
-  y_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),1);
-  x_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),2:size(tblArray,2));
-  disp(RunError(y_test, CalculatePredictions(W_ML,y_test,x_test, false),false));
+    %Calculate the error of the sorted test data and display it for debug.
+    %This approach is easier to eyeball.
+  y_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),size(tblArray,2));
+  x_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),1:size(tblArray,2)-1);
+  disp(RunError(y_test, CalculatePredictions(W_ML,x_test, false),false));
 end
 
-function Predictions = CalculatePredictions(ModelW, Truth, Data, DumpData, FileName)
+  %Calculate the predictions vector from the model and input data.
+  %Also dump the results to be used as an ensbemble input if requested.
+function Predictions = CalculatePredictions(ModelW, Data, DumpData, FileName)
     Predictions = ModelW' * Data';
+    Predictions = Predictions;
     if ( DumpData == true )
       result = Predictions;
 
@@ -75,17 +92,19 @@ function Predictions = CalculatePredictions(ModelW, Truth, Data, DumpData, FileN
       save(fileName,'result');
     end
 end
-  % Calculate the MSE where Data is the input Data,
-  % Truth is the actual results corrisponding with the input Data,
-  % ModelW and Bias are our model to test.
+
+  % Calculate the MSE between the truth and predictions.
+  % Graph the two if requested.
 function MSE = RunError(Truth, Predictions, Graph)
   MSE = 0;
 
-    % Calculate the MSE of each data sample.
+    % Calculate the MSE of each data sample.  Matlab probably has a way to
+    % do this without iterating...
   for i = 1:length(Truth)
     MSE = MSE + ( Truth( i ) - Predictions ( i ) )^2;
   end
 
+    %Graph if requested.
   if ( Graph == true )
     figure;
     plot ( Predictions, 'r' );
@@ -127,7 +146,7 @@ function MSE = CrossValidation(LambdaValue, TrainData)
       % Calculate the MSE of the model against the cross test data.
     crossTestData = x_train(4 * crossLength:length(x_train),:);
     testTruth = y_train(4 * crossLength:length(y_train));
-    runningMSE = runningMSE + RunError(testTruth, CalculatePredictions(W_ML, testTruth, crossTestData, false),false);
+    runningMSE = runningMSE + RunError(testTruth, CalculatePredictions(W_ML, crossTestData, false),false);
   end
 
     % Average the MSE across the 4 cross train runs.

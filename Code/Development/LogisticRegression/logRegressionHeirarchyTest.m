@@ -4,8 +4,6 @@ tbl = readtable ( strcat('../../../Data/Processed/',fileName,'.csv') );
 
 %Convert the table to an array, easier to work with.
 tblArray = table2array(tbl);
-%Normalize the data.
-%tblArray = cat(2,tblArray(:,1),normc(tblArray(:,2:size(tblArray,2))));
 
 %Grab the truth value for later use.
 truth = tblArray(:,size(tblArray,2));
@@ -72,18 +70,28 @@ function BestWeights = trainRanges(TrainData, TrainSolution, NumCategories)
     trainSolution(i,1:TrainSolution(i)) = 1;
   end
         
+  previousError = 99999;
+  
     %Perform training sweeps
   sweepCount = 1000;
   for a = 1:sweepCount
-      
-        error = 1 ./ (1 + exp( -dataWithBias * BestWeights' ) ) - trainSolution;
+    error = 1 ./ (1 + exp( -dataWithBias * BestWeights' ) ) - trainSolution;
 
-        BestWeights = BestWeights - alpha * error' * dataWithBias;
+    BestWeights = BestWeights - alpha * error' * dataWithBias;
+    
+    normError = norm ( error, 2 );
+    prevNormError = norm ( previousError, 2 );
+    
+    if ( norm ( error - previousError, 2 ) < 0.0001 )
+        break;
+    elseif ( norm ( error, 2 ) > norm ( previousError, 2 ) )
+      alpha = alpha * 0.95;
+    end;
+    previousError = error;
 
     if (mod(a,sweepCount/100)==0)
       disp(strcat(num2str(a/(sweepCount/100)),'%'));
     end
-    alpha = max(alpha * 0.99,0.01);
   end
   
   %Plot the resulting weights for debugging

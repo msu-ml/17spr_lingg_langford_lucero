@@ -1,10 +1,9 @@
 %Load the training data.
-tbl = readtable ( 'train.csv' );
+fileName = 'train_processed';
+tbl = readtable ( strcat('../../../Data/Processed/',fileName,'.csv') );
 
 %Convert the table to an array, easier to work with.
 tblArray = table2array(tbl);
-%Normalize the data.
-tblArray = cat(2,normc(tblArray(:,1:size(tblArray,2)-1)),tblArray(:,size(tblArray,2):size(tblArray,2)));
 
 %Grab the truth value for later use.
 truth = tblArray(:,size(tblArray,2));
@@ -12,9 +11,9 @@ truth = tblArray(:,size(tblArray,2));
 %Convert house sale data to categories.
 resultCategories = ones(size(tblArray,1),1);
 for i = 1:size(tblArray,1)
-   %represents 50k-750k in 10k increments
-   for j = 1:150
-    if tblArray(i,size(tblArray,2)) > ( j * 5000 + 50000 )
+   for j = 1:99
+       
+    if tblArray(i,1) > ( j * 0.01 )
         resultCategories( i ) = resultCategories( i ) + 1;
     end
    end
@@ -28,24 +27,24 @@ categories = max(resultCategories);
     legend('Truth');
 
 %Take half the data for training
-y_train = tblArray(1:size(tblArray,1)/2,size(tblArray,2));
-x_train = tblArray(1:size(tblArray,1)/2,1:size(tblArray,2)-1);
+y_train = tblArray(1:size(tblArray,1)/2,1);
+x_train = tblArray(1:size(tblArray,1)/2,2:size(tblArray,2));
 resultCategories = resultCategories(1:size(tblArray,1)/2);
 
 %Take the second half of the data for testing
-y_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),size(tblArray,2));
-x_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),1:size(tblArray,2)-1);
+y_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),1);
+x_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),2:size(tblArray,2));
 
 %Get the best logistic regression weights and test the model.
 bestWeights = trainRanges ( x_train , resultCategories , categories );
 disp(RunError(bestWeights,categories,y_test,cat(2,ones(size(x_test,1),1),x_test),true));
 
 %Sort the data by sale price to produce an easier graph to look at.
-tblArraySorted = sortrows(tblArray,size(tblArray,2));
-tblArraySorted = cat(2,normc(tblArraySorted(:,1:size(tblArraySorted,2)-1)),tblArraySorted(:,size(tblArraySorted,2):size(tblArray,2)));
+tblArraySorted = sortrows(tblArray,1);
+tblArraySorted = cat(2,tblArraySorted(:,1),normc(tblArraySorted(:,2:size(tblArraySorted,2))));
 
-y_test_sorted = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),size(tblArray,2));
-x_test_sorted = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),1:size(tblArray,2)-1);
+y_test_sorted = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),1);
+x_test_sorted = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),2:size(tblArray,2));
 
 disp('Run Error:');
 disp(RunError(bestWeights,categories,y_test_sorted,cat(2,ones(size(x_test_sorted,1),1),x_test_sorted),true));
@@ -56,34 +55,41 @@ disp(RunError(bestWeights,categories,y_test_sorted,cat(2,ones(size(x_test_sorted
 function BestWeights = trainRanges(TrainData, TrainSolution, NumCategories)
     %Initial weights just zeros, something closer to an initial
     %approximation may be better, close fit linear line?
-  BestWeights = zeros(max(TrainSolution),size(TrainData,2) + 1);
+  BestWeights = zeros(NumCategories,size(TrainData,2) + 1);
   
-  %Best step size found so far.
-  alpha = 1.7;
+  alpha = 10.0;
   
   % Add the bias to the data as a column of 1s
   dataWithBias = cat(2,ones(size(TrainData,1),1),TrainData);
   
+  previousError = 99999;
+  
     %Perform 1000 training sweeps
   sweepCount = 1000;
   for a = 1:sweepCount
+      totalError = 0;
       
         %Loop through the entire data set and perform a single step of
         %gradient descent.
       for i = 1:size(TrainSolution,1)
-        trainSolution = zeros(1,max(TrainSolution));
+        trainSolution = zeros(1,NumCategories);
 
           %Result is 1 if the house value is greater than or equal to this category.
-        %if TrainSolution(i) >= j
-        %  trainSolution = 1; 
-        %end
         trainSolution(1,TrainSolution(i)) = 1;
         
         error = 1 ./ (1 + exp( -dataWithBias( i, : ) * BestWeights' ) ) - trainSolution;
-
         BestWeights = BestWeights - alpha * error' * dataWithBias( i, : );
-
+        
+        totalError = totalError + norm( error, 2 );
       end
+      
+    if ( abs ( totalError - previousError ) < 0.00001 )
+        break;
+    elseif ( abs ( totalError ) > abs ( previousError ) )
+      alpha = alpha * 0.5;
+    end;
+    previousError = totalError;
+    
     if (mod(a,sweepCount/100)==0)
     disp(strcat(num2str(a/(sweepCount/100)),'%'));
     end
@@ -107,19 +113,16 @@ function MSE = RunError(ModelW, Categories, Truth, Data, Graph)
       
       %Calculate the logistic regression for each category and take the
       %highest percentage result.
-    subResult = zeros(1, max(Truth));
+    subResult = zeros(1, Categories);
     for j = 1:Categories
         subResult( j ) = 1 / (1 + exp( -ModelW(j,:) * Data( i, : )' ) );
 
     end
     [junk result( i )] = max(subResult);
+    result( i ) = result( i ) / 100.0;
 
-    %Best category is multiplied by 5k and added with 50k to the value it
-    %represents.
-    MSE = MSE + ( Truth( i ) - ( result ( i ) * 5000 + 50000 ) )^2;
+    MSE = MSE + ( Truth( i ) - result ( i ) )^2;
   end
-  
-  result = ( result * 5000 + 50000 );
   
   if ( Graph == true )
     figure;
