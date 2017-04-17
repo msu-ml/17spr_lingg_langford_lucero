@@ -103,6 +103,7 @@
 	    \label{fig:ganttchart}
 	\end{figure*}
 	\begin{multicols}{2}
+                During the project we noticed that the mean squared error was not producing expected results between data sets.  Models that appeared to produce a good match were resulting in higher error than models that appeared to produce weaker results.  It was noticed that the data sets producing lower error were ones with a large number of lower value houses and a few high value corner cases. This issue was addressed by filtering out any homes with price above 1 million to eliminate some corner cases.  Additionally when normalizing house prices, the same maximum value was used for all data sets.  With these changes, the mean squared error is producing consistent results between the data sets.
 		\subsection{Linear Regression}
 			For linear regression we are using a closed form ridge regression. We tested standard and stochastic gradient descent but these methods did not produce a significant improvement in processing time for the data we are using and do not improve on the prediction error.
 		\par
@@ -117,7 +118,35 @@
 		\par
                 Figure \ref{fig:linr_cross_train} shows the results of our cross training method on the Nashville, Advanced Regression and Redfin data sets.  The Nashville set has a high ideal regularization value, likely due to a few very high value homes in the data set, and the training simply continues to increase the regularization value until the minimum error is found.  The advanced regression data set has reduced error from regularization value of 1 to 11 but then the error increases from 11 to 21.  Then the advanced regression moves back down from 21 at a lower rate until the minimum value is found around 4.  This shows a place where the algorithm works but could be made more efficient.  Finally the Redfin data starts at a regularization value of 1 but sees an increase of error at 11 so decreases until it finds the ideal value was in fact near 1.
 		\par
-                
+		Table \ref{table:linr_performance} shows the mean square error of linear regression for each dataset. As expected the advanced regression techniques dataset provides the least error as this data provides the most complete features for each house.  Nashville performs the weakest as there are very large gaps in the data, which must be filled in by preprocessing.  The interesting result is between Redfin and King's county data.  King's county has the same number of features as redfin and more homes in the data set. Preprocessing the data shows that the redfin features have more categories and the redfin house prices are concentrated more at the lower end, whereas the King's county features have few categories and have prices fairly evenly distributed over the normalized range.  As a result, redfin has more information in the features and the prices are easier to predict, which produces the lower error.
+		\par
+        	\captionsetup{type=table}
+			\begin{tabular}{r|c}
+				& \small{Mean Squared Error} \\
+				\hline
+				\small{Nashville} & \small{22.1e-03} \\
+				\hline
+				\small{Advanced Regression} & \small{1.0e-03} \\
+				\hline
+				\small{Redfin} & \small{6.3e-02} \\
+				\hline
+				\small{King's County} & \small{13.1e-02} \\
+				\hline
+			\end{tabular}
+			\captionof{table}{Observed performance from linear regression model.}
+			\label{table:linr_performance}        
+			\setlength{\parindent}{15pt}
+		\par
+		We also tried two ensemble methods with linear regression.  The first method divides the features into groups of 4, performs linear regression on each group and adds the group results together.  Linear regression is then performed on the summation of the groups.  The second method picks random groups of 10 features with 100 groups and then an ensemble is produced in the same method as the groups of 4 in the previous method. Additionally each ensemble method was tested with PCA feature reduction providing 25\%, 50\%, 75\% and 100\% of features.  This method was tested against all of the data sets except for the Nashville data as an SVM on the Nashville data exceeded matlab's available memory.
+                \par
+                Figure \ref{fix:linr_ensemble} shows the results of the ensemble methods.  The advanced regression techniques and King's county data performed close to the pure linear regression.  The redfin data set showed a slight improvement over linear regression.
+		\begin{center}
+                  \captionsetup{type=figure}
+			\includegraphics[scale=0.35]{Images/LineEnsembleResults} \\
+			\captionof{figure}{Linear regression ensemble results.}
+			\label{fig:linr_ensemble}
+		\end{center}
+		\par
  		\subsection{Classification}
 			We are also approaching this problem as a classification problem for our linear regression and neural network models. The range of sale prices for the entire data set will be partitioned into \(k\) classes, each class can include the same range of values, or be variable in size to accommodate ranges with similar input data. The classification solutions will then be fitted to a training data set, and finally predict each entry in the test data set by fitting it into one of the \(k\) classes.
 		\subsection{Logistic Regression}
@@ -133,7 +162,7 @@
 			\begin{tabular}{r|c}
 				& \small{Mean Squared Error} \\
 				\hline
-				\small{Linear Regression Mode} & \small{1.0e-03} \\
+				\small{Linear Regression Model} & \small{1.0e-03} \\
 				\hline
 				\small{Logistic Regression Model 2} & \small{4.8e-03} \\
 				\hline
@@ -145,6 +174,8 @@
 			\setlength{\parindent}{15pt}
 		\par
 			Figure \ref{fig:logr_MSE_Accuracy} shows the accuracy is best for a small number of classes, except for Advanced Regression Techniques.  For Advanced Regression Techniques, 5 classes causes most houses to fall right on a boundary between classes, which causes poor performance.  Advanced Regression Techniques performs better for 10 classes, where most of the house values happens to fall in the middle of one class. While accuracy decreases with an increase in classes, the mean squared error difference between the lowest value of the predicted class and the true value decreases.  This is caused by predictions being for a narrower range with more classes, increasing the precision.
+		\par
+			Ensemble
 		\par
 		\begin{center}
 	            \captionsetup{type=figure}

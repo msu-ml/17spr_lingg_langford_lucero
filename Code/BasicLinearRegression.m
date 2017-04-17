@@ -51,10 +51,10 @@ function MSE = BasicLinearRegression(FileName,Normalize)
   disp(strcat('Best Lambda: ',num2str(bestLambda)));
 
     %Split the training and testing data, 50/50 or 90/10 split?
-  y_train = tblArray(1:size(tblArray,1)/2,1);
-  x_train = tblArray(1:size(tblArray,1)/2,2:size(tblArray,2));
-  y_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),1);
-  x_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),2:size(tblArray,2));
+  y_train = tblArray(1:size(tblArray,1)/2,size(tblArray,2));
+  x_train = tblArray(1:size(tblArray,1)/2,1:size(tblArray,2)-1);
+  y_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),size(tblArray,2));
+  x_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),1:size(tblArray,2)-1);
 
     %Train using the best lambda.
   W_ML = inv( bestLambda*eye(size(x_train,2)) + x_train'*x_train ) * x_train' * y_train; 
@@ -74,8 +74,8 @@ function MSE = BasicLinearRegression(FileName,Normalize)
 
     %Calculate the error of the sorted test data and display it for debug.
     %This approach is easier to eyeball.
-  y_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),1);
-  x_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),2:size(tblArray,2));
+  y_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),size(tblArray,2));
+  x_test = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),1:size(tblArray,2)-1);
   disp(RunError(y_test, CalculatePredictions(W_ML,x_test, false),false));
 end
 
