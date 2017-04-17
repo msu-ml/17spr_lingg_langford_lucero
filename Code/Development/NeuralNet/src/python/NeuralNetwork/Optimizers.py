@@ -10,16 +10,9 @@ import sys
 
 class GradientDescent(object):
     def __init__(self, learning_rate=1.0):
-        """Initializes a new gradient descent optimizer.
-        Arguments
-            learning_rate - Adjust the intensity of gradient descent.
-        """
         self.__learning_rate = learning_rate
     
     def optimize(self, network, dataset, batch_size):
-        """Adjusts the models weights to fit the given training data using a
-        full batch gradient descent optimization method.
-        """
         eta = self.__learning_rate
         grad_W, grad_b = self.get_batch_gradient(network, dataset)
         delta_W = [-(eta * gw) for gw in grad_W]
@@ -28,11 +21,6 @@ class GradientDescent(object):
         network.biases = [(b + db) for b, db in zip(network.biases, delta_b)]
 
     def get_batch_gradient(self, network, batch):
-        """ Compute the average gradient for the batch using back propagation.
-        Arguments:
-            batch - A batch of data.
-        Returns the gradient for the given batch.
-        """
         batch_grad_W = [np.zeros(w.shape) for w in network.weights]
         batch_grad_b = [np.zeros(b.shape) for b in network.biases]
         for i in xrange(batch.num_entries):
@@ -45,26 +33,13 @@ class GradientDescent(object):
         return batch_grad_W, batch_grad_b
 
 class SGD(GradientDescent):
-    def __init__(self, learning_rate=1.0, momentum=0.0, l1_regularization=0.0, l2_regularization=0.0):
-        """Initializes a new schoastic gradient descent optimizer.
-        Arguments
-            learning_rate - Adjust the intensity of gradient descent.
-            momentum - Adjusts the momentum of the gradient descent.
-            regularization - Adjusts the amount of L2 regularization for weights.
-        """
+    def __init__(self, learning_rate=1.0, momentum=0.0):
         self.__learning_rate = learning_rate
         self.__momentum = momentum
-        self.__l1_regularization = l1_regularization
-        self.__l2_regularization = l2_regularization
 
     def optimize(self, network, dataset, batch_size):
-        """Adjusts the models weights to fit the given training data using a
-        stochastic gradient descent (SGD) optimization method.
-        """
         eta = self.__learning_rate
         rho = self.__momentum
-        lambda1 = self.__l1_regularization
-        lambda2 = self.__l2_regularization
         
         # Randomly shuffle the data
         dataset.shuffle()
@@ -78,18 +53,11 @@ class SGD(GradientDescent):
             delta_b = [((rho * mdb) + (eta * gb)) for mdb, gb in zip(mem_db, grad_b)]
             mem_dW = [dw for dw in delta_W]
             mem_db = [db for db in delta_b]
-            l1_term = eta * lambda1 / batch_size
-            l2_term = eta * lambda2 / batch_size
-            network.weights = [(((1.0 - l2_term) * w) - (l1_term * np.sign(w))  - dw) for w, dw in zip(network.weights, delta_W)]
+            network.weights = [(w - dw) for w, dw in zip(network.weights, delta_W)]
             network.biases = [(b - db) for b, db in zip(network.biases, delta_b)]
 
 class AdaGrad(GradientDescent):
     def __init__(self, learning_rate=1.0):
-        """Initializes a new AdaGrad gradient descent optimizer.
-        Arguments
-            learning_rate - Adjust the intensity of gradient descent.
-            regularization - Adjusts the amount of L2 regularization for weights.
-        """
         self.__learning_rate = learning_rate
 
     def optimize(self, network, dataset, batch_size):
@@ -117,16 +85,9 @@ class AdaGrad(GradientDescent):
 
 class AdaDelta(GradientDescent):
     def __init__(self, scale=0.9):
-        """Initializes a new AdaGrad gradient descent optimizer.
-        Arguments
-            scale - A term to adjust the affect of the AdaDelta algorithm.
-        """
         self.__scale = scale
 
     def optimize(self, network, dataset, batch_size):
-        """Adjusts the models weights to fit the given training data using an
-        AdaDelta optimization method.
-        """
         rho = self.__scale
         eps = 1e-8
         

@@ -8,8 +8,6 @@ Created on Fri Mar 10 12:24:58 2017
 import csv
 import numpy as np
 import os
-import string
-import sys
 
 class SubstitutionMethod(object):
     NONE = 0

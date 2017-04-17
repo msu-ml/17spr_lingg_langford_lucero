@@ -15,36 +15,24 @@ class Dataset(object):
         self.__dataset = np.hstack((data, targets))
 
     def get_data(self):
-        """Gets the set of data.
-        """
         return self.__dataset[:,:self.num_features]
     def set_data(self, v):
-        """Sets the set of data.
-        """
         self.__dataset[:,:self.num_features] = v
     data = property(fget=lambda self: self.get_data(),
                     fset=lambda self, v: self.set_data(v))
     
     def get_targets(self):
-        """Gets the set of targets
-        """
         return self.__dataset[:,self.num_features:]
     def set_targets(self, v):
-        """Sets the set of targets
-        """
         self.__dataset[:,self.num_features:] = v
     targets = property(fget=lambda self: self.get_targets(),
                        fset=lambda self, v: self.set_targets(v))
         
     def get_num_entries(self):
-        """Gets the number of data entries.
-        """
         return self.__num_entries
     num_entries = property(fget=lambda self: self.get_num_entries())
     
     def get_num_features(self):
-        """Gets the number of data features.
-        """
         return self.__num_features
     num_features = property(fget=lambda self: self.get_num_features())
     
