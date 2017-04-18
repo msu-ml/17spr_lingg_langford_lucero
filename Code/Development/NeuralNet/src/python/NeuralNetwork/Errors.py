@@ -8,7 +8,7 @@ Created on Mon Apr 17 16:59:59 2017
 import numpy as np
 
 class Errors(object):
-    class CrossEntropy(object):
+    class CategoricalCrossEntropy(object):
         @staticmethod
         def func(y, t):
             return np.sum(-t*np.log(y) - (1-t)*np.log(1.0-y))

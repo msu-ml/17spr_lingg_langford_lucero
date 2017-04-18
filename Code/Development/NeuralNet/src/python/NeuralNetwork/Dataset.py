@@ -35,7 +35,11 @@ class Dataset(object):
     def get_num_features(self):
         return self.__num_features
     num_features = property(fget=lambda self: self.get_num_features())
-    
+
+    def get_num_targets(self):
+        return self.__dataset.shape[1] - self.__num_features
+    num_targets = property(fget=lambda self: self.get_num_targets())
+
     def shuffle(self):
         np.random.shuffle(self.__dataset)
 

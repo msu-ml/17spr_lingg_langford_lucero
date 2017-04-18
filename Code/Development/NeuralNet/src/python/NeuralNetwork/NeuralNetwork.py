@@ -17,7 +17,7 @@ class NeuralNetwork(object):
         self.__optimizer = None
         self.__activation = None
         self.__error = None
-        self.__is_match = None
+        self.__match = None
 
     def get_name(self):
         return self.__name
@@ -61,12 +61,12 @@ class NeuralNetwork(object):
     error = property(fget=lambda self: self.get_error(),
                      fset=lambda self, v: self.set_error(v))
     
-    def get_is_match(self):
-        return self.__is_match
-    def set_is_match(self, v):
-        self.__is_match = v
-    is_match = property(fget=lambda self: self.get_is_match(),
-                        fset=lambda self, v: self.set_is_match(v))
+    def get_match(self):
+        return self.__match
+    def set_match(self, v):
+        self.__match = v
+    match = property(fget=lambda self: self.get_match(),
+                        fset=lambda self, v: self.set_match(v))
 
     @abc.abstractmethod
     def reset(self):
@@ -117,12 +117,14 @@ class NeuralNetwork(object):
         for i in xrange(dataset.num_entries):
             # make a prediction for the current data point
             y = self.predict(dataset.data[i])
+            t = dataset.targets[i]
+            t = np.reshape(t, y.shape)
             
             # compute the error of the prediction
-            loss += self.__error.func(y, dataset.targets[i])
+            loss += self.__error.func(y, t)
             
             # check if prediction matches truth
-            if self.__is_match(y, dataset.targets[i]):
+            if self.match is not None and self.match(y, t):
                 correct += 1.0
         
         loss = loss / dataset.num_entries

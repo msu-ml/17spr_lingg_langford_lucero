@@ -44,13 +44,15 @@ class Experiment(object):
             print('')
             print('Model ' + '-'*60)
             print('Type: Feedforward Classification')
-            layers = [dataset_train.num_features, 35, 15, 10, 3]
-            network = FFN(layers)
-            network.error = Functions.categorical_crossentropy
-            network.error_deriv = Functions.d_categorical_crossentropy
             classes = dataset_train.create_classes(3)
             dataset_train.encode_targets(classes)
             dataset_test.encode_targets(classes)
+            layers = [dataset_train.num_features, 35, 15, 10, 3]
+            network = FFN(layers)
+            network.optimizer = SGD(learning_rate=0.1, momentum=0.9)
+            network.activation = Activations.Sigmoid
+            network.error = Errors.CategoricalCrossEntropy
+            network.match = lambda y, t: np.argmax(y) == np.argmax(t)
             """
             
             """Regression network
@@ -63,12 +65,12 @@ class Experiment(object):
             network.optimizer = SGD(learning_rate=0.1, momentum=0.9)
             network.activation = Activations.Sigmoid
             network.error = Errors.MeanSquared
-            network.is_match = lambda y, t: np.abs(y - t) <= source.normalize_target(10000)
+            network.match = lambda y, t: np.abs(y - t) <= source.normalize_target(10000)
+
             
             print('')
             print('Training model.')
             plt.ion()
-            network.dropout = 0.0
             results = network.train(
                             dataset_train,
                             dataset_test,

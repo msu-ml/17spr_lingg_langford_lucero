@@ -42,6 +42,7 @@ class FFN(NeuralNetwork):
             zs.append(z)
             hs.append(h)
         y = hs[-1]
+        t = np.reshape(t, y.shape)
 
         # backward pass
         grad_W = [np.zeros(w.shape) for w in self.weights]
@@ -49,10 +50,7 @@ class FFN(NeuralNetwork):
         delta_h = self.error.deriv(y, t)
         for i in xrange(1, self.num_layers):
             delta_h = delta_h * self.activation.deriv(zs[-i])
-            if delta_h.ndim < 2:
-                grad_W[-i] = np.outer(delta_h, hs[-i-1].T)
-            else:
-                grad_W[-i] = np.dot(delta_h, hs[-i-1].T)
+            grad_W[-i] = np.dot(delta_h, hs[-i-1].T)
             grad_b[-i] = delta_h
             delta_h = np.dot(ws[-i].T, delta_h)
         return grad_W, grad_b
