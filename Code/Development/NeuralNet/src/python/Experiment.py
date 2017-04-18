@@ -6,7 +6,9 @@ Created on Tue Apr 04 23:10:38 2017
 """
 
 import csv
+"""
 import matplotlib.pyplot as plt
+"""
 import numpy as np
 import sys
 from HousingData import HousingData
@@ -14,7 +16,8 @@ from NeuralNetwork.Activations import Activations
 from NeuralNetwork.Dataset import Dataset
 from NeuralNetwork.Errors import Errors
 from NeuralNetwork.Feedforward import FFN
-from NeuralNetwork.Optimizers import SGD
+from NeuralNetwork.Optimizers import AdaDelta
+from NeuralNetwork.Optimizers import AdaGrad
 
 class Experiment(object):
     def __init__(self):
@@ -27,11 +30,13 @@ class Experiment(object):
         #self.__sources.append(HousingData('../../data/redfin_processed.csv', name='GrandRapids'))
         #self.__sources.append(HousingData('../../data/kingcounty_processed.csv', name='KingCounty'))
         #self.__sources.append(HousingData('../../data/nashville_processed.csv', name='Nashville'))
-        
+
+        """        
         self.__ifigure = plt.figure(0)
         #self.__ifigure = None
+        """
 
-    def run(self):
+    def run(self, num_iters):
         """Executes the application.
         """
         for source in self.__sources:
@@ -41,7 +46,6 @@ class Experiment(object):
             self.display_data(source, dataset_train, dataset_test)
              
             """Classification network
-            """
             print('')
             print('Model ' + '-'*60)
             classes = dataset_train.create_classes(3)
@@ -55,31 +59,38 @@ class Experiment(object):
             network.error = Errors.CategoricalCrossEntropy
             network.match = lambda y, t: np.argmax(y) == np.argmax(t)
             self.display_model(network)
+            """
             
             """Regression network
+            """
             print('')
             print('Model ' + '-'*60)
-            layers = [dataset_train.num_features, 35, 15, 10, 1]
+            layers = [dataset_train.num_features, 32, 16, 1]
             network = FFN(layers)
             network.name = 'Regression'
-            network.optimizer = SGD(learning_rate=0.1, momentum=0.9)
+            network.optimizer = AdaGrad(learning_rate=0.1)
+            #network.optimizer = AdaDelta()
             network.activation = Activations.Sigmoid
             network.error = Errors.MeanSquared
             network.match = lambda y, t: np.abs(y - t) <= source.normalize_target(10000)
             self.display_model(network)
-            """
-            
+
             print('')
             print('Training model.')
+            """
             plt.ion()
+            """
             results = network.train(
                             dataset_train,
                             dataset_validate=dataset_test,
-                            num_iters=250,
+                            num_iters=num_iters,
                             batch_size=10,
                             output=self.display_training)
+            """
             plt.ioff()
+            """
             self.plot(source, network, results)
+            self.write_csv(source, network, results)
             
             print('')
             print('Evaluating model.')
@@ -97,9 +108,9 @@ class Experiment(object):
 
     def display_model(self, network):
         print('Type: {}'.format(network.name))
-        print('\tLayers:')
+        print('Layers:')
         for layer in network.layers:
-            print('\t\t{}'.format(layer))        
+            print('\t{}'.format(layer))        
         
     def display_training(self, results):
         if not results is None and len(results) > 0:
@@ -110,7 +121,7 @@ class Experiment(object):
             print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(train_losses[-1], train_accs[-1] * 100.0)
             print_out += 'validating [loss={:09.6f} acc={:05.2f}]'.format(test_losses[-1], test_accs[-1] * 100.0)
             print(print_out)
-            
+            """
             # Plot progress.
             if not self.__ifigure is None:
                 self.__ifigure.clf()
@@ -128,15 +139,25 @@ class Experiment(object):
                 plt.legend(loc=1)
                 plt.pause(0.001)
                 plt.draw()
-    
+            """
     def display_evaluation(self, results):
         loss, acc = results
         print('Results: [loss={:09.6f} acc={:05.2f}]'.format(loss, acc * 100.0))
-    
+
+    def write_csv(self, source, network, results):
+        if not results is None and len(results) > 0:
+            filepath = 'results_{}_{}.csv'.format(source.name.lower(), network.name.lower())
+            with open(filepath, 'wb') as output_file:
+                writer = csv.writer(output_file)
+                writer.writerow(['iter', 'loss', 'acc', 'val_loss', 'val_acc'])
+                for i in xrange(len(results)):
+                    writer.writerow(results[i])
+
     def plot(self, source, network, results):
         """Plots the given results.
         Arguments
             results - A set of results for the execution of the neural network.
+        """
         """
         iters, train_losses, train_accs, test_losses, test_accs = zip(*results)
         plt.figure(1)
@@ -172,3 +193,4 @@ class Experiment(object):
         filepath = 'fig_{}_{}_loss_log.jpg'.format(source.name.lower(), network.name.lower())
         plt.savefig(filepath)
         plt.close()
+        """
