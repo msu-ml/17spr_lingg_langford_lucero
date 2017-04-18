@@ -11,13 +11,13 @@ import sys
 
 class NeuralNetwork(object):
     def __init__(self):
-        self.__name = ''
-        self.__weights = []
-        self.__biases = []
-        self.__optimizer = None
-        self.__activation = None
-        self.__error = None
-        self.__match = None
+        self.name = ''
+        self.weights = []
+        self.biases = []
+        self.optimizer = None
+        self.activation = None
+        self.error = None
+        self.match = None
 
     def get_name(self):
         return self.__name
@@ -66,7 +66,7 @@ class NeuralNetwork(object):
     def set_match(self, v):
         self.__match = v
     match = property(fget=lambda self: self.get_match(),
-                        fset=lambda self, v: self.set_match(v))
+                     fset=lambda self, v: self.set_match(v))
 
     @abc.abstractmethod
     def reset(self):
@@ -74,32 +74,23 @@ class NeuralNetwork(object):
 
     def train(self,
               dataset_train,
-              dataset_test,
+              dataset_validate=None,
               num_iters=1000,
               batch_size=10,
               output=None):
-        best_loss = None
-        best_weights = self.weights
-        best_biases = self.biases
-                
         results = []
         for i in xrange(num_iters):
             # Fit the model to the training data.
-            self.__optimizer.optimize(self, dataset_train, batch_size)
+            self.optimizer.optimize(self, dataset_train, batch_size)
 
             # Evaluate performance on training and test data.
             train_loss, train_acc = self.evaluate(dataset_train)
-            test_loss, test_acc = self.evaluate(dataset_test)
-            if best_loss is None or test_loss < best_loss:
-                best_loss = test_loss
-                best_weights = [np.copy(w) for w in self.weights]
-                best_biases = [np.copy(b) for b in self.biases]
-            results.append((i, train_loss, train_acc, test_loss, test_acc))
+            val_loss, val_acc = (0.0, 0.0)
+            if dataset_validate is not None:
+                val_loss, val_acc = self.evaluate(dataset_validate)
+            results.append((i, train_loss, train_acc, val_loss, val_acc))
             if not output is None:
                 output(results)
-
-        self.weights = best_weights
-        self.biases = best_biases
 
         return results
     
@@ -119,14 +110,14 @@ class NeuralNetwork(object):
             y = self.predict(dataset.data[i])
             t = dataset.targets[i]
             t = np.reshape(t, y.shape)
-            
+
             # compute the error of the prediction
-            loss += self.__error.func(y, t)
+            loss += self.error.func(y, t)
             
             # check if prediction matches truth
             if self.match is not None and self.match(y, t):
                 correct += 1.0
-        
+
         loss = loss / dataset.num_entries
         acc = correct / dataset.num_entries
         

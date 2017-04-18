@@ -12,8 +12,8 @@ class Dataset(object):
     def __init__(self, data, targets):
         self.__num_entries = data.shape[0]
         self.__num_features = data.shape[1]
-        self.__data = data
-        self.__targets = targets
+        self.data = data
+        self.targets = targets
 
     def get_data(self):
         return self.__data
@@ -38,19 +38,19 @@ class Dataset(object):
     num_features = property(fget=lambda self: self.get_num_features())
     
     def shuffle(self):
-        r = np.random.permutation(self.__num_entries)
-        self.__data = self.__data[r]
-        self.__targets = self.__targets[r]
+        r = np.random.permutation(self.num_entries)
+        self.data = self.data[r]
+        self.targets = self.targets[r]
 
     def split(self, ratio):
         n = int(self.num_entries * ratio)
-        dataset1 = Dataset(self.__data[:n,:], self.__targets[:n,:])
-        dataset2 = Dataset(self.__data[n:,:], self.__targets[n:,:])
+        dataset1 = Dataset(self.data[:n,:], self.targets[:n,:])
+        dataset2 = Dataset(self.data[n:,:], self.targets[n:,:])
         return dataset1, dataset2
 
     def create_classes(self, num_classes):
         classes = np.zeros(num_classes)
-        targets = np.sort(np.copy(self.__targets), axis=0)
+        targets = np.sort(np.copy(self.targets), axis=0)
         batch_size = np.int(len(targets) / num_classes)
         num_targets = batch_size * num_classes
         j = 0
@@ -61,11 +61,11 @@ class Dataset(object):
         return classes
 
     def encode_targets(self, classes):
-        targets = self.__targets
-        enc_targets = np.zeros((self.__num_entries, classes.shape[0]))
+        targets = self.targets
+        enc_targets = np.zeros((self.num_entries, classes.shape[0]))
         for i in xrange(self.num_entries):
             enc_targets[i,:] = self.encode_target(targets[i][0], classes)
-        self.__targets = enc_targets
+        self.targets = enc_targets
     
     def encode_target(self, target, classes):
         target_class = 0
@@ -78,8 +78,8 @@ class Dataset(object):
     
     def make_batches(self, batch_size):
         batches = []
-        for i in xrange(0, self.__num_entries, batch_size):
-            batch_data = self.__data[i:i+batch_size,:]
-            batch_targets = self.__targets[i:i+batch_size,:]
+        for i in xrange(0, self.num_entries, batch_size):
+            batch_data = self.data[i:i+batch_size,:]
+            batch_targets = self.targets[i:i+batch_size,:]
             batches.append(Dataset(batch_data, batch_targets))
         return batches

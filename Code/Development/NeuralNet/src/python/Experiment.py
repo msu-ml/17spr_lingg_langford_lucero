@@ -41,39 +41,40 @@ class Experiment(object):
             self.display_data(source, dataset_train, dataset_test)
              
             """Classification network
+            """
             print('')
             print('Model ' + '-'*60)
-            print('Type: Feedforward Classification')
             classes = dataset_train.create_classes(3)
             dataset_train.encode_targets(classes)
             dataset_test.encode_targets(classes)
             layers = [dataset_train.num_features, 35, 15, 10, 3]
             network = FFN(layers)
+            network.name = 'Classification'
             network.optimizer = SGD(learning_rate=0.1, momentum=0.9)
             network.activation = Activations.Sigmoid
             network.error = Errors.CategoricalCrossEntropy
             network.match = lambda y, t: np.argmax(y) == np.argmax(t)
-            """
+            self.display_model(network)
             
             """Regression network
-            """
             print('')
             print('Model ' + '-'*60)
-            print('Type: Feedforward Regression')
             layers = [dataset_train.num_features, 35, 15, 10, 1]
             network = FFN(layers)
+            network.name = 'Regression'
             network.optimizer = SGD(learning_rate=0.1, momentum=0.9)
             network.activation = Activations.Sigmoid
             network.error = Errors.MeanSquared
             network.match = lambda y, t: np.abs(y - t) <= source.normalize_target(10000)
-
+            self.display_model(network)
+            """
             
             print('')
             print('Training model.')
             plt.ion()
             results = network.train(
                             dataset_train,
-                            dataset_test,
+                            dataset_validate=dataset_test,
                             num_iters=250,
                             batch_size=10,
                             output=self.display_training)
@@ -94,12 +95,11 @@ class Experiment(object):
         print('Training entries: {}'.format(dataset_train.num_entries))
         print('Test entries: {}'.format(dataset_test.num_entries))
 
-    def display_data(self, source, dataset_train, dataset_test):
-        print('Data Source: {}'.format(source.name))
-        print('Total features: {}'.format(dataset_train.num_features))
-        print('Total entries: {}'.format(dataset_train.num_entries + dataset_test.num_entries))
-        print('Training entries: {}'.format(dataset_train.num_entries))
-        print('Test entries: {}'.format(dataset_test.num_entries))
+    def display_model(self, network):
+        print('Type: {}'.format(network.name))
+        print('\tLayers:')
+        for layer in network.layers:
+            print('\t\t{}'.format(layer))        
         
     def display_training(self, results):
         if not results is None and len(results) > 0:
