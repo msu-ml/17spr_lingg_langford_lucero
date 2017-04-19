@@ -14,6 +14,7 @@ from NeuralNetwork.Activations import Activations
 from NeuralNetwork.Dataset import Dataset
 from NeuralNetwork.Errors import Errors
 from NeuralNetwork.Feedforward import FFN
+from NeuralNetwork.Optimizers import SGD
 from NeuralNetwork.Optimizers import Adadelta
 from NeuralNetwork.Optimizers import Adagrad
 
@@ -35,58 +36,86 @@ class Experiment(object):
         """Executes the application.
         """
         for source in self.__sources:
-            print('')
-            print('Data  ' + '-'*60)
-            dataset_train, dataset_test = Dataset(*source.data).split(2.0/3.0)
-            self.display_data(source, dataset_train, dataset_test)
-             
-            """Classification network
-            print('')
-            print('Model ' + '-'*60)
-            classes = dataset_train.create_classes(3)
-            dataset_train.encode_targets(classes)
-            dataset_test.encode_targets(classes)
-            layers = [dataset_train.num_features, 35, 15, 10, 3]
-            network = FFN(layers)
-            network.name = 'Classification'
-            network.optimizer = SGD(learning_rate=0.1, momentum=0.9)
-            network.activation = Activations.Sigmoid
-            network.error = Errors.CategoricalCrossEntropy
-            network.match = lambda y, t: np.argmax(y) == np.argmax(t)
-            self.display_model(network)
-            """
-            
-            """Regression network
-            """
-            print('')
-            print('Model ' + '-'*60)
-            layers = [dataset_train.num_features, 32, 16, 1]
-            network = FFN(layers)
-            network.name = 'Regression'
-            #network.optimizer = Adagrad(learning_rate=0.1)
-            network.optimizer = Adadelta()
-            network.activation = Activations.Sigmoid
-            network.error = Errors.MeanSquared
-            network.match = lambda y, t: np.abs(y - t) <= source.normalize_target(10000)
-            self.display_model(network)
-
-            print('')
-            print('Training model.')
-            results = network.train(
-                            dataset_train,
-                            dataset_validate=dataset_test,
-                            num_iters=num_iters,
-                            batch_size=10,
-                            output=self.display_training)
-            self.plot(source, network, results)
-            self.write_csv(source, network, results)
-            
-            print('')
-            print('Evaluating model.')
-            results = network.evaluate(dataset_test)
-            self.display_evaluation(results)                            
+            self.run_class_model('class_sgd', source, SGD(learning_rate=0.01, momentum=0.9), num_iters)
+            self.run_regress_model('regress_sgd', source, SGD(learning_rate=0.01, momentum=0.9), num_iters)
+            self.run_class_model('class_adagrad', source, Adagrad(learning_rate=0.01), num_iters)
+            self.run_regress_model('regress_adagrad', source, Adagrad(learning_rate=0.01), num_iters)
+            self.run_class_model('class_adadelta', source, Adadelta(), num_iters)
+            self.run_regress_model('regress_adadelta', source, Adadelta(), num_iters)
 
         print('Done.')
+        
+    def run_class_model(self, name, source, optimizer, num_iters):
+        print('')
+        print('Data  ' + '-'*60)
+        data, targets = source.data
+        dataset_train, dataset_test = Dataset(data, targets).split(2.0/3.0)
+        self.display_data(source, dataset_train, dataset_test)
+         
+        print('')
+        print('Model ' + '-'*60)
+        classes = dataset_train.create_classes(3)
+        dataset_train.encode_targets(classes)
+        dataset_test.encode_targets(classes)
+        layers = [dataset_train.num_features, 32, 16, 3]
+        network = FFN(layers)
+        network.name = name
+        network.optimizer = optimizer
+        network.activation = Activations.Sigmoid
+        network.error = Errors.CategoricalCrossEntropy
+        network.match = lambda y, t: np.argmax(y) == np.argmax(t)
+        self.display_model(network)
+
+        print('')
+        print('Training model.')
+        log = network.train(
+                        dataset_train,
+                        dataset_validate=dataset_test,
+                        num_iters=num_iters,
+                        batch_size=10,
+                        output=self.display_training)
+        self.plot(source, network, log)
+        self.write_csv(source, network, log)
+        
+        print('')
+        print('Evaluating model.')
+        results = network.evaluate(dataset_test)
+        self.display_evaluation(results)
+    
+    def run_regress_model(self, name, source, optimizer, num_iters):
+        print('')
+        print('Data  ' + '-'*60)
+        data, targets = source.data
+        dataset_train, dataset_test = Dataset(data, targets).split(2.0/3.0)
+        self.display_data(source, dataset_train, dataset_test)
+        
+        print('')
+        print('Model ' + '-'*60)
+        layers = [dataset_train.num_features, 32, 16, 1]
+        network = FFN(layers)
+        network.name = name
+        #network.optimizer = Adagrad(learning_rate=0.1)
+        network.optimizer = optimizer
+        network.activation = Activations.Sigmoid
+        network.error = Errors.MeanSquared
+        network.match = lambda y, t: np.abs(y - t) <= source.normalize_target(10000)
+        self.display_model(network)
+
+        print('')
+        print('Training model.')
+        log = network.train(
+                        dataset_train,
+                        dataset_validate=dataset_test,
+                        num_iters=num_iters,
+                        batch_size=10,
+                        output=self.display_training)
+        self.plot(source, network, log)
+        self.write_csv(source, network, log)
+        
+        print('')
+        print('Evaluating model.')
+        results = network.evaluate(dataset_test)
+        self.display_evaluation(results)
     
     def display_data(self, source, dataset_train, dataset_test):
         print('Data Source: {}'.format(source.name))
@@ -137,14 +166,19 @@ class Experiment(object):
         acc = results['acc']
         print('Results: [loss={:09.6f} acc={:05.2f}]'.format(loss, acc * 100.0))
 
-    def write_csv(self, source, network, results):
-        if not results is None and len(results) > 0:
-            filepath = 'results_{}_{}.csv'.format(source.name.lower(), network.name.lower())
-            with open(filepath, 'wb') as output_file:
-                writer = csv.writer(output_file)
-                writer.writerow(['iter', 'loss', 'acc', 'val_loss', 'val_acc'])
-                for i in xrange(len(results)):
-                    writer.writerow(results[i])
+    def write_csv(self, source, network, log):
+        filepath = 'results_{}_{}.csv'.format(source.name.lower(), network.name.lower())
+        with open(filepath, 'wb') as output_file:
+            writer = csv.writer(output_file)
+            writer.writerow(['iter', 'loss', 'acc', 'val_loss', 'val_acc'])
+            iters = log['iters']
+            train_losses = log['train_losses']
+            train_accs = log['train_accs']
+            val_losses = log['val_losses']
+            val_accs = log['val_accs']
+            rows = [list(r) for r in zip(iters, train_losses, train_accs, val_losses, val_accs)]
+            for row in rows:
+                writer.writerow(row)
 
     def plot(self, source, network, log):
         """Plots the given results.
