@@ -6,9 +6,7 @@ Created on Tue Apr 04 23:10:38 2017
 """
 
 import csv
-"""
 import matplotlib.pyplot as plt
-"""
 import numpy as np
 import sys
 from HousingData import HousingData
@@ -27,15 +25,12 @@ class Experiment(object):
         print('Loading data.')
         self.__sources = []
         self.__sources.append(HousingData('../../data/art_processed.csv', name='ART'))
-        #self.__sources.append(HousingData('../../data/redfin_processed.csv', name='GrandRapids'))
-        #self.__sources.append(HousingData('../../data/kingcounty_processed.csv', name='KingCounty'))
-        #self.__sources.append(HousingData('../../data/nashville_processed.csv', name='Nashville'))
+        self.__sources.append(HousingData('../../data/redfin_processed.csv', name='GrandRapids'))
+        self.__sources.append(HousingData('../../data/kingcounty_processed.csv', name='KingCounty'))
+        self.__sources.append(HousingData('../../data/nashville_processed.csv', name='Nashville'))
 
-        """        
-        self.__ifigure = plt.figure(0)
-        #self.__ifigure = None
-        """
-
+        self.__figure = plt.figure(0)
+        
     def run(self, num_iters):
         """Executes the application.
         """
@@ -68,8 +63,8 @@ class Experiment(object):
             layers = [dataset_train.num_features, 32, 16, 1]
             network = FFN(layers)
             network.name = 'Regression'
-            network.optimizer = AdaGrad(learning_rate=0.1)
-            #network.optimizer = AdaDelta()
+            #network.optimizer = AdaGrad(learning_rate=0.1)
+            network.optimizer = AdaDelta()
             network.activation = Activations.Sigmoid
             network.error = Errors.MeanSquared
             network.match = lambda y, t: np.abs(y - t) <= source.normalize_target(10000)
@@ -77,18 +72,12 @@ class Experiment(object):
 
             print('')
             print('Training model.')
-            """
-            plt.ion()
-            """
             results = network.train(
                             dataset_train,
                             dataset_validate=dataset_test,
                             num_iters=num_iters,
                             batch_size=10,
                             output=self.display_training)
-            """
-            plt.ioff()
-            """
             self.plot(source, network, results)
             self.write_csv(source, network, results)
             
@@ -112,36 +101,40 @@ class Experiment(object):
         for layer in network.layers:
             print('\t{}'.format(layer))        
         
-    def display_training(self, results):
-        if not results is None and len(results) > 0:
-            iters, train_losses, train_accs, test_losses, test_accs = zip(*results)
-            
-            # Print progress to console.
-            print_out = '[{: 4d}] '.format(iters[-1])
-            print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(train_losses[-1], train_accs[-1] * 100.0)
-            print_out += 'validating [loss={:09.6f} acc={:05.2f}]'.format(test_losses[-1], test_accs[-1] * 100.0)
-            print(print_out)
-            """
-            # Plot progress.
-            if not self.__ifigure is None:
-                self.__ifigure.clf()
-                plt.subplot(2, 1, 1)
-                plt.ylabel('Accuracy')
-                plt.plot(iters, train_accs, 'r', label='Training Data')
-                plt.plot(iters, test_accs, 'g', label='Test Data')
-                plt.legend(loc=4)
-                plt.subplot(2, 1, 2)
-                plt.xlabel('Iteration')
-                plt.ylabel('Loss')
-                plt.yscale('log')
-                plt.plot(iters, train_losses, 'r', label='Training Data')
-                plt.plot(iters, test_losses, 'g', label='Test Data')
-                plt.legend(loc=1)
-                plt.pause(0.001)
-                plt.draw()
-            """
+    def display_training(self, log):
+        iters = log['iters']
+        train_losses = log['train_losses']
+        train_accs = log['train_accs']
+        val_losses = log['val_losses']
+        val_accs = log['val_accs']
+        
+        # Print progress to console.
+        print_out = '[{: 4d}] '.format(iters[-1])
+        print_out += 'training [loss={:09.6f} acc={:05.2f}] '.format(train_losses[-1], train_accs[-1] * 100.0)
+        print_out += 'validating [loss={:09.6f} acc={:05.2f}]'.format(val_losses[-1], val_accs[-1] * 100.0)
+        print(print_out)
+
+        # Plot progress.
+        if not self.__figure is None:
+            self.__figure.clf()
+            plt.subplot(2, 1, 1)
+            plt.ylabel('Accuracy')
+            plt.plot(iters, train_accs, 'r', label='Training Data')
+            plt.plot(iters, val_accs, 'g', label='Test Data')
+            plt.legend(loc=4)
+            plt.subplot(2, 1, 2)
+            plt.xlabel('Iteration')
+            plt.ylabel('Loss')
+            plt.yscale('log')
+            plt.plot(iters, train_losses, 'r', label='Training Data')
+            plt.plot(iters, val_losses, 'g', label='Test Data')
+            plt.legend(loc=1)
+            plt.pause(0.001)
+            plt.draw()
+
     def display_evaluation(self, results):
-        loss, acc = results
+        loss = results['loss']
+        acc = results['acc']
         print('Results: [loss={:09.6f} acc={:05.2f}]'.format(loss, acc * 100.0))
 
     def write_csv(self, source, network, results):
@@ -157,7 +150,6 @@ class Experiment(object):
         """Plots the given results.
         Arguments
             results - A set of results for the execution of the neural network.
-        """
         """
         iters, train_losses, train_accs, test_losses, test_accs = zip(*results)
         plt.figure(1)
@@ -193,4 +185,3 @@ class Experiment(object):
         filepath = 'fig_{}_{}_loss_log.jpg'.format(source.name.lower(), network.name.lower())
         plt.savefig(filepath)
         plt.close()
-        """

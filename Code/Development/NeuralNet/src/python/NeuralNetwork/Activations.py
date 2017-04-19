@@ -6,6 +6,7 @@ Created on Mon Apr 17 16:59:59 2017
 """
 
 import numpy as np
+import sys
 
 class Activations(object):
     class Sigmoid(object):
@@ -15,7 +16,7 @@ class Activations(object):
         @staticmethod
         def deriv(z):
             sig_z = Activations.Sigmoid.func(z)
-            return sig_z * (1.0 - sig_z)
+            return sig_z - sig_z**2
         
     class HyperTangent(object):
         @staticmethod
@@ -24,13 +25,12 @@ class Activations(object):
         @staticmethod
         def deriv(z):
             tanh_z = np.tanh(z)
-            return 1.0 - tanh_z * tanh_z
+            return 1.0 - tanh_z**2
         
     class Softmax(object):
         @staticmethod
         def func(z):
-            exp_z = np.exp(z - np.max(z))
-            return exp_z / np.sum(exp_z)
+            return np.exp(z) / np.sum(np.exp(z))
         @staticmethod
         def deriv(z):
             smax_z = Activations.Softmax.func(z)

@@ -72,7 +72,7 @@ class AdaGrad(GradientDescent):
         # Randomly shuffle the data
         dataset.shuffle()
         
-        if self.__mem_gW is None or self.__mem_gb is None:
+        if self.__mem_gW is None:
             self.__mem_gW = [np.zeros(w.shape) for w in network.weights]
             self.__mem_gb = [np.zeros(b.shape) for b in network.biases]
 
@@ -102,7 +102,7 @@ class AdaDelta(GradientDescent):
         # Randomly shuffle the data
         dataset.shuffle()
 
-        if self.__mem_gW is None or self.__mem_gb is None:
+        if self.__mem_gW is None:
             self.__mem_gW = [np.zeros(w.shape) for w in network.weights]
             self.__mem_gb = [np.zeros(b.shape) for b in network.biases]
             self.__mem_dW = [np.zeros(w.shape) for w in network.weights]

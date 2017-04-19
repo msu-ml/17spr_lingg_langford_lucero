@@ -6,9 +6,7 @@ Created on Tue Apr 04 23:10:38 2017
 """
 
 import getopt
-"""
 import matplotlib.cbook
-"""
 import numpy as np
 import sys
 import warnings
@@ -19,12 +17,10 @@ seed = 69
 np.random.seed(seed)
 
 def main(argv):
-    """
     # Suppress deprecation warnings. I don't care.
     warnings.filterwarnings("ignore", category=DeprecationWarning) 
     warnings.filterwarnings("ignore",
                             category=matplotlib.cbook.MatplotlibDeprecationWarning) 
-    """
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], 'n:', ['iters='])

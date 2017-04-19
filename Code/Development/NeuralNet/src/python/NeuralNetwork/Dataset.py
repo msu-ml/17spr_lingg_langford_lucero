@@ -9,7 +9,8 @@ import numpy as np
 import sys
 
 class Dataset(object):
-    def __init__(self, data, targets):
+    def __init__(self, data, targets, ordered=False):
+        self.__ordered = ordered
         self.__num_entries = data.shape[0]
         self.__num_features = data.shape[1]
         self.data = data
@@ -38,14 +39,15 @@ class Dataset(object):
     num_features = property(fget=lambda self: self.get_num_features())
     
     def shuffle(self):
-        r = np.random.permutation(self.num_entries)
-        self.data = self.data[r]
-        self.targets = self.targets[r]
+        if not self.__ordered:
+            r = np.random.permutation(self.num_entries)
+            self.data = self.data[r]
+            self.targets = self.targets[r]
 
     def split(self, ratio):
         n = int(self.num_entries * ratio)
-        dataset1 = Dataset(self.data[:n,:], self.targets[:n,:])
-        dataset2 = Dataset(self.data[n:,:], self.targets[n:,:])
+        dataset1 = Dataset(self.data[:n,:], self.targets[:n,:], ordered=self.__ordered)
+        dataset2 = Dataset(self.data[n:,:], self.targets[n:,:], ordered=self.__ordered)
         return dataset1, dataset2
 
     def create_classes(self, num_classes):
@@ -81,5 +83,5 @@ class Dataset(object):
         for i in xrange(0, self.num_entries, batch_size):
             batch_data = self.data[i:i+batch_size,:]
             batch_targets = self.targets[i:i+batch_size,:]
-            batches.append(Dataset(batch_data, batch_targets))
+            batches.append(Dataset(batch_data, batch_targets, ordered=self.__ordered))
         return batches

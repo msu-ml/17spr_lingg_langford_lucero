@@ -72,27 +72,14 @@ class NeuralNetwork(object):
     def reset(self):
         """Not implemented"""
 
+    @abc.abstractmethod
     def train(self,
               dataset_train,
               dataset_validate=None,
               num_iters=1000,
               batch_size=10,
               output=None):
-        results = []
-        for i in xrange(num_iters):
-            # Fit the model to the training data.
-            self.optimizer.optimize(self, dataset_train, batch_size)
-
-            # Evaluate performance on training and test data.
-            train_loss, train_acc = self.evaluate(dataset_train)
-            val_loss, val_acc = (0.0, 0.0)
-            if dataset_validate is not None:
-                val_loss, val_acc = self.evaluate(dataset_validate)
-            results.append((i, train_loss, train_acc, val_loss, val_acc))
-            if not output is None:
-                output(results)
-
-        return results
+        """Not implemented"""
     
     @abc.abstractmethod
     def back_propagation(self, x, t):
@@ -102,23 +89,6 @@ class NeuralNetwork(object):
     def predict(self, x):
         """Not implemented"""
 
+    @abc.abstractmethod
     def evaluate(self, dataset):
-        loss = 0.0
-        correct = 0.0
-        for i in xrange(dataset.num_entries):
-            # make a prediction for the current data point
-            y = self.predict(dataset.data[i])
-            t = dataset.targets[i]
-            t = np.reshape(t, y.shape)
-
-            # compute the error of the prediction
-            loss += self.error.func(y, t)
-            
-            # check if prediction matches truth
-            if self.match is not None and self.match(y, t):
-                correct += 1.0
-
-        loss = loss / dataset.num_entries
-        acc = correct / dataset.num_entries
-        
-        return loss, acc
+        """Not implemented"""

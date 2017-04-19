@@ -30,6 +30,38 @@ class FFN(NeuralNetwork):
             self.weights.append(np.random.randn(b, a))
             self.biases.append(np.random.randn(b, 1))
 
+    def train(self,
+              dataset_train,
+              dataset_validate=None,
+              num_iters=1000,
+              batch_size=10,
+              output=None):
+        log = { 'iters': [],
+                'train_losses': [],
+                'train_accs': [],
+                'val_losses': [],
+                'val_accs': [],
+                'samples': []
+                }
+        for i in xrange(num_iters):
+            # Fit the model to the training data.
+            self.optimizer.optimize(self, dataset_train, batch_size)
+
+            # Evaluate performance on training and test data.
+            results = self.evaluate(dataset_train)
+            log['iters'].append(i)
+            log['train_losses'].append(results['loss'])
+            log['train_accs'].append(results['acc'])
+            if dataset_validate is not None:
+                results = self.evaluate(dataset_validate)
+                log['val_losses'].append(results['loss'])
+                log['val_accs'].append(results['acc'])
+
+            if not output is None:
+                output(log)
+
+        return log
+
     def back_propagation(self, x, t):
         # forward pass
         ws = [w for w in self.weights]
@@ -54,6 +86,29 @@ class FFN(NeuralNetwork):
             grad_b[-i] = delta_h
             delta_h = np.dot(ws[-i].T, delta_h)
         return grad_W, grad_b
+
+    def evaluate(self, dataset):
+        results = {}
+        results['loss'] = []
+        results['acc'] = []
+        loss = 0.0
+        correct = 0.0
+        for i in xrange(dataset.num_entries):
+            # make a prediction for the current data point
+            y = self.predict(dataset.data[i])
+            t = dataset.targets[i]
+            t = np.reshape(t, y.shape)
+
+            # compute the error of the prediction
+            loss += self.error.func(y, t)
+            
+            # check if prediction matches truth
+            if self.match is not None and self.match(y, t):
+                correct += 1.0
+
+        results['loss'] = loss / dataset.num_entries
+        results['acc'] = correct / dataset.num_entries
+        return results
 
     def predict(self, x):
         h = x.reshape((x.shape[0],1))
