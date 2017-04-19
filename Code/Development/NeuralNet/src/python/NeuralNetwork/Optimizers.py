@@ -43,7 +43,7 @@ class SGD(GradientDescent):
         
         # Randomly shuffle the data
         dataset.shuffle()
-        
+
         mem_dW = [np.zeros(w.shape) for w in network.weights]
         mem_db = [np.zeros(b.shape) for b in network.biases]
         batches = dataset.make_batches(batch_size)
@@ -59,6 +59,8 @@ class SGD(GradientDescent):
 class AdaGrad(GradientDescent):
     def __init__(self, learning_rate=1.0):
         self.__learning_rate = learning_rate
+        self.__mem_gW = None
+        self.__mem_gb = None
 
     def optimize(self, network, dataset, batch_size):
         """Adjusts the models weights to fit the given training data using an
@@ -69,23 +71,29 @@ class AdaGrad(GradientDescent):
         
         # Randomly shuffle the data
         dataset.shuffle()
-            
+        
+        if self.__mem_gW is None or self.__mem_gb is None:
+            self.__mem_gW = [np.zeros(w.shape) for w in network.weights]
+            self.__mem_gb = [np.zeros(b.shape) for b in network.biases]
+
         # Get gradient for each batch and adjust the weights.
-        mem_gW = [np.zeros(w.shape) for w in network.weights]
-        mem_gb = [np.zeros(b.shape) for b in network.biases]
         batches = dataset.make_batches(batch_size)
         for batch in batches:
             grad_W, grad_b = self.get_batch_gradient(network, batch)
-            mem_gW = [(mw + gw**2) for mw, gw in zip(mem_gW, grad_W)]
-            mem_gb = [(mb + gb**2) for mb, gb in zip(mem_gb, grad_b)]
-            delta_W = [-(gw * eta / np.sqrt(mgw + eps)) for gw, mgw in zip(grad_W, mem_gW)]
-            delta_b = [-(gb * eta / np.sqrt(mgb + eps)) for gb, mgb in zip(grad_b, mem_gb)]
+            self.__mem_gW = [(mw + gw**2) for mw, gw in zip(self.__mem_gW, grad_W)]
+            self.__mem_gb = [(mb + gb**2) for mb, gb in zip(self.__mem_gb, grad_b)]
+            delta_W = [-(eta * gw / np.sqrt(mgw + eps)) for gw, mgw in zip(grad_W, self.__mem_gW)]
+            delta_b = [-(eta * gb / np.sqrt(mgb + eps)) for gb, mgb in zip(grad_b, self.__mem_gb)]
             network.weights = [(w + dw) for w, dw in zip(network.weights, delta_W)]
             network.biases = [(b + db) for b, db in zip(network.biases,  delta_b)]
-
+        
 class AdaDelta(GradientDescent):
     def __init__(self, scale=0.9):
         self.__scale = scale
+        self.__mem_dW = None
+        self.__mem_db = None
+        self.__mem_gW = None
+        self.__mem_gb = None
 
     def optimize(self, network, dataset, batch_size):
         rho = self.__scale
@@ -93,20 +101,22 @@ class AdaDelta(GradientDescent):
         
         # Randomly shuffle the data
         dataset.shuffle()
-            
+
+        if self.__mem_gW is None or self.__mem_gb is None:
+            self.__mem_gW = [np.zeros(w.shape) for w in network.weights]
+            self.__mem_gb = [np.zeros(b.shape) for b in network.biases]
+            self.__mem_dW = [np.zeros(w.shape) for w in network.weights]
+            self.__mem_db = [np.zeros(b.shape) for b in network.biases]
+
         # Get gradient for each batch and adjust the weights.
-        mem_gW = [np.zeros(w.shape) for w in network.weights]
-        mem_gb = [np.zeros(b.shape) for b in network.biases]
-        mem_dW = [np.zeros(w.shape) for w in network.weights]
-        mem_db = [np.zeros(b.shape) for b in network.biases]
         batches = dataset.make_batches(batch_size)
         for batch in batches:
             grad_W, grad_b = self.get_batch_gradient(network, batch)
-            mem_gW = [((rho * mgw) + ((1 - rho) * gw**2)) for mgw, gw in zip(mem_gW, grad_W)]
-            mem_gb = [((rho * mgb) + ((1 - rho) * gb**2)) for mgb, gb in zip(mem_gb, grad_b)]
-            delta_W = [-(gw * np.sqrt(mdw + eps) / np.sqrt(mgw + eps)) for gw, mdw, mgw in zip(grad_W, mem_dW, mem_gW)]
-            delta_b = [-(gb * np.sqrt(mdb + eps) / np.sqrt(mgb + eps)) for gb, mdb, mgb in zip(grad_b, mem_db, mem_gb)]
-            mem_dW = [((rho * mdw) + ((1 - rho) * dw**2)) for mdw, dw in zip(mem_dW, delta_W)]
-            mem_db = [((rho * mdb) + ((1 - rho) * db**2)) for mdb, db in zip(mem_db, delta_b)]
+            self.__mem_gW = [((rho * mgw) + ((1 - rho) * gw**2)) for mgw, gw in zip(self.__mem_gW, grad_W)]
+            self.__mem_gb = [((rho * mgb) + ((1 - rho) * gb**2)) for mgb, gb in zip(self.__mem_gb, grad_b)]
+            delta_W = [-(gw * np.sqrt(mdw + eps) / np.sqrt(mgw + eps)) for gw, mdw, mgw in zip(grad_W, self.__mem_dW, self.__mem_gW)]
+            delta_b = [-(gb * np.sqrt(mdb + eps) / np.sqrt(mgb + eps)) for gb, mdb, mgb in zip(grad_b, self.__mem_db, self.__mem_gb)]
+            self.__mem_dW = [((rho * mdw) + ((1 - rho) * dw**2)) for mdw, dw in zip(self.__mem_dW, delta_W)]
+            self.__mem_db = [((rho * mdb) + ((1 - rho) * db**2)) for mdb, db in zip(self.__mem_db, delta_b)]
             network.weights = [(w + dw) for w, dw in zip(network.weights, delta_W)]
             network.biases = [(b + db) for b, db in zip(network.biases,  delta_b)]
