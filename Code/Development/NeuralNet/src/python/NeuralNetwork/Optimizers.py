@@ -56,16 +56,13 @@ class SGD(GradientDescent):
             network.weights = [(w - dw) for w, dw in zip(network.weights, delta_W)]
             network.biases = [(b - db) for b, db in zip(network.biases, delta_b)]
 
-class AdaGrad(GradientDescent):
+class Adagrad(GradientDescent):
     def __init__(self, learning_rate=1.0):
         self.__learning_rate = learning_rate
         self.__mem_gW = None
         self.__mem_gb = None
 
     def optimize(self, network, dataset, batch_size):
-        """Adjusts the models weights to fit the given training data using an
-        AdaGrad optimization method.
-        """
         eta = self.__learning_rate
         eps = 1e-8
         
@@ -87,7 +84,7 @@ class AdaGrad(GradientDescent):
             network.weights = [(w + dw) for w, dw in zip(network.weights, delta_W)]
             network.biases = [(b + db) for b, db in zip(network.biases,  delta_b)]
         
-class AdaDelta(GradientDescent):
+class Adadelta(GradientDescent):
     def __init__(self, scale=0.9):
         self.__scale = scale
         self.__mem_dW = None

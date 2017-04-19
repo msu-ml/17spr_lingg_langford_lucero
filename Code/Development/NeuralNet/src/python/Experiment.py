@@ -14,8 +14,8 @@ from NeuralNetwork.Activations import Activations
 from NeuralNetwork.Dataset import Dataset
 from NeuralNetwork.Errors import Errors
 from NeuralNetwork.Feedforward import FFN
-from NeuralNetwork.Optimizers import AdaDelta
-from NeuralNetwork.Optimizers import AdaGrad
+from NeuralNetwork.Optimizers import Adadelta
+from NeuralNetwork.Optimizers import Adagrad
 
 class Experiment(object):
     def __init__(self):
@@ -63,8 +63,8 @@ class Experiment(object):
             layers = [dataset_train.num_features, 32, 16, 1]
             network = FFN(layers)
             network.name = 'Regression'
-            #network.optimizer = AdaGrad(learning_rate=0.1)
-            network.optimizer = AdaDelta()
+            #network.optimizer = Adagrad(learning_rate=0.1)
+            network.optimizer = Adadelta()
             network.activation = Activations.Sigmoid
             network.error = Errors.MeanSquared
             network.match = lambda y, t: np.abs(y - t) <= source.normalize_target(10000)
@@ -146,16 +146,21 @@ class Experiment(object):
                 for i in xrange(len(results)):
                     writer.writerow(results[i])
 
-    def plot(self, source, network, results):
+    def plot(self, source, network, log):
         """Plots the given results.
         Arguments
             results - A set of results for the execution of the neural network.
         """
-        iters, train_losses, train_accs, test_losses, test_accs = zip(*results)
+        iters = log['iters']
+        train_losses = log['train_losses']
+        train_accs = log['train_accs']
+        val_losses = log['val_losses']
+        val_accs = log['val_accs']
+        
         plt.figure(1)
         plt.title(source.name)
         plt.plot(iters, train_accs, 'r', label='Training Data')
-        plt.plot(iters, test_accs, 'g', label='Test Data')
+        plt.plot(iters, val_accs, 'g', label='Test Data')
         plt.xlabel('Iteration')
         plt.ylabel('Accuracy')
         plt.legend(loc=4)
@@ -166,7 +171,7 @@ class Experiment(object):
         plt.figure(2)
         plt.title(source.name)
         plt.plot(iters, train_losses, 'r', label='Training Data')
-        plt.plot(iters, test_losses, 'g', label='Test Data')
+        plt.plot(iters, val_losses, 'g', label='Test Data')
         plt.xlabel('Iteration')
         plt.ylabel('Loss')
         plt.legend(loc=1)
@@ -178,7 +183,7 @@ class Experiment(object):
         plt.yscale('log')
         plt.title(source.name)
         plt.plot(iters, train_losses, 'r', label='Training Data')
-        plt.plot(iters, test_losses, 'g', label='Test Data')
+        plt.plot(iters, val_losses, 'g', label='Test Data')
         plt.xlabel('Iteration')
         plt.ylabel('Loss')
         plt.legend(loc=1)
