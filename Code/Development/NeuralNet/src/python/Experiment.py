@@ -13,7 +13,7 @@ from HousingData import HousingData
 from NeuralNetwork.Activations import Activations
 from NeuralNetwork.Dataset import Dataset
 from NeuralNetwork.Errors import Errors
-from NeuralNetwork.Feedforward import FFN
+from NeuralNetwork.Feedforward import FNN
 from NeuralNetwork.Optimizers import SGD
 from NeuralNetwork.Optimizers import Adadelta
 from NeuralNetwork.Optimizers import Adagrad
@@ -54,7 +54,7 @@ class Experiment(object):
         dataset_train.encode_targets(classes)
         dataset_test.encode_targets(classes)
         layers = [dataset_train.num_features] + hidden_layers + [num_classes]
-        network = FFN(layers)
+        network = FNN(layers)
         network.name = label
         network.optimizer = optimizer
         network.activation = Activations.Sigmoid
@@ -88,7 +88,7 @@ class Experiment(object):
         print('')
         print('Model ' + '-'*60)
         layers = [dataset_train.num_features] + hidden_layers + [1]
-        network = FFN(layers)
+        network = FNN(layers)
         network.name = label
         network.optimizer = optimizer
         network.activation = Activations.Sigmoid
