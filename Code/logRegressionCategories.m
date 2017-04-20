@@ -30,7 +30,7 @@ function [MSE, Accuracy] = LogisticRegressionHeirarchy(FileName, Classes)
   resultCategories = ones(size(tblArray,1),1);
   for i = 1:size(tblArray,1)
    for j = 1:Classes - 1
-    if tblArray(i,1) > ( j * ( 1 / Classes ) )
+    if tblArray(i,size(tblArray,2)) > ( j * ( 1 / Classes ) )
         resultCategories( i ) = resultCategories( i ) + 1;
     else
         break;
@@ -46,13 +46,13 @@ function [MSE, Accuracy] = LogisticRegressionHeirarchy(FileName, Classes)
     legend('Truth');
 
   %Take half the data for training
-  y_train = tblArray(1:size(tblArray,1)/2,1);
-  x_train = tblArray(1:size(tblArray,1)/2,2:size(tblArray,2));
+  y_train = tblArray(1:size(tblArray,1)/2,size(tblArray,2));
+  x_train = tblArray(1:size(tblArray,1)/2,1:size(tblArray,2)-1);
   resultCategories_train = resultCategories(1:size(tblArray,1)/2);
 
   %Take the second half of the data for testing
-  y_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),1);
-  x_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),2:size(tblArray,2));
+  y_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),size(tblArray,2));
+  x_test = tblArray(size(tblArray,1)/2 + 1:size(tblArray,1),1:size(tblArray,2)-1);
   resultCategories_test = resultCategories(size(tblArray,1)/2+1:size(tblArray,1));
 
   %Get the best logistic regression weights and test the model.
@@ -62,10 +62,10 @@ function [MSE, Accuracy] = LogisticRegressionHeirarchy(FileName, Classes)
 
   %Sort the data by sale price to produce an easier graph to look at.
   tblArraySorted = sortrows(tblArray,1);
-  tblArraySorted = cat(2,tblArraySorted(:,1),normc(tblArraySorted(:,2:size(tblArraySorted,2))));
+  tblArraySorted = cat(2,tblArraySorted(:,size(tblArray,2)),normc(tblArraySorted(:,1:size(tblArraySorted,2)-1)));
 
-  y_test_sorted = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),1);
-  x_test_sorted = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),2:size(tblArray,2));
+  y_test_sorted = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),size(tblArray,2));
+  x_test_sorted = tblArraySorted(size(tblArray,1)/2 + 1:size(tblArray,1),1:size(tblArray,2)-1);
 
   disp('Run Error:');
   disp(RunError(bestWeights,categories,resultCategories_test./categories,y_test_sorted,cat(2,ones(size(x_test_sorted,1),1),x_test_sorted),true));

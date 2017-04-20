@@ -93,6 +93,7 @@
 		\setlength{\parindent}{15pt} }
                 \par
                 Additionally we look at the best method of filling in holes in the input data. The Advanced Regression Techniques Data has no holes so we look at the Grand Rapids Data from Redfin for hole filling. Table \ref{table:logr_hole_fill} shows that with no holes filled, the basic closed form linear regression cannot be solved with Matlab. From the remaining methods, Closest Mean provides the most accurate predictions.
+                During the project we noticed that the mean squared error was not producing expected results between data sets.  Models that appeared to produce a good match were resulting in higher error than models that appeared to produce weaker results.  It was observed that the data sets producing lower error were ones with a large number of lower value houses and a few high value corner cases. This issue was addressed by filtering out any homes with price above 1 million to eliminate some corner cases.  Additionally when normalizing house prices, the same maximum value was used for all data sets.  With these changes, the mean squared error is producing consistent results between the data sets.
  		\section{Models}
 		Figure \ref{fig:ganttchart} shows our initial project milestones and timeline to completing them.
 	\end{multicols}
@@ -103,7 +104,6 @@
 	    \label{fig:ganttchart}
 	\end{figure*}
 	\begin{multicols}{2}
-                During the project we noticed that the mean squared error was not producing expected results between data sets.  Models that appeared to produce a good match were resulting in higher error than models that appeared to produce weaker results.  It was noticed that the data sets producing lower error were ones with a large number of lower value houses and a few high value corner cases. This issue was addressed by filtering out any homes with price above 1 million to eliminate some corner cases.  Additionally when normalizing house prices, the same maximum value was used for all data sets.  With these changes, the mean squared error is producing consistent results between the data sets.
 		\subsection{Linear Regression}
 			For linear regression we are using a closed form ridge regression. We tested standard and stochastic gradient descent but these methods did not produce a significant improvement in processing time for the data we are using and do not improve on the prediction error.
 		\par
@@ -128,9 +128,9 @@
 				\hline
 				\small{Advanced Regression} & \small{1.0e-03} \\
 				\hline
-				\small{Redfin} & \small{6.3e-02} \\
+				\small{Redfin} & \small{6.3e-03} \\
 				\hline
-				\small{King's County} & \small{13.1e-02} \\
+				\small{King's County} & \small{13.1e-03} \\
 				\hline
 			\end{tabular}
 			\captionof{table}{Observed performance from linear regression model.}
@@ -183,6 +183,22 @@
 			\captionof{figure}{MSE and accuracy for Logistic Regression.}
 			\label{fig:logr_MSE_Accuracy}
 		\end{center}
+		\par
+			Finally we implemented an ensemble that performed linear regression on top of the logistic results. This ensemble used the 100 class logistic regression test predictions for training and testing.  Similar to previous runs, the Nashville data was skipped as it produces too large of a matrix to fit in memory. As shown in table \ref{table:logr_ensemble}, the ensemble provides at least a small improvement on each data set.\\
+        	\captionsetup{type=table}
+			\begin{tabular}{r|c|c}
+				& \small{original logistic} & \small{ensemble} \\
+				\hline
+				\small{Redfin} & \small{8.5e-03} & \small{8.1e-03} \\
+				\hline
+				\small{Advanced Regression} & \small{4.5e-03} & \small{1.7e-03} \\
+				\hline
+				\small{King's County} & \small{14.4e-03} & \small{13.2e-03} \\
+				\hline
+			\end{tabular}
+			\captionof{table}{Observed performance from logistic regression ensemble.}
+			\label{table:logr_ensemble}        
+			\setlength{\parindent}{15pt}
 		\par
  			
 		\subsection{Decision Tree}
