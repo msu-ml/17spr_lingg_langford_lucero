@@ -9,9 +9,9 @@ from NeuralNetwork import NeuralNetwork
 import numpy as np
 import sys
 
-class FFN(NeuralNetwork):
+class FNN(NeuralNetwork):
     def __init__(self, layers):
-        super(FFN, self).__init__()
+        super(FNN, self).__init__()
         self.__layers = layers
         self.reset()
 

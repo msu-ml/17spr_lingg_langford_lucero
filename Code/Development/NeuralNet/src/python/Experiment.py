@@ -36,16 +36,11 @@ class Experiment(object):
         """Executes the application.
         """
         for source in self.__sources:
-            self.run_class_model('class_sgd', source, SGD(learning_rate=0.01, momentum=0.9), num_iters)
-            self.run_regress_model('regress_sgd', source, SGD(learning_rate=0.01, momentum=0.9), num_iters)
-            self.run_class_model('class_adagrad', source, Adagrad(learning_rate=0.01), num_iters)
-            self.run_regress_model('regress_adagrad', source, Adagrad(learning_rate=0.01), num_iters)
-            self.run_class_model('class_adadelta', source, Adadelta(), num_iters)
-            self.run_regress_model('regress_adadelta', source, Adadelta(), num_iters)
-
+            self.eval_regress_model(source, [35, 15, 10], Adagrad(learning_rate=0.01), num_iters, label='35_15_10')
+            self.eval_regress_model(source, [32, 16, 8], Adagrad(learning_rate=0.01), num_iters, label='35_16_8')
         print('Done.')
-        
-    def run_class_model(self, name, source, optimizer, num_iters):
+    
+    def eval_class_model(self, source, hidden_layers, optimizer, num_iters, label='classification'):
         print('')
         print('Data  ' + '-'*60)
         data, targets = source.data
@@ -54,12 +49,13 @@ class Experiment(object):
          
         print('')
         print('Model ' + '-'*60)
-        classes = dataset_train.create_classes(3)
+        num_classes = 3
+        classes = dataset_train.create_classes(num_classes)
         dataset_train.encode_targets(classes)
         dataset_test.encode_targets(classes)
-        layers = [dataset_train.num_features, 32, 16, 3]
+        layers = [dataset_train.num_features] + hidden_layers + [num_classes]
         network = FFN(layers)
-        network.name = name
+        network.name = label
         network.optimizer = optimizer
         network.activation = Activations.Sigmoid
         network.error = Errors.CategoricalCrossEntropy
@@ -82,7 +78,7 @@ class Experiment(object):
         results = network.evaluate(dataset_test)
         self.display_evaluation(results)
     
-    def run_regress_model(self, name, source, optimizer, num_iters):
+    def eval_regress_model(self, source, hidden_layers, optimizer, num_iters, label='regression'):
         print('')
         print('Data  ' + '-'*60)
         data, targets = source.data
@@ -91,10 +87,9 @@ class Experiment(object):
         
         print('')
         print('Model ' + '-'*60)
-        layers = [dataset_train.num_features, 32, 16, 1]
+        layers = [dataset_train.num_features] + hidden_layers + [1]
         network = FFN(layers)
-        network.name = name
-        #network.optimizer = Adagrad(learning_rate=0.1)
+        network.name = label
         network.optimizer = optimizer
         network.activation = Activations.Sigmoid
         network.error = Errors.MeanSquared

@@ -38,17 +38,14 @@ class Dataset(object):
         return self.__num_features
     num_features = property(fget=lambda self: self.get_num_features())
     
+    def clone(self):
+        return Dataset(np.copy(self.data), np.copy(self.targets))
+    
     def shuffle(self):
         if not self.__ordered:
             r = np.random.permutation(self.num_entries)
             self.data = self.data[r]
             self.targets = self.targets[r]
-
-    def split(self, ratio):
-        n = int(self.num_entries * ratio)
-        dataset1 = Dataset(self.data[:n,:], self.targets[:n,:], ordered=self.__ordered)
-        dataset2 = Dataset(self.data[n:,:], self.targets[n:,:], ordered=self.__ordered)
-        return dataset1, dataset2
 
     def create_classes(self, num_classes):
         classes = np.zeros(num_classes)
@@ -85,3 +82,21 @@ class Dataset(object):
             batch_targets = self.targets[i:i+batch_size,:]
             batches.append(Dataset(batch_data, batch_targets, ordered=self.__ordered))
         return batches
+
+    def split(self, ratio):
+        n = int(self.num_entries * ratio)
+        dataset1 = Dataset(self.data[:n,:], self.targets[:n,:], ordered=self.__ordered)
+        dataset2 = Dataset(self.data[n:,:], self.targets[n:,:], ordered=self.__ordered)
+        return dataset1, dataset2
+
+    def split_by_classes(self, classes):
+        datasets = []
+        for i in xrange(classes.shape[0]):
+            mask = (self.targets >= classes[i])
+            if i + 1 < classes.shape[0]:
+                mask &= self.targets < classes[i+1]
+            else:
+                mask &= self.targets < np.inf
+            mask = np.reshape(mask, (mask.shape[0]))
+            datasets.append(Dataset(self.data[mask], self.targets[mask]))
+        return datasets
