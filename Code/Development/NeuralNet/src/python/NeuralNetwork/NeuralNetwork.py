@@ -7,6 +7,7 @@ Created on Fri Mar 10 09:55:15 2017
 
 import abc
 import numpy as np
+import os
 import sys
 
 class NeuralNetwork(object):
@@ -68,17 +69,36 @@ class NeuralNetwork(object):
     match = property(fget=lambda self: self.get_match(),
                      fset=lambda self, v: self.set_match(v))
 
+    def save(self, file_path):
+        with open(file_path, 'wb') as output_file:
+            arrays = {}
+            for i in xrange(len(self.weights)):
+                name = 'w{}'.format(i)
+                arrays[name] = self.weights[i]
+            for i in xrange(len(self.biases)):
+                name = 'b{}'.format(i)
+                arrays[name] = self.biases[i]
+            np.savez(output_file, **arrays)
+
+    def load(self, file_path):
+        if os.path.exists(file_path):
+            with open(file_path, 'rb') as input_file:
+                self.weights = []
+                self.biases = []
+                npz = np.load(input_file)
+                names = sorted(npz.files)
+                for name in names:
+                    if name[0] == 'w':
+                        self.weights.append(npz[name])
+                    elif name[0] == 'b':
+                        self.biases.append(npz[name])
+        
     @abc.abstractmethod
     def reset(self):
         """Not implemented"""
 
     @abc.abstractmethod
-    def train(self,
-              dataset_train,
-              dataset_validate=None,
-              num_iters=1000,
-              batch_size=10,
-              output=None):
+    def train(self, dataset_train, dataset_validate=None, num_iters=1000, batch_size=10, output=None):
         """Not implemented"""
     
     @abc.abstractmethod

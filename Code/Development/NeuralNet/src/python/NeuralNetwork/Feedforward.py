@@ -30,12 +30,7 @@ class FNN(NeuralNetwork):
             self.weights.append(np.random.randn(b, a))
             self.biases.append(np.random.randn(b, 1))
 
-    def train(self,
-              dataset_train,
-              dataset_validate=None,
-              num_iters=1000,
-              batch_size=10,
-              output=None):
+    def train(self, dataset_train, dataset_validate=None, num_iters=1000, batch_size=10, output=None):
         log = { 'iters': [],
                 'train_losses': [],
                 'train_accs': [],

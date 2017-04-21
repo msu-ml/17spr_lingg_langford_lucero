@@ -82,7 +82,7 @@ class Dataset(object):
             batch_targets = self.targets[i:i+batch_size,:]
             batches.append(Dataset(batch_data, batch_targets, ordered=self.__ordered))
         return batches
-
+    
     def split(self, ratio):
         n = int(self.num_entries * ratio)
         dataset1 = Dataset(self.data[:n,:], self.targets[:n,:], ordered=self.__ordered)
