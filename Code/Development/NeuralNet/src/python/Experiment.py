@@ -30,14 +30,14 @@ class Experiment(object):
         self.__sources.append(HousingData('../../data/kingcounty_processed.csv', name='KingCounty'))
         self.__sources.append(HousingData('../../data/nashville_processed.csv', name='Nashville'))
 
-        self.__figure = plt.figure(0)
+        #self.__figure = plt.figure(0)
+        self.__figure = None
         
     def run(self, num_iters):
         """Executes the application.
         """
         for source in self.__sources:
-            self.eval_regress_model(source, [35, 15, 10], Adagrad(learning_rate=0.01), num_iters, label='35_15_10')
-            self.eval_regress_model(source, [32, 16, 8], Adagrad(learning_rate=0.01), num_iters, label='35_16_8')
+            self.eval_regress_model(source, [32, 16, 8], Adagrad(learning_rate=0.01), num_iters)
         print('Done.')
     
     def eval_class_model(self, source, hidden_layers, optimizer, num_iters, label='classification'):
