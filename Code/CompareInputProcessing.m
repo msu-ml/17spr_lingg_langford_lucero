@@ -1,12 +1,12 @@
-processedFileName = 'Processed/train_processed_not_rand';
+processedFileName = 'Processed/art_processed';
 unprocessedNormFileName = 'Unprocessed/train_norm_price';
 
-err = BasicLinearRegression(unprocessedNormFileName);
+unprocessedErr = BasicLinearRegression(unprocessedNormFileName);
+normErr = BasicLinearRegression(unprocessedNormFileName,true);
+processedErr = BasicLinearRegression(processedFileName);
 disp('Unprocessed File:');
-disp(err);
-err = BasicLinearRegression(unprocessedNormFileName,true);
+disp(unprocessedErr);
 disp('Unprocessed Nomalized File:');
-disp(err);
-err = BasicLinearRegression(processedFileName);
+disp(normErr);
 disp('Processed File:');
-disp(err);
+disp(processedErr);

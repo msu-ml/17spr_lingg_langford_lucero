@@ -1,7 +1,7 @@
-%nashvilleMSE = LogisticRegressionHeirarchy('nashville_processed');
-redfinMSE = LogisticRegressionHeirarchy('redfin_processed');
-artMSE = LogisticRegressionHeirarchy('art_processed');
-kingMSE = LogisticRegressionHeirarchy('kingcounty_processed');
+%nashvilleMSE = LinearRegressionEnsembleOverlap('nashville_processed');
+redfinMSE = LinearRegressionEnsembleOverlap('redfin_processed');
+artMSE = LinearRegressionEnsembleOverlap('art_processed');
+kingMSE = LinearRegressionEnsembleOverlap('kingcounty_processed');
 
 %disp('Nashville Linear Ensemble MSE:');
 %disp(nashvilleMSE);
@@ -12,7 +12,7 @@ disp(artMSE);
 disp('King County Linear Ensemble MSE:');
 disp(kingMSE);
 
-function MSE = LogisticRegressionHeirarchy(FileName)
+function MSE = LinearRegressionEnsembleOverlap(FileName)
   tbl = readtable ( strcat('../Data/Processed/',FileName,'.csv') );
 
   tblArray = table2array(tbl);
@@ -21,9 +21,10 @@ function MSE = LogisticRegressionHeirarchy(FileName)
   data = tblArray(:,1:size(tblArray,2)-1);
   dataMean = mean(data,1);
   temp = ones(size(data,1),1)*dataMean;
+  
   [U, E, V] = svd(data - ones(size(data,1),1)*dataMean);
   principals = (U * E);
-  recon1 = principals(:,1:size(data,2)*0.25) * V(:,1:size(data,2)*0.25)' + ones(size(data,1),1)*dataMean;
+  recon1 = principals(:,1:size(data,2)*1) * V(:,1:size(data,2)*1)' + ones(size(data,1),1)*dataMean;
   tblArray = cat(2,tblArray(:,size(tblArray,2)),recon1(:,1:size(recon1,2)));
   tblArraySorted = sortrows(tblArray,1);
 

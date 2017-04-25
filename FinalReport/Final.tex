@@ -34,9 +34,9 @@
 	\maketitle
 	\begin{multicols}{2}
 		\section{Problem Description}
-		Automated Valuation Models (AVM) have become increasingly popular as the real estate market has embraced the World Wide Web as a source of accurate, up to the minute data.\textsuperscript{\cite{kaggleblog}} Banks have also shown great interest in using AVMs to help mitigate fraud by human appraisal.\textsuperscript{\cite{scotsman}} Our goal is to explore various machine learning techniques to implement an AVM and predict the true value of a house based on features commonly found on real estate listings. Our data will be drawn from the Nashville, TN housing market, using a dataset posted on Kaggle\textsuperscript{\cite{nashville_data}}.
+		Automated Valuation Models (AVM) have become increasingly popular as the real estate market has embraced the World Wide Web as a source of accurate, up to the minute data.\textsuperscript{\cite{kaggleblog}} Banks have also shown great interest in using AVMs to help mitigate fraud by human appraisal.\textsuperscript{\cite{scotsman}} Our goal is to explore various machine learning techniques to implement an AVM and predict the true value of a house based on features commonly found on real estate listings. Our data will be drawn from various data sets, including from the Nashville, TN housing market, using a dataset posted on Kaggle\textsuperscript{\cite{nashville_data}}.
 		\par
-		We will begin by exploring linear regression models that take into account physical attributes of each house and location. Further work will be performed exploring nonlinear models, such as deep learning with neural networks and decision trees, which can be compared and contrasted. Additional work may be performed to explore missing feature estimation.
+		We will begin by exploring linear regression models that take into account physical attributes of each house and location. Further work will be performed exploring nonlinear models, such as deep learning with neural networks and decision trees, which can be compared and contrasted. Additional work was performed to explore missing feature estimation.
 		\section{Related Work}
 		An obvious and popular example is Zillow's proprietary Zestimate\textsuperscript{\textregistered}. Zillow uses a closed source AVM that takes into account special features of the home, location, and market conditions. Zillow admits to using features such as physical attributes, tax assessments, and prior transactions. Zillow claims to have data on 110 million homes and estimates on approximately 100 million homes.\textsuperscript{\cite{zillow}}
 		\par
@@ -61,18 +61,18 @@
 			\begin{tabular}{r|c}
 				& \small{Preprocessing Results} \\
 				\hline
-				\small{No Preprocessing} & \small{2.6e-3} \\
+				\small{No Preprocessing} & \small{1.2487} \\
 				\hline
-				\small{Value Normalizing} & \small{2.3e-3} \\
+				\small{Value Normalizing} & \small{0.0499} \\
 				\hline
-				\small{Normalize and Binary Features} & \small{2.0e-3} \\
+				\small{Normalize and Binary Features} & \small{0.0012} \\
 				\hline
 			\end{tabular}
 			\captionof{table}{Linear regression preprocesssing results.}
-			\label{table:linr_preprocessing}        
+			\label{table:linr_preprocessing}
 		\setlength{\parindent}{15pt} }
                 \par
-                Table \ref{table:logr_preprocessing} shows the results of data preprocessing with a simple closed form linear regression, using the Advanced Regression Techniques Data. Note, the first row with no preprocessing does normalize the sale prices so the mean squared error can be compared between the results. The first row shows that without normalizing the data, there is very little accuracy in the predictions. Simply normalizing all of the data provides a significant increase in accuracy of the predictions. Finally, by splitting category fields into binary features, the error is improved by more than 15\%.
+                Table \ref{table:linr_preprocessing} shows the results of data preprocessing with a simple closed form linear regression, using the Advanced Regression Techniques Data. First we look at no preprocessing, though this row does normalize the sale prices so the mean squared error can be compared between the results. Second we look at the change with normalizing the features and home prices. Third we look at splitting category fields into binary features, in addition to normalizing. Each additional method of preprocessing improves the mean squared error significantly. As a result of this analysis we preprocessing all of our data by normalizing the values and splitting category values into binary features.
                 \par
 		{\centering
         	\captionsetup{type=table}
@@ -92,8 +92,9 @@
 			\label{table:linr_hole_fill}        
 		\setlength{\parindent}{15pt} }
                 \par
-                Additionally we look at the best method of filling in holes in the input data. The Advanced Regression Techniques Data has no holes so we look at the Grand Rapids Data from Redfin for hole filling. Table \ref{table:logr_hole_fill} shows that with no holes filled, the basic closed form linear regression cannot be solved with Matlab. From the remaining methods, Closest Mean provides the most accurate predictions.
-                During the project we noticed that the mean squared error was not producing expected results between data sets.  Models that appeared to produce a good match were resulting in higher error than models that appeared to produce weaker results.  It was observed that the data sets producing lower error were ones with a large number of lower value houses and a few high value corner cases. This issue was addressed by filtering out any homes with price above 1 million to eliminate some corner cases.  Additionally when normalizing house prices, the same maximum value was used for all data sets.  With these changes, the mean squared error is producing consistent results between the data sets.
+                Additionally we look at the best method of filling in holes in the input data. The Advanced Regression Techniques Data has no holes so we look at the Grand Rapids Data from Redfin for hole filling. Table \ref{table:logr_hole_fill} shows that with no holes filled, the basic closed form linear regression cannot be solved with Matlab. From the remaining methods, Closest Mean provides the most accurate predictions. We will continue to use this method throughout the project for filling in holes in the data.
+                \par
+                During the project we noticed that the mean squared error was not producing expected results between data sets. Models that appeared to produce a good match were resulting in higher error than models that appeared to produce weaker results. It was observed that the data sets producing lower error were ones with a large number of lower value houses and a few high value corner cases. This issue was addressed by filtering out any homes with price above 1 million to eliminate some corner cases. This upper limit was applied before filling in data holes, so the larger data does not impact the calculations for hole filling. Additionally when normalizing house prices, the same maximum value was used for all data sets. With these changes, the mean squared error is producing consistent results between the data sets.
  		\section{Models}
 		Figure \ref{fig:ganttchart} shows our initial project milestones and timeline to completing them.
 	\end{multicols}
@@ -105,20 +106,20 @@
 	\end{figure*}
 	\begin{multicols}{2}
 		\subsection{Linear Regression}
-			For linear regression we are using a closed form ridge regression. We tested standard and stochastic gradient descent but these methods did not produce a significant improvement in processing time for the data we are using and do not improve on the prediction error.
+			For linear regression we are using a closed form ridge regression. We tested standard and stochastic gradient descent but these methods did not produce a significant improvement in processing time for the data we are using, and do not improve on the prediction error.
 		\par
-			For the ridge regression regularization value we developed a simple automated approach to identify the ideal regularization value. We start with a test regularization value of 1 and perform five fold cross validation on the training data to determine the mean square error with this test value. Then we adjust the test value by 10 in the positive direction, in this case moving from 1 to 11, and repeat the cross validation. If the error decreases, we continue to adjust the test value in the same way. If the error increases, we reverse the sign of the test value adjustment and divide it by 10. This is similar to a simplistic gradient descent, but when we overshoot the minimum we reverse direction and lower the step size.  This continues until the error between two cross validations matches within 1e-7.
+			For the ridge regression regularization value we developed a simple automated approach to identify the ideal regularization value. We start with a test regularization value of 1 and perform five fold cross validation on the training data to determine the mean square error with this test value. Then we adjust the test value by 0.1 in the positive direction, in this case moving from 1 to 1.1, and repeat the cross validation. If the error decreases, we continue to adjust the test value in the same way. If the error increases, we reverse the sign of the test value adjustment and divide it by 10. This is like a simplistic gradient descent, but when we overshoot the minimum we reverse direction and lower the step size. This continues until the error between two cross validations matches within 1e-7.
 		\par
 		\begin{center}
                   \captionsetup{type=figure}
-			\includegraphics[scale=0.35]{Images/LinearRegressionCrossTrain} \\
+			\includegraphics[scale=0.60]{Images/LinearRegressionCrossTrain} \\
 			\captionof{figure}{Linear regression cross training.}
 			\label{fig:linr_cross_train}
 		\end{center}
 		\par
-                Figure \ref{fig:linr_cross_train} shows the results of our cross training method on the Nashville, Advanced Regression and Redfin data sets.  The Nashville set has a high ideal regularization value, likely due to a few very high value homes in the data set, and the training simply continues to increase the regularization value until the minimum error is found.  The advanced regression data set has reduced error from regularization value of 1 to 11 but then the error increases from 11 to 21.  Then the advanced regression moves back down from 21 at a lower rate until the minimum value is found around 4.  This shows a place where the algorithm works but could be made more efficient.  Finally the Redfin data starts at a regularization value of 1 but sees an increase of error at 11 so decreases until it finds the ideal value was in fact near 1.
+                Figure \ref{fig:linr_cross_train} shows a sample of our cross training method on the Advanced Regression and Redfin data sets. The advanced regression data initially shows a reduced error when moving from 1 to 1.1 so it increases to 1.2.  At 1.2 the error goes back up again so it reverses direction and moves back in increments of 0.01, until it reaches a stable point. This shows a place where the algorithm works but could possibly have been made more efficient, but still works for our current purposes. The Redfin data starts at a regularization value of 1 but sees an increase of error at 1.1 so decreases at a lower rate. What can be seen in the data, but is not visible in the graph, is around 0.013 lambda the regularization search reverse direction, an dincreases precision, several times to find the minimum solution.
 		\par
-		Table \ref{table:linr_performance} shows the mean square error of linear regression for each dataset. As expected the advanced regression techniques dataset provides the least error as this data provides the most complete features for each house.  Nashville performs the weakest as there are very large gaps in the data, which must be filled in by preprocessing.  The interesting result is between Redfin and King's county data.  King's county has the same number of features as redfin and more homes in the data set. Preprocessing the data shows that the redfin features have more categories and the redfin house prices are concentrated more at the lower end, whereas the King's county features have few categories and have prices fairly evenly distributed over the normalized range.  As a result, redfin has more information in the features and the prices are easier to predict, which produces the lower error.
+		Table \ref{table:linr_performance} shows the mean square error of linear regression for each dataset. As expected the advanced regression techniques dataset provides the least error as this data provides the most complete features for each house. Nashville performs the weakest as there are very large gaps in the data, which must be filled in by preprocessing. The interesting result is between Redfin and King's county data. King's county has the same number of features as redfin and more homes in the data set. Preprocessing the data shows that the redfin features have more categories and the redfin house prices are concentrated more at the lower end, whereas the King's county features have few categories and have prices fairly evenly distributed over the normalized range. As a result, redfin has more information in the features and the prices are easier to predict, which appears to be what produces the lower error.
 		\par
         	\captionsetup{type=table}
 			\begin{tabular}{r|c}
@@ -137,9 +138,9 @@
 			\label{table:linr_performance}        
 			\setlength{\parindent}{15pt}
 		\par
-		We also tried two ensemble methods with linear regression.  The first method divides the features into groups of 4, performs linear regression on each group and adds the group results together.  Linear regression is then performed on the summation of the groups.  The second method picks random groups of 10 features with 100 groups and then an ensemble is produced in the same method as the groups of 4 in the previous method. Additionally each ensemble method was tested with PCA feature reduction providing 25\%, 50\%, 75\% and 100\% of features.  This method was tested against all of the data sets except for the Nashville data as an SVM on the Nashville data exceeded matlab's available memory.
+		We also tried two ensemble methods with linear regression. The first method divides the features into groups of 4, performs linear regression on each group and adds the group results together. Linear regression is then performed on the summation of the groups. The second method picks random groups of 10 features with 100 groups and then an ensemble is produced in the same method as the groups of 4 in the previous method. Additionally each ensemble method was tested with PCA feature reduction providing 25\%, 50\%, 75\% and 100\% of features. This method was tested against all of the data sets except for the Nashville data as an SVM on the Nashville data exceeded matlab's available memory.
                 \par
-                Figure \ref{fix:linr_ensemble} shows the results of the ensemble methods.  The advanced regression techniques and King's county data performed close to the pure linear regression.  The redfin data set showed a slight improvement over linear regression.
+                Figure \ref{fig:linr_ensemble} shows the results of the ensemble methods. The advanced regression techniques and King's county data performed close to the pure linear regression. The redfin data set showed a slight improvement over linear regression.
 		\begin{center}
                   \captionsetup{type=figure}
 			\includegraphics[scale=0.35]{Images/LineEnsembleResults} \\
@@ -166,14 +167,14 @@
 				\hline
 				\small{Logistic Regression Model 2} & \small{4.8e-03} \\
 				\hline
-				\small{Logistic Regression Model 1} & \small{1.3e-02} \\
+				\small{Logistic Regression Model 1} & \small{13e-03} \\
 				\hline
 			\end{tabular}
 			\captionof{table}{Observed performance from logistic regression model.}
 			\label{table:logr_performance}        
 			\setlength{\parindent}{15pt}
 		\par
-			Figure \ref{fig:logr_MSE_Accuracy} shows the accuracy is best for a small number of classes, except for Advanced Regression Techniques.  For Advanced Regression Techniques, 5 classes causes most houses to fall right on a boundary between classes, which causes poor performance.  Advanced Regression Techniques performs better for 10 classes, where most of the house values happens to fall in the middle of one class. While accuracy decreases with an increase in classes, the mean squared error difference between the lowest value of the predicted class and the true value decreases.  This is caused by predictions being for a narrower range with more classes, increasing the precision.
+			Figure \ref{fig:logr_MSE_Accuracy} shows the accuracy is best for a small number of classes, except for Advanced Regression Techniques. For Advanced Regression Techniques, 5 classes causes most houses to fall right on a boundary between classes, which causes poor performance. Advanced Regression Techniques performs better for 10 classes, where most of the house values happens to fall in the middle of one class. While accuracy decreases with an increase in classes, the mean squared error difference between the lowest value of the predicted class and the true value decreases. This is caused by predictions being for a narrower range with more classes, increasing the precision.
 		\par
 			Ensemble
 		\par
@@ -184,7 +185,7 @@
 			\label{fig:logr_MSE_Accuracy}
 		\end{center}
 		\par
-			Finally we implemented an ensemble that performed linear regression on top of the logistic results. This ensemble used the 100 class logistic regression test predictions for training and testing.  Similar to previous runs, the Nashville data was skipped as it produces too large of a matrix to fit in memory. As shown in table \ref{table:logr_ensemble}, the ensemble provides at least a small improvement on each data set.\\
+			Finally we implemented an ensemble that performed linear regression on top of the logistic results. This ensemble used the 100 class logistic regression test predictions for training and testing. Similar to previous runs, the Nashville data was skipped as it produces too large of a matrix to fit in memory. As shown in table \ref{table:logr_ensemble}, the ensemble provides at least a small improvement on each data set.\\
         	\captionsetup{type=table}
 			\begin{tabular}{r|c|c}
 				& \small{original logistic} & \small{ensemble} \\

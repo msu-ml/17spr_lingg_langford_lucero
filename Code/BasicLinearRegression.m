@@ -16,11 +16,11 @@ function MSE = BasicLinearRegression(FileName,Normalize)
   tblArraySorted = sortrows(tblArray,1);
 
   bestLambdaError = 999999999999;
-  bestLambda = 0;
+  bestLambda = 1;
 
   testLambda = 1;
   testLambdaDir = 1;
-  testLambdaDelta = 10;
+  testLambdaDelta = 0.1;
   lastError = 0;
   currError = 999999999999999;
   testIndex = 1;

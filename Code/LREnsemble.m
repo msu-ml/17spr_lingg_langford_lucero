@@ -1,7 +1,7 @@
-%nashvilleMSE = LogisticRegressionHeirarchy('nashville_processed');
-redfinMSE = LogisticRegressionHeirarchy('redfin_processed');
-artMSE = LogisticRegressionHeirarchy('art_processed');
-kingMSE = LogisticRegressionHeirarchy('kingcounty_processed');
+%nashvilleMSE = LinearRegressionEnsemble('nashville_processed');
+redfinMSE = LinearRegressionEnsemble('redfin_processed');
+artMSE = LinearRegressionEnsemble('art_processed');
+kingMSE = LinearRegressionEnsemble('kingcounty_processed');
 
 %disp('Nashville Linear Ensemble MSE:');
 %disp(nashvilleMSE);
@@ -12,7 +12,7 @@ disp(artMSE);
 disp('King County Linear Ensemble MSE:');
 disp(kingMSE);
 
-function MSE = LogisticRegressionHeirarchy(FileName)
+function MSE = LinearRegressionEnsemble(FileName)
   tbl = readtable ( strcat('../Data/Processed/',FileName,'.csv') );
 
   tblArray = table2array(tbl);
@@ -22,7 +22,7 @@ function MSE = LogisticRegressionHeirarchy(FileName)
   temp = ones(size(data,1),1)*dataMean;
   [U, E, V] = svd(data - ones(size(data,1),1)*dataMean);
   principals = (U * E);
-  recon1 = principals(:,1:size(data,2)*0.25) * V(:,1:size(data,2)*0.25)' + ones(size(data,1),1)*dataMean;
+  recon1 = principals(:,1:size(data,2)*1) * V(:,1:size(data,2)*1)' + ones(size(data,1),1)*dataMean;
 
   testArray = cat(2,tblArray(:,size(tblArray,2)),recon1(:,randperm(size(recon1,2))));
   %testArray = cat(2,tblArray(:,1),tblArray(:,2:size(tblArray,2)));
@@ -132,7 +132,7 @@ function ModelW = CalcWeights(Truth, Data)
 
   testLambda = 1;
   testLambdaDir = 1;
-  testLambdaDelta = 10;
+  testLambdaDelta = 0.01;
   lastError = 0;
   currError = 999999999999999;
 
@@ -170,7 +170,7 @@ function ClassifierWeights = TrainWeights(ModelW, Truth, Data)
 
   testLambda = 1;
   testLambdaDir = 1;
-  testLambdaDelta = 10;
+  testLambdaDelta = 0.01;
   lastError = 0;
   currError = 999999999999999;
   
