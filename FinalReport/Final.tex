@@ -36,7 +36,7 @@
 		\section{Problem Description}
 		Automated Valuation Models (AVM) have become increasingly popular as the real estate market has embraced the World Wide Web as a source of accurate, up to the minute data.\textsuperscript{\cite{kaggleblog}} Banks have also shown great interest in using AVMs to help mitigate fraud by human appraisal.\textsuperscript{\cite{scotsman}} Our goal is to explore various machine learning techniques to implement an AVM and predict the true value of a house based on features commonly found on real estate listings. Our data will be drawn from various data sets, including from the Nashville, TN housing market, using a dataset posted on Kaggle\textsuperscript{\cite{nashville_data}}.
 		\par
-		We will begin by exploring linear regression models that take into account physical attributes of each house and location. Further work will be performed exploring nonlinear models, such as deep learning with neural networks and decision trees, which can be compared and contrasted. Additional work was performed to explore missing feature estimation.
+		We will begin by exploring linear and logistic regression models that take into account physical attributes of each house and location. Further work will be performed exploring nonlinear models, such as deep learning with neural networks and decision trees, which can be compared and contrasted. Additional work was performed to explore missing feature estimation and other data preprocessing.
 		\section{Related Work}
 		An obvious and popular example is Zillow's proprietary Zestimate\textsuperscript{\textregistered}. Zillow uses a closed source AVM that takes into account special features of the home, location, and market conditions. Zillow admits to using features such as physical attributes, tax assessments, and prior transactions. Zillow claims to have data on 110 million homes and estimates on approximately 100 million homes.\textsuperscript{\cite{zillow}}
 		\par
@@ -92,7 +92,7 @@
 			\label{table:linr_hole_fill}        
 		\setlength{\parindent}{15pt} }
                 \par
-                Additionally we look at the best method of filling in holes in the input data. The Advanced Regression Techniques Data has no holes so we look at the Grand Rapids Data from Redfin for hole filling. Table \ref{table:logr_hole_fill} shows that with no holes filled, the basic closed form linear regression cannot be solved with Matlab. From the remaining methods, Closest Mean provides the most accurate predictions. We will continue to use this method throughout the project for filling in holes in the data.
+                Additionally we look at the best method of filling in holes in the input data. The Advanced Regression Techniques Data has no holes so we look at the Grand Rapids Data from Redfin for hole filling. Table \ref{table:logr_hole_fill} shows that with no holes filled, the basic closed form linear regression cannot be solved with Matlab. Filling via the mean value of the missing feature works but does not produce the best error.  In closest value replacement we look at the set of homes with no missing features and fill the missing values from the closest neighbor, using euclidean distance. Closest value improves on mean value replacement but the best method is closest mean where the value is taken from the average of the 10 closest homes, using the same method as closest value. We will continue to use the closest mean method throughout the project for filling in holes in the data.
                 \par
                 During the project we noticed that the mean squared error was not producing expected results between data sets. Models that appeared to produce a good match were resulting in higher error than models that appeared to produce weaker results. It was observed that the data sets producing lower error were ones with a large number of lower value houses and a few high value corner cases. This issue was addressed by filtering out any homes with price above 1 million to eliminate some corner cases. This upper limit was applied before filling in data holes, so the larger data does not impact the calculations for hole filling. Additionally when normalizing house prices, the same maximum value was used for all data sets. With these changes, the mean squared error is producing consistent results between the data sets.
  		\section{Models}
@@ -143,7 +143,7 @@
                 Figure \ref{fig:linr_ensemble} shows the results of the ensemble methods. The advanced regression techniques and King's county data performed close to the pure linear regression. The redfin data set showed a slight improvement over linear regression.
 		\begin{center}
                   \captionsetup{type=figure}
-			\includegraphics[scale=0.35]{Images/LineEnsembleResults} \\
+			\includegraphics[scale=0.6]{Images/LineEnsembleResults} \\
 			\captionof{figure}{Linear regression ensemble results.}
 			\label{fig:linr_ensemble}
 		\end{center}
@@ -157,7 +157,7 @@
 		\par
 	 		The second approach also uses a matrix of independent regression models but instead the results classify if the house is worth more than the lower value of the class k of each model. The training method only differes from the first approach by setting the Y value corresponding with the class equal to 1 if the value of the current house is higher than the lower value of the class. Then classification is performed by summing up the range represented by each class with a confidence higher than 0.5.
 		\par
- 			Table \ref{table:logr_performance} shows that the second approach for logistic regression, determining if the house is worth more than each class, works better than the first approach, determining which class the house would fall under.
+ 			Table \ref{table:logr_performance} shows a comparison using the Advanced Regression Techniques data of the linear regression vs the two logistic regression approaches. The table shows that the second approach for logistic regression, determining if the house is worth more than each class, works better than the first approach, determining which class the house would fall under.
 		\par
         	\captionsetup{type=table}
 			\begin{tabular}{r|c}
@@ -174,21 +174,20 @@
 			\label{table:logr_performance}        
 			\setlength{\parindent}{15pt}
 		\par
-			Figure \ref{fig:logr_MSE_Accuracy} shows the accuracy is best for a small number of classes, except for Advanced Regression Techniques. For Advanced Regression Techniques, 5 classes causes most houses to fall right on a boundary between classes, which causes poor performance. Advanced Regression Techniques performs better for 10 classes, where most of the house values happens to fall in the middle of one class. While accuracy decreases with an increase in classes, the mean squared error difference between the lowest value of the predicted class and the true value decreases. This is caused by predictions being for a narrower range with more classes, increasing the precision.
-		\par
-			Ensemble
+			Figure \ref{fig:logr_MSE_Accuracy} shows the accuracy is best for a small number of classes, except for Advanced Regression Techniques. For Advanced Regression Techniques, 5 classes causes most houses to fall right on a boundary between classes, which causes poor performance. Advanced Regression Techniques performs better for 10 classes, where most of the house values happens to fall into classes more evenly. While accuracy decreases with an increase in classes, the mean squared error difference between the lowest value of the predicted class and the true value decreases. This is caused by predictions being for a narrower range with more classes, increasing the precision.
 		\par
 		\begin{center}
 	            \captionsetup{type=figure}
-			\includegraphics[scale=0.38]{Images/LogisticRegressionMSEAccuracy} \\
+			\includegraphics[scale=0.6]{Images/LogisticRegressionMSEAccuracy} \\
 			\captionof{figure}{MSE and accuracy for Logistic Regression.}
 			\label{fig:logr_MSE_Accuracy}
 		\end{center}
 		\par
-			Finally we implemented an ensemble that performed linear regression on top of the logistic results. This ensemble used the 100 class logistic regression test predictions for training and testing. Similar to previous runs, the Nashville data was skipped as it produces too large of a matrix to fit in memory. As shown in table \ref{table:logr_ensemble}, the ensemble provides at least a small improvement on each data set.\\
+			Finally we implemented an ensemble that performed linear regression on top of the logistic results. This ensemble used the 100 class logistic regression test predictions for training and testing. Similar to previous runs, the Nashville data was skipped as it produces too large of a matrix for matlab. As shown in table \ref{table:logr_ensemble}, the ensemble provides at least a small improvement on each data set as compared to the base logistic regression.
+		\par
         	\captionsetup{type=table}
 			\begin{tabular}{r|c|c}
-				& \small{original logistic} & \small{ensemble} \\
+				& \small{Original Logistic} & \small{Ensemble} \\
 				\hline
 				\small{Redfin} & \small{8.5e-03} & \small{8.1e-03} \\
 				\hline
@@ -200,8 +199,6 @@
 			\captionof{table}{Observed performance from logistic regression ensemble.}
 			\label{table:logr_ensemble}        
 			\setlength{\parindent}{15pt}
-		\par
- 			
 		\subsection{Decision Tree}
 		\par
 		For our Decision Tree approach, we used a Classification Decision Tree and a Regression Decision Tree. For the Classification Tree, since the data was not already classified, it was split into \(k\) equally sized classes where each class represents a range of prices. The average value for every feature column is also calculated and used to subsitute for any missing data points in the observations. A classification model was built for the KC data set, Redfin data set, and Nashville data set. For each data set, initially a classification tree model was built using crossfold validation with 10 folds using 90\% of the data for training. This model used the default parameters for tree size, which are maximum number of splits of n-1, minimum leaf size of 1, and minimum parent size of 1. 
@@ -291,6 +288,29 @@ Another classification model was built by using 10 fold cross validation and gen
 			\label{fig:fig_nn_results_10}
 		\end{center}
 		The results show that the network performs better when classifying data points into a smaller number of target classes. Our goal from this point forward is to attempt to improve accuracy by investigating further improvements on preprocessing the input data, experimenting with different hyper-parameters for the network, and experimenting with varying network architectures. When accuracy improves, the goal with then be to increase the number of target classes in order to provide a more valuable estimation of the sales price of any given data point.
+ 		\section{Conclusion}
+		We set out to look at how different machine learning approaches work when predicting or classifying home selling values.  We implmented models that included linear regression, logistic regression, decision trees, neural networks and ensemble methods. The methods themselves provided some interesting comparisons but one consistent thing we found with all models is the data the model is built on is one of the most important considerations.
+		\par
+		First processing the data for use by the models is extremely important. This includes cleaning up the data to a format the models handle well, such as splitting categorical features up into a binary category for each category in the feature. Additionaly filling holes in the data can significantly improve a model's ability to predict or classify data.
+		\par
+		Ultimately while there are things that can be done to get all of the information available from the data, a machine learning model is limited by how much information is actually in the data.  Table \ref{table:results} shows the results across the various models.  In all cases the Advanced Regression Techniques data performs the best.  This data is feature complete and has the largest number of features.  We believe this data was created specifically for developing machine learning models.  Of the remaining models, Nashville performs the worst as this data has the biggest holes in feature values, limiting the amount of actual information provided by the data.
+		\begin{center}
+	        \captionsetup{type=table}
+			\begin{tabular}{r|c|c|c|c|c|c|c|c}
+				& \small{Linear Regression} & \small{Linear Ensemble} &  \small{Logistic Regression} & \small{Logistic Ensemble} & \small{Decision Tree 1?} & \small{Decision Tree 2?} & \small{Neural Netork 1?} & \small{Neural Netork 2?}\\
+				\hline 
+				\small{Nashville} & \small{22.1e-03} & \small{N/A} & \small{N/A} & \small{N/A} & \small{?} & \small{?} & \small{?} & \small{?}\\
+				\hline
+				\small{Advanced Regression} & \small{1.8e-03} & \small{4.5e-03} & \small{1.7e-03} & \small{?} & \small{?} & \small{?} & \small{?} & \small{?}\\
+				\hline
+				\small{Redfin} & \small{6.3e-03} & \small{5.1e-03} & \small{8.5e-03} & \small{8.1e-03} & \small{?} & \small{?} & \small{?} & \small{?}\\
+				\hline
+				\small{King County} & \small{13.1e-03} & \small{13.1e-03} & \small{14.4e-03} & \small{13.2e-03} & \small{?} & \small{?} & \small{?} & \small{?}\\
+				\hline
+			\end{tabular}
+			\captionof{table}{Combined Results.}
+			\label{table:results}
+		\end{center}
 		\begin{thebibliography}{13}
 			\bibitem{nashville_data}
 			\textit{Nashville Housing Data: Home value data for the booming Nashville Market}
