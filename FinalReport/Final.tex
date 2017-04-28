@@ -271,7 +271,7 @@
 		\begin{center}
 		\captionsetup{type=figure}
 			\includegraphics[scale=0.40]{Images/RegressionResults} \\
-			\captionof{figure}{Comparison of performances for all regression classifers.}
+			\captionof{figure}{Comparison of performances for all decision regression models.}
 			\label{fig:fig_reg_best}
 		\end{center}
 
@@ -280,11 +280,11 @@
 		\begin{center}
 		\captionsetup{type=figure}
 			\includegraphics[scale=0.40]{Images/ClassificationResults} \\
-			\captionof{figure}{Comparison of performances for all decision classifiers.}
+			\captionof{figure}{Comparison of performances for all decision classification models.}
 			\label{fig:fig_class_best}
 		\end{center}
 
-		One trend that can be seen in most of the comparisons is that the Nashville data set, as epxected due to holes in the observations, fairly consistently performs the worst. The primary exception is in the case of a Single Classification Tree seen above, in which the Grand Rapids data set results in a worse model than the Nashville data set. 
+		One trend that can be seen in most of the comparisons is that the Nashville data set, as epxected due to holes in the observations, fairly consistently performs the worst. The primary exception is in the case of a Single Classification Tree seen above, in which the Grand Rapids data set results in a worse model than the Nashville data set. On a similar trend, the Advanced Regression Techniques data met expectations in terms of performing extremely well. It had very low error for the regression trees and performed the best on every single decision tree based model.
 		
 		We also used the Random Forest Models to get an idea of what the most important features are by adding weights to the features that are selected the most often. Figures \ref{fig:r_best_features} and \ref{fig:c_best_features} show the results for this analysis on the Nashville data set, which fell somewhat in the middle for number of features in the data sets. 
 
