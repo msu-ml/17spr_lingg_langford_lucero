@@ -8,6 +8,8 @@
 \usepackage{hyperref}
 \usepackage{multicol}
 \usepackage{textcomp}
+\newcommand\floor[1]{\lfloor#1\rfloor}
+\newcommand\ceil[1]{\lceil#1\rceil}
 \setlength{\columnsep}{0.5cm}
 \setlength{\headheight}{24pt}
 \setlength{\parindent}{15pt}
@@ -225,6 +227,7 @@
 		The Regression models perform similarly, with slightly better results using the optimized parameters for the regression tree compared to the default parameters. The next step in the project is to see how Random Forest ensembles will perform compared to these single highly optimized trees.
 
 		For Random Forest generation, bootstrap replication was used to generate training sets for each tree. For training, 70\% of each data set was used for training, and n random samples were taken with replacement, where n is the size of each training set. For the decision tree creation, each split decision chose amoung a random subset of m features. Different Random Forest models were tested using various numbers of features. Random Forests were tested with 5\% of features sampled, 15\% of features sampled, 30\% of features sampled, 45\% of features sampled, 60\% of features sampled, 75\% of features sampled, and square root of m features sampled. Random Forests were also grown with different number of trees to see how the number of trees affected performance. Forests with 50 trees, 100 trees, and 500 trees were tested. None of the trees were pruned, and a few tests were done to see how limiting growth of the trees would affect results. 
+
 		The team's expectations for the Random Forest parameters were that more trees would result in better testing error rates, with a limit where the number of trees stops changing performance, and that smaller feature sample numbers would result in the best results. The more trees that are added, the more each tree's tendency to overfit would be averaged out, and the smaller feature sample numbers would reduce variance from noisy parameters, especially in the Nashville dataset, which had the most holes in the data. It was also expected that limiting the sizes of the trees would reduce each tree's tendency to overfit and produce better results as well. 
 
 		The results of this experiment were somewhat mixed. For regression forests, models were created using 50 trees, 100 trees, and 500 trees. For each number of trees, a model was created random sampling 7 different ratios of features, as described above. The performance across these seven were averaged together so that the average performance for each number of trees could be measured as seen in Figure \ref{fig:r_forest_treenum_perf} below. Variance in MSE between 50 trees and 100 trees was minimal. Variance in MSE between 100 trees and 500 trees, however, was more signficant, with the 500 tree models yielding the best individual scores by single feature selection ratio and data set. The results for classification forests were a little more mixed. The averages were taken the same way and can be seen in Figure \ref{fig:r_forest_treenum_perf}, and the performance is more varied with no clear correlation between better results and more trees used. We think this may show that the classifier are more variable depending on the quality of the data and the number of different classes. In this case, the data was divided into eight classes. 
@@ -242,7 +245,43 @@
 			\captionof{figure}{Regression Forest Performance for Number of Trees}
 			\label{fig:c_forest_treenum_perf}
 		\end{center}
+
+		In terms of the best number of features to randomly sample from during forest generation, the results were not quite as the team expected either. For regression, a few of the data sets worked best with smaller feature samples. But for classification, the amount of features to sample was higher, and there wasn't too much consistency between what sample sizes worked best. The results can be seen in Table \ref{table:best_feature_sample_counts} below, which shows the number of features to randomly sample that worked best for a 500 tree classification and regression forest for each data set, where m is the total number of features in that data set. 
+
+		\begin{center}
+		\captionsetup{type=table}
+			\begin{tabular}{r|c|c}
+				& \small{Regression} & \small{Classification} \\
+				\hline
+				\small{Nashville Data} & \small{$\floor{\sqrt(m)}$} & \small{$\floor{m \times .60}$} \\
+				\hline
+				\small{King's County Data} & \small{$\floor{m \times .75}$} & \small{$\floor{m \times .60}$} \\
+				\hline
+				\small{Grand Rapids Data} & \small{$\floor{m \times .30}$} & \small{$\floor{m \times .60}$} \\
+				\hline
+				\small{Advanced Reg Data} & \small{$\floor{m \times .30}$} & \small{$\floor{m \times .45}$} \\
+				\hline
+			\end{tabular}
+			\captionof{table}{Best number of features to randomly sample in a Random Forest.}
+			\label{table:best_feature_sample_counts}        
+		\end{center}
 		
+		We also used the Random Forest Models to get an idea of what the most important features are by adding weights to the features that are selected the most often. Figures \ref{fig:r_best_features} and \ref{fig:c_best_features} show the results for this analysis on the Nashville data set. 
+
+		\begin{center}
+		\captionsetup{type=figure}
+			\includegraphics[scale=0.60]{Images/BestFeaturesRegression} \\
+			\captionof{figure}{Most sampled features in Regression Forest for Nashville.}
+			\label{fig:r_best_features}
+		\end{center}
+
+		\begin{center}
+		\captionsetup{type=figure}
+			\includegraphics[scale=0.60]{Images/BestFeaturesClassification} \\
+			\captionof{figure}{Most sampled features in Classification Forest for Nashville.}
+			\label{fig:c_best_features}
+		\end{center}
+
 		\subsection{Neural Network}
 
 		To compare the other models considered to a deep learning technique, a simple Feedforward Neural Network (FNN) has been implemented with three hidden fully-connected layers. Implementations of this neural network framework have been created in both Python and Matlab\textsuperscript{\cite{git_repo}}. No existing packages or libraries were used outside of basic Python modules, including Numpy for numerical operations. The results obtained for this section are strictly observed from the Python version.
