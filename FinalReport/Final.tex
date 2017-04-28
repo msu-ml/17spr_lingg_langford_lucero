@@ -286,7 +286,7 @@
 		\end{align}
 		Figures \ref{fig:fig_nn_result1}, \ref{fig:fig_nn_result2}, \ref{fig:fig_nn_result3}, and \ref{fig:fig_nn_result4} show our observations from using all three gradient descent methods on each dataset. With the exception of the ART dataset, it can be seen that after training for 300 iterations, Adadelta outperforms Adagrad, and Adagrad outperforms SGD. It should be noted that the hyperparameters used for these results are \(\eta=0.1\) and \(\gamma=0.9\).
 
-		Table \ref{table:nn_performance} includes the final loss values computed for each dataset, measured as MSE. Conclusions about the dataset can also be drawn from these results. Performance was observed to be far greater on the ART dataset than any other.
+		Table \ref{table:nn_performance} includes the final loss values computed for each dataset, measured as MSE. Generalized performance was observed to be far greater on the ART dataset than any other.
 		\begin{center}
             \captionsetup{type=figure}
 			\includegraphics[scale=0.27]{NeuralNet/fig_nn_02} \\
@@ -315,23 +315,39 @@
 			\label{fig:fig_nn_result4}
 		\end{center}
 	
-			\begin{center}
+		\begin{center}
+			\captionsetup{type=table}
+			\begin{tabular}{l|c|c|c}
+				& \multicolumn{3}{c}{Loss (MSE)} \\
+				Dataset & SGD & Adagrad & Adadelta \\
+				\hline
+				Nashville & 9.6e-3 & 10.1e-3 & 9.9e-3 \\
+				ART & 1.9e-3 & 1.1e-3 & 1.2e-3 \\
+				Kings County & 3.7e-3 & 4.5e-3 & 3.3e-3 \\
+				Grand Rapids & 3.8e-3 & 3.5e-3 & 3.6e-3 \\
+			\end{tabular}
+			\captionof{table}{Observed generalized performance from FNN.}
+			\label{table:nn_performance}
+		\end{center}
+	
+		In addition to measuring the MSE of the model's predictions on test data, and accuracy measure was also computed, where predictions were considered correct if they fell within \$10k from the true sales price. The accuracy results for the neural network model on each dataset are shown in Table \ref{table:nn_accuracy}.
+		
+		\begin{center}
 		\captionsetup{type=table}
 		\begin{tabular}{l|c|c|c}
 			& \multicolumn{3}{c}{Loss (MSE)} \\
 			Dataset & SGD & Adagrad & Adadelta \\
 			\hline
-			ART & \(1.9\text{e-}3\) & \(1.1\text{e-}3\) & 
-			\(1.2\text{e-}3\) \\
-			Grand Rapids & \(3.8\text{e-}3\) & \(3.5\text{e-}3\) & \(3.6\text{e-}3\) \\
-			Kings County & \(3.7\text{e-}3\) & \(4.5\text{e-}3\) & \(3.3\text{e-}3\) \\
-			Nashville & \(9.6\text{e-}3\) & \(10.1\text{e-}3\) & \(9.9\text{e-}3\)
+			Nashville & \(9.1\%\) & \(9.3\%\) & \(10.0\%\) \\
+			ART & \(19.5\%\) & \(25.8\%\) & \(24.0\%\) \\
+			Kings County & \(12.1\%\) & \(11.5\%\) & \(13.7\%\) \\
+			Grand Rapids & \(10.6\%\) & \(11.2\%\) & \(13.5\%\) \\
 		\end{tabular}
-		\captionof{table}{Observed generalized performance from FNN.}
-		\label{table:nn_performance}
-	\end{center}
-	
-		The results show that the network performs better when classifying data points into a smaller number of target classes. Our goal from this point forward is to attempt to improve accuracy by investigating further improvements on preprocessing the input data, experimenting with different hyper-parameters for the network, and experimenting with varying network architectures. When accuracy improves, the goal with then be to increase the number of target classes in order to provide a more valuable estimation of the sales price of any given data point.
+		\captionof{table}{Observed generalized accuracy from FNN.}
+		\label{table:nn_accuracy}
+		\end{center}
+		
+		The accuracy observed from this model leaves much to be desired, but it is assumed that the limitations were due to a limited amount of quality data. Performance was greatest on the ART dataset, which came complete, requiring no substitution of missing values. Furthermore, the ART dataset covered a more consistent range of sales prices, whereas the other datasets had large gaps in both data features and ranges of sales prices. Another conclusion that can be drawn is simply from the features provided by each dataset. Obviously, more meaningful information could be drawn from those features found in the ART dataset. In any case, for all four datasets, the neural network model demonstrated its ability to learn some information about the sales prices of each house, and its results were comparable if not better than other models we considered.
 		
  		\section{Conclusion}
 		We set out to look at how different machine learning approaches work when predicting or classifying home selling values.  We implmented models that included linear regression, logistic regression, decision trees, neural networks and ensemble methods. The methods themselves provided some interesting comparisons but one consistent thing we found with all models is the data the model is built on is one of the most important considerations.
@@ -342,19 +358,18 @@
 		
 		\begin{center}
 	        \captionsetup{type=table}
-			\begin{tabular}{r|c|c|c|c|c|c|c|c}
-				& \small{Linear Regression} & \small{Linear Ensemble} &  \small{Logistic Regression} & \small{Logistic Ensemble} & \small{Decision Tree 1?} & \small{Decision Tree 2?} & \small{Neural Netork 1?} & \small{Neural Netork 2?}\\
-				\hline 
-				\small{Nashville} & \small{22.1e-03} & \small{N/A} & \small{N/A} & \small{N/A} & \small{?} & \small{?} & \small{?} & \small{?}\\
-				\hline
-				\small{ART} & \small{1.8e-03} & \small{4.5e-03} & \small{1.7e-03} & \small{?} & \small{?} & \small{?} & \small{?} & \small{?}\\
-				\hline
-				\small{Grand Rapids} & \small{6.3e-03} & \small{5.1e-03} & \small{8.5e-03} & \small{8.1e-03} & \small{?} & \small{?} & \small{?} & \small{?}\\
-				\hline
-				\small{King County} & \small{13.1e-03} & \small{13.1e-03} & \small{14.4e-03} & \small{13.2e-03} & \small{?} & \small{?} & \small{?} & \small{?}\\
-				\hline
-			\end{tabular}
-			\captionof{table}{Combined Results.}
+	        \begin{tabular}{l|c|c|c|c}
+	        	        & Nash.   & ART     & Kng Cty & Gr Rpds  \\
+	        	\hline
+	        	Lin Reg & 22.1e-3 & 1.8e-3  & 6.3e-3  & 13.1e-3  \\
+	        	Lin Ens & ---     & 4.5e-3  & 5.1e-3  & 13.1e-3  \\
+	        	Log Reg & ---     & 1.7e-3  & 8.5e-3  & 14.4e-3  \\
+	        	Log Ens & ---     & ---     & 8.1e-3  & 13.2e-3  \\
+	        	Tree 1  & ---     & ---     & ---     & ---      \\
+	        	Tree 2  & ---     & ---     & ---     & ---      \\
+	        	FNN     & 9.6e-3  & 1.1e-3  & 3.3e-3  & 3.5e-3   \\	        	
+	        \end{tabular}
+			\captionof{table}{MSE observed from all models.}
 			\label{table:results}
 		\end{center}
 		\begin{thebibliography}{13}
