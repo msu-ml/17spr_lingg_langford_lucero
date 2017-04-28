@@ -1,7 +1,7 @@
 %input files list. Input file s should have the sale price labelled as
-%'Sale_Price'. All spaces and punctuation other than '_' should be removed.
+%'SALE_PRICE'. All spaces and punctuation other than '_' should be removed.
 %All categorical variables should be changed to binary. 
-sets = ['Nashville_geocoded_processed.csv'; 'kc_house_data.csv               '; 'redfin_processed.csv            '];
+sets = ['nashville_processed.csv         '; 'kingcounty_processed.csv        '; 'redfin_processed.csv            '; 'art_processed.csv               '];
 datasets =  cellstr(sets);
 datacount = length(datasets);
 CNMSEs = cell(datacount);
@@ -19,37 +19,14 @@ for h=1:datacount
 
     %fill in missing data with an average. Find column averages first.
     w = width(DataTable);
-    colaverages = zeros(1,w);
-    for k=2:w
-        coldata = DataTable.(k);
-        colsum = 0;
-        count = 0;
-        for n=1:length(coldata)
-            if (coldata(n)~=-1)
-                colsum = colsum + coldata(n);
-                count = count + 1;
-            end
-            colavg = colsum / count;
-            colaverages(k) = colavg;
-        end
-    end
-    %now replace with averages.
-    for k=2:w
-        coldata = DataTable.(k);
-        for n=1:length(coldata)
-            if (coldata(n)==-1)
-                DataTable.(k)(n) = colaverages(k);
-            end
-        end
-    end
-
-    %make new classification, not normalizing because I think it already is
+    
+    %make new classification
     x = height(DataTable);
     TestSplit = floor(x*.9);
     DataTable.Sale_Class = zeros(x,1);
 
     %Sort rows first
-    DataTSort = sortrows(DataTable);
+    DataTSort = sortrows(DataTable,'SALE_PRICE');
 
     %create N equally sized classes
     classCount = 8;
@@ -57,19 +34,19 @@ for h=1:datacount
     splits = zeros(classCount,1);
 
     for t=1:classCount
-        splits(t) = DataTSort.(1)(t*classSize);
+        splits(t) = DataTSort.SALE_PRICE(t*classSize);
     end
 
     for i = 1:x
         for j = 1:classCount
-            if (DataTable.Sale_Price(i) <= splits(j))
-               DataTable.Sale_Class(i) = num2str(j);
+            if (DataTable.SALE_PRICE(i) <= splits(j))
+               DataTable.Sale_Class(i) = j;
                break
             end
         end
     end
 
-    DataTable.Sale_Price = []; %removing sale price now that we have a sale class
+    DataTable.SALE_PRICE = []; %removing sale price now that we have a sale class
 
     x = height(DataTable);
     DataTrain = DataTable(1:TestSplit,:);
@@ -97,21 +74,15 @@ for h=1:datacount
 
     %view(CNTree.Trained{1},'Mode','graph')
     
-    DataTable = [];
-    
-    TestResponse = [];
-    Response = [];
-
-    DataTrain = [];
-    DataTest = [];
 end
 
 CNMSE = cell2mat(CNMSEs);
 CNMSEOpt = cell2mat(CNMSEsOpts);
-
+%{
 plot(1:3, CNMSE, 'r--');
 hold on
 plot(1:3, CNMSEOpt, 'b--');
 xlabel('Datasets');
 ylabel('MSE');
 legend('Testing Classification Crossfold MSE','Testing Classification Optimized MSE');
+%}

@@ -1,9 +1,11 @@
 %input files list. Input file s should have the sale price labelled as
 %'Sale_Price'. All spaces and punctuation other than '_' should be removed.
 %All categorical variables should be changed to binary. 
-sets = ['Nashville_geocoded_processed.csv'; 'kc_house_data.csv               '; 'redfin_processed.csv            '];
+sets = ['nashville_processed.csv         '; 'kingcounty_processed.csv        '; 'redfin_processed.csv            '; 'art_processed.csv               '];
 datasets =  cellstr(sets);
 datacount = length(datasets);
+NumTrees = [10, 50, 100];
+NumParameters = 5;
 
 RMSEs = cell(datacount);
 RPredictions = cell(datacount);
@@ -51,14 +53,14 @@ for h=1:datacount
     DataTest = DataT(TestSplit+1:x,:);
 
     %Sale_Price is the response variable
-    responsevar = DataTrain.Sale_Price;
-    testresponse = DataTest.Sale_Price;
-    DataTrain.Sale_Price = [];
-    DataTest.Sale_Price = [];
+    responsevar = DataTrain.SALE_PRICE;
+    testresponse = DataTest.SALE_PRICE;
+    DataTrain.SALE_PRICE = [];
+    DataTest.SALE_PRICE = [];
 
     %Nashville Regression Tree Model with Cross Validation
     RNTree{h} = fitrtree(DataTrain,responsevar,'Crossval', 'on');
-
+    
     %Use this line to find optimal parameters. I think this is contributing to
     %overfitting though. Performance is worse when optimized.
     RNTreeOpt{h} = fitrtree(DataTrain,responsevar,'OptimizeHyperparameters','all');
@@ -89,10 +91,11 @@ RMSE = cell2mat(RMSEs);
 
 %TrainRMSEOpt = cell2mat(TrainingRMSEOpts);
 %TrainRMSE = cell2mat(TrainingRMSEs);
-
+%{
 plot(1:3, RMSE, 'r--');
 hold on
 plot(1:3, RMSEOpt, 'b--');
 xlabel('Datasets');
 ylabel('MSE');
 legend('Test Regression Crossfold MSE', 'Test Regression Optimized MSE');
+%}
