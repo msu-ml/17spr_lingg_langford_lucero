@@ -273,7 +273,7 @@
 		\begin{align}
 			v &= \gamma v + \eta \nabla W \nonumber \\
 			\Delta W &= -v \tag{SGD w/ momentum}
-			\intertext{where \(\Delta W\) is the change in weight, \(\nabla W\) is the computed gradient from a batch of training data, \(v\) is a velocity term, \(\gamma\) is a momentum hyperparameter, and \(\eta\) is a learning rate hyperparameter.}
+			\intertext{where \(\Delta W\) is the change in weight, \(\nabla W\) is the computed gradient from a batch of training data, \(v\) is a velocity term, \(\gamma\) is a momentum hyperparameter, and \(\eta\) is a learning rate hyperparameter.} \nonumber
 		\end{align}
 		Adagrad extends upon this by also considering an accumulation of the sum of squared gradients over time.
 		\begin{align}
@@ -281,8 +281,8 @@
 		\end{align}
 		This modification allows for a sort of adaptive behavior, where the step size decreases as the gradient descent method approaches a minima. The Adadelta method takes this one step further and instead of considering the sum of all squared gradients equally, those gradients measured more recently have more influence on each weight update.
 		\begin{align}
-			\Delta W &= -\frac{\text{RMS}(\Delta W...)}{\text{RMS}(\nabla W...)}\nabla W \tag{Adadelta}
-			\intertext{where \(\text{RMS}(\Delta W...)\) is the Root Mean Squared of the past weight changes, and \(\text{RMS}(\nabla W...)\) is the Root Mean Square of the past gradients measured.}
+			\Delta W &= -\frac{\text{RMS}(\Delta W...)}{\text{RMS}(\nabla W...)}\nabla W \tag{Adadelta} \\
+			\intertext{where \(\text{RMS}(\Delta W...)\) is the Root Mean Squared of the past weight changes, and \(\text{RMS}(\nabla W...)\) is the Root Mean Square of the past gradients measured.} \nonumber
 		\end{align}
 		Figures \ref{fig:fig_nn_result1}, \ref{fig:fig_nn_result2}, \ref{fig:fig_nn_result3}, and \ref{fig:fig_nn_result4} show our observations from using all three gradient descent methods on each dataset. With the exception of the ART dataset, it can be seen that after training for 300 iterations, Adadelta outperforms Adagrad, and Adagrad outperforms SGD. It should be noted that the hyperparameters used for these results are \(\eta=0.1\) and \(\gamma=0.9\).
 
