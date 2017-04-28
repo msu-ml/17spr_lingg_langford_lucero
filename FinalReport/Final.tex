@@ -265,8 +265,28 @@
 			\captionof{table}{Best number of features to randomly sample in a Random Forest.}
 			\label{table:best_feature_sample_counts}        
 		\end{center}
+
+		The performance of the Random Forests compared to single trees also showed some unexpected results. As a control comparison, Random Forests were also grown using MatLab's built in TreeBagger function and used with similar settings. The team's implementation of the Regression Random Forest had slight improvements for two of the data sets, but were very close to how MatLab's random forest performed. But compared to our single regression tree tests, the random forest was not an improvement across the board as expected. In particular, a regression tree with no optimization and a regression tree with optimization both out performed the random forest for the Nashville data set. The team thinks that this may be due to the noise introduced to the Nashville data set when filling in gaps in observations. However, the Grand Rapids data also performed slightly better in the single regression trees than the random forests, and the Grand Rapids data was more complete, so there are other factors that are more uncertain in determining how well the models under or overfit the datasets. The performance of all the regression decision classifers are shown below in Figure \ref{fig:fig_reg_best}.
+
+		\begin{center}
+		\captionsetup{type=figure}
+			\includegraphics[scale=0.40]{Images/RegressionResults} \\
+			\captionof{figure}{Comparison of performances for all regression classifers.}
+			\label{fig:fig_reg_best}
+		\end{center}
+
+		But again, the results for classification and for regression do not show the same tendencies. The team's implementation of a Classification Random Forest had almost the same performance as a single classification tree. However, MatLab's TreeBagger function creates a significantly better Random Forest Classifier. The team thinks that there may be some details for classification that MatLab implements that the team did not account for, resulting in our performance not showing much improvement. The performance of all classifier decision trees is shown below in Figure \ref{fig:fig_class_best}.
+
+		\begin{center}
+		\captionsetup{type=figure}
+			\includegraphics[scale=0.40]{Images/ClassificationResults} \\
+			\captionof{figure}{Comparison of performances for all decision classifiers.}
+			\label{fig:fig_class_best}
+		\end{center}
+
+		One trend that can be seen in most of the comparisons is that the Nashville data set, as epxected due to holes in the observations, fairly consistently performs the worst. The primary exception is in the case of a Single Classification Tree seen above, in which the Grand Rapids data set results in a worse model than the Nashville data set. 
 		
-		We also used the Random Forest Models to get an idea of what the most important features are by adding weights to the features that are selected the most often. Figures \ref{fig:r_best_features} and \ref{fig:c_best_features} show the results for this analysis on the Nashville data set. 
+		We also used the Random Forest Models to get an idea of what the most important features are by adding weights to the features that are selected the most often. Figures \ref{fig:r_best_features} and \ref{fig:c_best_features} show the results for this analysis on the Nashville data set, which fell somewhat in the middle for number of features in the data sets. 
 
 		\begin{center}
 		\captionsetup{type=figure}
