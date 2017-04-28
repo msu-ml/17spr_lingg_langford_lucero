@@ -68,13 +68,11 @@
 		\begin{center}
 			\captionsetup{type=table}
 			\begin{tabular}{l|c}
-				Feature Preprocessing & \small{MSE} \\
+				Feature Preprocessing 	& MSE \\
 				\hline
-				\small{None} & \small{1.2487} \\
-				\hline
-				\small{Normalization.} & \small{0.0499} \\
-				\hline
-				\small{Binary Features} & \small{0.0012} \\
+				None 					& 1.2487 \\
+				Normalization 			& 0.0499 \\
+				Binary Features 		& 0.0012 \\
 			\end{tabular}
 			\captionof{table}{MSE for preprocessing techniques.}
 			\label{table:linr_preprocessing}			
@@ -83,15 +81,12 @@
 		\begin{center}
         	\captionsetup{type=table}
 			\begin{tabular}{l|c}
-				Substitution Method & \small{MSE} \\
+				Substitution Method & MSE \\
 				\hline
-				\small{None} & \small{---} \\
-				\hline
-				\small{Mean} & \small{1.6e-3} \\
-				\hline
-				\small{Closest Value} & \small{1.2e-3} \\
-				\hline
-				\small{Closest Mean} & \small{1.1e-3} \\
+				None 				& ---\\
+				Mean 				& 1.6e-3 \\
+				Closest Value 		& 1.2e-3 \\
+				Closest Mean 		& 1.1e-3 \\
 			\end{tabular}
 			\captionof{table}{MSE for missing value substitution.}
 			\label{table:linr_hole_fill}
@@ -119,16 +114,12 @@
 		\begin{center}
       	\captionsetup{type=table}
 			\begin{tabular}{l|c}
-				& \small{MSE} \\
+				Dataset			& MSE \\
 				\hline
-				\small{Nashville} & \small{22.1e-03} \\
-				\hline
-				\small{King County} & \small{13.1e-03} \\
-				\hline
-				\small{ART} & \small{1.0e-03} \\
-				\hline
-				\small{Grand Rapids} & \small{6.3e-03} \\
-				\hline
+				Nashville 		& 22.1e-3 \\
+				ART 			& 1.0e-3 \\
+				King County 	& 13.1e-3 \\
+				Grand Rapids 	& 6.3e-3 \\
 			\end{tabular}
 			\captionof{table}{Observations from linear regression model.}
 			\label{table:linr_performance}        
@@ -159,14 +150,11 @@
 		\begin{center}
 	        \captionsetup{type=table}
 			\begin{tabular}{l|c}
-				& \small{MSE} \\
+				Regression Model			& MSE \\
 				\hline
-				\small{Linear Regression} & \small{1.0e-03} \\
-				\hline
-				\small{Logistic Regression 2} & \small{4.8e-03} \\
-				\hline
-				\small{Logistic Regression 1} & \small{13e-03} \\
-				\hline
+				Linear Regression 			& 1.0e-3 \\
+				Logistic Regression 1 		& 13e-3 \\
+				Logistic Regression 2 		& 4.8e-3 \\
 			\end{tabular}
 			\captionof{table}{Observations from logistic regression model.}
 			\label{table:logr_performance}        
@@ -179,15 +167,12 @@
 
 		\begin{center}
 		\captionsetup{type=table}
-		\begin{tabular}{r|c|c}
-			& \small{Original Logistic} & \small{Ensemble} \\
+		\begin{tabular}{l|c|c}
+			Dataset			& Original & Ensemble \\
 			\hline
-			\small{Grand Rapids} & \small{8.5e-03} & \small{8.1e-03} \\
-			\hline
-			\small{ART} & \small{4.5e-03} & \small{1.7e-03} \\
-			\hline
-			\small{King County} & \small{14.4e-03} & \small{13.2e-03} \\
-			\hline
+			ART 			& 4.5e-3	& 1.7e-3 \\
+			King County 	& 14.4e-3 	& 13.2e-3 \\
+			Grand Rapids	& 8.5e-3 	& 8.1e-3 \\
 		\end{tabular}
 		\captionof{table}{Observations from logistic regression ensemble.}
 		\label{table:logr_ensemble}
@@ -207,17 +192,13 @@
 
 		\begin{center}
 		\captionsetup{type=table}
-			\begin{tabular}{r|c}
-				& \small{MSE} \\
+			\begin{tabular}{l|c}
+				Classification Tree Mdodel	& MSE \\
 				\hline
-				\small{CTree Train Error} & \small{0.5225} \\
-				\hline
-				\small{CTree Test Error} & \small{0.6964} \\
-				\hline
-				\small{Optimized CTree Train Error} & \small{0.6141} \\
-				\hline
-				\small{Optimized CTree Test Error} & \small{0.6918} \\
-				\hline
+				CTree Train Error 			& 0.5225 \\
+				CTree Test Error			& 0.6964 \\
+				Optimized CTree Train Error & 0.6141 \\
+				Optimized CTree Test Error	& 0.6918 \\
 			\end{tabular}
 			\captionof{table}{Observations from Classification Tree models.}
 			\label{table:ctree_performance}        
@@ -229,17 +210,13 @@
 
 		\begin{center}
 		\captionsetup{type=table}
-			\begin{tabular}{r|c}
-				& \small{MSE} \\
+			\begin{tabular}{l|c}
+				Regression Tree Model & MSE \\
 				\hline
-				\small{RTree Train Error} & \small{13.4e-3} \\
-				\hline
-				\small{RTree Test Error} & \small{17.5e-3} \\
-				\hline
-				\small{Optimized RTree Train Error} & \small{15.1e-3} \\
-				\hline
-				\small{Optimized RTree Test Error} & \small{16.8e-3} \\
-				\hline
+				RTree Train Error & 13.4e-3 \\
+				RTree Test Error & 17.5e-3 \\
+				Optimized RTree Train Error & 15.1e-3 \\
+				Optimized RTree Test Error & 16.8e-3 \\
 			\end{tabular}
 			\captionof{table}{Observations from Regression Tree models.}
 			\label{table:rtree_performance}        
@@ -251,8 +228,6 @@
 		The team's expectations for the Random Forest parameters were that more trees would result in better testing error rates, with a limit where the number of trees stops changing performance, and that smaller feature sample numbers would result in the best results. The more trees that are added, the more each tree's tendency to overfit would be averaged out, and the smaller feature sample numbers would reduce variance from noisy parameters, especially in the Nashville dataset, which had the most holes in the data. It was also expected that limiting the sizes of the trees would reduce each tree's tendency to overfit and produce better results as well. 
 
 		The results of this experiment were somewhat mixed. For regression forests, models were created using 50 trees, 100 trees, and 500 trees. For each number of trees, a model was created random sampling 7 different ratios of features, as described above. The performance across these seven were averaged together so that the average performance for each number of trees could be measured as seen in Figure \ref{fig:r_forest_treenum_perf} below. Variance in MSE between 50 trees and 100 trees was minimal. Variance in MSE between 100 trees and 500 trees, however, was more signficant, with the 500 tree models yielding the best individual scores by single feature selection ratio and data set. The results for classification forests were a little more mixed. The averages were taken the same way and can be seen in Figure \ref{fig:r_forest_treenum_perf}, and the performance is more varied with no clear correlation between better results and more trees used. We think this may show that the classifier are more variable depending on the quality of the data and the number of different classes. In this case, the data was divided into eight classes. 
-
-		Section stup
 
 		\begin{center}
 		\captionsetup{type=figure}
@@ -341,12 +316,12 @@
 			\captionsetup{type=table}
 			\begin{tabular}{l|c|c|c}
 				& \multicolumn{3}{c}{Loss (MSE)} \\
-				Dataset & SGD & Adagrad & Adadelta \\
+				Dataset 		& SGD		& Adagrad	& Adadelta \\
 				\hline
-				Nashville & 9.6e-3 & 10.1e-3 & 9.9e-3 \\
-				ART & 1.9e-3 & 1.1e-3 & 1.2e-3 \\
-				King County & 3.7e-3 & 4.5e-3 & 3.3e-3 \\
-				Grand Rapids & 3.8e-3 & 3.5e-3 & 3.6e-3 \\
+				Nashville 		& 9.6e-3 	& 10.1e-3 	& 9.9e-3 \\
+				ART 			& 1.9e-3 	& 1.1e-3 	& 1.2e-3 \\
+				King County 	& 3.7e-3 	& 4.5e-3 	& 3.3e-3 \\
+				Grand Rapids 	& 3.8e-3 	& 3.5e-3 	& 3.6e-3 \\
 			\end{tabular}
 			\captionof{table}{Observed generalized performance from FNN.}
 			\label{table:nn_performance}
@@ -358,12 +333,12 @@
 		\captionsetup{type=table}
 		\begin{tabular}{l|c|c|c}
 			& \multicolumn{3}{c}{Accuracy (within \(\pm\)\$10k)} \\
-			Dataset & SGD & Adagrad & Adadelta \\
+			Dataset 		& SGD			& Adagrad		& Adadelta \\
 			\hline
-			Nashville & \(9.1\%\) & \(9.3\%\) & \(10.0\%\) \\
-			ART & \(19.5\%\) & \(25.8\%\) & \(24.0\%\) \\
-			King County & \(12.1\%\) & \(11.5\%\) & \(13.7\%\) \\
-			Grand Rapids & \(10.6\%\) & \(11.2\%\) & \(13.5\%\) \\
+			Nashville		& \(9.1\%\)		& \(9.3\%\)		& \(10.0\%\) \\
+			ART 			& \(19.5\%\) 	& \(25.8\%\)	& \(24.0\%\) \\
+			King County 	& \(12.1\%\) 	& \(11.5\%\)	& \(13.7\%\) \\
+			Grand Rapids 	& \(10.6\%\) 	& \(11.2\%\)	& \(13.5\%\) \\
 		\end{tabular}
 		\captionof{table}{Observed generalized accuracy from FNN.}
 		\label{table:nn_accuracy}
@@ -381,15 +356,15 @@
 		\begin{center}
 	        \captionsetup{type=table}
 	        \begin{tabular}{l|c|c|c|c}
-	        	        & Nash.   & ART     & Kng Cty & Gr Rpds  \\
+	        	         & Nash.   & ART     & Kng Cty & Gr Rpds \\
 	        	\hline
-	        	Lin Reg & 22.1e-3 & 1.8e-3  & 6.3e-3  & 13.1e-3  \\
-	        	Lin Ens & ---     & 4.5e-3  & 5.1e-3  & 13.1e-3  \\
-	        	Log Reg & ---     & 1.7e-3  & 8.5e-3  & 14.4e-3  \\
-	        	Log Ens & ---     & ---     & 8.1e-3  & 13.2e-3  \\
-	        	RTree  & 16.6e-3 & 1.2e-3 & 6.7e-3 & 2.2e-3  \\
-	        	Ran Frst  & 19.8e-3 & 0.9e-3 & 5.1e-3 & 3.7e-3  \\
-	        	FNN     & 9.6e-3  & 1.1e-3  & 3.3e-3  & 3.5e-3   \\	        	
+	        	Lin Reg  & 22.1e-3 & 1.8e-3  & 6.3e-3  & 13.1e-3 \\
+	        	Lin Ens  & ---     & 4.5e-3  & 5.1e-3  & 13.1e-3 \\
+	        	Log Reg  & ---     & 1.7e-3  & 8.5e-3  & 14.4e-3 \\
+	        	Log Ens  & ---     & ---     & 8.1e-3  & 13.2e-3 \\
+	        	RTree  	 & 16.6e-3 & 1.2e-3	 & 6.7e-3  & 2.2e-3  \\
+	        	Ran Frst & 19.8e-3 & 0.9e-3  & 5.1e-3  & 3.7e-3  \\
+	        	FNN      & 9.6e-3  & 1.1e-3  & 3.3e-3  & 3.5e-3  \\	        	
 	        \end{tabular}
 			\captionof{table}{MSE observed from all models.}
 			\label{table:results}
