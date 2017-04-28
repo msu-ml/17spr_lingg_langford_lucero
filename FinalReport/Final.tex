@@ -114,7 +114,7 @@
 
         Figure \ref{fig:linr_cross_train} shows a sample of our cross training method on the ART and Grand Rapids datasets. The advanced regression data initially shows a reduced error when moving from 1 to 1.1 so it increases to 1.2.  At 1.2 the error goes back up again so it reverses direction and moves back in increments of 0.01, until it reaches a stable point. This shows a place where the algorithm works but could possibly have been made more efficient, but still works for our current purposes. The Grand Rapids data starts at a regularization value of 1 but sees an increase of error at 1.1 so decreases at a lower rate. What can be seen in the data, but is not visible in the graph, is around 0.013 lambda the regularization search reverse direction, an dincreases precision, several times to find the minimum solution.
 
-		Table \ref{table:linr_performance} shows the mean square error of linear regression for each dataset. As expected the advanced regression techniques dataset provides the least error as this data provides the most complete features for each house. Nashville performs the weakest as there are very large gaps in the data, which must be filled in by preprocessing. The interesting result is between Grand Rapids and Kings County data. Kings county has the same number of features as the Grand Rapids Data and more homes in the dataset. Preprocessing the data shows that the redfin features have more categories and the redfin house prices are concentrated more at the lower end, whereas the Kings County features have few categories and have prices fairly evenly distributed over the normalized range. As a result, redfin has more information in the features and the prices are easier to predict, which appears to be what produces the lower error.
+		Table \ref{table:linr_performance} shows the mean square error of linear regression for each dataset. As expected the advanced regression techniques dataset provides the least error as this data provides the most complete features for each house. Nashville performs the weakest as there are very large gaps in the data, which must be filled in by preprocessing. The interesting result is between Grand Rapids and King County data. The King County dataset has the same number of features as the Grand Rapids Data and more homes in the dataset. Preprocessing the data shows that the redfin features have more categories and the redfin house prices are concentrated more at the lower end, whereas the King County features have few categories and have prices fairly evenly distributed over the normalized range. As a result, redfin has more information in the features and the prices are easier to predict, which appears to be what produces the lower error.
 
 		\begin{center}
       	\captionsetup{type=table}
@@ -123,7 +123,7 @@
 				\hline
 				\small{Nashville} & \small{22.1e-03} \\
 				\hline
-				\small{Kings County} & \small{13.1e-03} \\
+				\small{King County} & \small{13.1e-03} \\
 				\hline
 				\small{ART} & \small{1.0e-03} \\
 				\hline
@@ -136,7 +136,7 @@
 	
 		We also tried two ensemble methods with linear regression. The first method divides the features into groups of 4, performs linear regression on each group and adds the group results together. Linear regression is then performed on the summation of the groups. The second method picks random groups of 10 features with 100 groups and then an ensemble is produced in the same method as the groups of 4 in the previous method. Additionally each ensemble method was tested with PCA feature reduction providing 25\%, 50\%, 75\% and 100\% of features. This method was tested against all of the datasets except for the Nashville data as an SVM on the Nashville data exceeded matlab's available memory.
 
-        Figure \ref{fig:linr_ensemble} shows the results of the ensemble methods. The advanced regression techniques and Kings county data performed close to the pure linear regression. The redfin dataset showed a slight improvement over linear regression.
+        Figure \ref{fig:linr_ensemble} shows the results of the ensemble methods. The advanced regression techniques and King County data performed close to the pure linear regression. The redfin dataset showed a slight improvement over linear regression.
 
 		\begin{center}
             \captionsetup{type=figure}
@@ -161,7 +161,7 @@
 			\begin{tabular}{l|c}
 				& \small{MSE} \\
 				\hline
-				\small{Linear Regresssion} & \small{1.0e-03} \\
+				\small{Linear Regression} & \small{1.0e-03} \\
 				\hline
 				\small{Logistic Regression 2} & \small{4.8e-03} \\
 				\hline
@@ -186,7 +186,7 @@
 			\hline
 			\small{ART} & \small{4.5e-03} & \small{1.7e-03} \\
 			\hline
-			\small{Kings County} & \small{14.4e-03} & \small{13.2e-03} \\
+			\small{King County} & \small{14.4e-03} & \small{13.2e-03} \\
 			\hline
 		\end{tabular}
 		\captionof{table}{Observations from logistic regression ensemble.}
@@ -201,7 +201,7 @@
 		\end{center}
 			
 		\subsection{Decision Tree}
-		For our Decision Tree approach, we used a Classification Decision Tree and a Regression Decision Tree. For the Classification Tree, since the data was not already classified, it was split into \(k\) equally sized classes where each class represents a range of prices. The average value for every feature column is also calculated and used to subsitute for any missing data points in the observations. A classification model was built for the Kings County, Grand Rapids, and Nashville datasets. For each dataset, initially a classification tree model was built using crossfold validation with 10 folds using 90\% of the data for training. This model used the default parameters for tree size, which are maximum number of splits of n-1, minimum leaf size of 1, and minimum parent size of 1. 
+		For our Decision Tree approach, we used a Classification Decision Tree and a Regression Decision Tree. For the Classification Tree, since the data was not already classified, it was split into \(k\) equally sized classes where each class represents a range of prices. The average value for every feature column is also calculated and used to subsitute for any missing data points in the observations. A classification model was built for the King County, Grand Rapids, and Nashville datasets. For each dataset, initially a classification tree model was built using crossfold validation with 10 folds using 90\% of the data for training. This model used the default parameters for tree size, which are maximum number of splits of n-1, minimum leaf size of 1, and minimum parent size of 1. 
 
 		Another classification model was built by using 10 fold cross validation and generating trees for many possible parameters and choosing the model that provides the best training MSE, again using 90\% of the data for training. The results comparing these two models and their training and testing MSEs for the Nashville dataset is shown in Table \ref{table:ctree_performance} below. The MSE indicates the averae squared distance between the predicted class and the actual class, where the classes are represented by a range of integers from 1 to \(k\). In the results below, the number of classes that are being classified is 8.
 
@@ -308,32 +308,33 @@
 		Figures \ref{fig:fig_nn_result1}, \ref{fig:fig_nn_result2}, \ref{fig:fig_nn_result3}, and \ref{fig:fig_nn_result4} show our observations from using all three gradient descent methods on each dataset. With the exception of the ART dataset, it can be seen that after training for 300 iterations, Adadelta outperforms Adagrad, and Adagrad outperforms SGD. It should be noted that the hyperparameters used for these results are \(\eta=0.1\) and \(\gamma=0.9\). These values were chosen after a running a series of trials for cross-validation.
 
 		Table \ref{table:nn_performance} includes the final loss values computed for each dataset, measured as MSE. Generalized performance was observed to be far greater on the ART dataset than any other.
+
+		\begin{center}
+			\captionsetup{type=figure}
+			\includegraphics[scale=0.27]{NeuralNet/fig_nn_05} \\
+			\captionof{figure}{MSE of FFN on the Nashville dataset.}
+			\label{fig:fig_nn_result4}
+		\end{center}
+
 		\begin{center}
             \captionsetup{type=figure}
 			\includegraphics[scale=0.27]{NeuralNet/fig_nn_02} \\
-			\captionof{figure}{Results for classifying into 5 classes.}
+			\captionof{figure}{MSE of FFN on the ART dataset.}
 			\label{fig:fig_nn_result1}
-		\end{center}
-	
-		\begin{center}
-            \captionsetup{type=figure}
-			\includegraphics[scale=0.27]{NeuralNet/fig_nn_03} \\
-			\captionof{figure}{Results for classifying into 10 classes.}
-			\label{fig:fig_nn_result2}
 		\end{center}
 
 		\begin{center}
 			\captionsetup{type=figure}
 			\includegraphics[scale=0.27]{NeuralNet/fig_nn_04} \\
-			\captionof{figure}{Results for classifying into 10 classes.}
+			\captionof{figure}{MSE of FFN on the King County dataset.}
 			\label{fig:fig_nn_result3}
 		\end{center}
-
+	
 		\begin{center}
-			\captionsetup{type=figure}
-			\includegraphics[scale=0.27]{NeuralNet/fig_nn_05} \\
-			\captionof{figure}{Results for classifying into 10 classes.}
-			\label{fig:fig_nn_result4}
+            \captionsetup{type=figure}
+			\includegraphics[scale=0.27]{NeuralNet/fig_nn_03} \\
+			\captionof{figure}{MSE of FFN on the Grand Rapids dataset.}
+			\label{fig:fig_nn_result2}
 		\end{center}
 	
 		\begin{center}
@@ -344,7 +345,7 @@
 				\hline
 				Nashville & 9.6e-3 & 10.1e-3 & 9.9e-3 \\
 				ART & 1.9e-3 & 1.1e-3 & 1.2e-3 \\
-				Kings County & 3.7e-3 & 4.5e-3 & 3.3e-3 \\
+				King County & 3.7e-3 & 4.5e-3 & 3.3e-3 \\
 				Grand Rapids & 3.8e-3 & 3.5e-3 & 3.6e-3 \\
 			\end{tabular}
 			\captionof{table}{Observed generalized performance from FNN.}
@@ -361,7 +362,7 @@
 			\hline
 			Nashville & \(9.1\%\) & \(9.3\%\) & \(10.0\%\) \\
 			ART & \(19.5\%\) & \(25.8\%\) & \(24.0\%\) \\
-			Kings County & \(12.1\%\) & \(11.5\%\) & \(13.7\%\) \\
+			King County & \(12.1\%\) & \(11.5\%\) & \(13.7\%\) \\
 			Grand Rapids & \(10.6\%\) & \(11.2\%\) & \(13.5\%\) \\
 		\end{tabular}
 		\captionof{table}{Observed generalized accuracy from FNN.}
