@@ -249,7 +249,8 @@
 
 		For Random Forest generation, bootstrap replication was used to generate training sets for each tree. For training, 70\% of each data set was used for training, and n random samples were taken with replacement, where n is the size of each training set. For the decision tree creation, each split decision chose amoung a random subset of m features. Different Random Forest models were tested using various numbers of features. Random Forests were tested with 5\% of features sampled, 15\% of features sampled, 30\% of features sampled, 45\% of features sampled, 60\% of features sampled, 75\% of features sampled, and square root of m features sampled. Random Forests were also grown with different number of trees to see how the number of trees affected performance. Forests with 50 trees, 100 trees, and 500 trees were tested. None of the trees were pruned, and a few tests were done to see how limiting growth of the trees would affect results. 
 		The team's expectations for the Random Forest parameters were that more trees would result in better testing error rates, with a limit where the number of trees stops changing performance, and that smaller feature sample numbers would result in the best results. The more trees that are added, the more each tree's tendency to overfit would be averaged out, and the smaller feature sample numbers would reduce variance from noisy parameters, especially in the Nashville dataset, which had the most holes in the data. It was also expected that limiting the sizes of the trees would reduce each tree's tendency to overfit and produce better results as well. 
-\par The results of this experiment were somewhat mixed. For regression forests, models were created using 50 trees, 100 trees, and 500 trees. For each number of trees, a model was created random sampling 7 different ratios of features, as described above. The performance across these seven were averaged together so that the average performance for each number of trees could be measured as seen in Figure \ref{fig:r_forest_treenum_perf} below. Variance in MSE between 50 trees and 100 trees was minimal. Variance in MSE between 100 trees and 500 trees, however, was more signficant, with the 500 tree models yielding the best individual scores by single feature selection ratio and data set. The results for classification forests were a little more mixed. The averages were taken the same way and can be seen in Figure \ref{fig:r_forest_treenum_perf}, and the performance is more varied with no clear correlation between better results and more trees used. We think this may show that the classifier are more variable depending on the quality of the data and the number of different classes. In this case, the data was divided into eight classes. 
+
+		The results of this experiment were somewhat mixed. For regression forests, models were created using 50 trees, 100 trees, and 500 trees. For each number of trees, a model was created random sampling 7 different ratios of features, as described above. The performance across these seven were averaged together so that the average performance for each number of trees could be measured as seen in Figure \ref{fig:r_forest_treenum_perf} below. Variance in MSE between 50 trees and 100 trees was minimal. Variance in MSE between 100 trees and 500 trees, however, was more signficant, with the 500 tree models yielding the best individual scores by single feature selection ratio and data set. The results for classification forests were a little more mixed. The averages were taken the same way and can be seen in Figure \ref{fig:r_forest_treenum_perf}, and the performance is more varied with no clear correlation between better results and more trees used. We think this may show that the classifier are more variable depending on the quality of the data and the number of different classes. In this case, the data was divided into eight classes. 
 
 		Section stup
 
@@ -269,9 +270,9 @@
 		
 		\subsection{Neural Network}
 
-		For this project, a simple Feedforward Neural Network (FNN) has been considered with three hidden fully-connected layers. Implementations of this neural network framework have been created in both Python and Matlab. No existing packages or libraries were used outside of basic Python modules, including Numpy for numerical operations.
+		To compare the other models considered to a deep learning technique, a simple Feedforward Neural Network (FNN) has been implemented with three hidden fully-connected layers. Implementations of this neural network framework have been created in both Python and Matlab. No existing packages or libraries were used outside of basic Python modules, including Numpy for numerical operations. The results obtained for this section were strictly pulled from the Python version.
 		
-		Figure \ref{fig:fig_nn_model} illustrates the architecture of the network. Each data point is considered to have \(d\) features extracted from the data. Each data feature will have its value sent as input to each uint in the first hidden layer, where each neuron has its own associated weight and activation function. Each neuron's output from the first layer will be sent as input to every neuron in the second layer, which will also have its own weight values and activation function. Finally, the output from each neuron in the second layer will be sent as input to every neuron in the third layer, once again having its own weights and activation function. The final output layer will have a single output to represent the predicted sales price.
+		Figure \ref{fig:fig_nn_model} illustrates the architecture of the network. Each layer has its own activation function. In this case, a sigmoid function is used, since all values have been normalized within the range of \([0, 1]\). Each data point is considered to have \(d\) features extracted from the data. From the input layer, each data feature's value is sent to every unit in the first hidden layer. From there, the output of each unit is sent as input to each unit in the following layer, until the output layer is reached. The output layer only contains one unit, representing the prediction of the FNN model. In this case, the output is a prediction of the sales price for the housing data features provided to the input layer.
 		
 		\begin{center}
             \captionsetup{type=figure}
@@ -280,14 +281,14 @@
 			\label{fig:fig_nn_model}
 		\end{center}
 	
-		This network can be represented by the following equations, where \(X\) is the set of data features, \(h\) is the hidden value, \(W\) is a weight matrix for each layer, \(b\) is a bias vector for each layer, and \(y\) is the output prediction from the model.
+		This network can be represented by the following equations, where \(X\) is the set of data features, \(h\) is the hidden value, \(W\) is a weight matrix for each layer, \(b\) is a bias vector for each layer, and \(y\) is the output prediction from the FNN model.
 		\begin{align}
 			h_{0} &= X \nonumber \\
 			h_{i} &= \sigma(W_{i}h_{i-1} + b_{i}) \nonumber \\
 			y &= h_{n} \nonumber
 		\end{align}
 	
-		Since all values in each dataset has been normalized to the range \([0, 1]\), a sigmoid function is used as the activation for each layer. Performing cross-validation, it was found that using 32 units in the first hidden layer, 16 in the second, and 8 in the third gave ideal performance results.
+		Performing cross-validation, it was found that using 32 units in the first hidden layer, 16 in the second, and 8 in the third gave ideal performance results.
 		
 		Input data is randomly shuffled and split into training and testing datasets, with a ratio of \(2:1\). To optimize the network's weights after each iteration of training, three different gradient descent methods have been considered: Stochastic Gradient Descent, an Adaptive Gradient Descent (Adagrad) \textsuperscript{\cite{nn_adagrad}}, and an Adaptive Learning Rate (Adadelta) method \textsuperscript{\cite{nn_adadelta}}. The version of SGD considered included a momentum in the following form:
 		\begin{align}
@@ -299,12 +300,12 @@
 		\begin{align}
 			\Delta W &= -\frac{\eta}{\sum{\nabla W...}}\nabla W \tag{Adagrad}
 		\end{align}
-		This modification allows for a sort of adaptive behavior, where the step size decreases as the gradient descent method approaches a minima. The Adadelta method takes this one step further and instead of considering the sum of all squared gradients equally, those gradients measured more recently have more influence on each weight update.
+		This modification allows for a sort of adaptive behavior, where the step size decreases as the gradient descent method approaches a minima. The Adadelta method takes this one step further and instead of considering the sum of all squared gradients equally, those gradients measured more recently have more influence on each weight update. Specifically, this modifies the change in weights as follows.
 		\begin{align}
 			\Delta W &= -\frac{\text{RMS}(\Delta W...)}{\text{RMS}(\nabla W...)}\nabla W \tag{Adadelta} \\
 			\intertext{where \(\text{RMS}(\Delta W...)\) is the Root Mean Squared of the past weight changes, and \(\text{RMS}(\nabla W...)\) is the Root Mean Square of the past gradients measured.} \nonumber
 		\end{align}
-		Figures \ref{fig:fig_nn_result1}, \ref{fig:fig_nn_result2}, \ref{fig:fig_nn_result3}, and \ref{fig:fig_nn_result4} show our observations from using all three gradient descent methods on each dataset. With the exception of the ART dataset, it can be seen that after training for 300 iterations, Adadelta outperforms Adagrad, and Adagrad outperforms SGD. It should be noted that the hyperparameters used for these results are \(\eta=0.1\) and \(\gamma=0.9\).
+		Figures \ref{fig:fig_nn_result1}, \ref{fig:fig_nn_result2}, \ref{fig:fig_nn_result3}, and \ref{fig:fig_nn_result4} show our observations from using all three gradient descent methods on each dataset. With the exception of the ART dataset, it can be seen that after training for 300 iterations, Adadelta outperforms Adagrad, and Adagrad outperforms SGD. It should be noted that the hyperparameters used for these results are \(\eta=0.1\) and \(\gamma=0.9\). These values were chosen after a running a series of trials for cross-validation.
 
 		Table \ref{table:nn_performance} includes the final loss values computed for each dataset, measured as MSE. Generalized performance was observed to be far greater on the ART dataset than any other.
 		\begin{center}
@@ -350,7 +351,7 @@
 			\label{table:nn_performance}
 		\end{center}
 	
-		In addition to measuring the MSE of the model's predictions on test data, and accuracy measure was also computed, where predictions were considered correct if they fell within \$10k from the true sales price. The accuracy results for the neural network model on each dataset are shown in Table \ref{table:nn_accuracy}.
+		Aside from measuring error in the FNN model's predictions as MSE, an accuracy measure was also computed, where predictions are considered correct if they fall within \(\pm\)\$10k from the true sales price. The observed accuracies of the model on each dataset are shown in Table \ref{table:nn_accuracy}.
 		
 		\begin{center}
 		\captionsetup{type=table}
@@ -367,7 +368,7 @@
 		\label{table:nn_accuracy}
 		\end{center}
 		
-		The accuracy observed from this model leaves much to be desired, but it is assumed that the limitations were due to a limited amount of quality data. Performance was greatest on the ART dataset, which came complete, requiring no substitution of missing values. Furthermore, the ART dataset covered a more consistent range of sales prices, whereas the other datasets had large gaps in both data features and ranges of sales prices. Another conclusion that can be drawn is simply from the features provided by each dataset. Obviously, more meaningful information could be drawn from those features found in the ART dataset. In any case, for all four datasets, the neural network model demonstrated its ability to learn some information about the sales prices of each house, and its results were comparable if not better than other models we considered.
+		The accuracy observed from this model leaves much to be desired, but it is assumed that the limitations are due to a limited amount of quality data. Performance was greatest on the ART dataset, which came complete, requiring no substitution of missing values. Furthermore, the ART dataset covered a more consistent range of sales prices, whereas the other datasets had large gaps in both data features and ranges of sales prices. Another conclusion that can be drawn is simply from the features provided by each dataset. Obviously, more meaningful information could be drawn from those features found in the ART dataset. In any case, for all four datasets, the FNN model demonstrates an ability to learn some information about the sales prices of each house, and its results are comparable if not better than the other models we consider.
 		
  		\section{Conclusion}
  		Our goal has been to observe the effectiveness of different machine learning approaches to the problem of real estate valuation. A variety of models have been implemented, to include linear regression, logistic regression, decision trees, neural networks, and ensemble methods. The methods themselves provided some interesting comparisons but one consistent thing we found with all models is that quality of data is one of the most important considerations.
