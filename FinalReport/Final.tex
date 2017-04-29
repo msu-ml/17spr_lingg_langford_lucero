@@ -286,7 +286,7 @@
 			\label{fig:fig_class_best}
 		\end{center}
 
-		One trend that can be seen in most of the comparisons is that the Nashville data set, as epxected due to holes in the observations, fairly consistently performs the worst. The primary exception is in the case of a Single Classification Tree seen above, in which the Grand Rapids data set results in a worse model than the Nashville data set. On a similar trend, the Advanced Regression Techniques data met expectations in terms of performing extremely well. It had very low error for the regression trees and performed the best on every single decision tree based model.
+		One trend that can be seen in most of the comparisons is that the Nashville data set, as epxected due to holes in the observations, fairly consistently performs the worst. The primary exception is in the case of a Single Classification Tree seen above, in which the Grand Rapids data set results in a worse model than the Nashville data set. On a similar trend, the Advanced Regression Techniques data met expectations in terms of performing extremely well. It had very low error for the regression trees and performed the best on every single decision tree based model. Another trend noticed with the random forests was training time. The team's implementation of random forest could take several minutes to generate a tree of 100+ forests. MatLab's implementation was a little faster, but still on the order of minutes to train one model on one data set. And a program to test different feature sample sizes and tree sizes for each data set can take hours.  
 		
 		We also used the Random Forest Models to get an idea of what the most important features are by adding weights to the features that are selected the most often. Figures \ref{fig:r_best_features} and \ref{fig:c_best_features} show the results for this analysis on the Nashville data set, which fell somewhat in the middle for number of features in the data sets. 
 
@@ -303,6 +303,8 @@
 			\captionof{figure}{Most sampled features in Classification Forest for Nashville.}
 			\label{fig:c_best_features}
 		\end{center}
+
+		This can be used to decide if some features should be removed if they are almost never used or setting a threshold to only use features above a certain weight. Knowing the most important factors can also be useful for helping realtors and appraisers give recommendations. But getting the feature weights should be considered against the highly increased training time of a forest versus a single tree. Feature weights could be obtained from a single tree, but those weights are more likely to be skewed by the overfitting tendencies of a single tree. 
 
 		\subsection{Neural Network}
 
